@@ -12,8 +12,8 @@ namespace lloberon {
     public:
         void add_keywords();
 
-        token::Token_Kind get_keyword(
-            llvm::StringRef name, token::Token_Kind default_kind = token::unknown
+        token::Kind get_keyword(
+            llvm::StringRef name, token::Kind default_kind = token::unknown
         ) {
             auto result = hashtable_.find(name);
             if (result != hashtable_.end()) {
@@ -22,9 +22,9 @@ namespace lloberon {
             return default_kind;
         }
     private:
-        llvm::StringMap<token::Token_Kind> hashtable_;
+        llvm::StringMap<token::Kind> hashtable_;
 
-        void add_keyword(llvm::StringRef keyword, token::Token_Kind kind);
+        void add_keyword(llvm::StringRef keyword, token::Kind kind);
     };
 
     class Lexer {
@@ -50,6 +50,6 @@ namespace lloberon {
         Keyword_Filter keyword_filter_;
 
         void do_comment();
-        void form_token(Token &result, const char *token_end, token::Token_Kind kind);
+        void form_token(Token &result, const char *token_end, token::Kind kind);
     };
 }

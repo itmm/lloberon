@@ -9,11 +9,11 @@ static const char* const token_names[] = {
     nullptr
 };
 
-const char* token::token_name(lloberon::token::Token_Kind kind) {
+const char* token::token_name(lloberon::token::Kind kind) {
     return token_names[kind];
 }
 
-const char* token::punctuator_spelling(lloberon::token::Token_Kind kind) {
+const char* token::punctuator_spelling(lloberon::token::Kind kind) {
     switch (kind) {
         #define PUNCTUATOR(id, sp) case id: return sp;
         #include "lloberon/basic/token-kinds.def"
@@ -22,7 +22,7 @@ const char* token::punctuator_spelling(lloberon::token::Token_Kind kind) {
     return nullptr;
 }
 
-const char* token::keyword_spelling(lloberon::token::Token_Kind kind) {
+const char* token::keyword_spelling(lloberon::token::Kind kind) {
     switch (kind) {
         #define KEYWORD(id, flag) case keyword_ ## id: return #id;
         #include "lloberon/basic/token-kinds.def"

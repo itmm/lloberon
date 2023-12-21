@@ -16,7 +16,7 @@ namespace lloberon {
 
         Diagnostics_Engine& diag() { return lexer_.diag(); }
 
-        [[nodiscard]] bool expect(token::Token_Kind kind) {
+        [[nodiscard]] bool expect(token::Kind kind) {
             if (!token_.is(kind)) {
                 const char* expected = token::punctuator_spelling(kind);
                 if (!expected) { expected = token::keyword_spelling(kind); }
@@ -35,7 +35,7 @@ namespace lloberon {
             return false;
         }
 
-        [[nodiscard]] bool consume(token::Token_Kind kind) {
+        [[nodiscard]] bool consume(token::Kind kind) {
             if (expect(kind)) { return true; }
             advance();
             return false;

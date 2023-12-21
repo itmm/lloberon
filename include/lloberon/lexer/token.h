@@ -9,7 +9,7 @@
 namespace lloberon {
     class Token {
     public:
-        [[nodiscard]] token::Token_Kind kind() const { return kind_; }
+        [[nodiscard]] token::Kind kind() const { return kind_; }
         [[nodiscard]] size_t length() const { return length_; }
         [[nodiscard]] llvm::SMLoc location() const { return llvm::SMLoc::getFromPointer(ptr_); }
         llvm::StringRef identifier() {
@@ -22,15 +22,15 @@ namespace lloberon {
             return {ptr_, length_};
         }
          */
-        bool is(token::Token_Kind kind) { return kind == kind_; }
-        bool is_one_of(token::Token_Kind kind) { return is(kind); }
-        template<typename ...Args> bool is_one_of(token::Token_Kind first, Args... rest) {
+        bool is(token::Kind kind) { return kind == kind_; }
+        bool is_one_of(token::Kind kind) { return is(kind); }
+        template<typename ...Args> bool is_one_of(token::Kind first, Args... rest) {
             return is(first) || is_one_of(rest...);
         }
     private:
         friend class Lexer;
         const char *ptr_;
         size_t length_;
-        token::Token_Kind kind_;
+        token::Kind kind_;
     };
 }
