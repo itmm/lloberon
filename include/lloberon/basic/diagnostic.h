@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "tinylang/Basic/LLVM.h"
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/FormatVariadic.h"
 #include "llvm/Support/SMLoc.h"
@@ -19,7 +18,6 @@ namespace lloberon {
     class Diagnostics_Engine {
     public:
         explicit Diagnostics_Engine(llvm::SourceMgr& source_mgr): source_mgr_ { source_mgr } { }
-        [[nodiscard]] unsigned num_errors() const { return num_errors_; }
 
         template<typename... Args> void report(
             llvm::SMLoc loc, unsigned diagnostic_id, Args&&... arguments
