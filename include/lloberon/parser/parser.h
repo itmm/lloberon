@@ -41,6 +41,10 @@ namespace lloberon {
             return false;
         }
 
+    public:
+        explicit Parser(Lexer &lexer) : lexer_ { lexer } { advance(); }
+
+        [[nodiscard]] bool parse();
         [[nodiscard]] bool parse_simple_expression();
         [[nodiscard]] bool parse_expression();
         [[nodiscard]] bool parse_term();
@@ -91,9 +95,5 @@ namespace lloberon {
         [[nodiscard]] bool parse_statement();
         [[nodiscard]] bool parse_statement_sequence();
 
-    public:
-        explicit Parser(Lexer &lexer) : lexer_ { lexer } { advance(); }
-
-        [[nodiscard]] bool parse();
     };
 }

@@ -16,12 +16,13 @@ namespace lloberon {
             assert(is(token::identifier) && "Cannot get identifier of non-identifier");
             return {ptr_, length_};
         }
-        /*
         llvm::StringRef literal_data() {
-            assert(is_one_of(token::integer_literal, token::string_literal) && "Cannot get literal data of non-literal");
+            assert(is_one_of(
+                token::integer_literal, token::float_literal,
+                token::string_literal
+            ) && "Cannot get literal data of non-literal");
             return {ptr_, length_};
         }
-         */
         [[nodiscard]] bool is(token::Kind kind) const { return kind == kind_; }
         [[nodiscard]] bool is_one_of(token::Kind kind) const { return is(kind); }
         template<typename ...Args> [[nodiscard]] bool is_one_of(token::Kind first, Args... rest) const {
