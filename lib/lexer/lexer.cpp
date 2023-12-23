@@ -169,6 +169,7 @@ void Lexer::next(Token &token) {
 void Lexer::form_token(Token &result, const char *token_end, token::Kind kind) {
     result.kind_ = kind;
     result.ptr_ = current_ptr_;
+    result.length_ = token_end - current_ptr_;
     current_ptr_ = token_end;
 }
 

@@ -1,6 +1,8 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "misc-no-recursion"
+
 #include "lloberon/parser/parser.h"
+#include "lloberon/ast/ast.h"
 
 using namespace lloberon;
 

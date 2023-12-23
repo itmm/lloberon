@@ -13,7 +13,7 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   include(HandleLLVMOptions)
   include_directories("${LLVM_BINARY_DIR}/include" "${LLVM_INCLUDE_DIR}")
   link_directories("${LLVM_LIBRARY_DIR}")
-  set(TINYLANG_BUILT_STANDALONE 1)
+  set(LLOBERON_BUILT_STANDALONE 1)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
@@ -28,6 +28,7 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/include/lloberon/basic/version.inc.i
 include(add-lloberon)
 
 include_directories(BEFORE "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
 
 add_subdirectory(lib)
 add_subdirectory(tools)

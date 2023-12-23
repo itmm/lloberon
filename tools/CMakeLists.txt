@@ -1,2 +1,2 @@
-create_subdirectory_options(TINYLANG TOOL)
+create_subdirectory_options(LLOBERON TOOL)
 add_lloberon_subdirectory(driver)

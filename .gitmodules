@@ -1,0 +1,3 @@
+[submodule "lib/lexer-tests/googletest"]
+	path = lib/lexer-tests/googletest
+	url = https://github.com/google/googletest.git

@@ -12,7 +12,7 @@ namespace lloberon {
         [[nodiscard]] token::Kind kind() const { return kind_; }
         [[nodiscard]] size_t length() const { return length_; }
         [[nodiscard]] llvm::SMLoc location() const { return llvm::SMLoc::getFromPointer(ptr_); }
-        llvm::StringRef identifier() {
+        [[nodiscard]] llvm::StringRef identifier() const {
             assert(is(token::identifier) && "Cannot get identifier of non-identifier");
             return {ptr_, length_};
         }
@@ -22,9 +22,9 @@ namespace lloberon {
             return {ptr_, length_};
         }
          */
-        bool is(token::Kind kind) { return kind == kind_; }
-        bool is_one_of(token::Kind kind) { return is(kind); }
-        template<typename ...Args> bool is_one_of(token::Kind first, Args... rest) {
+        [[nodiscard]] bool is(token::Kind kind) const { return kind == kind_; }
+        [[nodiscard]] bool is_one_of(token::Kind kind) const { return is(kind); }
+        template<typename ...Args> [[nodiscard]] bool is_one_of(token::Kind first, Args... rest) const {
             return is(first) || is_one_of(rest...);
         }
     private:
