@@ -1,35 +1,75 @@
 #include "gtest/gtest.h"
 #include "lloberon/lexer/lexer.h"
 
-static void expect_identifier(const lloberon::Token& token, const std::string& name) {
-    EXPECT_EQ(token.kind(), lloberon::token::identifier);
-    EXPECT_EQ(token.identifier().str(), name);
-}
+class String_Runner {
+public:
+    explicit String_Runner(const char* source):
+        source_mgr_ { }, diag_ { source_mgr_ },
+        lexer { initialize(source_mgr_, source), diag_ }
+    { lexer.next(token); }
 
-static void expect_eof(const lloberon::Token& token) {
-    EXPECT_EQ(token.kind(), lloberon::token::eof);
-}
+    virtual ~String_Runner() = default;
 
-static void expect_identifiers(const char* source, const char* first = nullptr, const char* second = nullptr) {
-    llvm::SourceMgr source_mgr;
-    lloberon::Diagnostics_Engine diag { source_mgr };
-    source_mgr.AddNewSourceBuffer(llvm::MemoryBuffer::getMemBufferCopy(source), llvm::SMLoc());
-    lloberon::Lexer lexer { source_mgr, diag };
+    virtual void run() = 0;
+
+private:
+    static llvm::SourceMgr& initialize(llvm::SourceMgr& source_mgr, const char* source) {
+        source_mgr.AddNewSourceBuffer(
+            llvm::MemoryBuffer::getMemBufferCopy(source),
+            llvm::SMLoc()
+        );
+        return source_mgr;
+    }
+    llvm::SourceMgr source_mgr_;
+    lloberon::Diagnostics_Engine diag_;
+protected:
+    lloberon::Lexer lexer;
     lloberon::Token token { };
-    lexer.next(token);
-    if (first) {
-        expect_identifier(token, first);
-        lexer.next(token);
+
+    void expect_identifier(const std::string& name) {
+        EXPECT_EQ(token.kind(), lloberon::token::identifier);
+        EXPECT_EQ(token.identifier().str(), name);
     }
-    if (second) {
-        expect_identifier(token, second);
-        lexer.next(token);
+    void expect_eof() {
+        EXPECT_EQ(token.kind(), lloberon::token::eof);
     }
-    expect_eof(token);
+};
+
+class Single_Kind_Runner: public String_Runner {
+    lloberon::token::Kind kind_;
+public:
+    Single_Kind_Runner(const char* source, lloberon::token::Kind kind):
+        String_Runner(source), kind_ { kind }
+    { }
+
+    void run() override { EXPECT_EQ(token.kind(), kind_); }
+};
+
+class Identifiers_Runner: public String_Runner {
+    const char* first_;
+    const char* second_;
+public:
+    Identifiers_Runner(const char* source, const char* first, const char* second):
+            String_Runner { source }, first_ { first }, second_ { second }
+    { }
+
+    void run() override {
+        expect_identifier(first_);
+        lexer.next(token);
+        if (second_) {
+            expect_identifier(second_);
+            lexer.next(token);
+        }
+        expect_eof();
+    }
+};
+
+static void expect_identifiers(const char* source, const char* first, const char* second = nullptr) {
+    Identifiers_Runner(source, first, second).run();
 }
 
 void expect_empty(const char *source) {
-    expect_identifiers(source);
+    Single_Kind_Runner(source, lloberon::token::eof).run();
 }
 
 TEST(Empty_Tests, empty_file) {
@@ -65,4 +105,28 @@ TEST(Identifier_Tests, newline_separates_identifiers) {
 
 TEST(Identifier_Tests, comment_separates_identifiers) {
     expect_identifiers("a(* x y *)b", "a", "b");
+}
+
+TEST(Comments_Tests, minimal_comment) {
+    expect_empty("(*)");
+}
+
+TEST(Comments_Tests, nested_comments) {
+    expect_empty(" (* a (* b *) c *)");
+}
+
+TEST(Comments_Tests, multiple_comments) {
+    expect_empty("(*)(*) (*) ");
+}
+
+TEST(Comments_Tests, star_line) {
+    expect_empty("(***)");
+}
+
+static void expect_unknown(const char* source) {
+    Single_Kind_Runner(source, lloberon::token::unknown).run();
+}
+
+TEST(Comments_Tests, open_comment) {
+    expect_unknown("(*");
 }

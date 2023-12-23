@@ -49,7 +49,7 @@ namespace lloberon {
         const char* current_ptr_;
         Keyword_Filter keyword_filter_;
 
-        void do_comment();
+        void do_comment(Token& result);
         void form_token(Token &result, const char *token_end, token::Kind kind);
     };
 }

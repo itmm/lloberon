@@ -27,16 +27,22 @@ void Keyword_Filter::add_keywords() {
     #include "lloberon/basic/token-kinds.def"
 }
 
-void Lexer::do_comment() {
+void Lexer::do_comment(Token& token) {
     int level { 0 };
+    bool done { false };
     while (*current_ptr_) {
         if (*current_ptr_ == '*' && current_ptr_[1] == ')') {
             --level;
-            if (level <= 0) { current_ptr_ += 2; break; }
+            if (level <= 0) { done = true; current_ptr_ += 2; break; }
         } else if (*current_ptr_ == '(' && current_ptr_[1] == '*') {
             ++level;
         }
         ++current_ptr_;
+    }
+    if (done) {
+        next(token);
+    } else {
+        form_token(token, current_ptr_, token::unknown);
     }
 }
 
@@ -155,8 +161,7 @@ void Lexer::next(Token &token) {
         }
         case '(':
             if (current_ptr_[1] == '*') {
-                do_comment();
-                next(token);
+                do_comment(token);
             } else {
                 form_token(token, current_ptr_ + 1, token::left_parenthesis);
             }
