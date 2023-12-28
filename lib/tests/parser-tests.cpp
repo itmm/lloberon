@@ -144,65 +144,6 @@ TEST(Qual_Ident_Tests, incomplete) {
     Qual_Ident_Runner(".", true, true);
 }
 
-class Import_Runner: public Parser_String_Runner {
-public:
-    explicit Import_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_import,
-            expected, has_more
-        }
-    { }
-};
-
-TEST(Import_Tests, empty) {
-    Import_Runner("", true);
-}
-
-TEST(Import_Tests, simple) {
-    Import_Runner("a");
-    Import_Runner("a := b");
-}
-
-TEST(Import_Tests, missing) {
-    Import_Runner("a b", false, true);
-    Import_Runner("a :=", true);
-}
-
-class Import_List_Runner: public Parser_String_Runner {
-public:
-    explicit Import_List_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_import_list,
-            expected, has_more
-        }
-    { }
-};
-
-TEST(Import_List_Tests, empty) {
-    Import_List_Runner("", true);
-}
-
-TEST(Import_List_Tests, simple) {
-    Import_List_Runner("IMPORT a;");
-    Import_List_Runner("IMPORT a, b;");
-    Import_List_Runner("IMPORT a := b, c;");
-    Import_List_Runner("IMPORT a, b := c;");
-    Import_List_Runner("IMPORT a := b, c := d;");
-}
-
-TEST(Import_List_Tests, missing) {
-    Import_List_Runner("IMPORT", true);
-    Import_List_Runner("IMPORT a", true);
-    Import_List_Runner("IMPORT a,", true);
-    Import_List_Runner("IMPORT a, b", true);
-    Import_List_Runner("IMPORT a :=", true);
-    Import_List_Runner("IMPORT a := b", true);
-}
-
 class Factor_Runner: public Parser_String_Runner {
 public:
     explicit Factor_Runner(
@@ -481,15 +422,254 @@ TEST(Set_Tests, incomplete) {
     Set_Runner("{1,,", true);
 }
 
-/*
-        [[nodiscard]] bool parse();
+class Designator_Runner: public Parser_String_Runner {
+public:
+    explicit Designator_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_designator,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Designator_Tests, empty) {
+    Designator_Runner("", true);
+}
+
+TEST(Designator_Tests, simple) {
+    Designator_Runner("a");
+    Designator_Runner("a.b");
+    Designator_Runner("a.b.c");
+    Designator_Runner("a.b[2, 3]");
+    Designator_Runner("a.b^");
+}
+
+TEST(Designator_Tests, combined) {
+    Designator_Runner("a.b^[3].c^");
+}
+
+TEST(Designator_Tests, incomplete) {
+    Designator_Runner("a[3,", true);
+    Designator_Runner("a[3", true);
+    Designator_Runner("a[3,]", true);
+    Designator_Runner("a[]", true);
+    Designator_Runner("a.b.", true);
+    Designator_Runner("a.b.[", true, true);
+    Designator_Runner("a.b.^", true, true);
+    Designator_Runner("a.", true);
+    Designator_Runner("a.[", true, true);
+    Designator_Runner("a.^", true, true);
+}
+
+class Pointer_Type_Runner: public Parser_String_Runner {
+public:
+    explicit Pointer_Type_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_pointer_type,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Pointer_Type_Tests, empty) {
+    Pointer_Type_Runner("", true);
+}
+
+TEST(Pointer_Type_Tests, simple) {
+    Pointer_Type_Runner("POINTER TO Record");
+}
+
+TEST(POINTER_Type_Tests, incomplete) {
+    Pointer_Type_Runner("POINTER TO", true);
+    Pointer_Type_Runner("POINTER Record", true, true);
+}
+
+class Import_Runner: public Parser_String_Runner {
+public:
+    explicit Import_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_import,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Import_Tests, empty) {
+    Import_Runner("", true);
+}
+
+TEST(Import_Tests, simple) {
+    Import_Runner("a");
+    Import_Runner("a := b");
+}
+
+TEST(Import_Tests, missing) {
+    Import_Runner("a b", false, true);
+    Import_Runner("a :=", true);
+}
+
+class Import_List_Runner: public Parser_String_Runner {
+public:
+    explicit Import_List_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_import_list,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Import_List_Tests, empty) {
+    Import_List_Runner("", true);
+}
+
+TEST(Import_List_Tests, simple) {
+    Import_List_Runner("IMPORT a;");
+    Import_List_Runner("IMPORT a, b;");
+    Import_List_Runner("IMPORT a := b, c;");
+    Import_List_Runner("IMPORT a, b := c;");
+    Import_List_Runner("IMPORT a := b, c := d;");
+}
+
+TEST(Import_List_Tests, missing) {
+    Import_List_Runner("IMPORT", true);
+    Import_List_Runner("IMPORT a", true);
+    Import_List_Runner("IMPORT a,", true);
+    Import_List_Runner("IMPORT a, b", true);
+    Import_List_Runner("IMPORT a :=", true);
+    Import_List_Runner("IMPORT a := b", true);
+}
+
+class Declaration_Sequence_Runner: public Parser_String_Runner {
+public:
+    explicit Declaration_Sequence_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_declaration_sequence,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Declaration_Sequence_Tests, empty) {
+    Declaration_Sequence_Runner("");
+}
+
+TEST(Declaration_Sequence_Tests, single) {
+    Declaration_Sequence_Runner("CONST a = 3;");
+    Declaration_Sequence_Runner("TYPE image = ARRAY 10 OF INTEGER;");
+    Declaration_Sequence_Runner("VAR a: INTEGER;");
+    Declaration_Sequence_Runner("PROCEDURE Nop(); BEGIN END Nop;");
+}
+
+TEST(Declaration_Sequenc_Tests, multiple) {
+    Declaration_Sequence_Runner("CONST a = 3; b = 4;");
+    Declaration_Sequence_Runner("TYPE X = INTEGER; Y = BYTE;");
+    Declaration_Sequence_Runner("VAR a: INTEGER; b: BYTE;");
+    Declaration_Sequence_Runner(
+        "PROCEDURE Nop(); BEGIN END Nop; PROCEDURE Nop2(); BEGIN END Nop2;"
+    );
+}
+class Module_Runner: public Parser_String_Runner {
+public:
+    explicit Module_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_module,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Module_Tests, empty) {
+    Module_Runner("", true);
+}
+
+TEST(Module_Tests, simple) {
+    Module_Runner("MODULE A; END A.");
+}
+
+TEST(Module_Tests, with_imports) {
+    Module_Runner("MODULE A; IMPORT x := y; END A.");
+}
+
+TEST(Module_Tests, with_declarations) {
+    Module_Runner("MODULE A; CONST B = 3; END A.");
+}
+
+TEST(Module_Tests, with_statements) {
+    Module_Runner("MODULE A; BEGIN EXIT(10) END A.");
+}
+
+TEST(Module_Tests, with_multiple) {
+    Module_Runner("MODULE A; IMPORT x; CONST B = 3; BEGIN EXIT(B) END A.");
+    Module_Runner("MODULE A; IMPORT x; CONST B = 3; END A.");
+    Module_Runner("MODULE A; IMPORT x; BEGIN EXIT(10) END A.");
+    Module_Runner("MODULE A; CONST B = 3; BEGIN EXIT(B) END A.");
+}
+
+TEST(Module_Tests, names_dont_match) {
+    Module_Runner("MODULE A; END B.", true, true);
+}
+
+TEST(MOdule_Tests, no_semicolon) {
+    Module_Runner("MODULE A END A.", true, true);
+}
+
+TEST(Module_Tests, no_period) {
+    Module_Runner("MODULE A; END A", true);
+}
+
+TEST(Module_Tests, no_names) {
+    Module_Runner("MODULE END.", true, true);
+    Module_Runner("MODULE A END.", true, true);
+    Module_Runner("MODULE END A.", true, true);
+}
+
+TEST(Module_Tests, wrong_order) {
+    Module_Runner("MODULE A; CONST B = 3; IMPORT x; END A.", true, true);
+}
+
+class Parse_Runner: public Parser_String_Runner {
+public:
+    explicit Parse_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Parse_Tests, empty) {
+    Parse_Runner("", true);
+}
+
+TEST(Parse_Tests, simple) {
+    Parse_Runner("MODULE A; END A.");
+}
+
+TEST(Parse_Tests, invalid) {
+    Parse_Runner("MODULE A END", true, true);
+}
+
+/* TODO
         [[nodiscard]] bool parse_length();
         [[nodiscard]] bool parse_array_type();
         [[nodiscard]] bool parse_base_type();
         [[nodiscard]] bool parse_field_list();
         [[nodiscard]] bool parse_field_list_sequence();
         [[nodiscard]] bool parse_record_type();
-        [[nodiscard]] bool parse_pointer_type();
         [[nodiscard]] bool parse_formal_type();
         [[nodiscard]] bool parse_formal_parameter_section();
         [[nodiscard]] bool parse_formal_parameters();
@@ -500,10 +680,7 @@ TEST(Set_Tests, incomplete) {
         [[nodiscard]] bool parse_procedure_heading();
         [[nodiscard]] bool parse_procedure_body();
         [[nodiscard]] bool parse_procedure_declaration();
-        [[nodiscard]] bool parse_declaration_sequence();
-        [[nodiscard]] bool parse_module();
         [[nodiscard]] bool parse_expression_list();
-        [[nodiscard]] bool parse_designator();
         [[nodiscard]] bool parse_actual_parameters();
         [[nodiscard]] bool parse_assignment_or_procedure_call();
         [[nodiscard]] bool parse_if_statement();
