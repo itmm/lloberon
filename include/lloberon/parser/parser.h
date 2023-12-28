@@ -9,12 +9,15 @@ namespace lloberon {
         Token token_ { };
 
         void error() {
-            llvm::errs() << "Unexpected: " << token::token_name(token_.kind()) << "\n";
+            diag().report(
+                    token_.location(), diag::err_unexpected,
+                    token::token_name(token_.kind())
+            );
         }
 
         void advance() { lexer_.next(token_); }
 
-        Diagnostics_Engine& diag() { return lexer_.diag(); }
+        Base_Diagnostic_Engine& diag() { return lexer_.diag(); }
 
         [[nodiscard]] bool expect(token::Kind kind) {
             if (!token_.is(kind)) {
@@ -95,5 +98,6 @@ namespace lloberon {
         [[nodiscard]] bool parse_statement();
         [[nodiscard]] bool parse_statement_sequence();
 
+        [[nodiscard]] bool is_eof() { return token_.is(token::eof); }
     };
 }

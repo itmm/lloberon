@@ -81,7 +81,7 @@ void Lexer::next(Token &token) {
             form_token(token, end, token::unknown);
             return;
         }
-        if (*end == '.') {
+        if (*end == '.' && end[1] != '.') {
             ++end;
             if (is_hex) {
                 form_token(token, end, token::unknown);
@@ -114,6 +114,7 @@ void Lexer::next(Token &token) {
         TOK(',', token::comma)
         TOK(';', token::semicolon)
         TOK('=', token::equals)
+        TOK('#', token::not_equals)
         TOK('|', token::bar)
         TOK('[', token::left_bracket)
         TOK(']', token::right_bracket)

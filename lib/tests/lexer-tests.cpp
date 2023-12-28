@@ -1,14 +1,14 @@
 #include "gtest/gtest.h"
 #include "lloberon/lexer/lexer.h"
 
-class String_Runner {
+class Lexer_String_Runner {
 public:
-    explicit String_Runner(const char* source):
+    explicit Lexer_String_Runner(const char* source):
         source_mgr_ { }, diag_ { source_mgr_ },
         lexer { initialize(source_mgr_, source), diag_ }
     { lexer.next(token); }
 
-    virtual ~String_Runner() = default;
+    virtual ~Lexer_String_Runner() = default;
 
     virtual void run() = 0;
 
@@ -35,11 +35,11 @@ protected:
     }
 };
 
-class Single_Kind_Runner: public String_Runner {
+class Single_Kind_Runner: public Lexer_String_Runner {
     lloberon::token::Kind kind_;
 public:
     Single_Kind_Runner(const char* source, lloberon::token::Kind kind):
-            String_Runner(source), kind_ { kind }
+            Lexer_String_Runner(source), kind_ {kind }
     { }
 
     void run() override {
@@ -67,12 +67,12 @@ TEST(Empty_Tests, only_comments) {
     expect_empty(" (* a *) (* b *) ");
 }
 
-class Identifiers_Runner: public String_Runner {
+class Identifiers_Runner: public Lexer_String_Runner {
     const char* first_;
     const char* second_;
 public:
     Identifiers_Runner(const char* source, const char* first, const char* second):
-            String_Runner { source }, first_ { first }, second_ { second }
+            Lexer_String_Runner {source }, first_ {first }, second_ {second }
     { }
 
     void run() override {
@@ -137,7 +137,7 @@ TEST(Comments_Tests, open_comment) {
     expect_unknown("(* (* *) ");
 }
 
-class Literal_Runner: public String_Runner {
+class Literal_Runner: public Lexer_String_Runner {
     lloberon::token::Kind kind_;
     const char* first_;
     const char* second_;
@@ -146,7 +146,7 @@ public:
             const char* source, lloberon::token::Kind kind,
             const char* first, const char* second
         ):
-            String_Runner { source }, kind_ { kind },
+            Lexer_String_Runner {source }, kind_ {kind },
             first_ { first }, second_ { second }
     { }
 
@@ -250,4 +250,22 @@ TEST(Float_Tests, invalid_literals) {
     expect_unknown("12.E++");
     expect_unknown("12.E+A");
     expect_unknown("12.E-");
+}
+
+
+class Integer_Range_Runner: public Lexer_String_Runner {
+public:
+    explicit Integer_Range_Runner(const char* source): Lexer_String_Runner { source } { }
+    void run() override {
+        EXPECT_EQ(token.kind(), lloberon::token::integer_literal);
+        lexer.next(token);
+        EXPECT_EQ(token.kind(), lloberon::token::range);
+        lexer.next(token);
+        expect_eof();
+
+    }
+};
+
+TEST(Integer_Range, simple) {
+    Integer_Range_Runner("3..").run();
 }

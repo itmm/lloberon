@@ -3,4 +3,5 @@
 #endif
 DIAG(err_sym_declared, Error, "symbol {0} already declared")
 DIAG(err_expected, Error, "expected `{0}', but got `{1}'")
+DIAG(err_unexpected, Error, "didn't expect `{0}'")
 #undef DIAG

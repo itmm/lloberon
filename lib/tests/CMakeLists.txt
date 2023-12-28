@@ -1,6 +1,6 @@
 set(LLVM_LINK_COMPONENTS Support)
 
-add_lloberon_tool(lloberonTests lexer-tests.cpp)
+add_lloberon_tool(lloberonTests lexer-tests.cpp parser-tests.cpp)
 
 add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})

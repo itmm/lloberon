@@ -29,8 +29,8 @@ namespace lloberon {
 
     class Lexer {
     public:
-        explicit Lexer(llvm::SourceMgr& source_mgr, Diagnostics_Engine& diag):
-            /* source_mgr_ { source_mgr }, */ diag_ { diag }
+        explicit Lexer(llvm::SourceMgr& source_mgr, Base_Diagnostic_Engine& diag):
+            diag_ { diag }
         {
             current_buffer_ = source_mgr.getMainFileID();
             current_str_ = source_mgr.getMemoryBuffer(current_buffer_)->getBuffer();
@@ -40,10 +40,9 @@ namespace lloberon {
 
         void next(Token &token);
 
-        Diagnostics_Engine& diag() { return diag_; }
+        Base_Diagnostic_Engine& diag() { return diag_; }
     private:
-        // llvm::SourceMgr& source_mgr_;
-        Diagnostics_Engine& diag_;
+        Base_Diagnostic_Engine& diag_;
         unsigned current_buffer_;
         llvm::StringRef current_str_;
         const char* current_ptr_;
