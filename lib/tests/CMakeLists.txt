@@ -13,6 +13,9 @@ add_lloberon_tool(lloberonTests
     parser-tests/factor-tests.cpp
     parser-tests/field-list-sequence-tests.cpp
     parser-tests/field-list-tests.cpp
+    parser-tests/formal-parameter-section-tests.cpp
+    parser-tests/formal-parameters-tests.cpp
+    parser-tests/formal-type-tests.cpp
     parser-tests/ident-def-tests.cpp
     parser-tests/ident-list-tests.cpp
     parser-tests/if-statement-tests.cpp

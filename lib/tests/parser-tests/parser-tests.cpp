@@ -17,26 +17,23 @@ TEST(Parse_Tests, invalid) {
     Parse_Runner("MODULE A END", true, true);
 }
 
-/* TODO
-        [[nodiscard]] bool parse_formal_type();
-        [[nodiscard]] bool parse_formal_parameter_section();
-        [[nodiscard]] bool parse_formal_parameters();
-        [[nodiscard]] bool parse_procedure_type();
-        [[nodiscard]] bool parse_variable_declaration();
-        [[nodiscard]] bool parse_procedure_heading();
-        [[nodiscard]] bool parse_procedure_body();
-        [[nodiscard]] bool parse_procedure_declaration();
-        [[nodiscard]] bool parse_expression_list();
-        [[nodiscard]] bool parse_actual_parameters();
-        [[nodiscard]] bool parse_assignment_or_procedure_call();
-        [[nodiscard]] bool parse_label();
-        [[nodiscard]] bool parse_label_range();
-        [[nodiscard]] bool parse_case_list();
-        [[nodiscard]] bool parse_case();
-        [[nodiscard]] bool parse_case_statement();
-        [[nodiscard]] bool parse_while_statement();
-        [[nodiscard]] bool parse_repeat_statement();
-        [[nodiscard]] bool parse_for_statement();
+/*
+    TODO: parse_procedure_type();
+    TODO: parse_variable_declaration();
+    TODO: parse_procedure_heading();
+    TODO: parse_procedure_body();
+    TODO: parse_procedure_declaration();
+    TODO: parse_expression_list();
+    TODO: parse_actual_parameters();
+    TODO: parse_assignment_or_procedure_call();
+    TODO: parse_label();
+    TODO: parse_label_range();
+    TODO: parse_case_list();
+    TODO: parse_case();
+    TODO: parse_case_statement();
+    TODO: parse_while_statement();
+    TODO: parse_repeat_statement();
+    TODO: parse_for_statement();
  */
 
 #pragma clang diagnostic pop
