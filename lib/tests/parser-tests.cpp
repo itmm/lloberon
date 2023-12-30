@@ -118,32 +118,6 @@ TEST(Identlist_Tests, wrong_items) {
     Identlist_Runner("a,2", true, true);
 }
 
-class Qual_Ident_Runner: public Parser_String_Runner {
-public:
-    explicit Qual_Ident_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_qualident,
-            expected, has_more
-        }
-    { }
-};
-
-TEST(Qual_Ident_Tests, empty) {
-    Qual_Ident_Runner("", true);
-}
-
-TEST(Qual_Ident_Tests, simple) {
-    Qual_Ident_Runner("a");
-    Qual_Ident_Runner("a.b");
-}
-
-TEST(Qual_Ident_Tests, incomplete) {
-    Qual_Ident_Runner("a.", true);
-    Qual_Ident_Runner(".", true, true);
-}
-
 class Factor_Runner: public Parser_String_Runner {
 public:
     explicit Factor_Runner(
@@ -335,31 +309,6 @@ TEST(Const_Expression_Tests, expressions) {
     Const_Expression_Runner("2 < 4 # FALSE");
 }
 
-class Const_Declaration_Runner: public Parser_String_Runner {
-public:
-    explicit Const_Declaration_Runner(
-        const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_const_declaration,
-            expected, has_more
-        }
-    { }
-};
-
-TEST(Const_Declaration_Tests, empty) {
-    Const_Declaration_Runner("", true);
-}
-
-TEST(Const_Decalaration_Tests, simple) {
-    Const_Declaration_Runner("a = 3 + 4");
-}
-
-TEST(Const_Declaration_Tests, incomplete) {
-    Const_Declaration_Runner("a =", true);
-    Const_Declaration_Runner("a", true);
-}
-
 class Element_Runner: public Parser_String_Runner {
 public:
     explicit Element_Runner(
@@ -547,6 +496,140 @@ TEST(Import_List_Tests, missing) {
     Import_List_Runner("IMPORT a := b", true);
 }
 
+class Qual_Ident_Runner: public Parser_String_Runner {
+public:
+    explicit Qual_Ident_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_qualident,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Qual_Ident_Tests, empty) {
+    Qual_Ident_Runner("", true);
+}
+
+TEST(Qual_Ident_Tests, simple) {
+    Qual_Ident_Runner("a");
+    Qual_Ident_Runner("a.b");
+}
+
+TEST(Qual_Ident_Tests, incomplete) {
+    Qual_Ident_Runner("a.", true);
+    Qual_Ident_Runner(".", true, true);
+}
+
+class Const_Declaration_Runner: public Parser_String_Runner {
+public:
+    explicit Const_Declaration_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_const_declaration,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Const_Declaration_Tests, empty) {
+    Const_Declaration_Runner("", true);
+}
+
+TEST(Const_Decalaration_Tests, simple) {
+    Const_Declaration_Runner("a* = 3 + 4");
+}
+
+TEST(Const_Declaration_Tests, incomplete) {
+    Const_Declaration_Runner("a =", true);
+    Const_Declaration_Runner("a", true);
+}
+
+class Type_Runner: public Parser_String_Runner {
+public:
+    explicit Type_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_type,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Type_Tests, empty) {
+    Type_Runner("", true);
+}
+
+TEST(Type_Tests, simple) {
+    Type_Runner("INTEGER");
+    Type_Runner("ARRAY 10 OF INTEGER");
+    Type_Runner("RECORD x, y: INTEGER END");
+    Type_Runner("POINTER TO Entry");
+    Type_Runner("PROCEDURE (a: INTEGER): BYTE");
+}
+
+TEST(Type_Tests, invalid) {
+    Type_Runner(":", true, true);
+}
+
+class Type_Declaration_Runner: public Parser_String_Runner {
+public:
+    explicit Type_Declaration_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_type_declaration,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Type_Declaration_Tests, empty) {
+    Type_Declaration_Runner("", true);
+}
+
+TEST(Type_Declaration_Tests, simple) {
+    Type_Declaration_Runner("a* = INTEGER");
+}
+
+TEST(Type_Declaration_Tests, incomplete) {
+    Type_Declaration_Runner("a =", true);
+    Type_Declaration_Runner("a", true);
+}
+
+class Var_Declaration_Runner: public Parser_String_Runner {
+public:
+    explicit Var_Declaration_Runner(
+            const char* source, bool expected = false, bool has_more = false
+    ):
+            Parser_String_Runner {
+                    source, &lloberon::Parser::parse_variable_declaration,
+                    expected, has_more
+            }
+    { }
+};
+
+TEST(Var_Declaration_Tests, empty) {
+    Var_Declaration_Runner("", true);
+}
+
+TEST(Var_Declaration_Tests, simple) {
+    Var_Declaration_Runner("a*: INTEGER");
+}
+
+TEST(Var_Declaration_Tests, incomplete) {
+    Var_Declaration_Runner("a:", true);
+    Var_Declaration_Runner("a", true);
+}
+
+TEST(Var_Declaration_Tests, invalid) {
+    Var_Declaration_Runner("a INTEGER", true, true);
+    Var_Declaration_Runner("a;", true, true);
+}
+
 class Declaration_Sequence_Runner: public Parser_String_Runner {
 public:
     explicit Declaration_Sequence_Runner(
@@ -570,13 +653,36 @@ TEST(Declaration_Sequence_Tests, single) {
     Declaration_Sequence_Runner("PROCEDURE Nop(); BEGIN END Nop;");
 }
 
-TEST(Declaration_Sequenc_Tests, multiple) {
+TEST(Declaration_Sequence_Tests, multiple) {
     Declaration_Sequence_Runner("CONST a = 3; b = 4;");
     Declaration_Sequence_Runner("TYPE X = INTEGER; Y = BYTE;");
     Declaration_Sequence_Runner("VAR a: INTEGER; b: BYTE;");
     Declaration_Sequence_Runner(
         "PROCEDURE Nop(); BEGIN END Nop; PROCEDURE Nop2(); BEGIN END Nop2;"
     );
+}
+
+TEST(Declaration_Sequence_Tests, multiple_types) {
+    Declaration_Sequence_Runner("CONST a = 3; TYPE x = BYTE;");
+    Declaration_Sequence_Runner("TYPE x = BYTE; VAR a: BYTE;");
+    Declaration_Sequence_Runner("VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;");
+    Declaration_Sequence_Runner("CONST a = 3; VAR a: BYTE;");
+    Declaration_Sequence_Runner("TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;");
+    Declaration_Sequence_Runner("CONST a = 3; PROCEDURE Nop(); BEGIN END Nop;");
+    Declaration_Sequence_Runner("CONST a = 3; TYPE x = BYTE; VAR a: BYTE;");
+    Declaration_Sequence_Runner("TYPE x = BYTE; VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;");
+    Declaration_Sequence_Runner("CONST a = 3; VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;");
+    Declaration_Sequence_Runner("CONST a = 3; TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;");
+    Declaration_Sequence_Runner("CONST a = 3; TYPE x = BYTE; VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;");
+}
+
+TEST(Declaration_Sequence_Tests, wrong_order) {
+    Declaration_Sequence_Runner("TYPE x = BYTE; CONST a = 3;", false, true);
+    Declaration_Sequence_Runner("VAR x: BYTE; CONST a = 3;", false, true);
+    Declaration_Sequence_Runner("PROCEDURE Nop(); BEGIN END Nop; CONST a = 3;", false, true);
+    Declaration_Sequence_Runner("VAR x: BYTE; TYPE x: BYTE;", false, true);
+    Declaration_Sequence_Runner("PROCEDURE Nop(); BEGIN END Nop; TYPE x = BYTE;", false, true);
+    Declaration_Sequence_Runner("PROCEDURE Nop(); BEGIN END Nop; VAR x: BYTE;", false, true);
 }
 class Module_Runner: public Parser_String_Runner {
 public:
@@ -674,8 +780,6 @@ TEST(Parse_Tests, invalid) {
         [[nodiscard]] bool parse_formal_parameter_section();
         [[nodiscard]] bool parse_formal_parameters();
         [[nodiscard]] bool parse_procedure_type();
-        [[nodiscard]] bool parse_type();
-        [[nodiscard]] bool parse_type_declaration();
         [[nodiscard]] bool parse_variable_declaration();
         [[nodiscard]] bool parse_procedure_heading();
         [[nodiscard]] bool parse_procedure_body();
