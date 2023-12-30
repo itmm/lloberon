@@ -18,9 +18,6 @@ TEST(Parse_Tests, invalid) {
 }
 
 /*
-    TODO: parse_procedure_type();
-    TODO: parse_variable_declaration();
-    TODO: parse_procedure_heading();
     TODO: parse_procedure_body();
     TODO: parse_procedure_declaration();
     TODO: parse_expression_list();
@@ -32,7 +29,6 @@ TEST(Parse_Tests, invalid) {
     TODO: parse_case();
     TODO: parse_case_statement();
     TODO: parse_while_statement();
-    TODO: parse_repeat_statement();
     TODO: parse_for_statement();
  */
 

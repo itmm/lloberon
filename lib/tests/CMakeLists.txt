@@ -25,6 +25,8 @@ add_lloberon_tool(lloberonTests
     parser-tests/module-tests.cpp
     parser-tests/parser-tests.cpp
     parser-tests/pointer-type-tests.cpp
+    parser-tests/procedure-heading-tests.cpp
+    parser-tests/procedure-type-tests.cpp
     parser-tests/qual-ident-tests.cpp
     parser-tests/record-type-tests.cpp
     parser-tests/repeat-statement-tests.cpp
