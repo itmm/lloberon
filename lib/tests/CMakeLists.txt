@@ -1,6 +1,31 @@
 set(LLVM_LINK_COMPONENTS Support)
 
-add_lloberon_tool(lloberonTests lexer-tests.cpp parser-tests.cpp)
+add_lloberon_tool(lloberonTests
+    lexer-tests.cpp
+    parser-tests/const-declaration-tests.cpp
+    parser-tests/const-expression-tests.cpp
+    parser-tests/declaration-sequence-tests.cpp
+    parser-tests/designator-tests.cpp
+    parser-tests/element-tests.cpp
+    parser-tests/expression-tests.cpp
+    parser-tests/factor-tests.cpp
+    parser-tests/ident-def-tests.cpp
+    parser-tests/ident-list-tests.cpp
+    parser-tests/if-statement-tests.cpp
+    parser-tests/import-list-tests.cpp
+    parser-tests/import-tests.cpp
+    parser-tests/module-tests.cpp
+    parser-tests/parser-tests.cpp
+    parser-tests/pointer-type-tests.cpp
+    parser-tests/qual-ident-tests.cpp
+    parser-tests/set-tests.cpp
+    parser-tests/simple-expression-tests.cpp
+    parser-tests/statement-sequence-tests.cpp
+    parser-tests/statement-tests.cpp
+    parser-tests/term-tests.cpp
+    parser-tests/type-declaration-tests.cpp
+    parser-tests/type-tests.cpp
+    parser-tests/var-declaration-tests.cpp)
 
 add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})

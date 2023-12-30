@@ -121,7 +121,7 @@ bool Parser::parse_import_list() {
     return false;
 }
 
-bool Parser::parse_identdef() {
+bool Parser::parse_ident_def() {
     if (consume(token::identifier)) { return true; }
     if (token_.is(token::star)) { advance(); }
     return false;
@@ -132,7 +132,7 @@ bool Parser::parse_const_expression() {
 }
 
 bool Parser::parse_const_declaration() {
-    if (parse_identdef()) { return true; }
+    if (parse_ident_def()) { return true; }
     if (consume(token::equals)) { return true; }
     if (parse_const_expression()) { return true; }
     return false;
@@ -168,17 +168,17 @@ bool Parser::parse_base_type() {
     return false;
 }
 
-bool Parser::parse_identlist() {
-    if (parse_identdef()) { return true; }
+bool Parser::parse_ident_list() {
+    if (parse_ident_def()) { return true; }
     while (token_.is(token::comma)) {
         advance();
-        if (parse_identdef()) { return true; }
+        if (parse_ident_def()) { return true; }
     }
     return false;
 }
 
 bool Parser::parse_field_list() {
-    if (parse_identlist()) { return true; }
+    if (parse_ident_list()) { return true; }
     if (consume(token::colon)) { return true; }
     if (parse_type()) { return true; }
     return false;
@@ -274,14 +274,14 @@ bool Parser::parse_type() {
 }
 
 bool Parser::parse_type_declaration() {
-    if (parse_identdef()) { return true; }
+    if (parse_ident_def()) { return true; }
     if (consume(token::equals)) { return true; }
     if (parse_type()) { return true; }
     return false;
 }
 
 bool Parser::parse_variable_declaration() {
-    if (parse_identlist()) { return true; }
+    if (parse_ident_list()) { return true; }
     if (consume(token::colon)) { return true; }
     if (parse_type()) { return true; }
     return false;
@@ -289,7 +289,7 @@ bool Parser::parse_variable_declaration() {
 
 bool Parser::parse_procedure_heading() {
     if (consume(token::keyword_PROCEDURE)) { return true; }
-    if (parse_identdef()) { return true; }
+    if (parse_ident_def()) { return true; }
     if (parse_formal_parameters()) { return true; }
     return false;
 }

@@ -58,14 +58,14 @@ namespace lloberon {
 
         [[nodiscard]] bool parse_import();
         [[nodiscard]] bool parse_import_list();
-        [[nodiscard]] bool parse_identdef();
+        [[nodiscard]] bool parse_ident_def();
         [[nodiscard]] bool parse_const_expression();
         [[nodiscard]] bool parse_const_declaration();
         [[nodiscard]] bool parse_qualident();
         [[nodiscard]] bool parse_length();
         [[nodiscard]] bool parse_array_type();
         [[nodiscard]] bool parse_base_type();
-        [[nodiscard]] bool parse_identlist();
+        [[nodiscard]] bool parse_ident_list();
         [[nodiscard]] bool parse_field_list();
         [[nodiscard]] bool parse_field_list_sequence();
         [[nodiscard]] bool parse_record_type();
