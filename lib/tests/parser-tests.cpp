@@ -3,13 +3,13 @@
 #include "gtest/gtest.h"
 #include "lloberon/parser/parser.h"
 
+template<bool (lloberon::Parser::*METHOD)()>
 class Parser_String_Runner {
 public:
     explicit Parser_String_Runner(
-        const char* source, bool (lloberon::Parser::* member)(),
-        bool expected, bool has_more
+        const char* source, bool expected = false, bool has_more = false
     ):
-        source_mgr_ { }, member_ { member }, diag_ { },
+        source_mgr_ { }, diag_ { },
         lexer_ { initialize(source_mgr_, source), diag_ },
         expected_ { expected }, has_more_ { has_more },
         parser_ { lexer_ }
@@ -17,10 +17,10 @@ public:
 
     void run() {
         if (expected_) {
-            EXPECT_TRUE((parser_.*member_)());
+            EXPECT_TRUE((parser_.*METHOD)());
             EXPECT_GT(diag_.num_errors(), 0);
         } else {
-            EXPECT_FALSE((parser_.*member_)());
+            EXPECT_FALSE((parser_.*METHOD)());
             EXPECT_EQ(diag_.num_errors(), 0);
         }
         if (has_more_) {
@@ -40,7 +40,6 @@ private:
         return source_mgr;
     }
     llvm::SourceMgr source_mgr_;
-    bool (lloberon::Parser::* member_)();
     lloberon::Base_Diagnostic_Engine diag_;
     lloberon::Lexer lexer_;
     bool expected_;
@@ -48,16 +47,7 @@ private:
     lloberon::Parser parser_;
 };
 
-class Identdef_Runner: public Parser_String_Runner {
-public:
-    explicit Identdef_Runner(
-        const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_identdef, expected, has_more
-        }
-    { }
-};
+using Identdef_Runner = Parser_String_Runner<&lloberon::Parser::parse_identdef>;
 
 TEST(IdentDef_Tests, simple_ident) {
     Identdef_Runner("abc");
@@ -79,17 +69,7 @@ TEST(IdentDef_Tests, star_isnt_ident) {
     Identdef_Runner("*", true, true);
 }
 
-class Identlist_Runner: public Parser_String_Runner {
-public:
-    explicit Identlist_Runner(
-        const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_identlist,
-            expected, has_more
-        }
-    { }
-};
+using Identlist_Runner = Parser_String_Runner<&lloberon::Parser::parse_identlist>;
 
 TEST(Identlist_Tests, empty) {
     Identlist_Runner("", true);
@@ -118,17 +98,7 @@ TEST(Identlist_Tests, wrong_items) {
     Identlist_Runner("a,2", true, true);
 }
 
-class Factor_Runner: public Parser_String_Runner {
-public:
-    explicit Factor_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_factor,
-            expected, has_more
-        }
-    { }
-};
+using Factor_Runner = Parser_String_Runner<&lloberon::Parser::parse_factor>;
 
 TEST(Factor_Tests, empty) {
     Factor_Runner("", true);
@@ -164,17 +134,7 @@ TEST(Factor_Tests, incomplete) {
     Factor_Runner("a(", true);
 }
 
-class Term_Runner: public Parser_String_Runner {
-public:
-    explicit Term_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_term,
-            expected, has_more
-        }
-    { }
-};
+using Term_Runner = Parser_String_Runner<&lloberon::Parser::parse_term>;
 
 TEST(Term_Tests, empty) {
     Term_Runner("", true);
@@ -202,17 +162,7 @@ TEST(Term_Runner, incomplete) {
     Term_Runner("a /", true);
 }
 
-class Simple_Expression_Runner: public Parser_String_Runner {
-public:
-    explicit Simple_Expression_Runner(
-        const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_simple_expression,
-            expected, has_more
-        }
-    { }
-};
+using Simple_Expression_Runner = Parser_String_Runner<&lloberon::Parser::parse_simple_expression>;
 
 TEST(Test_Simple_Expressions, empty) {
     Simple_Expression_Runner("", true);
@@ -244,17 +194,7 @@ TEST(Test_Simple_Expression, incomplete) {
     Simple_Expression_Runner("+", true);
 }
 
-class Expression_Runner: public Parser_String_Runner {
-public:
-    explicit Expression_Runner(
-        const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_expression,
-            expected, has_more
-        }
-    { }
-};
+using Expression_Runner = Parser_String_Runner<&lloberon::Parser::parse_expression>;
 
 TEST(Expression_Tests, empty) {
     Expression_Runner("", true);
@@ -279,17 +219,7 @@ TEST(Expression_Tests, invalid) {
     Expression_Runner("}", true);
 }
 
-class Const_Expression_Runner: public Parser_String_Runner {
-public:
-    explicit Const_Expression_Runner(
-        const char* source, bool expected = false, bool has_more = false
-    ):
-        Parser_String_Runner {
-            source, &lloberon::Parser::parse_const_expression,
-            expected, has_more
-        }
-    { }
-};
+using Const_Expression_Runner = Parser_String_Runner<&lloberon::Parser::parse_const_expression>;
 
 TEST(Const_Expression_Tests, empty) {
     Const_Expression_Runner("", true);
@@ -309,17 +239,7 @@ TEST(Const_Expression_Tests, expressions) {
     Const_Expression_Runner("2 < 4 # FALSE");
 }
 
-class Element_Runner: public Parser_String_Runner {
-public:
-    explicit Element_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_element,
-                    expected, has_more
-            }
-    { }
-};
+using Element_Runner = Parser_String_Runner<&lloberon::Parser::parse_element>;
 
 TEST(Element_Tests, empty) {
     Element_Runner("", true);
@@ -337,17 +257,7 @@ TEST(Element_Tests, incomplete) {
     Element_Runner("3..", true);
 }
 
-class Set_Runner: public Parser_String_Runner {
-public:
-    explicit Set_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_set,
-                    expected, has_more
-            }
-    { }
-};
+using Set_Runner = Parser_String_Runner<&lloberon::Parser::parse_set>;
 
 TEST(Set_Tests, empty) {
     Set_Runner("", true);
@@ -371,17 +281,7 @@ TEST(Set_Tests, incomplete) {
     Set_Runner("{1,,", true);
 }
 
-class Designator_Runner: public Parser_String_Runner {
-public:
-    explicit Designator_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_designator,
-                    expected, has_more
-            }
-    { }
-};
+using Designator_Runner = Parser_String_Runner<&lloberon::Parser::parse_designator>;
 
 TEST(Designator_Tests, empty) {
     Designator_Runner("", true);
@@ -412,17 +312,7 @@ TEST(Designator_Tests, incomplete) {
     Designator_Runner("a.^", true, true);
 }
 
-class Pointer_Type_Runner: public Parser_String_Runner {
-public:
-    explicit Pointer_Type_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_pointer_type,
-                    expected, has_more
-            }
-    { }
-};
+using Pointer_Type_Runner = Parser_String_Runner<&lloberon::Parser::parse_pointer_type>;
 
 TEST(Pointer_Type_Tests, empty) {
     Pointer_Type_Runner("", true);
@@ -437,17 +327,7 @@ TEST(POINTER_Type_Tests, incomplete) {
     Pointer_Type_Runner("POINTER Record", true, true);
 }
 
-class Import_Runner: public Parser_String_Runner {
-public:
-    explicit Import_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_import,
-                    expected, has_more
-            }
-    { }
-};
+using Import_Runner = Parser_String_Runner<&lloberon::Parser::parse_import>;
 
 TEST(Import_Tests, empty) {
     Import_Runner("", true);
@@ -463,17 +343,7 @@ TEST(Import_Tests, missing) {
     Import_Runner("a :=", true);
 }
 
-class Import_List_Runner: public Parser_String_Runner {
-public:
-    explicit Import_List_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_import_list,
-                    expected, has_more
-            }
-    { }
-};
+using Import_List_Runner = Parser_String_Runner<&lloberon::Parser::parse_import_list>;
 
 TEST(Import_List_Tests, empty) {
     Import_List_Runner("", true);
@@ -496,17 +366,7 @@ TEST(Import_List_Tests, missing) {
     Import_List_Runner("IMPORT a := b", true);
 }
 
-class Qual_Ident_Runner: public Parser_String_Runner {
-public:
-    explicit Qual_Ident_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_qualident,
-                    expected, has_more
-            }
-    { }
-};
+using Qual_Ident_Runner = Parser_String_Runner<&lloberon::Parser::parse_qualident>;
 
 TEST(Qual_Ident_Tests, empty) {
     Qual_Ident_Runner("", true);
@@ -522,17 +382,7 @@ TEST(Qual_Ident_Tests, incomplete) {
     Qual_Ident_Runner(".", true, true);
 }
 
-class Const_Declaration_Runner: public Parser_String_Runner {
-public:
-    explicit Const_Declaration_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_const_declaration,
-                    expected, has_more
-            }
-    { }
-};
+using Const_Declaration_Runner = Parser_String_Runner<&lloberon::Parser::parse_const_declaration>;
 
 TEST(Const_Declaration_Tests, empty) {
     Const_Declaration_Runner("", true);
@@ -547,17 +397,7 @@ TEST(Const_Declaration_Tests, incomplete) {
     Const_Declaration_Runner("a", true);
 }
 
-class Type_Runner: public Parser_String_Runner {
-public:
-    explicit Type_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_type,
-                    expected, has_more
-            }
-    { }
-};
+using Type_Runner = Parser_String_Runner<&lloberon::Parser::parse_type>;
 
 TEST(Type_Tests, empty) {
     Type_Runner("", true);
@@ -575,17 +415,7 @@ TEST(Type_Tests, invalid) {
     Type_Runner(":", true, true);
 }
 
-class Type_Declaration_Runner: public Parser_String_Runner {
-public:
-    explicit Type_Declaration_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_type_declaration,
-                    expected, has_more
-            }
-    { }
-};
+using Type_Declaration_Runner = Parser_String_Runner<&lloberon::Parser::parse_type_declaration>;
 
 TEST(Type_Declaration_Tests, empty) {
     Type_Declaration_Runner("", true);
@@ -600,17 +430,7 @@ TEST(Type_Declaration_Tests, incomplete) {
     Type_Declaration_Runner("a", true);
 }
 
-class Var_Declaration_Runner: public Parser_String_Runner {
-public:
-    explicit Var_Declaration_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_variable_declaration,
-                    expected, has_more
-            }
-    { }
-};
+using Var_Declaration_Runner = Parser_String_Runner<&lloberon::Parser::parse_variable_declaration>;
 
 TEST(Var_Declaration_Tests, empty) {
     Var_Declaration_Runner("", true);
@@ -630,17 +450,7 @@ TEST(Var_Declaration_Tests, invalid) {
     Var_Declaration_Runner("a;", true, true);
 }
 
-class Declaration_Sequence_Runner: public Parser_String_Runner {
-public:
-    explicit Declaration_Sequence_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_declaration_sequence,
-                    expected, has_more
-            }
-    { }
-};
+using Declaration_Sequence_Runner = Parser_String_Runner<&lloberon::Parser::parse_declaration_sequence>;
 
 TEST(Declaration_Sequence_Tests, empty) {
     Declaration_Sequence_Runner("");
@@ -684,17 +494,62 @@ TEST(Declaration_Sequence_Tests, wrong_order) {
     Declaration_Sequence_Runner("PROCEDURE Nop(); BEGIN END Nop; TYPE x = BYTE;", false, true);
     Declaration_Sequence_Runner("PROCEDURE Nop(); BEGIN END Nop; VAR x: BYTE;", false, true);
 }
-class Module_Runner: public Parser_String_Runner {
-public:
-    explicit Module_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse_module,
-                    expected, has_more
-            }
-    { }
-};
+
+using If_Statement_Runner = Parser_String_Runner<&lloberon::Parser::parse_if_statement>;
+
+TEST(If_Statement_Tests, empty) {
+    If_Statement_Runner("", true);
+}
+
+TEST(If_Statement_Tests, simple) {
+    If_Statement_Runner("IF cond THEN a := 1; b := TRUE END");
+}
+
+TEST(If_Statement_Tests, with_else) {
+    If_Statement_Runner("IF cond THEN a := 1 ELSE a := 2; b := TRUE END");
+}
+
+TEST(If_Statement_Tests, with_elsif) {
+    If_Statement_Runner("IF a < 3 THEN a := -1 ELSIF a > 3 THEN a := 1 ELSE a := 0 END");
+}
+
+using Statement_Runner = Parser_String_Runner<&lloberon::Parser::parse_statement>;
+
+TEST(Statement_Tests, empty) {
+    Statement_Runner("");
+}
+
+TEST(Statement_Tests, single) {
+    Statement_Runner("a := 3");
+    Statement_Runner("f(2, 3)");
+    Statement_Runner("IF b THEN a := 3 END");
+    Statement_Runner("CASE cond OF 3: a := 3 END");
+    Statement_Runner("WHILE cond DO END");
+    Statement_Runner("REPEAT UNTIL cond");
+    Statement_Runner("FOR i := 1 TO 10 DO END");
+}
+
+TEST(Statement_Tests, invalid) {
+    Statement_Runner("3", false, true);
+}
+
+using Statement_Sequence_Runner = Parser_String_Runner<&lloberon::Parser::parse_statement_sequence>;
+
+TEST(Statement_Sequence_Tests, empty) {
+    Statement_Sequence_Runner("");
+}
+
+TEST(Statement_Sequence_Runner, single) {
+    Statement_Sequence_Runner("a := 3");
+}
+
+TEST(Statement_Sequence_Runner, multiple) {
+    Statement_Sequence_Runner("a := 3;");
+    Statement_Sequence_Runner("a := 3; b := 4");
+    Statement_Sequence_Runner("a := 3; b := 4;");
+}
+
+using Module_Runner = Parser_String_Runner<&lloberon::Parser::parse_module>;
 
 TEST(Module_Tests, empty) {
     Module_Runner("", true);
@@ -745,17 +600,7 @@ TEST(Module_Tests, wrong_order) {
     Module_Runner("MODULE A; CONST B = 3; IMPORT x; END A.", true, true);
 }
 
-class Parse_Runner: public Parser_String_Runner {
-public:
-    explicit Parse_Runner(
-            const char* source, bool expected = false, bool has_more = false
-    ):
-            Parser_String_Runner {
-                    source, &lloberon::Parser::parse,
-                    expected, has_more
-            }
-    { }
-};
+using Parse_Runner = Parser_String_Runner<&lloberon::Parser::parse>;
 
 TEST(Parse_Tests, empty) {
     Parse_Runner("", true);
@@ -787,7 +632,6 @@ TEST(Parse_Tests, invalid) {
         [[nodiscard]] bool parse_expression_list();
         [[nodiscard]] bool parse_actual_parameters();
         [[nodiscard]] bool parse_assignment_or_procedure_call();
-        [[nodiscard]] bool parse_if_statement();
         [[nodiscard]] bool parse_label();
         [[nodiscard]] bool parse_label_range();
         [[nodiscard]] bool parse_case_list();
@@ -796,7 +640,5 @@ TEST(Parse_Tests, invalid) {
         [[nodiscard]] bool parse_while_statement();
         [[nodiscard]] bool parse_repeat_statement();
         [[nodiscard]] bool parse_for_statement();
-        [[nodiscard]] bool parse_statement();
-        [[nodiscard]] bool parse_statement_sequence();
  */
 #pragma clang diagnostic pop
