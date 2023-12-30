@@ -18,12 +18,6 @@ TEST(Parse_Tests, invalid) {
 }
 
 /* TODO
-        [[nodiscard]] bool parse_length();
-        [[nodiscard]] bool parse_array_type();
-        [[nodiscard]] bool parse_base_type();
-        [[nodiscard]] bool parse_field_list();
-        [[nodiscard]] bool parse_field_list_sequence();
-        [[nodiscard]] bool parse_record_type();
         [[nodiscard]] bool parse_formal_type();
         [[nodiscard]] bool parse_formal_parameter_section();
         [[nodiscard]] bool parse_formal_parameters();
@@ -44,4 +38,5 @@ TEST(Parse_Tests, invalid) {
         [[nodiscard]] bool parse_repeat_statement();
         [[nodiscard]] bool parse_for_statement();
  */
+
 #pragma clang diagnostic pop
