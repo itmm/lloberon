@@ -2,7 +2,6 @@
 #pragma ide diagnostic ignored "misc-no-recursion"
 
 #include "lloberon/parser/parser.h"
-#include "lloberon/ast/ast.h"
 
 using namespace lloberon;
 
@@ -121,9 +120,15 @@ bool Parser::parse_import_list() {
     return false;
 }
 
-bool Parser::parse_ident_def() {
-    if (consume(token::identifier)) { return true; }
-    if (token_.is(token::star)) { advance(); }
+bool Parser::parse_ident_def(Ident_Def& ident_def) {
+    new (&ident_def) Ident_Def { };
+    if (expect(token::identifier)) { return true; }
+    ident_def.ident = token_.identifier().str();
+    advance();
+    if (token_.is(token::star)) {
+        ident_def.exported = true;
+        advance();
+    }
     return false;
 }
 
@@ -132,7 +137,8 @@ bool Parser::parse_const_expression() {
 }
 
 bool Parser::parse_const_declaration() {
-    if (parse_ident_def()) { return true; }
+    Ident_Def ident_def;
+    if (parse_ident_def(ident_def)) { return true; }
     if (consume(token::equals)) { return true; }
     if (parse_const_expression()) { return true; }
     return false;
@@ -169,10 +175,11 @@ bool Parser::parse_base_type() {
 }
 
 bool Parser::parse_ident_list() {
-    if (parse_ident_def()) { return true; }
+    Ident_Def ident_def;
+    if (parse_ident_def(ident_def)) { return true; }
     while (token_.is(token::comma)) {
         advance();
-        if (parse_ident_def()) { return true; }
+        if (parse_ident_def(ident_def)) { return true; }
     }
     return false;
 }
@@ -274,7 +281,8 @@ bool Parser::parse_type() {
 }
 
 bool Parser::parse_type_declaration() {
-    if (parse_ident_def()) { return true; }
+    Ident_Def ident_def;
+    if (parse_ident_def(ident_def)) { return true; }
     if (consume(token::equals)) { return true; }
     if (parse_type()) { return true; }
     return false;
@@ -289,7 +297,8 @@ bool Parser::parse_variable_declaration() {
 
 bool Parser::parse_procedure_heading() {
     if (consume(token::keyword_PROCEDURE)) { return true; }
-    if (parse_ident_def()) { return true; }
+    Ident_Def ident_def;
+    if (parse_ident_def(ident_def)) { return true; }
     if (parse_formal_parameters()) { return true; }
     return false;
 }

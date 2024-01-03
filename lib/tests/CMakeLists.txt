@@ -49,7 +49,9 @@ add_lloberon_tool(lloberonTests
     parser-tests/type-declaration-tests.cpp
     parser-tests/type-tests.cpp
     parser-tests/var-declaration-tests.cpp
-    parser-tests/while-statement-tests.cpp)
+    parser-tests/while-statement-tests.cpp
+    scope-tests.cpp
+    var-declaration-tests.cpp)
 
 add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})

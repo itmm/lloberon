@@ -1,5 +1,5 @@
 #include "lloberon/sema/scope.h"
-#include "lloberon/ast/ast.h"
+#include "lloberon/ast/declaration.h"
 
 using namespace lloberon;
 
