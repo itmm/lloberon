@@ -57,7 +57,43 @@ namespace lloberon {
         const std::string full_name_;
     };
 
-    class Type_Declaration;
+    class Type_Declaration: public Declaration {
+    public:
+        Type_Declaration(Declaration* enclosing_declaration, llvm::SMLoc loc, std::string name):
+            Declaration(DK_Type, enclosing_declaration, loc, std::move(name))
+        { }
+
+        virtual bool is_bool() { return false; }
+        virtual bool is_numeric() { return false; }
+        virtual bool is_integer() { return false; }
+
+        static bool classof(const Declaration* declaration ) {
+            return declaration && declaration->kind() == DK_Type;
+        }
+    };
+
+    class Base_Type_Declaration: public Type_Declaration {
+    public:
+        enum Kind { bt_BOOLEAN, bt_CHAR, bt_INTEGER, bt_REAL, bt_BYTE, bt_SET };
+
+        Base_Type_Declaration(
+            std::string name, Kind kind
+        ):
+            Type_Declaration(nullptr, llvm::SMLoc { }, std::move(name)),
+            kind_ { kind }
+        { }
+
+        bool is_bool() override { return kind_ == bt_BOOLEAN; }
+        bool is_numeric() override {
+            return kind_ == bt_INTEGER || kind_ == bt_REAL || kind_ == bt_BYTE;
+        }
+        bool is_integer() override { return kind_ == bt_INTEGER || kind_ == bt_BYTE; }
+
+        Kind base_kind() const { return kind_; }
+
+    private:
+        const Kind kind_;
+    };
 
     class Variable_Declaration: public Declaration {
     public:
@@ -65,7 +101,7 @@ namespace lloberon {
             Declaration* enclosing_declaration, llvm::SMLoc loc,
             std::string name, Type_Declaration* type
         ):
-            Declaration(DK_Var, enclosing_declaration, loc, name),
+            Declaration(DK_Var, enclosing_declaration, loc, std::move(name)),
             type_ { type }
         { }
 
