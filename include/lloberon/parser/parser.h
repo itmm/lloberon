@@ -2,8 +2,36 @@
 
 #include "lloberon/lexer/lexer.h"
 #include "llvm/Support/raw_ostream.h"
-#include "lloberon/ast/ident-def.h"
+#include "lloberon/sema/actual_parameters.h"
+#include "lloberon/sema/array-type.h"
+#include "lloberon/sema/assignment-or-procedure-call.h"
+#include "lloberon/sema/base-type.h"
+#include "lloberon/sema/case.h"
+#include "lloberon/sema/case-list.h"
+#include "lloberon/sema/designator.h"
+#include "lloberon/sema/expression.h"
+#include "lloberon/sema/expression-list.h"
+#include "lloberon/sema/factor.h"
+#include "lloberon/sema/field-list.h"
+#include "lloberon/sema/field-list-sequence.h"
+#include "lloberon/sema/formal-parameter-section.h"
+#include "lloberon/sema/formal-parameters.h"
+#include "lloberon/sema/formal_type.h"
+#include "lloberon/sema/ident-def.h"
+#include "lloberon/sema/pointer-type.h"
+#include "lloberon/sema/procedure-type.h"
+#include "lloberon/sema/record-type.h"
+#include "lloberon/sema/repeat-statement.h"
+#include "lloberon/sema/simple-expression.h"
 #include "lloberon/sema/scope.h"
+#include "lloberon/sema/statement.h"
+#include "lloberon/sema/statement_sequence.h"
+#include "lloberon/sema/term.h"
+#include "lloberon/sema/type.h"
+#include "lloberon/sema/type-declaration.h"
+#include "lloberon/sema/qual-ident.h"
+#include "lloberon/sema/var-declaration.h"
+#include "lloberon/sema/while-statement.h"
 
 namespace lloberon {
     class Parser {
@@ -50,55 +78,59 @@ namespace lloberon {
         explicit Parser(Lexer &lexer) : lexer_ { lexer } { advance(); }
 
         [[nodiscard]] bool parse();
-        [[nodiscard]] bool parse_simple_expression();
-        [[nodiscard]] bool parse_expression();
-        [[nodiscard]] bool parse_term();
+        [[nodiscard]] bool parse_simple_expression(sema::Simple_Expression& expression);
+        [[nodiscard]] bool parse_expression(sema::Expression& expression);
+        [[nodiscard]] bool parse_term(Term& term);
 
         [[nodiscard]] bool parse_element();
         [[nodiscard]] bool parse_set();
-        [[nodiscard]] bool parse_factor();
+        [[nodiscard]] bool parse_factor(Factor& factor);
 
         [[nodiscard]] bool parse_import(Scope& scope);
         [[nodiscard]] bool parse_import_list(Scope& scope);
         [[nodiscard]] bool parse_ident_def(Ident_Def& ident_def);
         [[nodiscard]] bool parse_const_expression();
         [[nodiscard]] bool parse_const_declaration();
-        [[nodiscard]] bool parse_qual_ident();
+        [[nodiscard]] bool parse_qual_ident(Qual_Ident& qual_ident);
         [[nodiscard]] bool parse_length();
-        [[nodiscard]] bool parse_array_type();
-        [[nodiscard]] bool parse_base_type();
+        [[nodiscard]] bool parse_array_type(Array_Type& array_type);
+        [[nodiscard]] bool parse_base_type(Base_Type& base_type);
         [[nodiscard]] bool parse_ident_list(Ident_List& ident_list);
-        [[nodiscard]] bool parse_field_list();
-        [[nodiscard]] bool parse_field_list_sequence();
-        [[nodiscard]] bool parse_record_type();
-        [[nodiscard]] bool parse_pointer_type();
-        [[nodiscard]] bool parse_formal_type();
-        [[nodiscard]] bool parse_formal_parameter_section();
-        [[nodiscard]] bool parse_formal_parameters();
-        [[nodiscard]] bool parse_procedure_type();
-        [[nodiscard]] bool parse_type();
-        [[nodiscard]] bool parse_type_declaration();
-        [[nodiscard]] bool parse_variable_declaration();
+        [[nodiscard]] bool parse_field_list(Field_List& field_list);
+        [[nodiscard]] bool parse_field_list_sequence(Field_List_Sequence& field_list_sequence);
+        [[nodiscard]] bool parse_record_type(Record_Type& record_type);
+        [[nodiscard]] bool parse_pointer_type(Pointer_Type& pointer_type);
+        [[nodiscard]] bool parse_formal_type(Formal_Type& formal_type);
+        [[nodiscard]] bool parse_formal_parameter_section(
+            Formal_Parameter_Section& formal_parameter_section
+        );
+        [[nodiscard]] bool parse_formal_parameters(Formal_Parameters& formal_parameters);
+        [[nodiscard]] bool parse_procedure_type(Procedure_Type& procedure_type);
+        [[nodiscard]] bool parse_type(Type& type);
+        [[nodiscard]] bool parse_type_declaration(sema::Type_Declaration& type_declaration);
+        [[nodiscard]] bool parse_variable_declaration(sema::Var_Declaration& var_declaration);
         [[nodiscard]] bool parse_procedure_heading();
         [[nodiscard]] bool parse_procedure_body();
         [[nodiscard]] bool parse_procedure_declaration();
         [[nodiscard]] bool parse_declaration_sequence();
         [[nodiscard]] bool parse_module();
-        [[nodiscard]] bool parse_expression_list();
-        [[nodiscard]] bool parse_designator();
-        [[nodiscard]] bool parse_actual_parameters();
-        [[nodiscard]] bool parse_assignment_or_procedure_call();
+        [[nodiscard]] bool parse_expression_list(sema::Expression_List& expression_list);
+        [[nodiscard]] bool parse_designator(Designator& designator);
+        [[nodiscard]] bool parse_actual_parameters(sema::Actual_Parameters& actual_parameters);
+        [[nodiscard]] bool parse_assignment_or_procedure_call(
+            sema::Assignment_Or_Procedure_Call& assignment_or_procedure_call
+        );
         [[nodiscard]] bool parse_if_statement();
         [[nodiscard]] bool parse_label();
         [[nodiscard]] bool parse_label_range();
-        [[nodiscard]] bool parse_case_list();
-        [[nodiscard]] bool parse_case();
+        [[nodiscard]] bool parse_case_list(sema::Case_List& case_list);
+        [[nodiscard]] bool parse_case(sema::Case& case_arg);
         [[nodiscard]] bool parse_case_statement();
-        [[nodiscard]] bool parse_while_statement();
-        [[nodiscard]] bool parse_repeat_statement();
+        [[nodiscard]] bool parse_while_statement(sema::While_Statement& while_statement);
+        [[nodiscard]] bool parse_repeat_statement(sema::Repeat_Statement& repeat_statement);
         [[nodiscard]] bool parse_for_statement();
-        [[nodiscard]] bool parse_statement();
-        [[nodiscard]] bool parse_statement_sequence();
+        [[nodiscard]] bool parse_statement(sema::Statement& statement);
+        [[nodiscard]] bool parse_statement_sequence(sema::Statement_Sequence& statement_sequence);
 
         [[nodiscard]] bool is_eof() { return token_.is(token::eof); }
     };

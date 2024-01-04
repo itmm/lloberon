@@ -4,7 +4,7 @@
 
 #include "llvm/Support/Casting.h"
 
-#include "lloberon/ast/declaration.h"
+#include "lloberon/sema/declaration.h"
 #include "lloberon/sema/scope.h"
 
 inline void expect_no_modules(lloberon::Scope& scope) {

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "lloberon/ast/declaration.h"
+#include "lloberon/sema/declaration.h"
 
 class Module_Declaration_Test: public testing::Test {
 protected:

@@ -3,19 +3,35 @@
 
 #include "parser-tests.h"
 
-using Pointer_Type_Runner = Parser_String_Runner<&lloberon::Parser::parse_pointer_type>;
+using Pointer_Type_Runner = Parser_Value_Runner<
+    lloberon::Pointer_Type, &lloberon::Parser::parse_pointer_type
+>;
 
 TEST(Pointer_Type_Tests, empty) {
-    Pointer_Type_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::Pointer_Type pointer_type { scope };
+    Pointer_Type_Runner("", pointer_type, true);
 }
 
 TEST(Pointer_Type_Tests, simple) {
-    Pointer_Type_Runner("POINTER TO Record");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+       "Record", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::Pointer_Type pointer_type { scope };
+    Pointer_Type_Runner("POINTER TO Record", pointer_type);
 }
 
 TEST(Pointer_Type_Tests, incomplete) {
-    Pointer_Type_Runner("POINTER TO", true);
-    Pointer_Type_Runner("POINTER Record", true, true);
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+            "Record", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::Pointer_Type pointer_type { scope };
+    Pointer_Type_Runner("POINTER TO", pointer_type, true);
+
+    pointer_type.clear();
+    Pointer_Type_Runner("POINTER Record", pointer_type, true, true);
 }
 
 #pragma clang diagnostic pop

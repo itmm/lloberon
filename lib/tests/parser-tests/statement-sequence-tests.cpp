@@ -3,20 +3,41 @@
 
 #include "parser-tests.h"
 
-using Statement_Sequence_Runner = Parser_String_Runner<&lloberon::Parser::parse_statement_sequence>;
+using Statement_Sequence_Runner = Parser_Value_Runner<
+    lloberon::sema::Statement_Sequence, &lloberon::Parser::parse_statement_sequence
+>;
 
 TEST(Statement_Sequence_Tests, empty) {
-    Statement_Sequence_Runner("");
+    lloberon::Scope scope;
+    lloberon::sema::Statement_Sequence statement_sequence { scope };
+    Statement_Sequence_Runner("", statement_sequence);
 }
 
-TEST(Statement_Sequence_Runner, single) {
-    Statement_Sequence_Runner("a := 3");
+TEST(Statement_Sequence_Tests, single) {
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+        nullptr, {}, "a", nullptr
+    });
+    lloberon::sema::Statement_Sequence statement_sequence { scope };
+    Statement_Sequence_Runner("a := 3", statement_sequence);
 }
 
-TEST(Statement_Sequence_Runner, multiple) {
-    Statement_Sequence_Runner("a := 3;");
-    Statement_Sequence_Runner("a := 3; b := 4");
-    Statement_Sequence_Runner("a := 3; b := 4;");
+TEST(Statement_Sequence_Tests, multiple) {
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "b", nullptr
+    });
+    lloberon::sema::Statement_Sequence statement_sequence { scope };
+    Statement_Sequence_Runner("a := 3;", statement_sequence);
+
+    statement_sequence.clear();
+    Statement_Sequence_Runner("a := 3; b := 4", statement_sequence);
+
+    statement_sequence.clear();
+    Statement_Sequence_Runner("a := 3; b := 4;", statement_sequence);
 }
 
 #pragma clang diagnostic pop

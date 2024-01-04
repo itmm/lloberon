@@ -3,29 +3,59 @@
 
 #include "parser-tests.h"
 
-using Expression_Runner = Parser_String_Runner<&lloberon::Parser::parse_expression>;
+using Expression_Runner = Parser_Value_Runner<
+    lloberon::sema::Expression, &lloberon::Parser::parse_expression
+>;
 
 TEST(Expression_Tests, empty) {
-    Expression_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::sema::Expression expression { scope };
+    Expression_Runner("", expression, true);
 }
 
 TEST(Expression_Tests, single) {
-    Expression_Runner("3 = 4");
-    Expression_Runner("3 # 4");
-    Expression_Runner("3 < 4");
-    Expression_Runner("3 <= 4");
-    Expression_Runner("3 > 4");
-    Expression_Runner("3 >= 4");
-    Expression_Runner("3 IN a");
-    Expression_Runner("a IS b");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    scope.insert(new lloberon::Variable_Declaration {
+        nullptr, {}, "b", nullptr
+    });
+    lloberon::sema::Expression expression { scope };
+    Expression_Runner("3 = 4", expression);
+
+    expression.clear();
+    Expression_Runner("3 # 4", expression);
+
+    expression.clear();
+    Expression_Runner("3 < 4", expression);
+
+    expression.clear();
+    Expression_Runner("3 <= 4", expression);
+
+    expression.clear();
+    Expression_Runner("3 > 4", expression);
+
+    expression.clear();
+    Expression_Runner("3 >= 4", expression);
+
+    expression.clear();
+    Expression_Runner("3 IN a", expression);
+
+    expression.clear();
+    Expression_Runner("a IS b", expression);
 }
 
 TEST(Expression_Tests, multiple) {
-    Expression_Runner("3 < 4 = TRUE");
+    lloberon::Scope scope;
+    lloberon::sema::Expression expression { scope };
+    Expression_Runner("3 < 4 = TRUE", expression);
 }
 
 TEST(Expression_Tests, invalid) {
-    Expression_Runner("}", true);
+    lloberon::Scope scope;
+    lloberon::sema::Expression expression { scope };
+    Expression_Runner("}", expression, true);
 }
 
 #pragma clang diagnostic pop

@@ -3,24 +3,42 @@
 
 #include "parser-tests.h"
 
-using Var_Declaration_Runner = Parser_String_Runner<&lloberon::Parser::parse_variable_declaration>;
+using Var_Declaration_Runner = Parser_Value_Runner<lloberon::sema::Var_Declaration, &lloberon::Parser::parse_variable_declaration>;
 
 TEST(Var_Declaration_Tests, empty) {
-    Var_Declaration_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::sema::Var_Declaration var_declaration { scope };
+    Var_Declaration_Runner("", var_declaration, true);
 }
 
 TEST(Var_Declaration_Tests, simple) {
-    Var_Declaration_Runner("a*: INTEGER");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::sema::Var_Declaration var_declaration { scope };
+    Var_Declaration_Runner("a*: INTEGER", var_declaration);
 }
 
 TEST(Var_Declaration_Tests, incomplete) {
-    Var_Declaration_Runner("a:", true);
-    Var_Declaration_Runner("a", true);
+    lloberon::Scope scope;
+    lloberon::sema::Var_Declaration var_declaration { scope };
+    Var_Declaration_Runner("a:", var_declaration, true);
+
+    var_declaration.clear();
+    Var_Declaration_Runner("a", var_declaration, true);
 }
 
 TEST(Var_Declaration_Tests, invalid) {
-    Var_Declaration_Runner("a INTEGER", true, true);
-    Var_Declaration_Runner("a;", true, true);
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::sema::Var_Declaration var_declaration { scope };
+    Var_Declaration_Runner("a INTEGER", var_declaration, true, true);
+
+    var_declaration.clear();
+    Var_Declaration_Runner("a;", var_declaration, true, true);
 }
 
 #pragma clang diagnostic pop

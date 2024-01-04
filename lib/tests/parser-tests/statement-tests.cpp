@@ -3,24 +3,59 @@
 
 #include "parser-tests.h"
 
-using Statement_Runner = Parser_String_Runner<&lloberon::Parser::parse_statement>;
+using Statement_Runner = Parser_Value_Runner<
+    lloberon::sema::Statement, &lloberon::Parser::parse_statement
+>;
 
 TEST(Statement_Tests, empty) {
-    Statement_Runner("");
+    lloberon::Scope scope;
+    lloberon::sema::Statement statement { scope };
+    Statement_Runner("", statement);
 }
 
 TEST(Statement_Tests, single) {
-    Statement_Runner("a := 3");
-    Statement_Runner("f(2, 3)");
-    Statement_Runner("IF b THEN a := 3 END");
-    Statement_Runner("CASE cond OF 3: a := 3 END");
-    Statement_Runner("WHILE cond DO END");
-    Statement_Runner("REPEAT UNTIL cond");
-    Statement_Runner("FOR i := 1 TO 10 DO END");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "b", nullptr
+    });
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "i", nullptr
+    });
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "cond", nullptr
+    });
+    scope.insert(new lloberon::Variable_Declaration {
+        nullptr, {}, "f", nullptr
+    });
+    lloberon::sema::Statement statement { scope };
+    Statement_Runner("a := 3", statement);
+
+    statement.clear();
+    Statement_Runner("f(2, 3)", statement);
+
+    statement.clear();
+    Statement_Runner("IF b THEN a := 3 END", statement);
+
+    statement.clear();
+    Statement_Runner("CASE cond OF 3: a := 3 END", statement);
+
+    statement.clear();
+    Statement_Runner("WHILE cond DO END", statement);
+
+    statement.clear();
+    Statement_Runner("REPEAT UNTIL cond", statement);
+
+    statement.clear();
+    Statement_Runner("FOR i := 1 TO 10 DO END", statement);
 }
 
 TEST(Statement_Tests, invalid) {
-    Statement_Runner("3", false, true);
+    lloberon::Scope scope;
+    lloberon::sema::Statement statement { scope };
+    Statement_Runner("3", statement, false, true);
 }
 
 #pragma clang diagnostic pop

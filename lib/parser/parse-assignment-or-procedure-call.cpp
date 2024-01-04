@@ -2,14 +2,19 @@
 
 using namespace lloberon;
 
-bool Parser::parse_assignment_or_procedure_call() {
-    if (parse_designator()) { return true; }
+bool Parser::parse_assignment_or_procedure_call(
+    sema::Assignment_Or_Procedure_Call& assignment_or_procedure_call
+) {
+    Designator designator { assignment_or_procedure_call.scope() };
+    if (parse_designator(designator)) { return true; }
     if (token_.is(token::assign)) {
         advance();
-        if (parse_expression()) { return true; }
+        sema::Expression expression { assignment_or_procedure_call.scope() };
+        if (parse_expression(expression)) { return true; }
     } else {
         if (token_.is(token::left_parenthesis)) {
-            if (parse_actual_parameters()) { return true; }
+            sema::Actual_Parameters actual_parameters { assignment_or_procedure_call.scope() };
+            if (parse_actual_parameters(actual_parameters)) { return true; }
         }
     }
     return false;

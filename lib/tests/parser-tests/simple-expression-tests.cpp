@@ -3,36 +3,66 @@
 
 #include "parser-tests.h"
 
-using Simple_Expression_Runner = Parser_String_Runner<&lloberon::Parser::parse_simple_expression>;
+using Simple_Expression_Runner = Parser_Value_Runner<lloberon::sema::Simple_Expression, &lloberon::Parser::parse_simple_expression>;
 
 TEST(Simple_Expression_Tests, empty) {
-    Simple_Expression_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::sema::Simple_Expression simple_expression { scope };
+    Simple_Expression_Runner("", simple_expression, true);
 }
 
 TEST(Simple_Expression_Tests, single) {
-    Simple_Expression_Runner("3");
+    lloberon::Scope scope;
+    lloberon::sema::Simple_Expression simple_expression { scope };
+    Simple_Expression_Runner("3", simple_expression);
 }
 
 TEST(Simple_Expression_Tests, simple) {
-    Simple_Expression_Runner("3 + 4");
-    Simple_Expression_Runner("3 - 4");
-    Simple_Expression_Runner("a OR b");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    scope.insert(new lloberon::Variable_Declaration {
+        nullptr, {}, "b", nullptr
+    });
+    lloberon::sema::Simple_Expression simple_expression { scope };
+    Simple_Expression_Runner("3 + 4", simple_expression);
+
+    simple_expression.clear();
+    Simple_Expression_Runner("3 - 4", simple_expression);
+
+    simple_expression.clear();
+    Simple_Expression_Runner("a OR b", simple_expression);
 }
 
 TEST(Simple_Expression_Tests, factor) {
-    Simple_Expression_Runner("3 * 4");
-    Simple_Expression_Runner("3 / 2 + 4 * 3");
+    lloberon::Scope scope;
+    lloberon::sema::Simple_Expression simple_expression { scope };
+    Simple_Expression_Runner("3 * 4", simple_expression);
+
+    simple_expression.clear();
+    Simple_Expression_Runner("3 / 2 + 4 * 3", simple_expression);
 }
 
 TEST(Simple_Expression_Tests, unaries) {
-    Simple_Expression_Runner("+3");
-    Simple_Expression_Runner("-3 + 4");
-    Simple_Expression_Runner("+-3", true, true);
+    lloberon::Scope scope;
+    lloberon::sema::Simple_Expression simple_expression { scope };
+    Simple_Expression_Runner("+3", simple_expression);
+
+    simple_expression.clear();
+    Simple_Expression_Runner("-3 + 4", simple_expression);
+
+    simple_expression.clear();
+    Simple_Expression_Runner("+-3", simple_expression, true, true);
 }
 
 TEST(Simple_Expression_Tests, incomplete) {
-    Simple_Expression_Runner("3 +", true);
-    Simple_Expression_Runner("+", true);
+    lloberon::Scope scope;
+    lloberon::sema::Simple_Expression simple_expression { scope };
+    Simple_Expression_Runner("3 +", simple_expression, true);
+
+    simple_expression.clear();
+    Simple_Expression_Runner("+", simple_expression, true);
 }
 
 #pragma clang diagnostic pop

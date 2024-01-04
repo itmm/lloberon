@@ -5,6 +5,8 @@
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/SMLoc.h"
 
+#include "scope.h"
+
 namespace lloberon {
     class Declaration {
     public:
@@ -53,8 +55,17 @@ namespace lloberon {
             return declaration && declaration->kind() == DK_Module;
         }
 
+        Declaration* lookup(const std::string& name) {
+            return scope_.lookup(name);
+        }
+
+        bool insert(Declaration* decl) {
+            return scope_.insert(decl);
+        }
+
     private:
         const std::string full_name_;
+        Scope scope_;
     };
 
     class Type_Declaration: public Declaration {

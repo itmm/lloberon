@@ -3,35 +3,78 @@
 
 #include "parser-tests.h"
 
-using Designator_Runner = Parser_String_Runner<&lloberon::Parser::parse_designator>;
+using Designator_Runner = Parser_Value_Runner<lloberon::Designator, &lloberon::Parser::parse_designator>;
 
 TEST(Designator_Tests, empty) {
-    Designator_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::Designator designator { scope };
+    Designator_Runner("", designator, true);
 }
 
 TEST(Designator_Tests, simple) {
-    Designator_Runner("a");
-    Designator_Runner("a.b");
-    Designator_Runner("a.b.c");
-    Designator_Runner("a.b[2, 3]");
-    Designator_Runner("a.b^");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+        nullptr, {}, "a", nullptr
+    });
+    lloberon::Designator designator { scope };
+    Designator_Runner("a", designator);
+
+    designator.clear();
+    Designator_Runner("a.b", designator);
+
+    designator.clear();
+    Designator_Runner("a.b.c", designator);
+
+    designator.clear();
+    Designator_Runner("a.b[2, 3]", designator);
+
+    designator.clear();
+    Designator_Runner("a.b^", designator);
 }
 
 TEST(Designator_Tests, combined) {
-    Designator_Runner("a.b^[3].c^");
+    lloberon::Scope scope;
+    lloberon::Designator designator { scope };
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    Designator_Runner("a.b^[3].c^", designator);
 }
 
 TEST(Designator_Tests, incomplete) {
-    Designator_Runner("a[3,", true);
-    Designator_Runner("a[3", true);
-    Designator_Runner("a[3,]", true);
-    Designator_Runner("a[]", true);
-    Designator_Runner("a.b.", true);
-    Designator_Runner("a.b.[", true, true);
-    Designator_Runner("a.b.^", true, true);
-    Designator_Runner("a.", true);
-    Designator_Runner("a.[", true, true);
-    Designator_Runner("a.^", true, true);
+    lloberon::Scope scope;
+    lloberon::Designator designator { scope };
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    Designator_Runner("a[3,", designator, true);
+
+    designator.clear();
+    Designator_Runner("a[3", designator, true);
+
+    designator.clear();
+    Designator_Runner("a[3,]", designator, true);
+
+    designator.clear();
+    Designator_Runner("a[]", designator, true);
+
+    designator.clear();
+    Designator_Runner("a.b.", designator, true);
+
+    designator.clear();
+    Designator_Runner("a.b.[", designator, true, true);
+
+    designator.clear();
+    Designator_Runner("a.b.^", designator, true, true);
+
+    designator.clear();
+    Designator_Runner("a.", designator, true);
+
+    designator.clear();
+    Designator_Runner("a.[", designator, true, true);
+
+    designator.clear();
+    Designator_Runner("a.^", designator, true, true);
 }
 
 #pragma clang diagnostic pop

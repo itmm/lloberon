@@ -3,21 +3,35 @@
 
 #include "parser-tests.h"
 
-using Actual_Parameters_Runner = Parser_String_Runner<&lloberon::Parser::parse_actual_parameters>;
+using Actual_Parameters_Runner = Parser_Value_Runner<
+    lloberon::sema::Actual_Parameters, &lloberon::Parser::parse_actual_parameters
+>;
 
 TEST(Actual_Parameters_Tests, empty) {
-    Actual_Parameters_Runner("", true);
-    Actual_Parameters_Runner("()");
+    lloberon::Scope scope;
+    lloberon::sema::Actual_Parameters actual_parameters { scope };
+    Actual_Parameters_Runner("", actual_parameters, true);
+
+    actual_parameters.clear();
+    Actual_Parameters_Runner("()", actual_parameters);
 }
 
 TEST(Actual_Parameters_Tests, simple) {
-    Actual_Parameters_Runner("(3, 4)");
+    lloberon::Scope scope;
+    lloberon::sema::Actual_Parameters actual_parameters { scope };
+    Actual_Parameters_Runner("(3, 4)", actual_parameters);
 }
 
 TEST(Actual_Paramaters_Tests, incomplete) {
-    Actual_Parameters_Runner("a", true, true);
-    Actual_Parameters_Runner("(a", true);
-    Actual_Parameters_Runner("(", true);
+    lloberon::Scope scope;
+    lloberon::sema::Actual_Parameters actual_parameters { scope };
+    Actual_Parameters_Runner("3", actual_parameters, true, true);
+
+    actual_parameters.clear();
+    Actual_Parameters_Runner("(3", actual_parameters, true);
+
+    actual_parameters.clear();
+    Actual_Parameters_Runner("(", actual_parameters, true);
 }
 
 #pragma clang diagnostic pop

@@ -3,18 +3,34 @@
 
 #include "parser-tests.h"
 
-using Base_Type_Runner = Parser_String_Runner<&lloberon::Parser::parse_base_type>;
+using Base_Type_Runner = Parser_Value_Runner<lloberon::Base_Type, &lloberon::Parser::parse_base_type>;
 
 TEST(Base_Type_Tests, empty) {
-    Base_Type_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::Base_Type base_type { scope };
+    Base_Type_Runner("", base_type, true);
 }
 
 TEST(Base_Type_Tests, simple) {
-    Base_Type_Runner("BYTE");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+        "BYTE", lloberon::Base_Type_Declaration::bt_BYTE
+    });
+    lloberon::Base_Type base_type { scope };
+    Base_Type_Runner("BYTE", base_type);
 }
 
 TEST(Base_Type_Tests, qualified) {
-    Base_Type_Runner("SYSTEM.Byte");
+    lloberon::Scope scope;
+    auto module = new lloberon::Module_Declaration {
+        {}, "X", "X"
+    };
+    module->insert(new lloberon::Base_Type_Declaration {
+        "Byte", lloberon::Base_Type_Declaration::bt_BYTE
+    });
+    scope.insert(module);
+    lloberon::Base_Type base_type { scope };
+    Base_Type_Runner("X.Byte", base_type);
 }
 
 #pragma clang diagnostic pop

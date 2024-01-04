@@ -3,22 +3,32 @@
 
 #include "parser-tests.h"
 
-using Case_List_Runner = Parser_String_Runner<&lloberon::Parser::parse_case_list>;
+using Case_List_Runner = Parser_Value_Runner<
+    lloberon::sema::Case_List, &lloberon::Parser::parse_case_list
+>;
 
 TEST(Case_List_Tests, empty) {
-    Case_List_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::sema::Case_List case_list { scope };
+    Case_List_Runner("", case_list, true);
 }
 
 TEST(Case_List_Tests, single) {
-    Case_List_Runner("3..4");
+    lloberon::Scope scope;
+    lloberon::sema::Case_List case_list { scope };
+    Case_List_Runner("3..4", case_list);
 }
 
 TEST(Case_List_Tests, multiple) {
-    Case_List_Runner("3..4, 7..8, 12");
+    lloberon::Scope scope;
+    lloberon::sema::Case_List case_list { scope };
+    Case_List_Runner("3..4, 7..8, 12", case_list);
 }
 
 TEST(Case_List_Tests, incomplete) {
-    Case_List_Runner("3,", true);
+    lloberon::Scope scope;
+    lloberon::sema::Case_List case_list { scope };
+    Case_List_Runner("3,", case_list, true);
 }
 
 #pragma clang diagnostic pop

@@ -1,5 +1,5 @@
 #include "lloberon/parser/parser.h"
-#include "lloberon/ast/ident-def.h"
+#include "lloberon/sema/ident-def.h"
 
 using namespace lloberon;
 

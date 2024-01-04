@@ -3,14 +3,21 @@
 
 #include "parser-tests.h"
 
-using Procedure_Type_Runner = Parser_String_Runner<&lloberon::Parser::parse_procedure_type>;
+using Procedure_Type_Runner = Parser_Value_Runner<lloberon::Procedure_Type, &lloberon::Parser::parse_procedure_type>;
 
 TEST(Procedure_Type_Tests, empty) {
-    Procedure_Type_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::Procedure_Type procedure_type { scope };
+    Procedure_Type_Runner("", procedure_type, true);
 }
 
 TEST(Procedure_Type_Tests, simple) {
-    Procedure_Type_Runner("PROCEDURE (a: INTEGER): BYTE");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::Procedure_Type procedure_type { scope };
+    Procedure_Type_Runner("PROCEDURE (a: INTEGER): INTEGER", procedure_type);
 }
 
 #pragma clang diagnostic pop

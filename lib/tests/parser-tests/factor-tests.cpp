@@ -3,40 +3,68 @@
 
 #include "parser-tests.h"
 
-using Factor_Runner = Parser_String_Runner<&lloberon::Parser::parse_factor>;
+using Factor_Runner = Parser_Value_Runner<lloberon::Factor, &lloberon::Parser::parse_factor>;
 
 TEST(Factor_Tests, empty) {
-    Factor_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::Factor factor { scope };
+    Factor_Runner("", factor, true);
 }
 
 TEST(Factor_Tests, literals) {
-    Factor_Runner("3");
-    Factor_Runner("3.241");
-    Factor_Runner("\"abc\"");
-    Factor_Runner("NIL");
-    Factor_Runner("TRUE");
-    Factor_Runner("FALSE");
+    lloberon::Scope scope;
+    lloberon::Factor factor { scope };
+    Factor_Runner("3", factor);
+    factor.clear();
+    Factor_Runner("3.241", factor);
+    factor.clear();
+    Factor_Runner("\"abc\"", factor);
+    factor.clear();
+    Factor_Runner("NIL", factor);
+    factor.clear();
+    Factor_Runner("TRUE", factor);
+    factor.clear();
+    Factor_Runner("FALSE", factor);
 }
 
 TEST(Factor_Tests, set) {
-    Factor_Runner("{3..5}");
+    lloberon::Scope scope;
+    lloberon::Factor factor { scope };
+    Factor_Runner("{3..5}", factor);
 }
 
 TEST(Factor_Tests, grouped) {
-    Factor_Runner("(3 + 4)");
+    lloberon::Scope scope;
+    lloberon::Factor factor { scope };
+    Factor_Runner("(3 + 4)", factor);
 }
 
 TEST(Factor_Tests, ident) {
-    Factor_Runner("a");
-    Factor_Runner("a(3, TRUE)");
-    Factor_Runner("a[3](TRUE)");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+        nullptr, {}, "a", nullptr
+    });
+    lloberon::Factor factor { scope };
+    Factor_Runner("a", factor);
+    factor.clear();
+    Factor_Runner("a(3, TRUE)", factor);
+    factor.clear();
+    Factor_Runner("a[3](TRUE)", factor);
 }
 
 TEST(Factor_Tests, incomplete) {
-    Factor_Runner("a(3,TRUE", true);
-    Factor_Runner("a(3,", true);
-    Factor_Runner("a(3", true);
-    Factor_Runner("a(", true);
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    lloberon::Factor factor { scope };
+    Factor_Runner("a(3,TRUE", factor, true);
+    factor.clear();
+    Factor_Runner("a(3,", factor, true);
+    factor.clear();
+    Factor_Runner("a(3", factor, true);
+    factor.clear();
+    Factor_Runner("a(", factor, true);
 }
 
 #pragma clang diagnostic pop

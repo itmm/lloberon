@@ -3,20 +3,39 @@
 
 #include "parser-tests.h"
 
-using Qual_Ident_Runner = Parser_String_Runner<&lloberon::Parser::parse_qual_ident>;
+using Qual_Ident_Runner = Parser_Value_Runner<lloberon::Qual_Ident, &lloberon::Parser::parse_qual_ident>;
 
 TEST(Qual_Ident_Tests, empty) {
-    Qual_Ident_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::Qual_Ident qual_ident { scope };
+    Qual_Ident_Runner("", qual_ident, true);
 }
 
 TEST(Qual_Ident_Tests, simple) {
-    Qual_Ident_Runner("a");
-    Qual_Ident_Runner("a.b");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration(
+        "BYTE", lloberon::Base_Type_Declaration::bt_BYTE
+    ));
+    lloberon::Qual_Ident qual_ident { scope };
+    Qual_Ident_Runner("BYTE", qual_ident);
+    qual_ident.clear();
+    new (&scope) lloberon::Scope { };
+    auto module = new lloberon::Module_Declaration({}, "X", "X");
+    scope.insert(module);
+    module->insert(new lloberon::Base_Type_Declaration(
+        "Byte", lloberon::Base_Type_Declaration::bt_BYTE
+    ));
+    Qual_Ident_Runner("X.Byte", qual_ident);
 }
 
 TEST(Qual_Ident_Tests, incomplete) {
-    Qual_Ident_Runner("a.", true);
-    Qual_Ident_Runner(".", true, true);
+    lloberon::Scope scope;
+    lloberon::Qual_Ident qual_ident { scope };
+    auto module = new lloberon::Module_Declaration({}, "X", "X");
+    scope.insert(module);
+    Qual_Ident_Runner("X.", qual_ident, true);
+    qual_ident.clear();
+    Qual_Ident_Runner(".", qual_ident, true, true);
 }
 
 #pragma clang diagnostic pop

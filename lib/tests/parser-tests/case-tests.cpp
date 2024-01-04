@@ -3,20 +3,36 @@
 
 #include "parser-tests.h"
 
-using Case_Runner = Parser_String_Runner<&lloberon::Parser::parse_case>;
+using Case_Runner = Parser_Value_Runner<lloberon::sema::Case, &lloberon::Parser::parse_case>;
 
 TEST(Case_Tests, empty) {
-    Case_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::sema::Case case_arg { scope };
+    Case_Runner("", case_arg, true);
 }
 
 TEST(Case_Tests, simple) {
-    Case_Runner("3..4:");
-    Case_Runner("3..4: a := 3");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+        nullptr, {}, "a", nullptr
+    });
+    lloberon::sema::Case case_arg { scope };
+    Case_Runner("3..4:", case_arg);
+
+    case_arg.clear();
+    Case_Runner("3..4: a := 3", case_arg);
 }
 
 TEST(Case_Tests, wrong) {
-    Case_Runner("3 a := 3", true, true);
-    Case_Runner("3", true);
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Variable_Declaration {
+            nullptr, {}, "a", nullptr
+    });
+    lloberon::sema::Case case_arg { scope };
+    Case_Runner("3 a := 3", case_arg, true, true);
+
+    case_arg.clear();
+    Case_Runner("3",case_arg, true);
 }
 
 #pragma clang diagnostic pop

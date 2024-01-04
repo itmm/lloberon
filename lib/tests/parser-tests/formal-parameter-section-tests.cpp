@@ -3,28 +3,54 @@
 
 #include "parser-tests.h"
 
-using Formal_Parameter_Section_Runner = Parser_String_Runner<&lloberon::Parser::parse_formal_parameter_section>;
+using Formal_Parameter_Section_Runner = Parser_Value_Runner<lloberon::Formal_Parameter_Section, &lloberon::Parser::parse_formal_parameter_section>;
 
 TEST(Formal_Parameter_Section_Tests, empty) {
-    Formal_Parameter_Section_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::Formal_Parameter_Section formal_parameter_section { scope };
+    Formal_Parameter_Section_Runner("", formal_parameter_section, true);
 }
 
 TEST(Formal_Parameter_Section_Tests, simple) {
-    Formal_Parameter_Section_Runner("a: ARRAY OF INTEGER");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::Formal_Parameter_Section formal_parameter_section { scope };
+    Formal_Parameter_Section_Runner("a: ARRAY OF INTEGER", formal_parameter_section);
 }
 
 TEST(Formal_Parameter_Section_Tests, multiple) {
-    Formal_Parameter_Section_Runner("a, b: INTEGER");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::Formal_Parameter_Section formal_parameter_section { scope };
+    Formal_Parameter_Section_Runner("a, b: INTEGER", formal_parameter_section);
 }
 
 TEST(Formal_Parameter_Section_Tests, var_parameter) {
-    Formal_Parameter_Section_Runner("VAR a: INTEGER");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::Formal_Parameter_Section formal_parameter_section { scope };
+    Formal_Parameter_Section_Runner("VAR a: INTEGER", formal_parameter_section);
 }
 
 TEST(Formal_Parameter_Section_Tests, incomplete) {
-    Formal_Parameter_Section_Runner("VAR", true);
-    Formal_Parameter_Section_Runner("a,", true);
-    Formal_Parameter_Section_Runner("a INTEGER", true, true);
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::Formal_Parameter_Section formal_parameter_section { scope };
+    Formal_Parameter_Section_Runner("VAR", formal_parameter_section, true);
+
+    formal_parameter_section.clear();
+    Formal_Parameter_Section_Runner("a,", formal_parameter_section, true);
+
+    formal_parameter_section.clear();
+    Formal_Parameter_Section_Runner("a INTEGER", formal_parameter_section, true, true);
 }
 
 #pragma clang diagnostic pop
