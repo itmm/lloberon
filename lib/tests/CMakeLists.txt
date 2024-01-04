@@ -51,6 +51,7 @@ add_lloberon_tool(lloberonTests
     parser-tests/var-declaration-tests.cpp
     parser-tests/while-statement-tests.cpp
     scope-tests.cpp
+    module-declaration-tests.cpp
     var-declaration-tests.cpp)
 
 add_subdirectory(googletest)
