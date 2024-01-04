@@ -89,7 +89,7 @@ namespace lloberon {
         }
         bool is_integer() override { return kind_ == bt_INTEGER || kind_ == bt_BYTE; }
 
-        Kind base_kind() const { return kind_; }
+        [[nodiscard]] Kind base_kind() const { return kind_; }
 
     private:
         const Kind kind_;
