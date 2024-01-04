@@ -2,6 +2,8 @@
 #pragma ide diagnostic ignored "misc-no-recursion"
 
 #include "lloberon/parser/parser.h"
+#include "lloberon/ast/declaration.h"
+#include "lloberon/sema/scope.h"
 
 using namespace lloberon;
 
@@ -100,23 +102,33 @@ bool Parser::parse_factor() {
     return false;
 }
 
-bool Parser::parse_import() {
-    if (consume(token::identifier)) { return true; }
+bool Parser::parse_import(Scope& scope) {
+    if (expect(token::identifier)) { return true; }
+    auto loc { token_.location() };
+    auto name { token_.identifier().str() };
+    auto full_name { name };
+    advance();
     if (token_.is(token::assign)) {
         advance();
-        if (consume(token::identifier)) { return true; }
+        if (expect(token::identifier)) { return true; }
+        full_name = token_.identifier().str();
+        advance();
     }
+    auto module = new Module_Declaration(loc, name, full_name);
+    if (!scope.insert(module)) { error(); return true; }
     return false;
 }
 
-bool Parser::parse_import_list() {
+bool Parser::parse_import_list(Scope& scope) {
+    Scope tmp;
     if (consume(token::keyword_IMPORT)) { return true; }
-    if (parse_import()) { return true; }
+    if (parse_import(tmp)) { return true; }
     while (token_.is(token::comma)) {
         advance();
-        if (parse_import()) { return true; }
+        if (parse_import(tmp)) { return true; }
     }
     if (consume(token::semicolon)) { return true; }
+    if (!scope.consume(tmp)) { error(); return true; }
     return false;
 }
 
@@ -144,7 +156,7 @@ bool Parser::parse_const_declaration() {
     return false;
 }
 
-bool Parser::parse_qualident() {
+bool Parser::parse_qual_ident() {
     if (consume(token::identifier)) { return true; }
     if (token_.is(token::period)) {
         advance();
@@ -170,7 +182,7 @@ bool Parser::parse_array_type() {
 }
 
 bool Parser::parse_base_type() {
-    if (parse_qualident()) { return true; }
+    if (parse_qual_ident()) { return true; }
     return false;
 }
 
@@ -230,7 +242,7 @@ bool Parser::parse_formal_type() {
         advance();
         if (consume(token::keyword_OF)) { return true; }
     }
-    if (parse_qualident()) { return true; }
+    if (parse_qual_ident()) { return true; }
     return false;
 }
 
@@ -258,7 +270,7 @@ bool Parser::parse_formal_parameters() {
     if (consume(token::right_parenthesis)) { return true; }
     if (token_.is(token::colon)) {
         advance();
-        if (parse_qualident()) { return true; }
+        if (parse_qual_ident()) { return true; }
     }
     return false;
 }
@@ -271,7 +283,7 @@ bool Parser::parse_procedure_type() {
 
 bool Parser::parse_type() {
     if (token_.is(token::identifier)) {
-        if (parse_qualident()) { return true; }
+        if (parse_qual_ident()) { return true; }
     } else if (token_.is(token::keyword_ARRAY)) {
         if (parse_array_type()) { return true; }
     } else if (token_.is(token::keyword_RECORD)) {
@@ -362,13 +374,14 @@ bool Parser::parse_declaration_sequence() {
 }
 
 bool Parser::parse_module() {
+    Scope scope;
     if (consume(token::keyword_MODULE)) { return true; }
     if (expect(token::identifier)) { return true; }
     auto module_name { token_.identifier() };
     advance();
     if (consume(token::semicolon)) { return true; }
     if (token_.is(token::keyword_IMPORT)) {
-        if (parse_import_list()) { return true; }
+        if (parse_import_list(scope)) { return true; }
     }
     if (parse_declaration_sequence()) { return true; }
     if (token_.is(token::keyword_BEGIN)) {
@@ -394,7 +407,7 @@ bool Parser::parse_expression_list() {
 }
 
 bool Parser::parse_designator() {
-    if (parse_qualident()) { return true; }
+    if (parse_qual_ident()) { return true; }
     for (;;) {
         if (token_.is(token::period)) {
             advance();
@@ -440,7 +453,7 @@ bool Parser::parse_label() {
     if (token_.is_one_of(token::integer_literal, token::string_literal)) {
         advance();
     } else {
-        if (parse_qualident()) { return true; }
+        if (parse_qual_ident()) { return true; }
     }
     return false;
 }

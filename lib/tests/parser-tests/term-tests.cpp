@@ -26,7 +26,7 @@ TEST(Term_Tests, multiple) {
     Term_Runner("a / 2 DIV b");
 }
 
-TEST(Term_Runner, incomplete) {
+TEST(Term_Tests, incomplete) {
     Term_Runner("a / 2 DIV", true);
     Term_Runner("a /", true);
 }

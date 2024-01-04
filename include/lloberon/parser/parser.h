@@ -3,6 +3,7 @@
 #include "lloberon/lexer/lexer.h"
 #include "llvm/Support/raw_ostream.h"
 #include "lloberon/ast/ident-def.h"
+#include "lloberon/sema/scope.h"
 
 namespace lloberon {
     class Parser {
@@ -57,12 +58,12 @@ namespace lloberon {
         [[nodiscard]] bool parse_set();
         [[nodiscard]] bool parse_factor();
 
-        [[nodiscard]] bool parse_import();
-        [[nodiscard]] bool parse_import_list();
+        [[nodiscard]] bool parse_import(Scope& scope);
+        [[nodiscard]] bool parse_import_list(Scope& scope);
         [[nodiscard]] bool parse_ident_def(Ident_Def& ident_def);
         [[nodiscard]] bool parse_const_expression();
         [[nodiscard]] bool parse_const_declaration();
-        [[nodiscard]] bool parse_qualident();
+        [[nodiscard]] bool parse_qual_ident();
         [[nodiscard]] bool parse_length();
         [[nodiscard]] bool parse_array_type();
         [[nodiscard]] bool parse_base_type();

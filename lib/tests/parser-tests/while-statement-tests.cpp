@@ -19,7 +19,7 @@ TEST(While_Statement_Tests, with_elsif) {
     );
 }
 
-TEST(While_Statement_Runner, wrong) {
+TEST(While_Statement_Tests, wrong) {
     While_Statement_Runner("WHILE DO", true);
     While_Statement_Runner("WHILE a < 3 DO INC(a)", true);
     While_Statement_Runner("WHILE a ELSIF", true, true);

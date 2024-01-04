@@ -26,7 +26,7 @@ TEST_F(Var_Declaration_Test, location) {
 }
 
 TEST_F(Var_Declaration_Test, name) {
-    EXPECT_STREQ(decl.name().str().c_str(), "abc");
+    EXPECT_STREQ(decl.name().c_str(), "abc");
 }
 
 TEST_F(Var_Declaration_Test, no_enclosing_decl) {
@@ -34,7 +34,7 @@ TEST_F(Var_Declaration_Test, no_enclosing_decl) {
 }
 
 TEST_F(Var_Declaration_Test, class_of) {
-    EXPECT_TRUE(lloberon::Variable_Declaration::class_of(&decl));
+    EXPECT_TRUE(lloberon::Variable_Declaration::classof(&decl));
 }
 
 TEST_F(Var_Declaration_Test, type) {

@@ -7,10 +7,12 @@ namespace lloberon {
     class Declaration;
     class Scope {
     public:
-        Scope(Scope* parent = nullptr): parent_ { parent } { }
+        explicit Scope(Scope* parent = nullptr): parent_ { parent } { }
         bool insert(Declaration* declaration);
         Declaration* lookup(llvm::StringRef name);
         Scope* parent() { return parent_; }
+        [[nodiscard]] bool empty() const { return symbols_.empty(); }
+        [[nodiscard]] bool consume(Scope& other);
     private:
         Scope* parent_;
         llvm::StringMap<Declaration*> symbols_;

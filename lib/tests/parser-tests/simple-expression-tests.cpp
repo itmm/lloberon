@@ -5,32 +5,32 @@
 
 using Simple_Expression_Runner = Parser_String_Runner<&lloberon::Parser::parse_simple_expression>;
 
-TEST(Test_Simple_Expressions, empty) {
+TEST(Simple_Expression_Tests, empty) {
     Simple_Expression_Runner("", true);
 }
 
-TEST(Test_Simple_Expression, single) {
+TEST(Simple_Expression_Tests, single) {
     Simple_Expression_Runner("3");
 }
 
-TEST(Test_Simple_Expression, simple) {
+TEST(Simple_Expression_Tests, simple) {
     Simple_Expression_Runner("3 + 4");
     Simple_Expression_Runner("3 - 4");
     Simple_Expression_Runner("a OR b");
 }
 
-TEST(Test_Simple_Expression, factor) {
+TEST(Simple_Expression_Tests, factor) {
     Simple_Expression_Runner("3 * 4");
     Simple_Expression_Runner("3 / 2 + 4 * 3");
 }
 
-TEST(Test_Simple_Expression, unaries) {
+TEST(Simple_Expression_Tests, unaries) {
     Simple_Expression_Runner("+3");
     Simple_Expression_Runner("-3 + 4");
     Simple_Expression_Runner("+-3", true, true);
 }
 
-TEST(Test_Simple_Expression, incomplete) {
+TEST(Simple_Expression_Tests, incomplete) {
     Simple_Expression_Runner("3 +", true);
     Simple_Expression_Runner("+", true);
 }

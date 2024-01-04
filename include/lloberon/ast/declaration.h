@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/SMLoc.h"
 
@@ -12,26 +14,47 @@ namespace lloberon {
 
         Declaration(
             Kind kind, Declaration *enclosing_declaration,
-            llvm::SMLoc loc, llvm::StringRef name
+            llvm::SMLoc loc, std::string  name
         ) :
             kind_ { kind }, enclosing_declaration_ { enclosing_declaration },
-            loc_ { loc }, name_ { name }
+            loc_ { loc }, name_ { std::move(name) }
         { }
+
+        virtual ~Declaration() = default;
 
         [[nodiscard]] Kind kind() const { return kind_; }
 
-        [[nodiscard]] llvm::SMLoc location() { return loc_; }
+        [[nodiscard]] llvm::SMLoc location() const { return loc_; }
 
-        [[nodiscard]] llvm::StringRef name() { return name_; }
+        [[nodiscard]] std::string name() const { return name_; }
 
-        [[nodiscard]] Declaration *enclosing_declaration() { return enclosing_declaration_; }
+        [[nodiscard]] const Declaration *enclosing_declaration() const { return enclosing_declaration_; }
 
     private:
         const Kind kind_;
     protected:
-        Declaration *enclosing_declaration_;
-        llvm::SMLoc loc_;
-        llvm::StringRef name_;
+        const Declaration *enclosing_declaration_;
+        const llvm::SMLoc loc_;
+        const std::string name_;
+    };
+
+    class Module_Declaration: public Declaration {
+    public:
+        Module_Declaration(
+            llvm::SMLoc loc, const std::string& name, std::string full_name
+        ):
+            Declaration(DK_Module, nullptr, loc, name),
+            full_name_ { std::move(full_name) }
+        { }
+
+        [[nodiscard]] const std::string& full_name() const { return full_name_; }
+
+        static bool classof(const Declaration* declaration ) {
+            return declaration && declaration->kind() == DK_Module;
+        }
+
+    private:
+        const std::string full_name_;
     };
 
     class Type_Declaration;
@@ -40,7 +63,7 @@ namespace lloberon {
     public:
         Variable_Declaration(
             Declaration* enclosing_declaration, llvm::SMLoc loc,
-            llvm::StringRef name, Type_Declaration* type
+            std::string name, Type_Declaration* type
         ):
             Declaration(DK_Var, enclosing_declaration, loc, name),
             type_ { type }
@@ -48,7 +71,7 @@ namespace lloberon {
 
         Type_Declaration* type() { return type_; }
         
-        static bool class_of(const Declaration* declaration ) {
+        static bool classof(const Declaration* declaration ) {
             return declaration && declaration->kind() == DK_Var;
         }
 

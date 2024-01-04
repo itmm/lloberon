@@ -13,7 +13,7 @@ TEST(Pointer_Type_Tests, simple) {
     Pointer_Type_Runner("POINTER TO Record");
 }
 
-TEST(POINTER_Type_Tests, incomplete) {
+TEST(Pointer_Type_Tests, incomplete) {
     Pointer_Type_Runner("POINTER TO", true);
     Pointer_Type_Runner("POINTER Record", true, true);
 }

@@ -36,7 +36,7 @@ TEST(Module_Tests, names_dont_match) {
     Module_Runner("MODULE A; END B.", true, true);
 }
 
-TEST(MOdule_Tests, no_semicolon) {
+TEST(Module_Tests, no_semicolon) {
     Module_Runner("MODULE A END A.", true, true);
 }
 

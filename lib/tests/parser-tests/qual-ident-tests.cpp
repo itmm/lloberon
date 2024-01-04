@@ -3,7 +3,7 @@
 
 #include "parser-tests.h"
 
-using Qual_Ident_Runner = Parser_String_Runner<&lloberon::Parser::parse_qualident>;
+using Qual_Ident_Runner = Parser_String_Runner<&lloberon::Parser::parse_qual_ident>;
 
 TEST(Qual_Ident_Tests, empty) {
     Qual_Ident_Runner("", true);
