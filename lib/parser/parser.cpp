@@ -174,18 +174,22 @@ bool Parser::parse_base_type() {
     return false;
 }
 
-bool Parser::parse_ident_list() {
+bool Parser::parse_ident_list(Ident_List& ident_list) {
+    ident_list.clear();
     Ident_Def ident_def;
     if (parse_ident_def(ident_def)) { return true; }
+    ident_list.push_back(ident_def);
     while (token_.is(token::comma)) {
         advance();
-        if (parse_ident_def(ident_def)) { return true; }
+        if (parse_ident_def(ident_def)) { ident_list.clear(); return true; }
+        ident_list.push_back(ident_def);
     }
     return false;
 }
 
 bool Parser::parse_field_list() {
-    if (parse_ident_list()) { return true; }
+    Ident_List ident_list;
+    if (parse_ident_list(ident_list)) { return true; }
     if (consume(token::colon)) { return true; }
     if (parse_type()) { return true; }
     return false;
@@ -289,7 +293,8 @@ bool Parser::parse_type_declaration() {
 }
 
 bool Parser::parse_variable_declaration() {
-    if (parse_ident_list()) { return true; }
+    Ident_List ident_list;
+    if (parse_ident_list(ident_list)) { return true; }
     if (consume(token::colon)) { return true; }
     if (parse_type()) { return true; }
     return false;

@@ -66,7 +66,7 @@ namespace lloberon {
         [[nodiscard]] bool parse_length();
         [[nodiscard]] bool parse_array_type();
         [[nodiscard]] bool parse_base_type();
-        [[nodiscard]] bool parse_ident_list();
+        [[nodiscard]] bool parse_ident_list(Ident_List& ident_list);
         [[nodiscard]] bool parse_field_list();
         [[nodiscard]] bool parse_field_list_sequence();
         [[nodiscard]] bool parse_record_type();
