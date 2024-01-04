@@ -120,7 +120,7 @@ bool Parser::parse_import(Scope& scope) {
 }
 
 bool Parser::parse_import_list(Scope& scope) {
-    Scope tmp;
+    Scope tmp(&scope, true);
     if (consume(token::keyword_IMPORT)) { return true; }
     if (parse_import(tmp)) { return true; }
     while (token_.is(token::comma)) {
@@ -128,7 +128,7 @@ bool Parser::parse_import_list(Scope& scope) {
         if (parse_import(tmp)) { return true; }
     }
     if (consume(token::semicolon)) { return true; }
-    if (!scope.consume(tmp)) { error(); return true; }
+    scope.consume(tmp);
     return false;
 }
 

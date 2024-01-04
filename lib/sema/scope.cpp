@@ -4,13 +4,14 @@
 using namespace lloberon;
 
 bool Scope::insert(lloberon::Declaration *declaration) {
+    if (has_in_scope(declaration->name())) { return false; }
     return symbols_.insert(std::pair<llvm::StringRef, Declaration*>(
         declaration->name(), declaration
     )).second;
 }
 
-Declaration* Scope::lookup(llvm::StringRef name) {
-    Scope *current = this;
+Declaration* Scope::lookup(const std::string& name) const {
+    Scope const* current = this;
     while (current) {
         auto i = current->symbols_.find(name);
         if (i != current->symbols_.end()) { return i->second; }
@@ -19,12 +20,20 @@ Declaration* Scope::lookup(llvm::StringRef name) {
     return nullptr;
 }
 
-bool Scope::consume(Scope& other) {
-    for (auto i { other.symbols_.begin() }, e { other.symbols_.end() }; i != e; ++i) {
-        if (symbols_.find(i->first()) != symbols_.end()) { return false; }
+bool Scope::has_in_scope(const std::string& name) const {
+    Scope const* current = this;
+    while (current) {
+        auto i = current->symbols_.find(name);
+        if (i != current->symbols_.end()) { return true; }
+        current = current->expand_ ? current->parent() : nullptr;
     }
+    return false;
+}
+
+void Scope::consume(Scope& other) {
+    assert(other.parent() == this && other.expand_);
+
     for (auto i { other.symbols_.begin() }, e { other.symbols_.end() }; i != e; ++i) {
         insert(i->second);
     }
-    return true;
 }
