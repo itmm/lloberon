@@ -4,8 +4,8 @@
 
 #include "llvm/Support/Casting.h"
 
-#include "lloberon/sema/declaration.h"
-#include "lloberon/sema/scope.h"
+#include "sema/declaration.h"
+#include "sema/scope.h"
 
 inline void expect_no_modules(lloberon::Scope& scope) {
     EXPECT_TRUE(scope.empty());

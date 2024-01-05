@@ -23,7 +23,7 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR AND NOT MSVC_IDE)
 endif()
 
 set(LLOBERON_VERSION_STRING "0.1")
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/include/lloberon/basic/version.inc.in" "${CMAKE_CURRENT_BINARY_DIR}/include/lloberon/basic/version.inc")
+configure_file("include/basic/version.inc.in" "${CMAKE_CURRENT_BINARY_DIR}/include/lloberon/basic/version.inc")
 
 include(add-lloberon)
 

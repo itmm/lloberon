@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lloberon/sema/ident-def.h"
+#include "sema/ident-def.h"
 
 #include "gtest/gtest.h"
 

@@ -4,7 +4,7 @@
 #include "parser-tests.h"
 #include "import-tests.h"
 
-#include "lloberon/sema/declaration.h"
+#include "sema/declaration.h"
 
 using Import_Runner = Parser_Value_Runner<lloberon::Scope, &lloberon::Parser::parse_import>;
 

@@ -11,7 +11,7 @@ namespace lloberon {
     namespace diag {
         enum {
             #define DIAG(id, level, message) id,
-            #include "lloberon/basic/diagnostic.def"
+            #include "diagnostic.def"
         };
     }
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "lloberon/basic/diagnostic.h"
-#include "lloberon/lexer/token.h"
+#include "basic/diagnostic.h"
+#include "token.h"
 
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/StringMap.h"

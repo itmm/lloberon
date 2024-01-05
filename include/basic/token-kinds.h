@@ -3,7 +3,7 @@
 namespace lloberon::token {
     enum Kind : unsigned short {
         #define TOK(id) id,
-        #include "lloberon/basic/token-kinds.def"
+        #include "token-kinds.def"
         // NUM_TOKENS
     };
 

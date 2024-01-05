@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "lloberon/lexer/lexer.h"
+#include "lexer/lexer.h"
 
 class Lexer_String_Runner {
 public:

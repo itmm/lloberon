@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lloberon/basic/token-kinds.h"
+#include "basic/token-kinds.h"
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/SMLoc.h"
 

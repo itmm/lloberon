@@ -1,5 +1,5 @@
-#include "lloberon/parser/parser.h"
-#include "lloberon/sema/factor.h"
+#include "parser/parser.h"
+#include "sema/factor.h"
 
 using namespace lloberon;
 

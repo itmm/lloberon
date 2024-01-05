@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gtest/gtest.h"
-#include "lloberon/parser/parser.h"
+#include "parser/parser.h"
 
 template<bool (lloberon::Parser::*METHOD)()>
 class Parser_String_Runner {

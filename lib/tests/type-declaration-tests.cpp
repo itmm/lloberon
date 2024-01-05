@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "lloberon/sema/declaration.h"
+#include "sema/declaration.h"
 
 template<lloberon::Base_Type_Declaration::Kind KIND>
 class Base_Type_Declaration_Test: public testing::Test {

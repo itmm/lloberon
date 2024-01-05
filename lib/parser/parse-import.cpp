@@ -1,6 +1,6 @@
-#include "lloberon/parser/parser.h"
-#include "lloberon/sema/declaration.h"
-#include "lloberon/sema/scope.h"
+#include "parser/parser.h"
+#include "sema/declaration.h"
+#include "sema/scope.h"
 
 using namespace lloberon;
 

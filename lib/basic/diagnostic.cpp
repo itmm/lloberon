@@ -1,15 +1,15 @@
-#include "lloberon/basic/diagnostic.h"
+#include "basic/diagnostic.h"
 
 using namespace lloberon;
 
 namespace {
     const char* diagnostic_texts[] = {
         #define DIAG(id, level, message) message,
-        #include "lloberon/basic/diagnostic.def"
+        #include "basic/diagnostic.def"
     };
     llvm::SourceMgr::DiagKind diagnostic_kinds[] = {
         #define DIAG(id, level, message) llvm::SourceMgr::DK_##level,
-        #include "lloberon/basic/diagnostic.def"
+        #include "basic/diagnostic.def"
     };
 }
 

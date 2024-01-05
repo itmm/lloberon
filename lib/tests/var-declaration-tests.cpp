@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "lloberon/sema/declaration.h"
+#include "sema/declaration.h"
 
 class Var_Declaration_Test: public testing::Test {
 protected:

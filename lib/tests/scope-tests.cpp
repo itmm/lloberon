@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include "lloberon/sema/scope.h"
-#include "lloberon/sema/declaration.h"
+#include "sema/scope.h"
+#include "sema/declaration.h"
 
 TEST(Scope_Tests, no_parent) {
     lloberon::Scope scope;

@@ -1,7 +1,7 @@
-#include "lloberon/basic/diagnostic.h"
-#include "lloberon/lexer/lexer.h"
-#include "lloberon/parser/parser.h"
-#include "lloberon/basic/version.h"
+#include "basic/diagnostic.h"
+#include "lexer/lexer.h"
+#include "parser/parser.h"
+#include "basic/version.h"
 
 #include <llvm/Support/SourceMgr.h>
 #include "llvm/Support/InitLLVM.h"

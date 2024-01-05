@@ -1,6 +1,6 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "misc-no-recursion"
-#include "lloberon/lexer/lexer.h"
+#include "lexer/lexer.h"
 
 using namespace lloberon;
 
@@ -24,7 +24,7 @@ void Keyword_Filter::add_keyword(llvm::StringRef keyword, token::Kind kind) {
 
 void Keyword_Filter::add_keywords() {
     #define KEYWORD(name, flags) add_keyword(llvm::StringRef(#name), token::keyword_##name);
-    #include "lloberon/basic/token-kinds.def"
+    #include "basic/token-kinds.def"
 }
 
 void Lexer::do_comment(Token& token) {
