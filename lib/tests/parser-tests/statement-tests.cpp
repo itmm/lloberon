@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using Statement_Runner = Parser_Value_Runner<
-    lloberon::sema::Statement, &Parser::parse_statement
+    sema::Statement, &Parser::parse_statement
 >;
 
 TEST(Statement_Tests, empty) {
     Scope scope;
-    lloberon::sema::Statement statement { scope };
+    sema::Statement statement { scope };
     Statement_Runner("", statement);
 }
 
@@ -30,7 +30,7 @@ TEST(Statement_Tests, single) {
     scope.insert(new Variable_Declaration {
         nullptr, {}, "f", nullptr
     });
-    lloberon::sema::Statement statement { scope };
+    sema::Statement statement { scope };
     Statement_Runner("a := 3", statement);
 
     statement.clear();
@@ -54,7 +54,7 @@ TEST(Statement_Tests, single) {
 
 TEST(Statement_Tests, invalid) {
     Scope scope;
-    lloberon::sema::Statement statement { scope };
+    sema::Statement statement { scope };
     Statement_Runner("3", statement, false, true);
 }
 

@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using Repeat_Statement_Runner = Parser_Value_Runner<
-    lloberon::sema::Repeat_Statement, &Parser::parse_repeat_statement
+    sema::Repeat_Statement, &Parser::parse_repeat_statement
 >;
 
 TEST(Repeat_Statement_Tests, empty) {
     Scope scope;
-    lloberon::sema::Repeat_Statement repeat_statement { scope };
+    sema::Repeat_Statement repeat_statement { scope };
     Repeat_Statement_Runner("", repeat_statement, true);
 }
 
@@ -18,7 +18,7 @@ TEST(Repeat_Statement_Tests, simple) {
     scope.insert(new Variable_Declaration {
         nullptr, {}, "a", nullptr
     });
-    lloberon::sema::Repeat_Statement repeat_statement { scope };
+    sema::Repeat_Statement repeat_statement { scope };
     Repeat_Statement_Runner("REPEAT a := a + 1 UNTIL a > 10", repeat_statement);
 }
 

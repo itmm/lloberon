@@ -3,11 +3,11 @@
 
 #include "parser-tests.h"
 
-using Formal_Type_Runner = Parser_Value_Runner<lloberon::sema::Formal_Type, &Parser::parse_formal_type>;
+using Formal_Type_Runner = Parser_Value_Runner<sema::Formal_Type, &Parser::parse_formal_type>;
 
 TEST(Formal_Type_Tests, empty) {
     Scope scope;
-    lloberon::sema::Formal_Type formal_type { scope };
+    sema::Formal_Type formal_type { scope };
     Formal_Type_Runner("", formal_type, true);
 }
 
@@ -16,7 +16,7 @@ TEST(Formal_Type_Tests, simple) {
     scope.insert(new Base_Type_Declaration {
         "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Formal_Type formal_type { scope };
+    sema::Formal_Type formal_type { scope };
     Formal_Type_Runner("INTEGER", formal_type);
 }
 
@@ -29,7 +29,7 @@ TEST(Formal_Type_Tests, qualified) {
         "Byte", Base_Type_Declaration::bt_BYTE
     });
     scope.insert(module);
-    lloberon::sema::Formal_Type formal_type { scope };
+    sema::Formal_Type formal_type { scope };
     Formal_Type_Runner("X.Byte", formal_type);
 }
 
@@ -38,7 +38,7 @@ TEST(Formal_Type_Tests, array) {
     scope.insert(new Base_Type_Declaration {
             "BYTE", Base_Type_Declaration::bt_BYTE
     });
-    lloberon::sema::Formal_Type formal_type { scope };
+    sema::Formal_Type formal_type { scope };
     Formal_Type_Runner("ARRAY OF BYTE", formal_type);
 }
 
@@ -47,7 +47,7 @@ TEST(Formal_Type_Tests, multiple_arrays) {
     scope.insert(new Base_Type_Declaration {
             "BYTE", Base_Type_Declaration::bt_BYTE
     });
-    lloberon::sema::Formal_Type formal_type { scope };
+    sema::Formal_Type formal_type { scope };
     Formal_Type_Runner("ARRAY OF ARRAY OF BYTE", formal_type);
 }
 

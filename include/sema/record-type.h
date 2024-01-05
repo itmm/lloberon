@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Record_Type {
     public:
         Record_Type(Scope& scope): scope_ { scope } { }

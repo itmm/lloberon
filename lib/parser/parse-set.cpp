@@ -1,7 +1,5 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
 bool Parser::parse_set() {
     if (consume(token::left_brace)) { return true; }
     if (! token_.is_one_of(token::right_brace, token::eof)) {

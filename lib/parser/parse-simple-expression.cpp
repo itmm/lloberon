@@ -1,11 +1,11 @@
 #include "parser/parser.h"
 
-bool Parser::parse_simple_expression(lloberon::sema::Simple_Expression& simple_expression) {
+bool Parser::parse_simple_expression(sema::Simple_Expression& simple_expression) {
     if (token_.is_one_of(token::plus, token::minus)) {
         advance();
     }
     Scope scope;
-    lloberon::sema::Term term { simple_expression.scope() };
+    sema::Term term { simple_expression.scope() };
     if (parse_term(term)) { return true; }
     while (token_.is_one_of(token::plus, token::minus, token::keyword_OR)) {
         advance();

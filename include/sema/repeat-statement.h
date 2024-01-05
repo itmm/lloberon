@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Repeat_Statement {
     public:
         Repeat_Statement(Scope& scope): scope_ { scope } { }

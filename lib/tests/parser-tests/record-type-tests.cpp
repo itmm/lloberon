@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using Record_Type_Runner = Parser_Value_Runner<
-    lloberon::sema::Record_Type, &Parser::parse_record_type
+    sema::Record_Type, &Parser::parse_record_type
 >;
 
 TEST(Record_Type_Tests, empty) {
     Scope scope;
-    lloberon::sema::Record_Type record_type { scope };
+    sema::Record_Type record_type { scope };
     Record_Type_Runner("", record_type, true);
 }
 
@@ -18,7 +18,7 @@ TEST(Record_Type_Tests, simple) {
     scope.insert(new Base_Type_Declaration {
         "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Record_Type record_type { scope };
+    sema::Record_Type record_type { scope };
     Record_Type_Runner("RECORD END", record_type);
 
     record_type.clear();
@@ -33,7 +33,7 @@ TEST(Record_Type_Tests, sub_type) {
     scope.insert(new Base_Type_Declaration {
             "Point", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Record_Type record_type { scope };
+    sema::Record_Type record_type { scope };
     Record_Type_Runner("RECORD (View) END", record_type);
 
     record_type.clear();

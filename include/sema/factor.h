@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Factor {
     public:
         Factor(Scope& scope): scope_ { scope } { }

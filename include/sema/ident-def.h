@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace lloberon::sema {
+namespace sema {
     class Ident_Def {
     public:
         Ident_Def(const std::string &ident = { }, bool exported = false):

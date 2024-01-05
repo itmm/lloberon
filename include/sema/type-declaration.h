@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Type_Declaration {
     public:
         Type_Declaration(Scope& scope): scope_ { scope } { }

@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using Field_List_Runner = Parser_Value_Runner<
-    lloberon::sema::Field_List, &Parser::parse_field_list
+    sema::Field_List, &Parser::parse_field_list
 >;
 
 TEST(Field_List_Tests, empty) {
     Scope scope;
-    lloberon::sema::Field_List field_list { scope };
+    sema::Field_List field_list { scope };
     Field_List_Runner("", field_list, true);
 }
 
@@ -18,7 +18,7 @@ TEST(Field_List_Tests, simple) {
     scope.insert(new Base_Type_Declaration{
         "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Field_List field_list { scope };
+    sema::Field_List field_list { scope };
     Field_List_Runner("a: INTEGER", field_list);
 }
 
@@ -27,7 +27,7 @@ TEST(Field_List_Tests, exported) {
     scope.insert(new Base_Type_Declaration{
             "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Field_List field_list { scope };
+    sema::Field_List field_list { scope };
     Field_List_Runner("a*: INTEGER", field_list);
 }
 
@@ -36,7 +36,7 @@ TEST(Field_List_Tests, multiple) {
     scope.insert(new Base_Type_Declaration{
             "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Field_List field_list { scope };
+    sema::Field_List field_list { scope };
     Field_List_Runner("a, b: INTEGER", field_list);
 }
 
@@ -45,7 +45,7 @@ TEST(Field_List_Tests, incomplete) {
     scope.insert(new Base_Type_Declaration{
             "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Field_List field_list { scope };
+    sema::Field_List field_list { scope };
     Field_List_Runner("a:", field_list, true);
 
     field_list.clear();

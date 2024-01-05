@@ -1,11 +1,11 @@
 #include "parser/parser.h"
 
-bool Parser::parse_procedure_body(lloberon::sema::Procedure_Body& procedure_body) {
+bool Parser::parse_procedure_body(sema::Procedure_Body& procedure_body) {
     sema::Declaration_Sequence declaration_sequence { procedure_body.scope() };
     if (parse_declaration_sequence(declaration_sequence)) { return true; }
     if (token_.is(token::keyword_BEGIN)) {
         advance();
-        lloberon::sema::Statement_Sequence statement_sequence { procedure_body.scope() };
+        sema::Statement_Sequence statement_sequence { procedure_body.scope() };
         if (parse_statement_sequence(statement_sequence)) { return true; }
     }
     if (token_.is(token::keyword_RETURN)) {

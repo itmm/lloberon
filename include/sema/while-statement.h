@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class While_Statement {
     public:
         While_Statement(Scope& scope): scope_ { scope } { }

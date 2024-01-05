@@ -2,8 +2,6 @@
 #include "sema/declaration.h"
 #include "sema/scope.h"
 
-using namespace lloberon;
-
 bool Parser::parse_import(Scope& scope) {
     if (expect(token::identifier)) { return true; }
     auto loc { token_.location() };

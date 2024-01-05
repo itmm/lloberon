@@ -1,7 +1,5 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
 bool Parser::parse_import_list(Scope& scope) {
     Scope tmp(&scope, true);
     if (consume(token::keyword_IMPORT)) { return true; }

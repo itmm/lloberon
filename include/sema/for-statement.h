@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class For_Statement {
     public:
         For_Statement(Scope& scope): scope_ { scope } { }

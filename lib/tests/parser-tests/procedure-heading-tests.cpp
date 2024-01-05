@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using Procedure_Heading_Runner = Parser_Value_Runner<
-    lloberon::sema::Procedure_Heading, &Parser::parse_procedure_heading
+    sema::Procedure_Heading, &Parser::parse_procedure_heading
 >;
 
 TEST(Procedure_Heading_Tests, empty) {
     Scope scope;
-    lloberon::sema::Procedure_Heading procedure_heading { scope };
+    sema::Procedure_Heading procedure_heading { scope };
     Procedure_Heading_Runner("", procedure_heading, true);
 }
 
@@ -18,7 +18,7 @@ TEST(Procedure_Heading_Tests, simple) {
     scope.insert(new Base_Type_Declaration {
         "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Procedure_Heading procedure_heading { scope };
+    sema::Procedure_Heading procedure_heading { scope };
     Procedure_Heading_Runner("PROCEDURE f(x: INTEGER): INTEGER", procedure_heading);
 }
 
@@ -27,7 +27,7 @@ TEST(Procedure_Heading_Tests, incomplete) {
     scope.insert(new Base_Type_Declaration {
             "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::sema::Procedure_Heading procedure_heading { scope };
+    sema::Procedure_Heading procedure_heading { scope };
     Procedure_Heading_Runner("PROCEDURE f", procedure_heading, true);
 
     procedure_heading.clear();

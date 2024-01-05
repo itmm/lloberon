@@ -1,7 +1,5 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
 bool Parser::parse() {
     Scope scope;
     scope.insert(new Base_Type_Declaration {

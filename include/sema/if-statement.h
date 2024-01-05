@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class If_Statement {
     public:
         If_Statement(Scope& scope): scope_ { scope } { }

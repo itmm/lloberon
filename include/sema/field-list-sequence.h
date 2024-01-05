@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Field_List_Sequence {
     public:
         Field_List_Sequence(Scope& scope): scope_ { scope } { }

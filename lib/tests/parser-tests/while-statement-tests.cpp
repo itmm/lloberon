@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using While_Statement_Runner = Parser_Value_Runner<
-    lloberon::sema::While_Statement, &Parser::parse_while_statement
+    sema::While_Statement, &Parser::parse_while_statement
 >;
 
 TEST(While_Statement_Tests, empty) {
     Scope scope;
-    lloberon::sema::While_Statement while_statement { scope };
+    sema::While_Statement while_statement { scope };
     While_Statement_Runner("", while_statement, true);
 }
 
@@ -21,7 +21,7 @@ TEST(While_Statement_Tests, simple) {
     scope.insert(new Variable_Declaration{
         nullptr, {}, "INC", nullptr
     });
-    lloberon::sema::While_Statement while_statement { scope };
+    sema::While_Statement while_statement { scope };
     While_Statement_Runner("WHILE a < 3 DO INC(a) END", while_statement);
 }
 
@@ -39,7 +39,7 @@ TEST(While_Statement_Tests, with_elsif) {
     scope.insert(new Variable_Declaration{
         nullptr, {}, "INC", nullptr
     });
-    lloberon::sema::While_Statement while_statement { scope };
+    sema::While_Statement while_statement { scope };
     While_Statement_Runner(
         "WHILE a < 3 DO INC(a) ELSIF b < 3 DO INC(b) ELSIF c < 3 DO INC(c) END",
         while_statement
@@ -54,7 +54,7 @@ TEST(While_Statement_Tests, wrong) {
     scope.insert(new Variable_Declaration{
             nullptr, {}, "INC", nullptr
     });
-    lloberon::sema::While_Statement while_statement { scope };
+    sema::While_Statement while_statement { scope };
     While_Statement_Runner("WHILE DO", while_statement, true);
 
     while_statement.clear();

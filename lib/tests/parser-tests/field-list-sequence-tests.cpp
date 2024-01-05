@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using Field_List_Sequence_Runner = Parser_Value_Runner<
-    lloberon::sema::Field_List_Sequence, &Parser::parse_field_list_sequence
+    sema::Field_List_Sequence, &Parser::parse_field_list_sequence
 >;
 
 TEST(Field_List_Sequence_Tests, empty) {
     Scope scope;
-    lloberon::sema::Field_List_Sequence field_list_sequence { scope };
+    sema::Field_List_Sequence field_list_sequence { scope };
     Field_List_Sequence_Runner("", field_list_sequence, true);
 }
 
@@ -18,7 +18,7 @@ TEST(Field_List_Sequence_Tests, single) {
     scope.insert(new Base_Type_Declaration {
         "BYTE", Base_Type_Declaration::bt_BYTE
     });
-    lloberon::sema::Field_List_Sequence field_list_sequence { scope };
+    sema::Field_List_Sequence field_list_sequence { scope };
     Field_List_Sequence_Runner("a: BYTE", field_list_sequence);
 }
 
@@ -27,7 +27,7 @@ TEST(Field_List_Sequence_Tests, multiple) {
     scope.insert(new Base_Type_Declaration {
             "BYTE", Base_Type_Declaration::bt_BYTE
     });
-    lloberon::sema::Field_List_Sequence field_list_sequence { scope };
+    sema::Field_List_Sequence field_list_sequence { scope };
     Field_List_Sequence_Runner("a: BYTE; b: BYTE", field_list_sequence);
 }
 
@@ -36,7 +36,7 @@ TEST(Field_List_Sequence_Tests, incomplete) {
     scope.insert(new Base_Type_Declaration {
             "BYTE", Base_Type_Declaration::bt_BYTE
     });
-    lloberon::sema::Field_List_Sequence field_list_sequence { scope };
+    sema::Field_List_Sequence field_list_sequence { scope };
     Field_List_Sequence_Runner("a: BYTE;", field_list_sequence, true);
 }
 

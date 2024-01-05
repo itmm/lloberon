@@ -4,18 +4,18 @@
 #include "parser-tests.h"
 
 using Label_Runner = Parser_Value_Runner<
-    lloberon::sema::Label, &Parser::parse_label
+    sema::Label, &Parser::parse_label
 >;
 
 TEST(Label_Tests, empty) {
     Scope scope;
-    lloberon::sema::Label label { scope };
+    sema::Label label { scope };
     Label_Runner("", label, true);
 }
 
 TEST(Label_Tests, simple) {
     Scope scope;
-    lloberon::sema::Label label { scope };
+    sema::Label label { scope };
     Label_Runner("3", label);
 
     label.clear();
@@ -34,7 +34,7 @@ TEST(Label_Tests, qual_ident) {
         "Byte", Base_Type_Declaration::bt_BYTE
     });
     scope.insert(module);
-    lloberon::sema::Label label { scope };
+    sema::Label label { scope };
     Label_Runner("INTEGER", label);
 
     label.clear();
@@ -47,7 +47,7 @@ TEST(Label_Tests, wrong) {
             {}, "X", "X"
     } };
     scope.insert(module);
-    lloberon::sema::Label label { scope };
+    sema::Label label { scope };
     Label_Runner("X.", label, true);
 
     label.clear();

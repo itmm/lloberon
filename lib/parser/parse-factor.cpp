@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 #include "sema/factor.h"
 
-bool Parser::parse_factor(lloberon::sema::Factor& factor) {
+bool Parser::parse_factor(sema::Factor& factor) {
     factor.clear();
     switch (token_.kind()) {
         case token::integer_literal: case token::float_literal: case token::string_literal:

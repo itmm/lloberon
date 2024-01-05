@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Label {
     public:
         Label(Scope& scope): scope_ { scope } { }

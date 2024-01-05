@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Var_Declaration {
     public:
         Var_Declaration(Scope& scope): scope_ { scope } { }
