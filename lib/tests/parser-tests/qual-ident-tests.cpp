@@ -3,11 +3,11 @@
 
 #include "parser-tests.h"
 
-using Qual_Ident_Runner = Parser_Value_Runner<lloberon::Qual_Ident, &lloberon::Parser::parse_qual_ident>;
+using Qual_Ident_Runner = Parser_Value_Runner<lloberon::sema::Qual_Ident, &lloberon::Parser::parse_qual_ident>;
 
 TEST(Qual_Ident_Tests, empty) {
     lloberon::Scope scope;
-    lloberon::Qual_Ident qual_ident { scope };
+    lloberon::sema::Qual_Ident qual_ident { scope };
     Qual_Ident_Runner("", qual_ident, true);
 }
 
@@ -16,7 +16,7 @@ TEST(Qual_Ident_Tests, simple) {
     scope.insert(new lloberon::Base_Type_Declaration(
         "BYTE", lloberon::Base_Type_Declaration::bt_BYTE
     ));
-    lloberon::Qual_Ident qual_ident { scope };
+    lloberon::sema::Qual_Ident qual_ident { scope };
     Qual_Ident_Runner("BYTE", qual_ident);
     qual_ident.clear();
     new (&scope) lloberon::Scope { };
@@ -30,7 +30,7 @@ TEST(Qual_Ident_Tests, simple) {
 
 TEST(Qual_Ident_Tests, incomplete) {
     lloberon::Scope scope;
-    lloberon::Qual_Ident qual_ident { scope };
+    lloberon::sema::Qual_Ident qual_ident { scope };
     auto module = new lloberon::Module_Declaration({}, "X", "X");
     scope.insert(module);
     Qual_Ident_Runner("X.", qual_ident, true);

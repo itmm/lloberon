@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon {
+namespace lloberon::sema {
     class Formal_Type {
     public:
         Formal_Type(Scope& scope): scope_ { scope } { }

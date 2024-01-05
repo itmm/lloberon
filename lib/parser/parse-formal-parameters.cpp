@@ -2,10 +2,10 @@
 
 using namespace lloberon;
 
-bool Parser::parse_formal_parameters(Formal_Parameters& formal_parameters) {
+bool Parser::parse_formal_parameters(sema::Formal_Parameters& formal_parameters) {
     if (consume(token::left_parenthesis)) { return true; }
     if (!token_.is(token::right_parenthesis)) {
-        Formal_Parameter_Section formal_parameter_section { formal_parameters.scope() };
+        sema::Formal_Parameter_Section formal_parameter_section { formal_parameters.scope() };
         if (parse_formal_parameter_section(formal_parameter_section)) { return true; }
         while (token_.is(token::semicolon)) {
             advance();
@@ -15,7 +15,7 @@ bool Parser::parse_formal_parameters(Formal_Parameters& formal_parameters) {
     if (consume(token::right_parenthesis)) { return true; }
     if (token_.is(token::colon)) {
         advance();
-        Qual_Ident qual_ident { formal_parameters.scope() };
+        sema::Qual_Ident qual_ident { formal_parameters.scope() };
         if (parse_qual_ident(qual_ident)) { return true; }
     }
     return false;

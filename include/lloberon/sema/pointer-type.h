@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon {
+namespace lloberon::sema {
     class Pointer_Type {
     public:
         Pointer_Type(Scope& scope): scope_ { scope } { }

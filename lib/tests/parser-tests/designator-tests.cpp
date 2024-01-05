@@ -3,11 +3,13 @@
 
 #include "parser-tests.h"
 
-using Designator_Runner = Parser_Value_Runner<lloberon::Designator, &lloberon::Parser::parse_designator>;
+using Designator_Runner = Parser_Value_Runner<
+    lloberon::sema::Designator, &lloberon::Parser::parse_designator
+>;
 
 TEST(Designator_Tests, empty) {
     lloberon::Scope scope;
-    lloberon::Designator designator { scope };
+    lloberon::sema::Designator designator { scope };
     Designator_Runner("", designator, true);
 }
 
@@ -16,7 +18,7 @@ TEST(Designator_Tests, simple) {
     scope.insert(new lloberon::Variable_Declaration {
         nullptr, {}, "a", nullptr
     });
-    lloberon::Designator designator { scope };
+    lloberon::sema::Designator designator { scope };
     Designator_Runner("a", designator);
 
     designator.clear();
@@ -34,7 +36,7 @@ TEST(Designator_Tests, simple) {
 
 TEST(Designator_Tests, combined) {
     lloberon::Scope scope;
-    lloberon::Designator designator { scope };
+    lloberon::sema::Designator designator { scope };
     scope.insert(new lloberon::Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
@@ -43,7 +45,7 @@ TEST(Designator_Tests, combined) {
 
 TEST(Designator_Tests, incomplete) {
     lloberon::Scope scope;
-    lloberon::Designator designator { scope };
+    lloberon::sema::Designator designator { scope };
     scope.insert(new lloberon::Variable_Declaration {
             nullptr, {}, "a", nullptr
     });

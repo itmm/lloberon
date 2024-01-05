@@ -3,11 +3,11 @@
 
 #include "parser-tests.h"
 
-using Base_Type_Runner = Parser_Value_Runner<lloberon::Base_Type, &lloberon::Parser::parse_base_type>;
+using Base_Type_Runner = Parser_Value_Runner<lloberon::sema::Base_Type, &lloberon::Parser::parse_base_type>;
 
 TEST(Base_Type_Tests, empty) {
     lloberon::Scope scope;
-    lloberon::Base_Type base_type { scope };
+    lloberon::sema::Base_Type base_type { scope };
     Base_Type_Runner("", base_type, true);
 }
 
@@ -16,7 +16,7 @@ TEST(Base_Type_Tests, simple) {
     scope.insert(new lloberon::Base_Type_Declaration {
         "BYTE", lloberon::Base_Type_Declaration::bt_BYTE
     });
-    lloberon::Base_Type base_type { scope };
+    lloberon::sema::Base_Type base_type { scope };
     Base_Type_Runner("BYTE", base_type);
 }
 
@@ -29,7 +29,7 @@ TEST(Base_Type_Tests, qualified) {
         "Byte", lloberon::Base_Type_Declaration::bt_BYTE
     });
     scope.insert(module);
-    lloberon::Base_Type base_type { scope };
+    lloberon::sema::Base_Type base_type { scope };
     Base_Type_Runner("X.Byte", base_type);
 }
 

@@ -2,19 +2,19 @@
 
 #include "ident-def-tests.h"
 
-inline void expect_empty_ident_list(const lloberon::Ident_List& list) {
+inline void expect_empty_ident_list(const lloberon::sema::Ident_List& list) {
     EXPECT_TRUE(list.empty());
 }
 
 inline void expect_ident_list(
-    const lloberon::Ident_List& list, const char *ident_1, bool exported_1
+    const lloberon::sema::Ident_List& list, const char *ident_1, bool exported_1
 ) {
     EXPECT_EQ(list.size(), 1);
     expect_ident_def(list[0], ident_1, exported_1);
 }
 
 inline void expect_ident_list(
-        const lloberon::Ident_List& list, const char *ident_1, bool exported_1,
+        const lloberon::sema::Ident_List& list, const char *ident_1, bool exported_1,
         const char* ident_2, bool exported_2
 ) {
     EXPECT_EQ(list.size(), 2);
@@ -23,7 +23,7 @@ inline void expect_ident_list(
 }
 
 inline void expect_ident_list(
-    const lloberon::Ident_List& list, const char *ident_1, bool exported_1,
+    const lloberon::sema::Ident_List& list, const char *ident_1, bool exported_1,
     const char* ident_2, bool exported_2, const char* ident_3, bool exported_3
 ) {
     EXPECT_EQ(list.size(), 3);

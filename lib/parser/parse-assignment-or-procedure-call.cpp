@@ -5,7 +5,7 @@ using namespace lloberon;
 bool Parser::parse_assignment_or_procedure_call(
     sema::Assignment_Or_Procedure_Call& assignment_or_procedure_call
 ) {
-    Designator designator { assignment_or_procedure_call.scope() };
+    sema::Designator designator { assignment_or_procedure_call.scope() };
     if (parse_designator(designator)) { return true; }
     if (token_.is(token::assign)) {
         advance();

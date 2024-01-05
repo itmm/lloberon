@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon {
+namespace lloberon::sema {
     class Term {
     public:
         Term(Scope& scope): scope_ { scope } { }

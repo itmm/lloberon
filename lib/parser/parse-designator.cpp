@@ -2,9 +2,9 @@
 
 using namespace lloberon;
 
-bool Parser::parse_designator(Designator& designator) {
+bool Parser::parse_designator(sema::Designator& designator) {
     designator.clear();
-    Qual_Ident qual_ident { designator.scope() };
+    sema::Qual_Ident qual_ident { designator.scope() };
     if (parse_qual_ident(qual_ident)) { return true; }
     for (;;) {
         if (token_.is(token::period)) {

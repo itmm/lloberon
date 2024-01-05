@@ -3,7 +3,7 @@
 
 using namespace lloberon;
 
-bool Parser::parse_factor(Factor& factor) {
+bool Parser::parse_factor(sema::Factor& factor) {
     factor.clear();
     switch (token_.kind()) {
         case token::integer_literal: case token::float_literal: case token::string_literal:
@@ -15,7 +15,7 @@ bool Parser::parse_factor(Factor& factor) {
             break;
 
         case token::identifier: {
-            Designator designator { factor.scope() };
+            sema::Designator designator { factor.scope() };
             if (parse_designator(designator)) { return true; }
             if (token_.is(token::left_parenthesis)) {
                 sema::Actual_Parameters actual_parameters { factor.scope() };

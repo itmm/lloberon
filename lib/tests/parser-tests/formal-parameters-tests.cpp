@@ -4,12 +4,12 @@
 #include "parser-tests.h"
 
 using Formal_Parameters_Runner = Parser_Value_Runner<
-    lloberon::Formal_Parameters, &lloberon::Parser::parse_formal_parameters
+    lloberon::sema::Formal_Parameters, &lloberon::Parser::parse_formal_parameters
 >;
 
 TEST(Formal_Parameters_Tests, empty) {
     lloberon::Scope scope;
-    lloberon::Formal_Parameters formal_parameters { scope };
+    lloberon::sema::Formal_Parameters formal_parameters { scope };
     Formal_Parameters_Runner("", formal_parameters, true);
 }
 
@@ -18,7 +18,7 @@ TEST(Formal_Parameters_Tests, simple) {
     scope.insert(new lloberon::Base_Type_Declaration {
         "BYTE", lloberon::Base_Type_Declaration::bt_BYTE
     });
-    lloberon::Formal_Parameters formal_parameters { scope };
+    lloberon::sema::Formal_Parameters formal_parameters { scope };
     Formal_Parameters_Runner("()", formal_parameters);
 
     formal_parameters.clear();
@@ -32,13 +32,13 @@ TEST(Formal_Parameters_Tests, with_return) {
         "Byte", lloberon::Base_Type_Declaration::bt_BYTE
     });
     scope.insert(module);
-    lloberon::Formal_Parameters formal_parameters { scope };
+    lloberon::sema::Formal_Parameters formal_parameters { scope };
     Formal_Parameters_Runner("(): X.Byte", formal_parameters);
 }
 
 TEST(Formal_Parameters_Tests, incomplete) {
     lloberon::Scope scope;
-    lloberon::Formal_Parameters formal_parameters { scope };
+    lloberon::sema::Formal_Parameters formal_parameters { scope };
     Formal_Parameters_Runner("(", formal_parameters, true);
     Formal_Parameters_Runner("():", formal_parameters, true);
 }

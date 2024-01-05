@@ -3,11 +3,13 @@
 
 #include "parser-tests.h"
 
-using Field_List_Runner = Parser_Value_Runner<lloberon::Field_List, &lloberon::Parser::parse_field_list>;
+using Field_List_Runner = Parser_Value_Runner<
+    lloberon::sema::Field_List, &lloberon::Parser::parse_field_list
+>;
 
 TEST(Field_List_Tests, empty) {
     lloberon::Scope scope;
-    lloberon::Field_List field_list { scope };
+    lloberon::sema::Field_List field_list { scope };
     Field_List_Runner("", field_list, true);
 }
 
@@ -16,7 +18,7 @@ TEST(Field_List_Tests, simple) {
     scope.insert(new lloberon::Base_Type_Declaration{
         "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::Field_List field_list { scope };
+    lloberon::sema::Field_List field_list { scope };
     Field_List_Runner("a: INTEGER", field_list);
 }
 
@@ -25,7 +27,7 @@ TEST(Field_List_Tests, exported) {
     scope.insert(new lloberon::Base_Type_Declaration{
             "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::Field_List field_list { scope };
+    lloberon::sema::Field_List field_list { scope };
     Field_List_Runner("a*: INTEGER", field_list);
 }
 
@@ -34,7 +36,7 @@ TEST(Field_List_Tests, multiple) {
     scope.insert(new lloberon::Base_Type_Declaration{
             "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::Field_List field_list { scope };
+    lloberon::sema::Field_List field_list { scope };
     Field_List_Runner("a, b: INTEGER", field_list);
 }
 
@@ -43,7 +45,7 @@ TEST(Field_List_Tests, incomplete) {
     scope.insert(new lloberon::Base_Type_Declaration{
             "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::Field_List field_list { scope };
+    lloberon::sema::Field_List field_list { scope };
     Field_List_Runner("a:", field_list, true);
 
     field_list.clear();

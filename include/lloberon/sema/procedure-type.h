@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon {
+namespace lloberon::sema {
     class Procedure_Type {
     public:
         Procedure_Type(Scope& scope): scope_ { scope } { }

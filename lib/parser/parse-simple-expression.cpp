@@ -7,7 +7,7 @@ bool Parser::parse_simple_expression(sema::Simple_Expression& simple_expression)
         advance();
     }
     Scope scope;
-    Term term { simple_expression.scope() };
+    sema::Term term { simple_expression.scope() };
     if (parse_term(term)) { return true; }
     while (token_.is_one_of(token::plus, token::minus, token::keyword_OR)) {
         advance();

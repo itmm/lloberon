@@ -3,7 +3,7 @@
 #include "scope.h"
 #include "declaration.h"
 
-namespace lloberon {
+namespace lloberon::sema {
     class Qual_Ident {
     public:
         Qual_Ident(Scope& scope): scope_ { scope } { }

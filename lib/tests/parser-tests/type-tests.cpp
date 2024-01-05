@@ -3,11 +3,11 @@
 
 #include "parser-tests.h"
 
-using Type_Runner = Parser_Value_Runner<lloberon::Type, &lloberon::Parser::parse_type>;
+using Type_Runner = Parser_Value_Runner<lloberon::sema::Type, &lloberon::Parser::parse_type>;
 
 TEST(Type_Tests, empty) {
     lloberon::Scope scope;
-    lloberon::Type type { scope };
+    lloberon::sema::Type type { scope };
     Type_Runner("", type, true);
 }
 
@@ -19,7 +19,7 @@ TEST(Type_Tests, simple) {
     scope.insert(new lloberon::Base_Type_Declaration {
         "Entry", lloberon::Base_Type_Declaration::bt_INTEGER
     });
-    lloberon::Type type { scope };
+    lloberon::sema::Type type { scope };
     Type_Runner("INTEGER", type);
     Type_Runner("ARRAY 10 OF INTEGER", type);
     Type_Runner("RECORD x, y: INTEGER END", type);
@@ -29,7 +29,7 @@ TEST(Type_Tests, simple) {
 
 TEST(Type_Tests, invalid) {
     lloberon::Scope scope;
-    lloberon::Type type { scope };
+    lloberon::sema::Type type { scope };
     Type_Runner(":", type, true, true);
 }
 
