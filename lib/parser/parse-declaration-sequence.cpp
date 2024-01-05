@@ -2,7 +2,7 @@
 
 using namespace lloberon;
 
-bool Parser::parse_declaration_sequence() {
+bool Parser::parse_declaration_sequence(sema::Declaration_Sequence& declaration_sequence) {
     if (token_.is(token::keyword_CONST)) {
         advance();
         while (token_.is(token::identifier)) {
@@ -13,8 +13,7 @@ bool Parser::parse_declaration_sequence() {
     if (token_.is(token::keyword_TYPE)) {
         advance();
         while (token_.is(token::identifier)) {
-            Scope scope;
-            sema::Type_Declaration type_declaration { scope };
+            sema::Type_Declaration type_declaration { declaration_sequence.scope() };
             if (parse_type_declaration(type_declaration)) { return true; }
             if (consume(token::semicolon)) { return true; }
         }
@@ -22,15 +21,15 @@ bool Parser::parse_declaration_sequence() {
     if (token_.is(token::keyword_VAR)) {
         advance();
         while (token_.is(token::identifier)) {
-            Scope scope;
-            sema::Var_Declaration var_declaration { scope };
+            sema::Var_Declaration var_declaration { declaration_sequence.scope() };
             if (parse_variable_declaration(var_declaration)) { return true; }
             if (consume(token::semicolon)) { return true; }
         }
     }
 
     while (token_.is(token::keyword_PROCEDURE)) {
-        if (parse_procedure_declaration()) { return true; }
+        sema::Procedure_Declaration procedure_declaration { declaration_sequence.scope() };
+        if (parse_procedure_declaration(procedure_declaration)) { return true; }
         if (consume(token::semicolon)) { return true; }
     }
     return false;

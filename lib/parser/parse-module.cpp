@@ -4,27 +4,7 @@
 
 using namespace lloberon;
 
-bool Parser::parse_module() {
-    Scope scope;
-    scope.insert(new Base_Type_Declaration {
-        "BOOLEAN", Base_Type_Declaration::bt_BOOLEAN
-    } );
-    scope.insert(new Base_Type_Declaration {
-        "CHAR", Base_Type_Declaration::bt_CHAR
-    });
-    scope.insert(new Base_Type_Declaration {
-        "INTEGER", Base_Type_Declaration::bt_INTEGER
-    });
-    scope.insert(new Base_Type_Declaration {
-        "REAL", Base_Type_Declaration::bt_REAL
-    });
-    scope.insert(new Base_Type_Declaration {
-        "BYTE", Base_Type_Declaration::bt_BYTE
-    });
-    scope.insert(new Base_Type_Declaration {
-        "SET", Base_Type_Declaration::bt_SET
-    });
-
+bool Parser::parse_module(Scope& scope) {
     if (consume(token::keyword_MODULE)) { return true; }
     if (expect(token::identifier)) { return true; }
     auto module_name { token_.identifier() };
@@ -33,7 +13,8 @@ bool Parser::parse_module() {
     if (token_.is(token::keyword_IMPORT)) {
         if (parse_import_list(scope)) { return true; }
     }
-    if (parse_declaration_sequence()) { return true; }
+    sema::Declaration_Sequence declaration_sequence { scope };
+    if (parse_declaration_sequence(declaration_sequence)) { return true; }
     if (token_.is(token::keyword_BEGIN)) {
         advance();
         sema::Statement_Sequence statement_sequence { scope };

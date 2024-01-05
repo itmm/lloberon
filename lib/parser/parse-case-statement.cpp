@@ -2,13 +2,12 @@
 
 using namespace lloberon;
 
-bool Parser::parse_case_statement() {
+bool Parser::parse_case_statement(sema::Case_Statement& case_statement) {
     if (consume(token::keyword_CASE)) { return true; }
-    Scope scope;
-    sema::Expression expression { scope };
+    sema::Expression expression { case_statement.scope() };
     if (parse_expression(expression)) { return true; }
     if (consume(token::keyword_OF)) { return true; }
-    sema::Case case_arg { scope };
+    sema::Case case_arg { case_statement.scope() };
     if (parse_case(case_arg)) { return true; }
     while (token_.is(token::bar)) {
         advance();

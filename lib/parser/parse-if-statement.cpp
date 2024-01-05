@@ -2,13 +2,12 @@
 
 using namespace lloberon;
 
-bool Parser::parse_if_statement() {
+bool Parser::parse_if_statement(sema::If_Statement& if_statement) {
     if (consume(token::keyword_IF)) { return true; }
-    Scope scope;
-    sema::Expression expression { scope };
+    sema::Expression expression { if_statement.scope() };
     if (parse_expression(expression)) { return true; }
     if(consume(token::keyword_THEN)) { return true; }
-    sema::Statement_Sequence statement_sequence { scope };
+    sema::Statement_Sequence statement_sequence { if_statement.scope() };
     if (parse_statement_sequence(statement_sequence)) { return true; }
     while (token_.is(token::keyword_ELSIF)) {
         advance();

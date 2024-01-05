@@ -3,25 +3,55 @@
 
 #include "parser-tests.h"
 
-using Label_Runner = Parser_String_Runner<&lloberon::Parser::parse_label>;
+using Label_Runner = Parser_Value_Runner<
+    lloberon::sema::Label, &lloberon::Parser::parse_label
+>;
 
 TEST(Label_Tests, empty) {
-    Label_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::sema::Label label { scope };
+    Label_Runner("", label, true);
 }
 
 TEST(Label_Tests, simple) {
-    Label_Runner("3");
-    Label_Runner("\"abc\"");
+    lloberon::Scope scope;
+    lloberon::sema::Label label { scope };
+    Label_Runner("3", label);
+
+    label.clear();
+    Label_Runner("\"abc\"", label);
 }
 
 TEST(Label_Tests, qual_ident) {
-    Label_Runner("INTEGER");
-    Label_Runner("SYSTEM.Byte");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    auto module { new lloberon::Module_Declaration {
+        {}, "X", "X"
+    } };
+    module->insert(new lloberon::Base_Type_Declaration {
+        "Byte", lloberon::Base_Type_Declaration::bt_BYTE
+    });
+    scope.insert(module);
+    lloberon::sema::Label label { scope };
+    Label_Runner("INTEGER", label);
+
+    label.clear();
+    Label_Runner("X.Byte", label);
 }
 
 TEST(Label_Tests, wrong) {
-    Label_Runner("SYSTEM.", true);
-    Label_Runner("NIL", true, true);
+    lloberon::Scope scope;
+    auto module { new lloberon::Module_Declaration {
+            {}, "X", "X"
+    } };
+    scope.insert(module);
+    lloberon::sema::Label label { scope };
+    Label_Runner("X.", label, true);
+
+    label.clear();
+    Label_Runner("NIL", label, true, true);
 }
 
 #pragma clang diagnostic pop

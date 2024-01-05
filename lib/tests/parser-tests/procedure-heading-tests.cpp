@@ -3,19 +3,35 @@
 
 #include "parser-tests.h"
 
-using Procedure_Heading_Runner = Parser_String_Runner<&lloberon::Parser::parse_procedure_heading>;
+using Procedure_Heading_Runner = Parser_Value_Runner<
+    lloberon::sema::Procedure_Heading, &lloberon::Parser::parse_procedure_heading
+>;
 
 TEST(Procedure_Heading_Tests, empty) {
-    Procedure_Heading_Runner("", true);
+    lloberon::Scope scope;
+    lloberon::sema::Procedure_Heading procedure_heading { scope };
+    Procedure_Heading_Runner("", procedure_heading, true);
 }
 
 TEST(Procedure_Heading_Tests, simple) {
-    Procedure_Heading_Runner("PROCEDURE f(x: INTEGER): BOOLEAN");
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::sema::Procedure_Heading procedure_heading { scope };
+    Procedure_Heading_Runner("PROCEDURE f(x: INTEGER): INTEGER", procedure_heading);
 }
 
 TEST(Procedure_Heading_Tests, incomplete) {
-    Procedure_Heading_Runner("PROCEDURE f", true);
-    Procedure_Heading_Runner("PROCEDURE (): BYTE", true, true);
+    lloberon::Scope scope;
+    scope.insert(new lloberon::Base_Type_Declaration {
+            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    });
+    lloberon::sema::Procedure_Heading procedure_heading { scope };
+    Procedure_Heading_Runner("PROCEDURE f", procedure_heading, true);
+
+    procedure_heading.clear();
+    Procedure_Heading_Runner("PROCEDURE (): INTEGER", procedure_heading, true, true);
 }
 
 #pragma clang diagnostic pop
