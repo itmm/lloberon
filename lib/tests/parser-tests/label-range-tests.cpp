@@ -3,7 +3,7 @@
 
 #include "parser-tests.h"
 
-using Label_Range_Runner = Parser_String_Runner<&lloberon::Parser::parse_label_range>;
+using Label_Range_Runner = Parser_String_Runner<&Parser::parse_label_range>;
 
 TEST(Label_Range_Tests, empty) {
     Label_Range_Runner("", true);

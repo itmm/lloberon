@@ -1,11 +1,9 @@
 #include "parser/parser.h"
 #include "sema/ident-def.h"
 
-using namespace lloberon;
-
-bool Parser::parse_ident_list(sema::Ident_List& ident_list) {
+bool Parser::parse_ident_list(lloberon::sema::Ident_List& ident_list) {
     ident_list.clear();
-    sema::Ident_Def ident_def;
+    lloberon::sema::Ident_Def ident_def;
     if (parse_ident_def(ident_def)) { return true; }
     ident_list.push_back(ident_def);
     while (token_.is(token::comma)) {

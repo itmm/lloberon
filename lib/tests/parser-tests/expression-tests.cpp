@@ -4,24 +4,24 @@
 #include "parser-tests.h"
 
 using Expression_Runner = Parser_Value_Runner<
-    lloberon::sema::Expression, &lloberon::Parser::parse_expression
+    sema::Expression, &Parser::parse_expression
 >;
 
 TEST(Expression_Tests, empty) {
-    lloberon::Scope scope;
-    lloberon::sema::Expression expression { scope };
+    Scope scope;
+    sema::Expression expression { scope };
     Expression_Runner("", expression, true);
 }
 
 TEST(Expression_Tests, single) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
         nullptr, {}, "b", nullptr
     });
-    lloberon::sema::Expression expression { scope };
+    sema::Expression expression { scope };
     Expression_Runner("3 = 4", expression);
 
     expression.clear();
@@ -47,14 +47,14 @@ TEST(Expression_Tests, single) {
 }
 
 TEST(Expression_Tests, multiple) {
-    lloberon::Scope scope;
-    lloberon::sema::Expression expression { scope };
+    Scope scope;
+    sema::Expression expression { scope };
     Expression_Runner("3 < 4 = TRUE", expression);
 }
 
 TEST(Expression_Tests, invalid) {
-    lloberon::Scope scope;
-    lloberon::sema::Expression expression { scope };
+    Scope scope;
+    sema::Expression expression { scope };
     Expression_Runner("}", expression, true);
 }
 

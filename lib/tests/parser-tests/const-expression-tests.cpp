@@ -3,7 +3,7 @@
 
 #include "parser-tests.h"
 
-using Const_Expression_Runner = Parser_String_Runner<&lloberon::Parser::parse_const_expression>;
+using Const_Expression_Runner = Parser_String_Runner<&Parser::parse_const_expression>;
 
 TEST(Const_Expression_Tests, empty) {
     Const_Expression_Runner("", true);

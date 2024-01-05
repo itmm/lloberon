@@ -1,6 +1,6 @@
 #include "basic/version.h"
 
-std::string lloberon::getTinylangVersion() {
+std::string getTinylangVersion() {
 	return LLOBERON_VERSION_STRING;
 }
 

@@ -4,17 +4,17 @@
 #include "parser-tests.h"
 
 using Label_Runner = Parser_Value_Runner<
-    lloberon::sema::Label, &lloberon::Parser::parse_label
+    lloberon::sema::Label, &Parser::parse_label
 >;
 
 TEST(Label_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Label label { scope };
     Label_Runner("", label, true);
 }
 
 TEST(Label_Tests, simple) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Label label { scope };
     Label_Runner("3", label);
 
@@ -23,15 +23,15 @@ TEST(Label_Tests, simple) {
 }
 
 TEST(Label_Tests, qual_ident) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+        "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    auto module { new lloberon::Module_Declaration {
+    auto module { new Module_Declaration {
         {}, "X", "X"
     } };
-    module->insert(new lloberon::Base_Type_Declaration {
-        "Byte", lloberon::Base_Type_Declaration::bt_BYTE
+    module->insert(new Base_Type_Declaration {
+        "Byte", Base_Type_Declaration::bt_BYTE
     });
     scope.insert(module);
     lloberon::sema::Label label { scope };
@@ -42,8 +42,8 @@ TEST(Label_Tests, qual_ident) {
 }
 
 TEST(Label_Tests, wrong) {
-    lloberon::Scope scope;
-    auto module { new lloberon::Module_Declaration {
+    Scope scope;
+    auto module { new Module_Declaration {
             {}, "X", "X"
     } };
     scope.insert(module);

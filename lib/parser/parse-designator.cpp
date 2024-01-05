@@ -1,10 +1,8 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
 bool Parser::parse_designator(sema::Designator& designator) {
     designator.clear();
-    sema::Qual_Ident qual_ident { designator.scope() };
+    lloberon::sema::Qual_Ident qual_ident { designator.scope() };
     if (parse_qual_ident(qual_ident)) { return true; }
     for (;;) {
         if (token_.is(token::period)) {

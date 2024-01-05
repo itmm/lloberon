@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Assignment_Or_Procedure_Call {
     public:
         Assignment_Or_Procedure_Call(Scope& scope): scope_ { scope } { }

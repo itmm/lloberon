@@ -3,26 +3,26 @@
 
 #include "parser-tests.h"
 
-using Simple_Expression_Runner = Parser_Value_Runner<lloberon::sema::Simple_Expression, &lloberon::Parser::parse_simple_expression>;
+using Simple_Expression_Runner = Parser_Value_Runner<lloberon::sema::Simple_Expression, &Parser::parse_simple_expression>;
 
 TEST(Simple_Expression_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Simple_Expression simple_expression { scope };
     Simple_Expression_Runner("", simple_expression, true);
 }
 
 TEST(Simple_Expression_Tests, single) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Simple_Expression simple_expression { scope };
     Simple_Expression_Runner("3", simple_expression);
 }
 
 TEST(Simple_Expression_Tests, simple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
-            nullptr, {}, "a", nullptr
+    Scope scope;
+    scope.insert(new Variable_Declaration {
+        nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
         nullptr, {}, "b", nullptr
     });
     lloberon::sema::Simple_Expression simple_expression { scope };
@@ -36,7 +36,7 @@ TEST(Simple_Expression_Tests, simple) {
 }
 
 TEST(Simple_Expression_Tests, factor) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Simple_Expression simple_expression { scope };
     Simple_Expression_Runner("3 * 4", simple_expression);
 
@@ -45,7 +45,7 @@ TEST(Simple_Expression_Tests, factor) {
 }
 
 TEST(Simple_Expression_Tests, unaries) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Simple_Expression simple_expression { scope };
     Simple_Expression_Runner("+3", simple_expression);
 
@@ -57,7 +57,7 @@ TEST(Simple_Expression_Tests, unaries) {
 }
 
 TEST(Simple_Expression_Tests, incomplete) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Simple_Expression simple_expression { scope };
     Simple_Expression_Runner("3 +", simple_expression, true);
 

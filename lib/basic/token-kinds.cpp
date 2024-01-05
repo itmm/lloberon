@@ -1,7 +1,5 @@
 #include "basic/token-kinds.h"
 
-using namespace lloberon;
-
 static const char* const token_names[] = {
     #define TOK(id) #id,
     #define KEYWORD(id, flag) #id,
@@ -9,11 +7,11 @@ static const char* const token_names[] = {
     nullptr
 };
 
-const char* token::token_name(lloberon::token::Kind kind) {
+const char* token::token_name(token::Kind kind) {
     return token_names[kind];
 }
 
-const char* token::punctuator_spelling(lloberon::token::Kind kind) {
+const char* token::punctuator_spelling(token::Kind kind) {
     switch (kind) {
         #define PUNCTUATOR(id, sp) case id: return sp;
         #include "basic/token-kinds.def"
@@ -22,7 +20,7 @@ const char* token::punctuator_spelling(lloberon::token::Kind kind) {
     return nullptr;
 }
 
-const char* token::keyword_spelling(lloberon::token::Kind kind) {
+const char* token::keyword_spelling(token::Kind kind) {
     switch (kind) {
         #define KEYWORD(id, flag) case keyword_ ## id: return #id;
         #include "basic/token-kinds.def"

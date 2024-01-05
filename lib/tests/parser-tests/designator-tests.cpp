@@ -4,21 +4,21 @@
 #include "parser-tests.h"
 
 using Designator_Runner = Parser_Value_Runner<
-    lloberon::sema::Designator, &lloberon::Parser::parse_designator
+    sema::Designator, &Parser::parse_designator
 >;
 
 TEST(Designator_Tests, empty) {
-    lloberon::Scope scope;
-    lloberon::sema::Designator designator { scope };
+    Scope scope;
+    sema::Designator designator { scope };
     Designator_Runner("", designator, true);
 }
 
 TEST(Designator_Tests, simple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    scope.insert(new Variable_Declaration {
         nullptr, {}, "a", nullptr
     });
-    lloberon::sema::Designator designator { scope };
+    sema::Designator designator { scope };
     Designator_Runner("a", designator);
 
     designator.clear();
@@ -35,18 +35,18 @@ TEST(Designator_Tests, simple) {
 }
 
 TEST(Designator_Tests, combined) {
-    lloberon::Scope scope;
-    lloberon::sema::Designator designator { scope };
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    sema::Designator designator { scope };
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
     Designator_Runner("a.b^[3].c^", designator);
 }
 
 TEST(Designator_Tests, incomplete) {
-    lloberon::Scope scope;
-    lloberon::sema::Designator designator { scope };
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    sema::Designator designator { scope };
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
     Designator_Runner("a[3,", designator, true);

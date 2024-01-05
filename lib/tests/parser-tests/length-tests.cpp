@@ -3,7 +3,7 @@
 
 #include "parser-tests.h"
 
-using Length_Runner = Parser_String_Runner<&lloberon::Parser::parse_length>;
+using Length_Runner = Parser_String_Runner<&Parser::parse_length>;
 
 TEST(Length_Tests, empty) {
     Length_Runner("", true);

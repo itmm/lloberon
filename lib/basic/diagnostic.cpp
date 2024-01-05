@@ -1,7 +1,5 @@
 #include "basic/diagnostic.h"
 
-using namespace lloberon;
-
 namespace {
     const char* diagnostic_texts[] = {
         #define DIAG(id, level, message) message,

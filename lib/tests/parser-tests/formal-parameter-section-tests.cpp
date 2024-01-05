@@ -4,46 +4,46 @@
 #include "parser-tests.h"
 
 using Formal_Parameter_Section_Runner = Parser_Value_Runner<
-    lloberon::sema::Formal_Parameter_Section, &lloberon::Parser::parse_formal_parameter_section
+    lloberon::sema::Formal_Parameter_Section, &Parser::parse_formal_parameter_section
 >;
 
 TEST(Formal_Parameter_Section_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner("", formal_parameter_section, true);
 }
 
 TEST(Formal_Parameter_Section_Tests, simple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+        "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
     lloberon::sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner("a: ARRAY OF INTEGER", formal_parameter_section);
 }
 
 TEST(Formal_Parameter_Section_Tests, multiple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+            "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
     lloberon::sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner("a, b: INTEGER", formal_parameter_section);
 }
 
 TEST(Formal_Parameter_Section_Tests, var_parameter) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+            "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
     lloberon::sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner("VAR a: INTEGER", formal_parameter_section);
 }
 
 TEST(Formal_Parameter_Section_Tests, incomplete) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+            "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
     lloberon::sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner("VAR", formal_parameter_section, true);

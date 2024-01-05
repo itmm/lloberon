@@ -3,19 +3,19 @@
 
 class Module_Declaration_Test: public testing::Test {
 protected:
-    lloberon::Module_Declaration decl { llvm::SMLoc { }, "", "" };
+    Module_Declaration decl { llvm::SMLoc { }, "", "" };
 
     char source[10] { 0 };
 
     void SetUp() override {
-        new (&decl) lloberon::Module_Declaration {
+        new (&decl) Module_Declaration {
             llvm::SMLoc::getFromPointer(source), "a", "b"
         };
     }
 };
 
 TEST_F(Module_Declaration_Test, kind) {
-    EXPECT_EQ(decl.kind(), lloberon::Declaration::DK_Module);
+    EXPECT_EQ(decl.kind(), Declaration::DK_Module);
 }
 
 TEST_F(Module_Declaration_Test, location) {
@@ -31,7 +31,7 @@ TEST_F(Module_Declaration_Test, no_enclosing_decl) {
 }
 
 TEST_F(Module_Declaration_Test, class_of) {
-    EXPECT_TRUE(lloberon::Module_Declaration::classof(&decl));
+    EXPECT_TRUE(Module_Declaration::classof(&decl));
 }
 
 TEST_F(Module_Declaration_Test, full_name) {

@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Actual_Parameters {
     public:
         Actual_Parameters(Scope& scope): scope_ { scope } { }

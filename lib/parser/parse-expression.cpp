@@ -1,9 +1,7 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
 bool Parser::parse_expression(sema::Expression& expression) {
-    sema::Simple_Expression simple_expression { expression.scope() };
+    lloberon::sema::Simple_Expression simple_expression { expression.scope() };
     if (parse_simple_expression(simple_expression)) { return true; }
     while (token_.is_one_of(
         token::equals, token::not_equals, token::less, token::less_or_equal,

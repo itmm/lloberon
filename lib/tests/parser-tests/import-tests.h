@@ -7,12 +7,12 @@
 #include "sema/declaration.h"
 #include "sema/scope.h"
 
-inline void expect_no_modules(lloberon::Scope& scope) {
+inline void expect_no_modules(Scope& scope) {
     EXPECT_TRUE(scope.empty());
 }
 
-inline void expect_module(lloberon::Scope& scope, const char* name, const char* full_name) {
-    auto got = llvm::dyn_cast<lloberon::Module_Declaration>(
+inline void expect_module(Scope& scope, const char* name, const char* full_name) {
+    auto got = llvm::dyn_cast<Module_Declaration>(
             scope.lookup(name)
     );
     EXPECT_TRUE(got != nullptr);

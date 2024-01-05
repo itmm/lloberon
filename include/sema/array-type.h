@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Array_Type {
     public:
         Array_Type(Scope& scope): scope_ { scope } { }

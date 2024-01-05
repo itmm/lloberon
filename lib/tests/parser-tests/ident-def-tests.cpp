@@ -4,7 +4,7 @@
 #include "ident-def-tests.h"
 #include "parser-tests.h"
 
-using Ident_Def_Runner = Parser_Value_Runner<lloberon::sema::Ident_Def, &lloberon::Parser::parse_ident_def>;
+using Ident_Def_Runner = Parser_Value_Runner<lloberon::sema::Ident_Def, &Parser::parse_ident_def>;
 
 TEST(IDent_Def_Tests, empty) {
     lloberon::sema::Ident_Def ident_def { "x", true };

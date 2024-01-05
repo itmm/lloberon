@@ -1,6 +1,6 @@
 #pragma once
 
-namespace lloberon::token {
+namespace token {
     enum Kind : unsigned short {
         #define TOK(id) id,
         #include "token-kinds.def"

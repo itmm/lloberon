@@ -1,12 +1,10 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
-bool Parser::parse_label(sema::Label& label) {
+bool Parser::parse_label(lloberon::sema::Label& label) {
     if (token_.is_one_of(token::integer_literal, token::string_literal)) {
         advance();
     } else {
-        sema::Qual_Ident qual_ident { label.scope() };
+        lloberon::sema::Qual_Ident qual_ident { label.scope() };
         if (parse_qual_ident(qual_ident)) { return true; }
     }
     return false;

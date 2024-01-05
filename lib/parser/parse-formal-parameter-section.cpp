@@ -1,8 +1,6 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
-bool Parser::parse_formal_parameter_section(sema::Formal_Parameter_Section& formal_parameter_section) {
+bool Parser::parse_formal_parameter_section(lloberon::sema::Formal_Parameter_Section& formal_parameter_section) {
     if (token_.is(token::keyword_VAR)) { advance(); }
     if (consume(token::identifier)) { return true; }
     while (token_.is(token::comma)) {

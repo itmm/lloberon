@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 #include "parser/parser.h"
 
-template<bool (lloberon::Parser::*METHOD)()>
+template<bool (Parser::*METHOD)()>
 class Parser_String_Runner {
 public:
     explicit Parser_String_Runner(
@@ -40,14 +40,14 @@ private:
         return source_mgr;
     }
     llvm::SourceMgr source_mgr_;
-    lloberon::Base_Diagnostic_Engine diag_;
-    lloberon::Lexer lexer_;
+    Base_Diagnostic_Engine diag_;
+    Lexer lexer_;
     bool expected_;
     bool has_more_;
-    lloberon::Parser parser_;
+    Parser parser_;
 };
 
-template<typename VALUE, bool (lloberon::Parser::*METHOD)(VALUE&)>
+template<typename VALUE, bool (Parser::*METHOD)(VALUE&)>
 class Parser_Value_Runner {
 public:
     explicit Parser_Value_Runner(
@@ -84,11 +84,11 @@ private:
         return source_mgr;
     }
     llvm::SourceMgr source_mgr_;
-    lloberon::Base_Diagnostic_Engine diag_;
-    lloberon::Lexer lexer_;
+    Base_Diagnostic_Engine diag_;
+    Lexer lexer_;
     bool expected_;
     bool has_more_;
-    lloberon::Parser parser_;
+    Parser parser_;
     VALUE& value_;
 };
 

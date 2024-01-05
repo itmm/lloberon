@@ -2,8 +2,6 @@
 #pragma ide diagnostic ignored "misc-no-recursion"
 #include "lexer/lexer.h"
 
-using namespace lloberon;
-
 namespace char_info {
     LLVM_READNONE inline bool is_whitespace(char c) {
         return c == ' ' || c == '\t' || c == '\f' || c == '\v' || c == '\r' || c == '\n';

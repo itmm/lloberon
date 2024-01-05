@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Declaration_Sequence {
     public:
         Declaration_Sequence(Scope& scope): scope_ { scope } { }

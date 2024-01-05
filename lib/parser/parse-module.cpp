@@ -2,8 +2,6 @@
 #include "sema/declaration.h"
 #include "sema/scope.h"
 
-using namespace lloberon;
-
 bool Parser::parse_module(Scope& scope) {
     if (consume(token::keyword_MODULE)) { return true; }
     if (expect(token::identifier)) { return true; }
@@ -17,7 +15,7 @@ bool Parser::parse_module(Scope& scope) {
     if (parse_declaration_sequence(declaration_sequence)) { return true; }
     if (token_.is(token::keyword_BEGIN)) {
         advance();
-        sema::Statement_Sequence statement_sequence { scope };
+        lloberon::sema::Statement_Sequence statement_sequence { scope };
         if (parse_statement_sequence(statement_sequence)) { return true; }
     }
     if (consume(token::keyword_END)) { return true; }

@@ -1,7 +1,5 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
 bool Parser::parse_element() {
     Scope scope;
     sema::Expression expression { scope };

@@ -4,18 +4,18 @@
 #include "parser-tests.h"
 
 using Statement_Sequence_Runner = Parser_Value_Runner<
-    lloberon::sema::Statement_Sequence, &lloberon::Parser::parse_statement_sequence
+    lloberon::sema::Statement_Sequence, &Parser::parse_statement_sequence
 >;
 
 TEST(Statement_Sequence_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Statement_Sequence statement_sequence { scope };
     Statement_Sequence_Runner("", statement_sequence);
 }
 
 TEST(Statement_Sequence_Tests, single) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    scope.insert(new Variable_Declaration {
         nullptr, {}, "a", nullptr
     });
     lloberon::sema::Statement_Sequence statement_sequence { scope };
@@ -23,11 +23,11 @@ TEST(Statement_Sequence_Tests, single) {
 }
 
 TEST(Statement_Sequence_Tests, multiple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "b", nullptr
     });
     lloberon::sema::Statement_Sequence statement_sequence { scope };

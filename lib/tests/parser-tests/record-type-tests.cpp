@@ -4,19 +4,19 @@
 #include "parser-tests.h"
 
 using Record_Type_Runner = Parser_Value_Runner<
-    lloberon::sema::Record_Type, &lloberon::Parser::parse_record_type
+    lloberon::sema::Record_Type, &Parser::parse_record_type
 >;
 
 TEST(Record_Type_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Record_Type record_type { scope };
     Record_Type_Runner("", record_type, true);
 }
 
 TEST(Record_Type_Tests, simple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-        "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+        "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
     lloberon::sema::Record_Type record_type { scope };
     Record_Type_Runner("RECORD END", record_type);
@@ -26,12 +26,12 @@ TEST(Record_Type_Tests, simple) {
 }
 
 TEST(Record_Type_Tests, sub_type) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-            "View", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+            "View", Base_Type_Declaration::bt_INTEGER
     });
-    scope.insert(new lloberon::Base_Type_Declaration {
-            "Point", lloberon::Base_Type_Declaration::bt_INTEGER
+    scope.insert(new Base_Type_Declaration {
+            "Point", Base_Type_Declaration::bt_INTEGER
     });
     lloberon::sema::Record_Type record_type { scope };
     Record_Type_Runner("RECORD (View) END", record_type);

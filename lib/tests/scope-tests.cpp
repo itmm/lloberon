@@ -3,27 +3,27 @@
 #include "sema/declaration.h"
 
 TEST(Scope_Tests, no_parent) {
-    lloberon::Scope scope;
+    Scope scope;
     EXPECT_EQ(scope.parent(), nullptr);
 }
 
 TEST(Scope_Tests, with_parent) {
-    lloberon::Scope parent;
-    lloberon::Scope scope { &parent };
+    Scope parent;
+    Scope scope { &parent };
     EXPECT_EQ(scope.parent(), &parent);
 }
 
 TEST(Scope_Tests, not_found) {
-    lloberon::Scope scope;
+    Scope scope;
     EXPECT_EQ(scope.lookup("abc"), nullptr);
 }
 
 TEST(Scope_Tests, insert) {
-    auto decl { new lloberon::Variable_Declaration(
+    auto decl { new Variable_Declaration(
         nullptr, llvm::SMLoc { }, "abc", nullptr
     ) };
     {
-        lloberon::Scope scope;
+        Scope scope;
         EXPECT_TRUE(scope.insert(decl));
         EXPECT_EQ(scope.lookup("abc"), decl);
     }
@@ -31,18 +31,18 @@ TEST(Scope_Tests, insert) {
 }
 
 TEST(Scope_Tests, not_found_with_parent) {
-    lloberon::Scope parent;
-    lloberon::Scope scope { &parent };
+    Scope parent;
+    Scope scope { &parent };
     EXPECT_EQ(scope.lookup("abc"), nullptr);
 }
 
 TEST(Scope_Tests, insert_with_parent) {
-    auto decl { new lloberon::Variable_Declaration(
+    auto decl { new Variable_Declaration(
         nullptr, llvm::SMLoc { }, "abc", nullptr
     ) };
     {
-        lloberon::Scope parent;
-        lloberon::Scope scope { &parent };
+        Scope parent;
+        Scope scope { &parent };
         EXPECT_TRUE(parent.insert(decl));
         EXPECT_EQ(scope.lookup("abc"), decl);
     }
@@ -50,14 +50,14 @@ TEST(Scope_Tests, insert_with_parent) {
 }
 
 TEST(Scope_Tests, double_insert) {
-    auto first { new lloberon::Variable_Declaration(
+    auto first { new Variable_Declaration(
         nullptr, llvm::SMLoc { }, "abc", nullptr
     ) };
-    auto second { new lloberon::Variable_Declaration(
+    auto second { new Variable_Declaration(
         nullptr, llvm::SMLoc { }, "abc", nullptr
     ) };
     {
-        lloberon::Scope scope;
+        Scope scope;
         EXPECT_TRUE(scope.insert(first));
         EXPECT_FALSE(scope.insert(second));
         EXPECT_EQ(scope.lookup("abc"), first);

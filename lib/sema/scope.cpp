@@ -1,9 +1,7 @@
 #include "sema/scope.h"
 #include "sema/declaration.h"
 
-using namespace lloberon;
-
-bool Scope::insert(lloberon::Declaration *declaration) {
+bool Scope::insert(Declaration *declaration) {
     if (has_in_scope(declaration->name())) { return false; }
     return symbols_.insert(std::pair<llvm::StringRef, Declaration*>(
         declaration->name(), declaration

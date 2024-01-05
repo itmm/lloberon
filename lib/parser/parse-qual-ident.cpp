@@ -1,8 +1,6 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
-bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
+bool Parser::parse_qual_ident(lloberon::sema::Qual_Ident& qual_ident) {
     qual_ident.clear();
     if (expect(token::identifier)) { return true; }
     Declaration* decl = qual_ident.scope().lookup(token_.identifier().str());

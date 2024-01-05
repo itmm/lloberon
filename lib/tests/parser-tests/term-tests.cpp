@@ -3,26 +3,26 @@
 
 #include "parser-tests.h"
 
-using Term_Runner = Parser_Value_Runner<lloberon::sema::Term, &lloberon::Parser::parse_term>;
+using Term_Runner = Parser_Value_Runner<lloberon::sema::Term, &Parser::parse_term>;
 
 TEST(Term_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Term term { scope };
     Term_Runner("", term, true);
 }
 
 TEST(Term_Tests, single) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Term term { scope };
     Term_Runner("3", term);
 }
 
 TEST(Term_Tests, simple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
         nullptr, {}, "b", nullptr
     });
     lloberon::sema::Term term { scope };
@@ -42,14 +42,14 @@ TEST(Term_Tests, simple) {
 }
 
 TEST(Term_Tests, multiple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "b", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "c", nullptr
     });
     lloberon::sema::Term term { scope };
@@ -60,9 +60,9 @@ TEST(Term_Tests, multiple) {
 }
 
 TEST(Term_Tests, incomplete) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
-            nullptr, {}, "a", nullptr
+    Scope scope;
+    scope.insert(new Variable_Declaration {
+        nullptr, {}, "a", nullptr
     });
     lloberon::sema::Term term { scope };
     Term_Runner("a / 2 DIV", term, true);

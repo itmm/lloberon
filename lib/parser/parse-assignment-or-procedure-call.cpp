@@ -1,7 +1,5 @@
 #include "parser/parser.h"
 
-using namespace lloberon;
-
 bool Parser::parse_assignment_or_procedure_call(
     sema::Assignment_Or_Procedure_Call& assignment_or_procedure_call
 ) {

@@ -4,30 +4,30 @@
 #include "parser-tests.h"
 
 using Statement_Runner = Parser_Value_Runner<
-    lloberon::sema::Statement, &lloberon::Parser::parse_statement
+    lloberon::sema::Statement, &Parser::parse_statement
 >;
 
 TEST(Statement_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Statement statement { scope };
     Statement_Runner("", statement);
 }
 
 TEST(Statement_Tests, single) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration {
+    Scope scope;
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "b", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "i", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
             nullptr, {}, "cond", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration {
+    scope.insert(new Variable_Declaration {
         nullptr, {}, "f", nullptr
     });
     lloberon::sema::Statement statement { scope };
@@ -53,7 +53,7 @@ TEST(Statement_Tests, single) {
 }
 
 TEST(Statement_Tests, invalid) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Statement statement { scope };
     Statement_Runner("3", statement, false, true);
 }

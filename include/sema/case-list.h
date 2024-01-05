@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Case_List {
     public:
         Case_List(Scope& scope): scope_ { scope } { }

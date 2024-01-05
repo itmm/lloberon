@@ -24,10 +24,10 @@ int main(int argc_, const char** argv_) {
         }
 
         llvm::SourceMgr source_mgr;
-        lloberon::Diagnostics_Engine diag { source_mgr };
+        Diagnostics_Engine diag { source_mgr };
         source_mgr.AddNewSourceBuffer(std::move(*file_or_error), llvm::SMLoc());
-        lloberon::Lexer lexer { source_mgr, diag };
-        lloberon::Parser parser { lexer };
+        Lexer lexer { source_mgr, diag };
+        Parser parser { lexer };
         if (parser.parse()) { failed = true; }
     }
     return failed ? 10 : 0;

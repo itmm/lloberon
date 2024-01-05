@@ -21,24 +21,24 @@ private:
         return source_mgr;
     }
     llvm::SourceMgr source_mgr_;
-    lloberon::Diagnostics_Engine diag_;
+    Diagnostics_Engine diag_;
 protected:
-    lloberon::Lexer lexer;
-    lloberon::Token token { };
+    Lexer lexer;
+    Token token { };
 
     void expect_identifier(const std::string& name) {
-        EXPECT_EQ(token.kind(), lloberon::token::identifier);
+        EXPECT_EQ(token.kind(), token::identifier);
         EXPECT_EQ(token.identifier().str(), name);
     }
     void expect_eof() {
-        EXPECT_EQ(token.kind(), lloberon::token::eof);
+        EXPECT_EQ(token.kind(), token::eof);
     }
 };
 
 class Single_Kind_Runner: public Lexer_String_Runner {
-    lloberon::token::Kind kind_;
+    token::Kind kind_;
 public:
-    Single_Kind_Runner(const char* source, lloberon::token::Kind kind):
+    Single_Kind_Runner(const char* source, token::Kind kind):
             Lexer_String_Runner(source), kind_ {kind }
     { }
 
@@ -50,7 +50,7 @@ public:
 };
 
 void expect_empty(const char *source) {
-    Single_Kind_Runner(source, lloberon::token::eof).run();
+    Single_Kind_Runner(source, token::eof).run();
 }
 
 TEST(Empty_Tests, empty_file) {
@@ -128,7 +128,7 @@ TEST(Comments_Tests, star_line) {
 }
 
 static void expect_unknown(const char* source) {
-    Single_Kind_Runner(source, lloberon::token::unknown).run();
+    Single_Kind_Runner(source, token::unknown).run();
 }
 
 TEST(Comments_Tests, open_comment) {
@@ -138,12 +138,12 @@ TEST(Comments_Tests, open_comment) {
 }
 
 class Literal_Runner: public Lexer_String_Runner {
-    lloberon::token::Kind kind_;
+    token::Kind kind_;
     const char* first_;
     const char* second_;
 public:
     Literal_Runner(
-            const char* source, lloberon::token::Kind kind,
+            const char* source, token::Kind kind,
             const char* first, const char* second
         ):
             Lexer_String_Runner {source }, kind_ {kind },
@@ -165,7 +165,7 @@ public:
 class Integer_Runner: public Literal_Runner {
 public:
     Integer_Runner(const char* source, const char* first, const char* second):
-            Literal_Runner { source, lloberon::token::integer_literal, first, second }
+            Literal_Runner { source, token::integer_literal, first, second }
     { }
 };
 
@@ -176,7 +176,7 @@ static void expect_integer(const char* source, const char* first = nullptr, cons
 class String_Literal_Runner: public Literal_Runner {
 public:
     String_Literal_Runner(const char* source, const char* first, const char* second):
-        Literal_Runner { source, lloberon::token::string_literal, first, second }
+        Literal_Runner { source, token::string_literal, first, second }
     { }
 };
 
@@ -220,7 +220,7 @@ TEST(String_Tests, incomplete_string) {
 class Float_Literal_Runner: public Literal_Runner {
 public:
     Float_Literal_Runner(const char* source, const char* first, const char* second):
-        Literal_Runner { source, lloberon::token::float_literal, first, second }
+        Literal_Runner { source, token::float_literal, first, second }
     { }
 };
 
@@ -257,9 +257,9 @@ class Integer_Range_Runner: public Lexer_String_Runner {
 public:
     explicit Integer_Range_Runner(const char* source): Lexer_String_Runner { source } { }
     void run() override {
-        EXPECT_EQ(token.kind(), lloberon::token::integer_literal);
+        EXPECT_EQ(token.kind(), token::integer_literal);
         lexer.next(token);
-        EXPECT_EQ(token.kind(), lloberon::token::range);
+        EXPECT_EQ(token.kind(), token::range);
         lexer.next(token);
         expect_eof();
 

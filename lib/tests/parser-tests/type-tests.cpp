@@ -3,21 +3,21 @@
 
 #include "parser-tests.h"
 
-using Type_Runner = Parser_Value_Runner<lloberon::sema::Type, &lloberon::Parser::parse_type>;
+using Type_Runner = Parser_Value_Runner<lloberon::sema::Type, &Parser::parse_type>;
 
 TEST(Type_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Type type { scope };
     Type_Runner("", type, true);
 }
 
 TEST(Type_Tests, simple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Base_Type_Declaration {
-            "INTEGER", lloberon::Base_Type_Declaration::bt_INTEGER
+    Scope scope;
+    scope.insert(new Base_Type_Declaration {
+            "INTEGER", Base_Type_Declaration::bt_INTEGER
     });
-    scope.insert(new lloberon::Base_Type_Declaration {
-        "Entry", lloberon::Base_Type_Declaration::bt_INTEGER
+    scope.insert(new Base_Type_Declaration {
+        "Entry", Base_Type_Declaration::bt_INTEGER
     });
     lloberon::sema::Type type { scope };
     Type_Runner("INTEGER", type);
@@ -28,7 +28,7 @@ TEST(Type_Tests, simple) {
 }
 
 TEST(Type_Tests, invalid) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::Type type { scope };
     Type_Runner(":", type, true, true);
 }

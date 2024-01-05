@@ -4,21 +4,21 @@
 #include "parser-tests.h"
 
 using While_Statement_Runner = Parser_Value_Runner<
-    lloberon::sema::While_Statement, &lloberon::Parser::parse_while_statement
+    lloberon::sema::While_Statement, &Parser::parse_while_statement
 >;
 
 TEST(While_Statement_Tests, empty) {
-    lloberon::Scope scope;
+    Scope scope;
     lloberon::sema::While_Statement while_statement { scope };
     While_Statement_Runner("", while_statement, true);
 }
 
 TEST(While_Statement_Tests, simple) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration{
+    Scope scope;
+    scope.insert(new Variable_Declaration{
             nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration{
+    scope.insert(new Variable_Declaration{
         nullptr, {}, "INC", nullptr
     });
     lloberon::sema::While_Statement while_statement { scope };
@@ -26,18 +26,18 @@ TEST(While_Statement_Tests, simple) {
 }
 
 TEST(While_Statement_Tests, with_elsif) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration{
-            nullptr, {}, "a", nullptr
+    Scope scope;
+    scope.insert(new Variable_Declaration{
+        nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration{
-            nullptr, {}, "b", nullptr
+    scope.insert(new Variable_Declaration{
+        nullptr, {}, "b", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration{
-            nullptr, {}, "c", nullptr
+    scope.insert(new Variable_Declaration{
+        nullptr, {}, "c", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration{
-            nullptr, {}, "INC", nullptr
+    scope.insert(new Variable_Declaration{
+        nullptr, {}, "INC", nullptr
     });
     lloberon::sema::While_Statement while_statement { scope };
     While_Statement_Runner(
@@ -47,11 +47,11 @@ TEST(While_Statement_Tests, with_elsif) {
 }
 
 TEST(While_Statement_Tests, wrong) {
-    lloberon::Scope scope;
-    scope.insert(new lloberon::Variable_Declaration{
+    Scope scope;
+    scope.insert(new Variable_Declaration{
             nullptr, {}, "a", nullptr
     });
-    scope.insert(new lloberon::Variable_Declaration{
+    scope.insert(new Variable_Declaration{
             nullptr, {}, "INC", nullptr
     });
     lloberon::sema::While_Statement while_statement { scope };

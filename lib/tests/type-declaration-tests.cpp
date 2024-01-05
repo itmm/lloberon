@@ -1,25 +1,25 @@
 #include "gtest/gtest.h"
 #include "sema/declaration.h"
 
-template<lloberon::Base_Type_Declaration::Kind KIND>
+template<Base_Type_Declaration::Kind KIND>
 class Base_Type_Declaration_Test: public testing::Test {
 protected:
-    lloberon::Base_Type_Declaration decl {
-        "", lloberon::Base_Type_Declaration::bt_BYTE
+    Base_Type_Declaration decl {
+        "", Base_Type_Declaration::bt_BYTE
     };
 
     void SetUp() override {
-        new (&decl) lloberon::Base_Type_Declaration { "INTEGER", KIND };
+        new (&decl) Base_Type_Declaration { "INTEGER", KIND };
     }
 };
 
 
 using Boolean_Type_Declaration_Test = Base_Type_Declaration_Test<
-        lloberon::Base_Type_Declaration::bt_BOOLEAN
+        Base_Type_Declaration::bt_BOOLEAN
 >;
 
 TEST_F(Boolean_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), lloberon::Base_Type_Declaration::bt_BOOLEAN);
+    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_BOOLEAN);
 }
 
 TEST_F(Boolean_Type_Declaration_Test, is_bool) {
@@ -35,11 +35,11 @@ TEST_F(Boolean_Type_Declaration_Test, is_integer) {
 }
 
 using Char_Type_Declaration_Test = Base_Type_Declaration_Test<
-    lloberon::Base_Type_Declaration::bt_CHAR
+    Base_Type_Declaration::bt_CHAR
 >;
 
 TEST_F(Char_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), lloberon::Base_Type_Declaration::bt_CHAR);
+    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_CHAR);
 }
 
 TEST_F(Char_Type_Declaration_Test, is_bool) {
@@ -55,11 +55,11 @@ TEST_F(Char_Type_Declaration_Test, is_integer) {
 }
 
 using Integer_Type_Declaration_Test = Base_Type_Declaration_Test<
-    lloberon::Base_Type_Declaration::bt_INTEGER
+    Base_Type_Declaration::bt_INTEGER
 >;
 
 TEST_F(Integer_Type_Declaration_Test, kind) {
-    EXPECT_EQ(decl.kind(), lloberon::Declaration::DK_Type);
+    EXPECT_EQ(decl.kind(), Declaration::DK_Type);
 }
 
 TEST_F(Integer_Type_Declaration_Test, name) {
@@ -71,11 +71,11 @@ TEST_F(Integer_Type_Declaration_Test, no_enclosing_decl) {
 }
 
 TEST_F(Integer_Type_Declaration_Test, class_of) {
-    EXPECT_TRUE(lloberon::Type_Declaration::classof(&decl));
+    EXPECT_TRUE(Type_Declaration::classof(&decl));
 }
 
 TEST_F(Integer_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), lloberon::Base_Type_Declaration::bt_INTEGER);
+    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_INTEGER);
 }
 
 TEST_F(Integer_Type_Declaration_Test, is_bool) {
@@ -91,11 +91,11 @@ TEST_F(Integer_Type_Declaration_Test, is_integer) {
 }
 
 using Real_Type_Declaration_Test = Base_Type_Declaration_Test<
-        lloberon::Base_Type_Declaration::bt_REAL
+    Base_Type_Declaration::bt_REAL
 >;
 
 TEST_F(Real_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), lloberon::Base_Type_Declaration::bt_REAL);
+    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_REAL);
 }
 
 TEST_F(Real_Type_Declaration_Test, is_bool) {
@@ -110,14 +110,12 @@ TEST_F(Real_Type_Declaration_Test, is_integer) {
     EXPECT_FALSE(decl.is_integer());
 }
 
-// enum Kind { bt_BYTE, bt_SET };
-
 using Byte_Type_Declaration_Test = Base_Type_Declaration_Test<
-        lloberon::Base_Type_Declaration::bt_BYTE
+    Base_Type_Declaration::bt_BYTE
 >;
 
 TEST_F(Byte_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), lloberon::Base_Type_Declaration::bt_BYTE);
+    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_BYTE);
 }
 
 TEST_F(Byte_Type_Declaration_Test, is_bool) {

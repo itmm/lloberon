@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Designator {
     public:
         Designator(Scope& scope): scope_ { scope } { }

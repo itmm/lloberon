@@ -2,7 +2,7 @@
 
 #include "scope.h"
 
-namespace lloberon::sema {
+namespace sema {
     class Expression_List {
     public:
         Expression_List(Scope& scope): scope_ { scope } { }
