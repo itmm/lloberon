@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Assignment_Runner = Parser_Value_Runner<
@@ -17,65 +14,61 @@ TEST(Assignment_Tests, empty) {
 
 TEST(Assignment_Tests, simple) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "a", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
     Assignment_Runner("a := 3", assignment);
 }
 
 TEST(Assignment_Tests, incomplete) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "a", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+            nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
     Assignment_Runner("a :=", assignment, true);
 }
 
 TEST(Procedure_Call_Tests, simple) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "a", nullptr
-    });
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "f", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "f", nullptr
+    ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
-    Procedure_Call_Runner("f()", assignment);
+    Procedure_Call_Runner test1 { "f()", assignment };
 
     assignment.clear();
-    Procedure_Call_Runner("f(a, 3)", assignment);
+    Procedure_Call_Runner test2 { "f(a, 3)", assignment };
 }
 
 TEST(Procedure_Call_Tests, incomplete) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "a", nullptr
-    });
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "f", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "f", nullptr
+    ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
-    Procedure_Call_Runner("f(a,", assignment, true);
+    Procedure_Call_Runner test1 {"f(a,", assignment, true };
 
     assignment.clear();
-    Procedure_Call_Runner("f(a", assignment, true);
+    Procedure_Call_Runner test2 { "f(a", assignment, true };
 
     assignment.clear();
-    Procedure_Call_Runner("f(", assignment, true);
+    Procedure_Call_Runner test3 { "f(", assignment, true };
 }
 
 TEST(Procedure_Call_Tests, cast) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "a", nullptr
-    });
-    scope.insert(new Base_Type_Declaration {
-        "INTEGER", Base_Type_Declaration::bt_INTEGER
-    });
+    Base_Type_Declaration::register_base_types(scope);
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
-    Procedure_Call_Runner("a (INTEGER)", assignment);
+    Procedure_Call_Runner test1 { "a (INTEGER)", assignment };
 }
-
-#pragma clang diagnostic pop

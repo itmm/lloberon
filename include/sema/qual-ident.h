@@ -10,9 +10,12 @@ namespace sema {
 
         Scope &scope() { return scope_; }
 
-        void clear() { declaration = module = nullptr; }
+        void clear() {
+            declaration = nullptr;
+            module = nullptr;
+        }
 
-        Declaration* declaration { nullptr };
+        std::shared_ptr<Declaration> declaration { nullptr };
         Module_Declaration* module { nullptr };
     private:
         Scope& scope_;

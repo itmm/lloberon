@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Formal_Parameters_Runner = Parser_Value_Runner<
@@ -15,32 +12,30 @@ TEST(Formal_Parameters_Tests, empty) {
 
 TEST(Formal_Parameters_Tests, simple) {
     Scope scope;
-    scope.insert(new Base_Type_Declaration {
-        "BYTE", Base_Type_Declaration::bt_BYTE
-    });
+    Base_Type_Declaration::register_base_types(scope);
     sema::Formal_Parameters formal_parameters { scope };
-    Formal_Parameters_Runner("()", formal_parameters);
+    Formal_Parameters_Runner test1 { "()", formal_parameters };
 
     formal_parameters.clear();
-    Formal_Parameters_Runner("(VAR a: BYTE)", formal_parameters);
+    Formal_Parameters_Runner test2 { "(VAR a: BYTE)", formal_parameters };
 }
 
 TEST(Formal_Parameters_Tests, with_return) {
     Scope scope;
-    auto module = new Module_Declaration { {}, "X", "X" };
-    module->insert(new Base_Type_Declaration {
+    auto module = std::make_shared<Module_Declaration>(llvm::SMLoc {}, "X", "X");
+    module->insert(std::make_shared<Base_Type_Declaration>(
         "Byte", Base_Type_Declaration::bt_BYTE
-    });
+    ));
     scope.insert(module);
     sema::Formal_Parameters formal_parameters { scope };
-    Formal_Parameters_Runner("(): X.Byte", formal_parameters);
+    Formal_Parameters_Runner test1 { "(): X.Byte", formal_parameters };
 }
 
 TEST(Formal_Parameters_Tests, incomplete) {
     Scope scope;
     sema::Formal_Parameters formal_parameters { scope };
-    Formal_Parameters_Runner("(", formal_parameters, true);
-    Formal_Parameters_Runner("():", formal_parameters, true);
-}
+    Formal_Parameters_Runner test1 { "(", formal_parameters, true };
 
-#pragma clang diagnostic pop
+    formal_parameters.clear();
+    Formal_Parameters_Runner test2 { "():", formal_parameters, true };
+}

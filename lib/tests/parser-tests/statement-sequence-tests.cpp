@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Statement_Sequence_Runner = Parser_Value_Runner<
@@ -10,34 +7,32 @@ using Statement_Sequence_Runner = Parser_Value_Runner<
 TEST(Statement_Sequence_Tests, empty) {
     Scope scope;
     sema::Statement_Sequence statement_sequence { scope };
-    Statement_Sequence_Runner("", statement_sequence);
+    Statement_Sequence_Runner test1 { "", statement_sequence };
 }
 
 TEST(Statement_Sequence_Tests, single) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "a", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
     sema::Statement_Sequence statement_sequence { scope };
-    Statement_Sequence_Runner("a := 3", statement_sequence);
+    Statement_Sequence_Runner test1 { "a := 3", statement_sequence };
 }
 
 TEST(Statement_Sequence_Tests, multiple) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "a", nullptr
-    });
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "b", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
+    scope.insert(std::make_shared<Variable_Declaration>(
+            nullptr, llvm::SMLoc {}, "b", nullptr
+    ));
     sema::Statement_Sequence statement_sequence { scope };
-    Statement_Sequence_Runner("a := 3;", statement_sequence);
+    Statement_Sequence_Runner test1 { "a := 3;", statement_sequence };
 
     statement_sequence.clear();
-    Statement_Sequence_Runner("a := 3; b := 4", statement_sequence);
+    Statement_Sequence_Runner test2 { "a := 3; b := 4", statement_sequence };
 
     statement_sequence.clear();
-    Statement_Sequence_Runner("a := 3; b := 4;", statement_sequence);
+    Statement_Sequence_Runner test3 { "a := 3; b := 4;", statement_sequence };
 }
-
-#pragma clang diagnostic pop

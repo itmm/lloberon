@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Factor_Runner = Parser_Value_Runner<
@@ -16,57 +13,55 @@ TEST(Factor_Tests, empty) {
 TEST(Factor_Tests, literals) {
     Scope scope;
     sema::Factor factor { scope };
-    Factor_Runner("3", factor);
+    Factor_Runner test1 { "3", factor };
     factor.clear();
-    Factor_Runner("3.241", factor);
+    Factor_Runner test2 { "3.241", factor };
     factor.clear();
-    Factor_Runner("\"abc\"", factor);
+    Factor_Runner test3 { "\"abc\"", factor };
     factor.clear();
-    Factor_Runner("NIL", factor);
+    Factor_Runner test4 { "NIL", factor };
     factor.clear();
-    Factor_Runner("TRUE", factor);
+    Factor_Runner test5 { "TRUE", factor };
     factor.clear();
-    Factor_Runner("FALSE", factor);
+    Factor_Runner test6 { "FALSE", factor };
 }
 
 TEST(Factor_Tests, set) {
     Scope scope;
     sema::Factor factor { scope };
-    Factor_Runner("{3..5}", factor);
+    Factor_Runner test1 { "{3..5}", factor };
 }
 
 TEST(Factor_Tests, grouped) {
     Scope scope;
     sema::Factor factor { scope };
-    Factor_Runner("(3 + 4)", factor);
+    Factor_Runner test1 { "(3 + 4)", factor };
 }
 
 TEST(Factor_Tests, ident) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "a", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
     sema::Factor factor { scope };
-    Factor_Runner("a", factor);
+    Factor_Runner test1 { "a", factor };
     factor.clear();
-    Factor_Runner("a(3, TRUE)", factor);
+    Factor_Runner test2 { "a(3, TRUE)", factor };
     factor.clear();
-    Factor_Runner("a[3](TRUE)", factor);
+    Factor_Runner test3 { "a[3](TRUE)", factor };
 }
 
 TEST(Factor_Tests, incomplete) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "a", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
     sema::Factor factor { scope };
-    Factor_Runner("a(3,TRUE", factor, true);
+    Factor_Runner test1 { "a(3,TRUE", factor, true };
     factor.clear();
-    Factor_Runner("a(3,", factor, true);
+    Factor_Runner test2 { "a(3,", factor, true };
     factor.clear();
-    Factor_Runner("a(3", factor, true);
+    Factor_Runner test3 { "a(3", factor, true };
     factor.clear();
-    Factor_Runner("a(", factor, true);
+    Factor_Runner test4 { "a(", factor, true };
 }
-
-#pragma clang diagnostic pop

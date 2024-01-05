@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Type_Runner = Parser_Value_Runner<sema::Type, &Parser::parse_type>;
@@ -8,29 +5,25 @@ using Type_Runner = Parser_Value_Runner<sema::Type, &Parser::parse_type>;
 TEST(Type_Tests, empty) {
     Scope scope;
     sema::Type type { scope };
-    Type_Runner("", type, true);
+    Type_Runner test1 { "", type, true };
 }
 
 TEST(Type_Tests, simple) {
     Scope scope;
-    scope.insert(new Base_Type_Declaration {
-            "INTEGER", Base_Type_Declaration::bt_INTEGER
-    });
-    scope.insert(new Base_Type_Declaration {
+    Base_Type_Declaration::register_base_types(scope);
+    scope.insert(std::make_shared<Base_Type_Declaration>(
         "Entry", Base_Type_Declaration::bt_INTEGER
-    });
+    ));
     sema::Type type { scope };
-    Type_Runner("INTEGER", type);
-    Type_Runner("ARRAY 10 OF INTEGER", type);
-    Type_Runner("RECORD x, y: INTEGER END", type);
-    Type_Runner("POINTER TO Entry", type);
-    Type_Runner("PROCEDURE (a: INTEGER): INTEGER", type);
+    Type_Runner test1 { "INTEGER", type };
+    Type_Runner test2 { "ARRAY 10 OF INTEGER", type };
+    Type_Runner test3 { "RECORD x, y: INTEGER END", type };
+    Type_Runner test4 { "POINTER TO Entry", type };
+    Type_Runner test5 { "PROCEDURE (a: INTEGER): INTEGER", type };
 }
 
 TEST(Type_Tests, invalid) {
     Scope scope;
     sema::Type type { scope };
-    Type_Runner(":", type, true, true);
+    Type_Runner test1 { ":", type, true, true };
 }
-
-#pragma clang diagnostic pop

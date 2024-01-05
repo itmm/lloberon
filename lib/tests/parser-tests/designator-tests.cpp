@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Designator_Runner = Parser_Value_Runner<
@@ -10,73 +7,71 @@ using Designator_Runner = Parser_Value_Runner<
 TEST(Designator_Tests, empty) {
     Scope scope;
     sema::Designator designator { scope };
-    Designator_Runner("", designator, true);
+    Designator_Runner test1 { "", designator, true };
 }
 
 TEST(Designator_Tests, simple) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "a", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
     sema::Designator designator { scope };
-    Designator_Runner("a", designator);
+    Designator_Runner test1 { "a", designator };
 
     designator.clear();
-    Designator_Runner("a.b", designator);
+    Designator_Runner test2 { "a.b", designator };
 
     designator.clear();
-    Designator_Runner("a.b.c", designator);
+    Designator_Runner test3 { "a.b.c", designator };
 
     designator.clear();
-    Designator_Runner("a.b[2, 3]", designator);
+    Designator_Runner test4 { "a.b[2, 3]", designator };
 
     designator.clear();
-    Designator_Runner("a.b^", designator);
+    Designator_Runner test5 { "a.b^", designator };
 }
 
 TEST(Designator_Tests, combined) {
     Scope scope;
     sema::Designator designator { scope };
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "a", nullptr
-    });
-    Designator_Runner("a.b^[3].c^", designator);
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
+    Designator_Runner test1 { "a.b^[3].c^", designator };
 }
 
 TEST(Designator_Tests, incomplete) {
     Scope scope;
     sema::Designator designator { scope };
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "a", nullptr
-    });
-    Designator_Runner("a[3,", designator, true);
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
+    Designator_Runner test1 { "a[3,", designator, true };
 
     designator.clear();
-    Designator_Runner("a[3", designator, true);
+    Designator_Runner test2 { "a[3", designator, true };
 
     designator.clear();
-    Designator_Runner("a[3,]", designator, true);
+    Designator_Runner test3 { "a[3,]", designator, true };
 
     designator.clear();
-    Designator_Runner("a[]", designator, true);
+    Designator_Runner test4 { "a[]", designator, true };
 
     designator.clear();
-    Designator_Runner("a.b.", designator, true);
+    Designator_Runner test5 { "a.b.", designator, true };
 
     designator.clear();
-    Designator_Runner("a.b.[", designator, true, true);
+    Designator_Runner test6 { "a.b.[", designator, true, true };
 
     designator.clear();
-    Designator_Runner("a.b.^", designator, true, true);
+    Designator_Runner test7 { "a.b.^", designator, true, true };
 
     designator.clear();
-    Designator_Runner("a.", designator, true);
+    Designator_Runner test8 { "a.", designator, true };
 
     designator.clear();
-    Designator_Runner("a.[", designator, true, true);
+    Designator_Runner test9 { "a.[", designator, true, true };
 
     designator.clear();
-    Designator_Runner("a.^", designator, true, true);
+    Designator_Runner test10 { "a.^", designator, true, true };
 }
-
-#pragma clang diagnostic pop

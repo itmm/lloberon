@@ -54,11 +54,11 @@ public:
         return declaration && declaration->kind() == DK_Module;
     }
 
-    Declaration* lookup(const std::string& name) {
+    std::shared_ptr<Declaration> lookup(const std::string& name) {
         return scope_.lookup(name);
     }
 
-    bool insert(Declaration* decl) {
+    bool insert(const std::shared_ptr<Declaration>& decl) {
         return scope_.insert(decl);
     }
 
@@ -85,6 +85,8 @@ public:
 class Base_Type_Declaration: public Type_Declaration {
 public:
     enum Kind { bt_BOOLEAN, bt_CHAR, bt_INTEGER, bt_REAL, bt_BYTE, bt_SET };
+
+    static void register_base_types(Scope& scope);
 
     Base_Type_Declaration(
         std::string name, Kind kind

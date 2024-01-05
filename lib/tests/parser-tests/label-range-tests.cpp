@@ -1,21 +1,16 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Label_Range_Runner = Parser_String_Runner<&Parser::parse_label_range>;
 
 TEST(Label_Range_Tests, empty) {
-    Label_Range_Runner("", true);
+    Label_Range_Runner test1 { "", true };
 }
 
 TEST(Label_Range_Tests, simple) {
-    Label_Range_Runner("3");
-    Label_Range_Runner("3..5");
+    Label_Range_Runner test1 { "3" };
+    Label_Range_Runner test2 { "3..5" };
 }
 
 TEST(Label_Range_Tests, incomplete) {
-    Label_Range_Runner("3..", true);
+    Label_Range_Runner test1 { "3..", true };
 }
-
-#pragma clang diagnostic pop

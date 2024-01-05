@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Procedure_Declaration_Runner = Parser_Value_Runner<
@@ -10,33 +7,27 @@ using Procedure_Declaration_Runner = Parser_Value_Runner<
 TEST(Procedure_Declaration_Tests, empty) {
     Scope scope;
     sema::Procedure_Declaration procedure_declaration { scope };
-    Procedure_Declaration_Runner("", procedure_declaration, true);
+    Procedure_Declaration_Runner test1 { "", procedure_declaration, true };
 }
 
 TEST(Procedure_Declaration_Tests, simple) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "x", nullptr
-    });
-    scope.insert(new Base_Type_Declaration {
-        "INTEGER", Base_Type_Declaration::bt_INTEGER
-    });
+    Base_Type_Declaration::register_base_types(scope);
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "x", nullptr
+    ));
     sema::Procedure_Declaration procedure_declaration { scope };
-    Procedure_Declaration_Runner(
+    Procedure_Declaration_Runner test1{
         "PROCEDURE Add1(x: INTEGER): INTEGER; RETURN x + 1 END Add1", procedure_declaration
-    );
+    };
 }
 
 TEST(Procedure_Declaration_Tests, incomplete) {
     Scope scope;
-    scope.insert(new Base_Type_Declaration {
-            "INTEGER", Base_Type_Declaration::bt_INTEGER
-    });
+    Base_Type_Declaration::register_base_types(scope);
     sema::Procedure_Declaration procedure_declaration { scope };
-    Procedure_Declaration_Runner("PROCEDURE RETURN", procedure_declaration, true, true);
+    Procedure_Declaration_Runner test1 { "PROCEDURE RETURN", procedure_declaration, true, true };
 
     procedure_declaration.clear();
-    Procedure_Declaration_Runner("PROCEDURE Answer(): INTEGER; RETURN", procedure_declaration, true);
+    Procedure_Declaration_Runner test2 { "PROCEDURE Answer(): INTEGER; RETURN", procedure_declaration, true };
 }
-
-#pragma clang diagnostic pop

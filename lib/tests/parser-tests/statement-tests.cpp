@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Statement_Runner = Parser_Value_Runner<
@@ -15,47 +12,45 @@ TEST(Statement_Tests, empty) {
 
 TEST(Statement_Tests, single) {
     Scope scope;
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "a", nullptr
-    });
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "b", nullptr
-    });
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "i", nullptr
-    });
-    scope.insert(new Variable_Declaration {
-            nullptr, {}, "cond", nullptr
-    });
-    scope.insert(new Variable_Declaration {
-        nullptr, {}, "f", nullptr
-    });
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "a", nullptr
+    ));
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "b", nullptr
+    ));
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "i", nullptr
+    ));
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "cond", nullptr
+    ));
+    scope.insert(std::make_shared<Variable_Declaration>(
+        nullptr, llvm::SMLoc {}, "f", nullptr
+    ));
     sema::Statement statement { scope };
-    Statement_Runner("a := 3", statement);
+    Statement_Runner test1 { "a := 3", statement };
 
     statement.clear();
-    Statement_Runner("f(2, 3)", statement);
+    Statement_Runner test2 { "f(2, 3)", statement };
 
     statement.clear();
-    Statement_Runner("IF b THEN a := 3 END", statement);
+    Statement_Runner test3 { "IF b THEN a := 3 END", statement };
 
     statement.clear();
-    Statement_Runner("CASE cond OF 3: a := 3 END", statement);
+    Statement_Runner test4 { "CASE cond OF 3: a := 3 END", statement };
 
     statement.clear();
-    Statement_Runner("WHILE cond DO END", statement);
+    Statement_Runner test5 { "WHILE cond DO END", statement };
 
     statement.clear();
-    Statement_Runner("REPEAT UNTIL cond", statement);
+    Statement_Runner test6 { "REPEAT UNTIL cond", statement };
 
     statement.clear();
-    Statement_Runner("FOR i := 1 TO 10 DO END", statement);
+    Statement_Runner test7 { "FOR i := 1 TO 10 DO END", statement };
 }
 
 TEST(Statement_Tests, invalid) {
     Scope scope;
     sema::Statement statement { scope };
-    Statement_Runner("3", statement, false, true);
+    Statement_Runner test1 { "3", statement, false, true };
 }
-
-#pragma clang diagnostic pop

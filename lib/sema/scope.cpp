@@ -1,14 +1,14 @@
 #include "sema/scope.h"
 #include "sema/declaration.h"
 
-bool Scope::insert(Declaration *declaration) {
+bool Scope::insert(const std::shared_ptr<Declaration>& declaration) {
     if (has_in_scope(declaration->name())) { return false; }
-    return symbols_.insert(std::pair<llvm::StringRef, Declaration*>(
+    return symbols_.insert(std::pair<std::string, std::shared_ptr<Declaration>>(
         declaration->name(), declaration
     )).second;
 }
 
-Declaration* Scope::lookup(const std::string& name) const {
+std::shared_ptr<Declaration> Scope::lookup(const std::string& name) const {
     Scope const* current = this;
     while (current) {
         auto i = current->symbols_.find(name);

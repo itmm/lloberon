@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Label_Runner = Parser_Value_Runner<
@@ -10,48 +7,44 @@ using Label_Runner = Parser_Value_Runner<
 TEST(Label_Tests, empty) {
     Scope scope;
     sema::Label label { scope };
-    Label_Runner("", label, true);
+    Label_Runner test1 { "", label, true };
 }
 
 TEST(Label_Tests, simple) {
     Scope scope;
     sema::Label label { scope };
-    Label_Runner("3", label);
+    Label_Runner test1 { "3", label };
 
     label.clear();
-    Label_Runner("\"abc\"", label);
+    Label_Runner test2 { "\"abc\"", label };
 }
 
 TEST(Label_Tests, qual_ident) {
     Scope scope;
-    scope.insert(new Base_Type_Declaration {
-        "INTEGER", Base_Type_Declaration::bt_INTEGER
-    });
-    auto module { new Module_Declaration {
-        {}, "X", "X"
-    } };
-    module->insert(new Base_Type_Declaration {
+    Base_Type_Declaration::register_base_types(scope);
+    auto module { std::make_shared<Module_Declaration>(
+        llvm::SMLoc {}, "X", "X"
+    ) };
+    module->insert(std::make_shared<Base_Type_Declaration>(
         "Byte", Base_Type_Declaration::bt_BYTE
-    });
+    ));
     scope.insert(module);
     sema::Label label { scope };
-    Label_Runner("INTEGER", label);
+    Label_Runner test1 { "INTEGER", label };
 
     label.clear();
-    Label_Runner("X.Byte", label);
+    Label_Runner test2 { "X.Byte", label };
 }
 
 TEST(Label_Tests, wrong) {
     Scope scope;
-    auto module { new Module_Declaration {
-            {}, "X", "X"
-    } };
+    auto module { std::make_shared<Module_Declaration>(
+        llvm::SMLoc {}, "X", "X"
+    ) };
     scope.insert(module);
     sema::Label label { scope };
-    Label_Runner("X.", label, true);
+    Label_Runner test1 { "X.", label, true };
 
     label.clear();
-    Label_Runner("NIL", label, true, true);
+    Label_Runner test2 { "NIL", label, true, true };
 }
-
-#pragma clang diagnostic pop

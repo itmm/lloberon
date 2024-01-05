@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-unused-raii"
-
 #include "parser-tests.h"
 
 using Procedure_Type_Runner = Parser_Value_Runner<sema::Procedure_Type, &Parser::parse_procedure_type>;
@@ -8,16 +5,12 @@ using Procedure_Type_Runner = Parser_Value_Runner<sema::Procedure_Type, &Parser:
 TEST(Procedure_Type_Tests, empty) {
     Scope scope;
     sema::Procedure_Type procedure_type { scope };
-    Procedure_Type_Runner("", procedure_type, true);
+    Procedure_Type_Runner test1 { "", procedure_type, true };
 }
 
 TEST(Procedure_Type_Tests, simple) {
     Scope scope;
-    scope.insert(new Base_Type_Declaration {
-        "INTEGER", Base_Type_Declaration::bt_INTEGER
-    });
+    Base_Type_Declaration::register_base_types(scope);
     sema::Procedure_Type procedure_type { scope };
-    Procedure_Type_Runner("PROCEDURE (a: INTEGER): INTEGER", procedure_type);
+    Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): INTEGER", procedure_type };
 }
-
-#pragma clang diagnostic pop

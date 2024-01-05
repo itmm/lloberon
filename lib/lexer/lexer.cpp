@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "misc-no-recursion"
 #include "lexer/lexer.h"
 
 namespace char_info {
@@ -179,5 +177,3 @@ void Lexer::form_token(Token &result, const char *token_end, token::Kind kind) {
     result.length_ = token_end - current_ptr_;
     current_ptr_ = token_end;
 }
-
-#pragma clang diagnostic pop
