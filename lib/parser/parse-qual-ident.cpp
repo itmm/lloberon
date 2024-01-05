@@ -17,8 +17,8 @@ bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
             advance();
             if (! decl) { error(); return true; }
         } else { error(); return true; }
+        qual_ident.module = std::static_pointer_cast<Module_Declaration>(decl);
     }
     qual_ident.declaration = decl;
-    qual_ident.module = module;
     return false;
 }

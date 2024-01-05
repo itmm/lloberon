@@ -16,7 +16,7 @@ namespace sema {
         }
 
         std::shared_ptr<Declaration> declaration { nullptr };
-        Module_Declaration* module { nullptr };
+        std::shared_ptr<Module_Declaration> module { nullptr };
     private:
         Scope& scope_;
     };
