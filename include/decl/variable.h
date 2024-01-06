@@ -1,11 +1,5 @@
 #pragma once
 
-#include <utility>
-
-#include "llvm/ADT/StringRef.h"
-#include "llvm/Support/SMLoc.h"
-
-#include "sema/scope.h"
 #include "decl/type.h"
 
 namespace decl {
@@ -18,13 +12,13 @@ namespace decl {
                 Declaration(DK_Var, enclosing_declaration, loc, std::move(name)),
                 type_{type} {}
 
-        Type *type() { return type_; }
+        Type* type() { return type_; }
 
         static bool classof(const Declaration *declaration) {
             return declaration && declaration->kind() == DK_Var;
         }
 
     private:
-        Type *type_;
+        Type* type_;
     };
 }

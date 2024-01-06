@@ -2,10 +2,7 @@
 
 #include <utility>
 
-#include "llvm/ADT/StringRef.h"
 #include "llvm/Support/SMLoc.h"
-
-#include "sema/scope.h"
 
 namespace decl {
     class Declaration {

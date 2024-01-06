@@ -1,11 +1,5 @@
 #pragma once
 
-#include <utility>
-
-#include "llvm/ADT/StringRef.h"
-#include "llvm/Support/SMLoc.h"
-
-#include "sema/scope.h"
 #include "decl/declaration.h"
 
 namespace decl {
