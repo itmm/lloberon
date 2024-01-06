@@ -86,5 +86,5 @@ TEST(For_Statement_Tests, wrong) {
     For_Statement_Runner test11 { "FOR a := 1 TO 10 END", for_statement, true, true };
 
     for_statement.clear();
-    For_Statement_Runner test12 { "FOR a := 1 TO 10 BY DO", for_statement, true };
+    For_Statement_Runner test12 { "FOR a := 1 TO 10 BY DO", for_statement, true, true };
 }

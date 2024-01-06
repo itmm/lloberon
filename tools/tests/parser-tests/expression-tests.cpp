@@ -53,5 +53,5 @@ TEST(Expression_Tests, multiple) {
 TEST(Expression_Tests, invalid) {
     Scope scope;
     sema::Expression expression { scope };
-    Expression_Runner test1 { "}", expression, true };
+    Expression_Runner test1 { "}", expression, true, true };
 }

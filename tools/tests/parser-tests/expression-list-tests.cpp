@@ -27,7 +27,7 @@ TEST(Expression_List_Tests, multiple) {
 TEST(Expression_List_Tests, incomplete) {
     Scope scope;
     sema::Expression_List expression_list { scope };
-    Expression_List_Runner test1 { ",", expression_list, true };
+    Expression_List_Runner test1 { ",", expression_list, true, true };
 
     expression_list.clear();
     Expression_List_Runner test2 { "3,", expression_list, true };

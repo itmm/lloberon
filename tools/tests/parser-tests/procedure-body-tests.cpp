@@ -46,5 +46,5 @@ TEST(Procedure_Body_Tests, with_declaration) {
 TEST(Procedure_Body_Tests, invalid) {
     Scope scope;
     sema::Procedure_Body procedure_body { scope };
-    Procedure_Body_Runner test1 { "RETURN END", procedure_body, true };
+    Procedure_Body_Runner test1 { "RETURN END", procedure_body, true, true };
 }

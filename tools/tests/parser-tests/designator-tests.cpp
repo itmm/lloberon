@@ -53,10 +53,10 @@ TEST(Designator_Tests, incomplete) {
     Designator_Runner test2 { "a[3", designator, true };
 
     designator.clear();
-    Designator_Runner test3 { "a[3,]", designator, true };
+    Designator_Runner test3 { "a[3,]", designator, true, true };
 
     designator.clear();
-    Designator_Runner test4 { "a[]", designator, true };
+    Designator_Runner test4 { "a[]", designator, true, true };
 
     designator.clear();
     Designator_Runner test5 { "a.b.", designator, true };

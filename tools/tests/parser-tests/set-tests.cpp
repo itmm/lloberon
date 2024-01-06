@@ -19,7 +19,7 @@ TEST(Set_Tests, ranges) {
 
 TEST(Set_Tests, incomplete) {
     Set_Runner test1 { "{1..3", true };
-    Set_Runner test2 { "{1..}", true };
-    Set_Runner test3 { "{1,}", true };
-    Set_Runner test4 { "{1,,", true };
+    Set_Runner test2 { "{1..}", true, true };
+    Set_Runner test3 { "{1,}", true, true };
+    Set_Runner test4 { "{1,,", true, true };
 }

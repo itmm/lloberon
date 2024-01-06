@@ -26,15 +26,10 @@ bool Parser::parse_factor(sema::Factor& factor) {
             Scope scope;
             sema::Expression expression{scope};
             if (parse_expression(expression)) { return true; }
-            if (!consume(token::right_parenthesis)) { break; }
+            if (consume(token::right_parenthesis)) { return true; }
+            break;
         }
-        LLVM_FALLTHROUGH; default:
-            while (!token_.is_one_of(
-                token::right_parenthesis, token::plus, token::minus,
-                token::slash, token::star, token::eof
-            )) {
-                advance();
-            }
+        default:
             error();
             return true;
     }

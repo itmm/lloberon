@@ -46,7 +46,7 @@ TEST(Case_Statement_Tests, wrong) {
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Case_Statement case_statement { scope };
-    Case_Statement_Runner test1 { "CASE OF", case_statement, true };
+    Case_Statement_Runner test1 { "CASE OF", case_statement, true, true };
 
     case_statement.clear();
     Case_Statement_Runner test2 { "CASE a 3:", case_statement, true, true };

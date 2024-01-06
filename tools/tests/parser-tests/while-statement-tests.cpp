@@ -53,7 +53,7 @@ TEST(While_Statement_Tests, wrong) {
         nullptr, llvm::SMLoc {}, "INC", nullptr
     ));
     sema::While_Statement while_statement { scope };
-    While_Statement_Runner test1 { "WHILE DO", while_statement, true };
+    While_Statement_Runner test1 { "WHILE DO", while_statement, true, true };
 
     while_statement.clear();
     While_Statement_Runner test2 { "WHILE a < 3 DO INC(a)", while_statement, true };
@@ -62,5 +62,5 @@ TEST(While_Statement_Tests, wrong) {
     While_Statement_Runner test3 { "WHILE a ELSIF", while_statement, true, true };
 
     while_statement.clear();
-    While_Statement_Runner test4 { "WHILE a < 3 DO ELSIF END", while_statement, true };
+    While_Statement_Runner test4 { "WHILE a < 3 DO ELSIF END", while_statement, true, true };
 }
