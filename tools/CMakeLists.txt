@@ -1,2 +1,3 @@
 create_subdirectory_options(LLOBERON TOOL)
 add_lloberon_subdirectory(driver)
+add_lloberon_subdirectory(tests)
