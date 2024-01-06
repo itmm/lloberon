@@ -1,6 +1,6 @@
 set(LLVM_LINK_COMPONENTS Support)
 
-add_lloberon_tool(lloberonTests
+add_lloberon_tool(Tests
     lexer-tests.cpp
     parser-tests/actual-parameters-tests.cpp
     parser-tests/array-type-tests.cpp
@@ -58,4 +58,4 @@ add_lloberon_tool(lloberonTests
 add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-target_link_libraries(lloberonTests PRIVATE gtest_main lloberonBasic lloberonLexer lloberonSema lloberonParser)
+target_link_libraries(Tests PRIVATE gtest_main liboberon)
