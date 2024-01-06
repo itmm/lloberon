@@ -12,10 +12,10 @@ TEST(While_Statement_Tests, empty) {
 
 TEST(While_Statement_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "INC", nullptr
     ));
     sema::While_Statement while_statement { scope };
@@ -24,16 +24,16 @@ TEST(While_Statement_Tests, simple) {
 
 TEST(While_Statement_Tests, with_elsif) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "b", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "c", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "INC", nullptr
     ));
     sema::While_Statement while_statement { scope };
@@ -45,10 +45,10 @@ TEST(While_Statement_Tests, with_elsif) {
 
 TEST(While_Statement_Tests, wrong) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "INC", nullptr
     ));
     sema::While_Statement while_statement { scope };

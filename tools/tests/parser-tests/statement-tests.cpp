@@ -12,19 +12,19 @@ TEST(Statement_Tests, empty) {
 
 TEST(Statement_Tests, single) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "b", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "i", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "cond", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "f", nullptr
     ));
     sema::Statement statement { scope };

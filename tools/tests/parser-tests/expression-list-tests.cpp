@@ -16,7 +16,7 @@ TEST(Expression_List_Tests, single) {
 
 TEST(Expression_List_Tests, multiple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "f", nullptr
     ));
     sema::Expression_List expression_list { scope };

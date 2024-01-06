@@ -16,10 +16,10 @@ TEST(Term_Tests, single) {
 
 TEST(Term_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "b", nullptr
     ));
     sema::Term term { scope };
@@ -40,13 +40,13 @@ TEST(Term_Tests, simple) {
 
 TEST(Term_Tests, multiple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "b", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "c", nullptr
     ));
     sema::Term term { scope };
@@ -58,7 +58,7 @@ TEST(Term_Tests, multiple) {
 
 TEST(Term_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Term term { scope };

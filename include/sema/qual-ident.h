@@ -1,12 +1,12 @@
 #pragma once
 
 #include "scope.h"
-#include "declaration.h"
+#include "decl/declaration.h"
 
 namespace sema {
     class Qual_Ident {
     public:
-        Qual_Ident(Scope& scope): scope_ { scope } { }
+        explicit Qual_Ident(Scope& scope): scope_ { scope } { }
 
         Scope &scope() { return scope_; }
 
@@ -15,8 +15,8 @@ namespace sema {
             module = nullptr;
         }
 
-        std::shared_ptr<Declaration> declaration { nullptr };
-        std::shared_ptr<Module_Declaration> module { nullptr };
+        std::shared_ptr<decl::Declaration> declaration { nullptr };
+        std::shared_ptr<decl::Module> module {nullptr };
     private:
         Scope& scope_;
     };

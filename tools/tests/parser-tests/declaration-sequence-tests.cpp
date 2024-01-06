@@ -12,7 +12,7 @@ TEST(Declaration_Sequence_Tests, empty) {
 
 TEST(Declaration_Sequence_Tests, single) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Declaration_Sequence declaration_sequence { scope };
     Declaration_Sequence_Runner test1 { "CONST a = 3;", declaration_sequence };
 
@@ -32,7 +32,7 @@ TEST(Declaration_Sequence_Tests, single) {
 
 TEST(Declaration_Sequence_Tests, multiple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Declaration_Sequence declaration_sequence { scope };
     Declaration_Sequence_Runner test1 { "CONST a = 3; b = 4;", declaration_sequence };
 
@@ -51,7 +51,7 @@ TEST(Declaration_Sequence_Tests, multiple) {
 
 TEST(Declaration_Sequence_Tests, multiple_types) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Declaration_Sequence declaration_sequence { scope };
     Declaration_Sequence_Runner test1 { "CONST a = 3; TYPE x = BYTE;", declaration_sequence };
 
@@ -88,7 +88,7 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 
 TEST(Declaration_Sequence_Tests, wrong_order) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Declaration_Sequence declaration_sequence { scope };
     Declaration_Sequence_Runner test1 { "TYPE x = BYTE; CONST a = 3;", declaration_sequence, false, true };
 

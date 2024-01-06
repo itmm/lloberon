@@ -1,16 +1,16 @@
 #include "gtest/gtest.h"
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 
 class Var_Declaration_Test: public testing::Test {
 protected:
-    Variable_Declaration decl {
+    decl::Variable decl {
         nullptr, llvm::SMLoc { }, "", nullptr
     };
 
     char source[10] { 0 };
 
     void SetUp() override {
-        new (&decl) Variable_Declaration {
+        new (&decl) decl::Variable {
             nullptr, llvm::SMLoc::getFromPointer(source),
             "abc", nullptr
         };
@@ -18,7 +18,7 @@ protected:
 };
 
 TEST_F(Var_Declaration_Test, kind) {
-    EXPECT_EQ(decl.kind(), Declaration::DK_Var);
+    EXPECT_EQ(decl.kind(), decl::Declaration::DK_Var);
 }
 
 TEST_F(Var_Declaration_Test, location) {
@@ -34,7 +34,7 @@ TEST_F(Var_Declaration_Test, no_enclosing_decl) {
 }
 
 TEST_F(Var_Declaration_Test, class_of) {
-    EXPECT_TRUE(Variable_Declaration::classof(&decl));
+    EXPECT_TRUE(decl::Variable::classof(&decl));
 }
 
 TEST_F(Var_Declaration_Test, type) {

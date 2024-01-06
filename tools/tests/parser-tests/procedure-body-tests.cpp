@@ -12,7 +12,7 @@ TEST(Procedure_Body_Tests, empty) {
 
 TEST(Procedure_Body_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Procedure_Body procedure_body { scope };
@@ -30,8 +30,8 @@ TEST(Procedure_Body_Tests, simple) {
 
 TEST(Procedure_Body_Tests, with_declaration) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
-    scope.insert(std::make_shared<Variable_Declaration>(
+    decl::Base_Type::register_base_types(scope);
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Procedure_Body procedure_body { scope };

@@ -12,7 +12,7 @@ TEST(Formal_Parameters_Tests, empty) {
 
 TEST(Formal_Parameters_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Parameters formal_parameters { scope };
     Formal_Parameters_Runner test1 { "()", formal_parameters };
 
@@ -22,9 +22,9 @@ TEST(Formal_Parameters_Tests, simple) {
 
 TEST(Formal_Parameters_Tests, with_return) {
     Scope scope;
-    auto module = std::make_shared<Module_Declaration>(llvm::SMLoc {}, "X", "X");
-    module->insert(std::make_shared<Base_Type_Declaration>(
-        "Byte", Base_Type_Declaration::bt_BYTE
+    auto module = std::make_shared<decl::Module>(llvm::SMLoc {}, "X", "X");
+    module->insert(std::make_shared<decl::Base_Type>(
+        "Byte", decl::Base_Type::bt_BYTE
     ));
     scope.insert(module);
     sema::Formal_Parameters formal_parameters { scope };

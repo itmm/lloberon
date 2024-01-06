@@ -16,10 +16,10 @@ TEST(Simple_Expression_Tests, single) {
 
 TEST(Simple_Expression_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "b", nullptr
     ));
     sema::Simple_Expression simple_expression { scope };

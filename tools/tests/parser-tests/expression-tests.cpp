@@ -12,10 +12,10 @@ TEST(Expression_Tests, empty) {
 
 TEST(Expression_Tests, single) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
             nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "b", nullptr
     ));
     sema::Expression expression { scope };

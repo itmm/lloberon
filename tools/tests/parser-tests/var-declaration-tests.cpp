@@ -10,7 +10,7 @@ TEST(Var_Declaration_Tests, empty) {
 
 TEST(Var_Declaration_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Var_Declaration var_declaration { scope };
     Var_Declaration_Runner test1 { "a*: INTEGER", var_declaration };
 }
@@ -26,7 +26,7 @@ TEST(Var_Declaration_Tests, incomplete) {
 
 TEST(Var_Declaration_Tests, invalid) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Var_Declaration var_declaration { scope };
     Var_Declaration_Runner test1 { "a INTEGER", var_declaration, true, true };
 

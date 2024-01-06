@@ -7,7 +7,7 @@ bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
     advance();
 
     if (! decl) { error(); return true; }
-    auto module = llvm::dyn_cast<Module_Declaration>(&*decl);
+    auto module = llvm::dyn_cast<decl::Module>(&*decl);
 
     if (module) {
         if (token_.is(token::period)) {
@@ -17,7 +17,7 @@ bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
             advance();
             if (! decl) { error(); return true; }
         } else { error(); return true; }
-        qual_ident.module = std::static_pointer_cast<Module_Declaration>(decl);
+        qual_ident.module = std::static_pointer_cast<decl::Module>(decl);
     }
     qual_ident.declaration = decl;
     return false;

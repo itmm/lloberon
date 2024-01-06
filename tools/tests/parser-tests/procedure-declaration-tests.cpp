@@ -12,8 +12,8 @@ TEST(Procedure_Declaration_Tests, empty) {
 
 TEST(Procedure_Declaration_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
-    scope.insert(std::make_shared<Variable_Declaration>(
+    decl::Base_Type::register_base_types(scope);
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "x", nullptr
     ));
     sema::Procedure_Declaration procedure_declaration { scope };
@@ -24,7 +24,7 @@ TEST(Procedure_Declaration_Tests, simple) {
 
 TEST(Procedure_Declaration_Tests, incomplete) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Procedure_Declaration procedure_declaration { scope };
     Procedure_Declaration_Runner test1 { "PROCEDURE RETURN", procedure_declaration, true, true };
 

@@ -12,10 +12,10 @@ TEST(For_Statement_Tests, empty) {
 
 TEST(For_Statement_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "x", nullptr
     ));
     sema::For_Statement for_statement { scope };
@@ -24,10 +24,10 @@ TEST(For_Statement_Tests, simple) {
 
 TEST(For_Statement_Tests, with_step) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "x", nullptr
     ));
     sema::For_Statement for_statement { scope };
@@ -36,10 +36,10 @@ TEST(For_Statement_Tests, with_step) {
 
 TEST(For_Statement_Tests, with_stepdown) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "x", nullptr
     ));
     sema::For_Statement for_statement { scope };
@@ -48,7 +48,7 @@ TEST(For_Statement_Tests, with_stepdown) {
 
 TEST(For_Statement_Tests, wrong) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::For_Statement for_statement { scope };

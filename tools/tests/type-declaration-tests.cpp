@@ -1,25 +1,25 @@
 #include "gtest/gtest.h"
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 
-template<Base_Type_Declaration::Kind KIND>
+template<decl::Base_Type::Kind KIND>
 class Base_Type_Declaration_Test: public testing::Test {
 protected:
-    Base_Type_Declaration decl {
-        "", Base_Type_Declaration::bt_BYTE
+    decl::Base_Type decl {
+        "", decl::Base_Type::bt_BYTE
     };
 
     void SetUp() override {
-        new (&decl) Base_Type_Declaration { "INTEGER", KIND };
+        new (&decl) decl::Base_Type {"INTEGER", KIND };
     }
 };
 
 
 using Boolean_Type_Declaration_Test = Base_Type_Declaration_Test<
-        Base_Type_Declaration::bt_BOOLEAN
+        decl::Base_Type::bt_BOOLEAN
 >;
 
 TEST_F(Boolean_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_BOOLEAN);
+    EXPECT_EQ(decl.base_kind(), decl::Base_Type::bt_BOOLEAN);
 }
 
 TEST_F(Boolean_Type_Declaration_Test, is_bool) {
@@ -35,11 +35,11 @@ TEST_F(Boolean_Type_Declaration_Test, is_integer) {
 }
 
 using Char_Type_Declaration_Test = Base_Type_Declaration_Test<
-    Base_Type_Declaration::bt_CHAR
+    decl::Base_Type::bt_CHAR
 >;
 
 TEST_F(Char_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_CHAR);
+    EXPECT_EQ(decl.base_kind(), decl::Base_Type::bt_CHAR);
 }
 
 TEST_F(Char_Type_Declaration_Test, is_bool) {
@@ -55,11 +55,11 @@ TEST_F(Char_Type_Declaration_Test, is_integer) {
 }
 
 using Integer_Type_Declaration_Test = Base_Type_Declaration_Test<
-    Base_Type_Declaration::bt_INTEGER
+    decl::Base_Type::bt_INTEGER
 >;
 
 TEST_F(Integer_Type_Declaration_Test, kind) {
-    EXPECT_EQ(decl.kind(), Declaration::DK_Type);
+    EXPECT_EQ(decl.kind(), decl::Declaration::DK_Type);
 }
 
 TEST_F(Integer_Type_Declaration_Test, name) {
@@ -71,11 +71,11 @@ TEST_F(Integer_Type_Declaration_Test, no_enclosing_decl) {
 }
 
 TEST_F(Integer_Type_Declaration_Test, class_of) {
-    EXPECT_TRUE(Type_Declaration::classof(&decl));
+    EXPECT_TRUE(decl::Type::classof(&decl));
 }
 
 TEST_F(Integer_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_INTEGER);
+    EXPECT_EQ(decl.base_kind(), decl::Base_Type::bt_INTEGER);
 }
 
 TEST_F(Integer_Type_Declaration_Test, is_bool) {
@@ -91,11 +91,11 @@ TEST_F(Integer_Type_Declaration_Test, is_integer) {
 }
 
 using Real_Type_Declaration_Test = Base_Type_Declaration_Test<
-    Base_Type_Declaration::bt_REAL
+    decl::Base_Type::bt_REAL
 >;
 
 TEST_F(Real_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_REAL);
+    EXPECT_EQ(decl.base_kind(), decl::Base_Type::bt_REAL);
 }
 
 TEST_F(Real_Type_Declaration_Test, is_bool) {
@@ -111,11 +111,11 @@ TEST_F(Real_Type_Declaration_Test, is_integer) {
 }
 
 using Byte_Type_Declaration_Test = Base_Type_Declaration_Test<
-    Base_Type_Declaration::bt_BYTE
+    decl::Base_Type::bt_BYTE
 >;
 
 TEST_F(Byte_Type_Declaration_Test, base_kind) {
-    EXPECT_EQ(decl.base_kind(), Base_Type_Declaration::bt_BYTE);
+    EXPECT_EQ(decl.base_kind(), decl::Base_Type::bt_BYTE);
 }
 
 TEST_F(Byte_Type_Declaration_Test, is_bool) {

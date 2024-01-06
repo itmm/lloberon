@@ -12,21 +12,21 @@ TEST(Field_List_Sequence_Tests, empty) {
 
 TEST(Field_List_Sequence_Tests, single) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Field_List_Sequence field_list_sequence { scope };
     Field_List_Sequence_Runner test1 { "a: BYTE", field_list_sequence };
 }
 
 TEST(Field_List_Sequence_Tests, multiple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Field_List_Sequence field_list_sequence { scope };
     Field_List_Sequence_Runner test1 { "a: BYTE; b: BYTE", field_list_sequence };
 }
 
 TEST(Field_List_Sequence_Tests, incomplete) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Field_List_Sequence field_list_sequence { scope };
     Field_List_Sequence_Runner test1 { "a: BYTE;", field_list_sequence, true };
 }

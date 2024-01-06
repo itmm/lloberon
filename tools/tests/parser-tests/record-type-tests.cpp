@@ -12,7 +12,7 @@ TEST(Record_Type_Tests, empty) {
 
 TEST(Record_Type_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Record_Type record_type { scope };
     Record_Type_Runner test1 { "RECORD END", record_type };
 
@@ -22,11 +22,11 @@ TEST(Record_Type_Tests, simple) {
 
 TEST(Record_Type_Tests, sub_type) {
     Scope scope;
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-        "View", Base_Type_Declaration::bt_INTEGER
+    scope.insert(std::make_shared<decl::Base_Type>(
+        "View", decl::Base_Type::bt_INTEGER
     ));
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-        "Point", Base_Type_Declaration::bt_INTEGER
+    scope.insert(std::make_shared<decl::Base_Type>(
+        "Point", decl::Base_Type::bt_INTEGER
     ));
     sema::Record_Type record_type { scope };
     Record_Type_Runner test1 { "RECORD (View) END", record_type };

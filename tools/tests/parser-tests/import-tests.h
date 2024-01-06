@@ -4,7 +4,7 @@
 
 #include "llvm/Support/Casting.h"
 
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 #include "sema/scope.h"
 
 inline void expect_no_modules(Scope& scope) {
@@ -12,7 +12,7 @@ inline void expect_no_modules(Scope& scope) {
 }
 
 inline void expect_module(Scope& scope, const char* name, const char* full_name) {
-    auto got = llvm::dyn_cast<Module_Declaration>(
+    auto got = llvm::dyn_cast<decl::Module>(
             &*scope.lookup(name)
     );
     EXPECT_TRUE(got != nullptr);

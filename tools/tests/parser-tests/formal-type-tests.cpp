@@ -10,18 +10,18 @@ TEST(Formal_Type_Tests, empty) {
 
 TEST(Formal_Type_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Type formal_type { scope };
     Formal_Type_Runner test1 { "INTEGER", formal_type };
 }
 
 TEST(Formal_Type_Tests, qualified) {
     Scope scope;
-    auto module { std::make_shared<Module_Declaration>(
+    auto module { std::make_shared<decl::Module>(
         llvm::SMLoc {}, "X", "X"
     ) };
-    module->insert(std::make_shared<Base_Type_Declaration>(
-        "Byte", Base_Type_Declaration::bt_BYTE
+    module->insert(std::make_shared<decl::Base_Type>(
+        "Byte", decl::Base_Type::bt_BYTE
     ));
     scope.insert(module);
     sema::Formal_Type formal_type { scope };
@@ -30,14 +30,14 @@ TEST(Formal_Type_Tests, qualified) {
 
 TEST(Formal_Type_Tests, array) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Type formal_type { scope };
     Formal_Type_Runner test1 { "ARRAY OF BYTE", formal_type };
 }
 
 TEST(Formal_Type_Tests, multiple_arrays) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Type formal_type { scope };
     Formal_Type_Runner test1 { "ARRAY OF ARRAY OF BYTE", formal_type };
 }

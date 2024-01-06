@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "import-tests.h"
 
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 
 using Import_Runner = Parser_Value_Runner<Scope, &Parser::parse_import>;
 

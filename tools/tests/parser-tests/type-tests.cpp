@@ -10,9 +10,9 @@ TEST(Type_Tests, empty) {
 
 TEST(Type_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-        "Entry", Base_Type_Declaration::bt_INTEGER
+    decl::Base_Type::register_base_types(scope);
+    scope.insert(std::make_shared<decl::Base_Type>(
+        "Entry", decl::Base_Type::bt_INTEGER
     ));
     sema::Type type { scope };
     Type_Runner test1 { "INTEGER", type };

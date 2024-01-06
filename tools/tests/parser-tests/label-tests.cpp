@@ -21,12 +21,12 @@ TEST(Label_Tests, simple) {
 
 TEST(Label_Tests, qual_ident) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
-    auto module { std::make_shared<Module_Declaration>(
+    decl::Base_Type::register_base_types(scope);
+    auto module { std::make_shared<decl::Module>(
         llvm::SMLoc {}, "X", "X"
     ) };
-    module->insert(std::make_shared<Base_Type_Declaration>(
-        "Byte", Base_Type_Declaration::bt_BYTE
+    module->insert(std::make_shared<decl::Base_Type>(
+        "Byte", decl::Base_Type::bt_BYTE
     ));
     scope.insert(module);
     sema::Label label { scope };
@@ -38,7 +38,7 @@ TEST(Label_Tests, qual_ident) {
 
 TEST(Label_Tests, wrong) {
     Scope scope;
-    auto module { std::make_shared<Module_Declaration>(
+    auto module { std::make_shared<decl::Module>(
         llvm::SMLoc {}, "X", "X"
     ) };
     scope.insert(module);

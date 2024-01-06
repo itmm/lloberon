@@ -12,28 +12,28 @@ TEST(Formal_Parameter_Section_Tests, empty) {
 
 TEST(Formal_Parameter_Section_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner test1 { "a: ARRAY OF INTEGER", formal_parameter_section };
 }
 
 TEST(Formal_Parameter_Section_Tests, multiple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner test1 { "a, b: INTEGER", formal_parameter_section };
 }
 
 TEST(Formal_Parameter_Section_Tests, var_parameter) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner test1 { "VAR a: INTEGER", formal_parameter_section };
 }
 
 TEST(Formal_Parameter_Section_Tests, incomplete) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Formal_Parameter_Section formal_parameter_section { scope };
     Formal_Parameter_Section_Runner test1 { "VAR", formal_parameter_section, true };
 

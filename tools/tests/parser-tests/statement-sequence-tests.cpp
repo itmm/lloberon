@@ -12,7 +12,7 @@ TEST(Statement_Sequence_Tests, empty) {
 
 TEST(Statement_Sequence_Tests, single) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Statement_Sequence statement_sequence { scope };
@@ -21,10 +21,10 @@ TEST(Statement_Sequence_Tests, single) {
 
 TEST(Statement_Sequence_Tests, multiple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
             nullptr, llvm::SMLoc {}, "b", nullptr
     ));
     sema::Statement_Sequence statement_sequence { scope };

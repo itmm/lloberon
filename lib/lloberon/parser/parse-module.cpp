@@ -1,5 +1,5 @@
 #include "parser/parser.h"
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 #include "sema/scope.h"
 
 bool Parser::parse_module(Scope& scope) {

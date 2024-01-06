@@ -10,15 +10,15 @@ TEST(Qual_Ident_Tests, empty) {
 
 TEST(Qual_Ident_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Qual_Ident qual_ident { scope };
     Qual_Ident_Runner test1 { "BYTE", qual_ident };
     qual_ident.clear();
     new (&scope) Scope { };
-    auto module = std::make_shared<Module_Declaration>(llvm::SMLoc {}, "X", "X");
+    auto module = std::make_shared<decl::Module>(llvm::SMLoc {}, "X", "X");
     scope.insert(module);
-    module->insert(std::make_shared<Base_Type_Declaration>(
-        "Byte", Base_Type_Declaration::bt_BYTE
+    module->insert(std::make_shared<decl::Base_Type>(
+        "Byte", decl::Base_Type::bt_BYTE
     ));
     Qual_Ident_Runner test2 { "X.Byte", qual_ident };
 }
@@ -26,7 +26,7 @@ TEST(Qual_Ident_Tests, simple) {
 TEST(Qual_Ident_Tests, incomplete) {
     Scope scope;
     sema::Qual_Ident qual_ident { scope };
-    auto module = std::make_shared<Module_Declaration>(llvm::SMLoc {}, "X", "X");
+    auto module = std::make_shared<decl::Module>(llvm::SMLoc {}, "X", "X");
     scope.insert(module);
     Qual_Ident_Runner test1 { "X.", qual_ident, true };
 

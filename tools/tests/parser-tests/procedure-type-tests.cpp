@@ -10,7 +10,7 @@ TEST(Procedure_Type_Tests, empty) {
 
 TEST(Procedure_Type_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Procedure_Type procedure_type { scope };
     Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): INTEGER", procedure_type };
 }

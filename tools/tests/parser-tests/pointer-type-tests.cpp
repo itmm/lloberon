@@ -12,8 +12,8 @@ TEST(Pointer_Type_Tests, empty) {
 
 TEST(Pointer_Type_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-       "Record", Base_Type_Declaration::bt_INTEGER
+    scope.insert(std::make_shared<decl::Base_Type>(
+       "Record", decl::Base_Type::bt_INTEGER
     ));
     sema::Pointer_Type pointer_type { scope };
     Pointer_Type_Runner test1 { "POINTER TO Record", pointer_type };
@@ -21,8 +21,8 @@ TEST(Pointer_Type_Tests, simple) {
 
 TEST(Pointer_Type_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-        "Record", Base_Type_Declaration::bt_INTEGER
+    scope.insert(std::make_shared<decl::Base_Type>(
+        "Record", decl::Base_Type::bt_INTEGER
     ));
     sema::Pointer_Type pointer_type { scope };
     Pointer_Type_Runner test1 { "POINTER TO", pointer_type, true };

@@ -1,22 +1,22 @@
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 
-void Base_Type_Declaration::register_base_types(Scope& scope) {
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-            "BOOLEAN", Base_Type_Declaration::bt_BOOLEAN
+void decl::Base_Type::register_base_types(Scope& scope) {
+    scope.insert(std::make_shared<Base_Type>(
+            "BOOLEAN", Base_Type::bt_BOOLEAN
     ));
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-            "CHAR", Base_Type_Declaration::bt_CHAR
+    scope.insert(std::make_shared<Base_Type>(
+            "CHAR", Base_Type::bt_CHAR
     ));
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-            "INTEGER", Base_Type_Declaration::bt_INTEGER
+    scope.insert(std::make_shared<Base_Type>(
+            "INTEGER", Base_Type::bt_INTEGER
     ));
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-            "REAL", Base_Type_Declaration::bt_REAL
+    scope.insert(std::make_shared<Base_Type>(
+            "REAL", Base_Type::bt_REAL
     ));
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-            "BYTE", Base_Type_Declaration::bt_BYTE
+    scope.insert(std::make_shared<Base_Type>(
+            "BYTE", Base_Type::bt_BYTE
     ));
-    scope.insert(std::make_shared<Base_Type_Declaration>(
-            "SET", Base_Type_Declaration::bt_SET
+    scope.insert(std::make_shared<Base_Type>(
+            "SET", Base_Type::bt_SET
     ));
 }

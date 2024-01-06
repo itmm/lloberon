@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "sema/scope.h"
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 
 TEST(Scope_Tests, no_parent) {
     Scope scope;
@@ -20,7 +20,7 @@ TEST(Scope_Tests, not_found) {
 
 TEST(Scope_Tests, insert) {
     Scope scope;
-    EXPECT_TRUE(scope.insert(std::make_shared<Variable_Declaration>(
+    EXPECT_TRUE(scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc { }, "abc", nullptr
     )));
     EXPECT_STREQ(scope.lookup("abc")->name().c_str(), "abc");
@@ -35,17 +35,17 @@ TEST(Scope_Tests, not_found_with_parent) {
 TEST(Scope_Tests, insert_with_parent) {
     Scope parent;
     Scope scope { &parent };
-    EXPECT_TRUE(parent.insert(std::make_shared<Variable_Declaration>(
+    EXPECT_TRUE(parent.insert(std::make_shared<decl::Variable>(
             nullptr, llvm::SMLoc { }, "abc", nullptr
     )));
     EXPECT_STREQ(scope.lookup("abc")->name().c_str(), "abc");
 }
 
 TEST(Scope_Tests, double_insert) {
-    auto first { std::make_shared<Variable_Declaration>(
+    auto first { std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc { }, "abc", nullptr
     ) };
-    auto second { std::make_shared<Variable_Declaration>(
+    auto second { std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc { }, "abc", nullptr
     ) };
     Scope scope;

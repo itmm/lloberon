@@ -12,28 +12,28 @@ TEST(Field_List_Tests, empty) {
 
 TEST(Field_List_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Field_List field_list { scope };
     Field_List_Runner test1 { "a: INTEGER", field_list };
 }
 
 TEST(Field_List_Tests, exported) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Field_List field_list { scope };
     Field_List_Runner test1 { "a*: INTEGER", field_list };
 }
 
 TEST(Field_List_Tests, multiple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Field_List field_list { scope };
     Field_List_Runner test1 { "a, b: INTEGER", field_list };
 }
 
 TEST(Field_List_Tests, incomplete) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Field_List field_list { scope };
     Field_List_Runner test1 { "a:", field_list, true };
 

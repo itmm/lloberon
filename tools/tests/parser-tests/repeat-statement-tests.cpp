@@ -12,7 +12,7 @@ TEST(Repeat_Statement_Tests, empty) {
 
 TEST(Repeat_Statement_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Repeat_Statement repeat_statement { scope };

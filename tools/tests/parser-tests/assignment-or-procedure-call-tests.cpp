@@ -14,7 +14,7 @@ TEST(Assignment_Tests, empty) {
 
 TEST(Assignment_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
@@ -23,7 +23,7 @@ TEST(Assignment_Tests, simple) {
 
 TEST(Assignment_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
             nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
@@ -32,10 +32,10 @@ TEST(Assignment_Tests, incomplete) {
 
 TEST(Procedure_Call_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "f", nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
@@ -47,10 +47,10 @@ TEST(Procedure_Call_Tests, simple) {
 
 TEST(Procedure_Call_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
-    scope.insert(std::make_shared<Variable_Declaration>(
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "f", nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
@@ -65,8 +65,8 @@ TEST(Procedure_Call_Tests, incomplete) {
 
 TEST(Procedure_Call_Tests, cast) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
-    scope.insert(std::make_shared<Variable_Declaration>(
+    decl::Base_Type::register_base_types(scope);
+    scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };

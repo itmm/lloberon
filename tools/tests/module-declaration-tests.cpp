@@ -1,21 +1,21 @@
 #include "gtest/gtest.h"
-#include "sema/declaration.h"
+#include "decl/declaration.h"
 
 class Module_Declaration_Test: public testing::Test {
 protected:
-    Module_Declaration decl { llvm::SMLoc { }, "", "" };
+    decl::Module decl {llvm::SMLoc { }, "", "" };
 
     char source[10] { 0 };
 
     void SetUp() override {
-        new (&decl) Module_Declaration {
+        new (&decl) decl::Module {
             llvm::SMLoc::getFromPointer(source), "a", "b"
         };
     }
 };
 
 TEST_F(Module_Declaration_Test, kind) {
-    EXPECT_EQ(decl.kind(), Declaration::DK_Module);
+    EXPECT_EQ(decl.kind(), decl::Declaration::DK_Module);
 }
 
 TEST_F(Module_Declaration_Test, location) {
@@ -31,7 +31,7 @@ TEST_F(Module_Declaration_Test, no_enclosing_decl) {
 }
 
 TEST_F(Module_Declaration_Test, class_of) {
-    EXPECT_TRUE(Module_Declaration::classof(&decl));
+    EXPECT_TRUE(decl::Module::classof(&decl));
 }
 
 TEST_F(Module_Declaration_Test, full_name) {

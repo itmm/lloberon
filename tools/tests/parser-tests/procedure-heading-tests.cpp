@@ -12,14 +12,14 @@ TEST(Procedure_Heading_Tests, empty) {
 
 TEST(Procedure_Heading_Tests, simple) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Procedure_Heading procedure_heading { scope };
     Procedure_Heading_Runner test1 { "PROCEDURE f(x: INTEGER): INTEGER", procedure_heading };
 }
 
 TEST(Procedure_Heading_Tests, incomplete) {
     Scope scope;
-    Base_Type_Declaration::register_base_types(scope);
+    decl::Base_Type::register_base_types(scope);
     sema::Procedure_Heading procedure_heading { scope };
     Procedure_Heading_Runner test1 { "PROCEDURE f", procedure_heading, true };
 
