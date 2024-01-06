@@ -1,5 +1,7 @@
 #include "parser-tests.h"
 
+#include "decl/variable.h"
+
 using Case_Runner = Parser_Value_Runner<sema::Case, &Parser::parse_case>;
 
 TEST(Case_Tests, empty) {

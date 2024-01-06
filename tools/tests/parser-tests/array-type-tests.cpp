@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Array_Type_Runner = Parser_Value_Runner<sema::Array_Type, &Parser::parse_array_type>;
 

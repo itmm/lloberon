@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Label_Runner = Parser_Value_Runner<
     sema::Label, &Parser::parse_label

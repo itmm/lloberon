@@ -1,7 +1,7 @@
 #pragma once
 
 #include "scope.h"
-#include "decl/declaration.h"
+#include "decl/module.h"
 
 namespace sema {
     class Qual_Ident {

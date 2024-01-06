@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/variable.h"
 
 using Term_Runner = Parser_Value_Runner<sema::Term, &Parser::parse_term>;
 

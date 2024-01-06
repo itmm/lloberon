@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "decl/declaration.h"
+#include "decl/base-type.h"
 
 template<decl::Base_Type::Kind KIND>
 class Base_Type_Declaration_Test: public testing::Test {

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "decl/declaration.h"
+#include "decl/module.h"
 
 class Module_Declaration_Test: public testing::Test {
 protected:

@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Formal_Parameters_Runner = Parser_Value_Runner<
     sema::Formal_Parameters, &Parser::parse_formal_parameters

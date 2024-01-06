@@ -1,4 +1,6 @@
 #include "parser-tests.h"
+#include "decl/declaration.h"
+#include "decl/variable.h"
 
 using Factor_Runner = Parser_Value_Runner<
     sema::Factor, &Parser::parse_factor

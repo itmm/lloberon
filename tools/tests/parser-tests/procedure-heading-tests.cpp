@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Procedure_Heading_Runner = Parser_Value_Runner<
     sema::Procedure_Heading, &Parser::parse_procedure_heading

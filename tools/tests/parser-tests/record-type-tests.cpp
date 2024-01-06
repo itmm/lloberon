@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Record_Type_Runner = Parser_Value_Runner<
     sema::Record_Type, &Parser::parse_record_type

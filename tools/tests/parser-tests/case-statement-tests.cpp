@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/variable.h"
 
 using Case_Statement_Runner = Parser_Value_Runner<
     sema::Case_Statement, &Parser::parse_case_statement

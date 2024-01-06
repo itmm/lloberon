@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/variable.h"
 
 using Designator_Runner = Parser_Value_Runner<
     sema::Designator, &Parser::parse_designator

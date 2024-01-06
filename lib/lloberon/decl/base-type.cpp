@@ -1,4 +1,4 @@
-#include "decl/declaration.h"
+#include "decl/base-type.h"
 
 void decl::Base_Type::register_base_types(Scope& scope) {
     scope.insert(std::make_shared<Base_Type>(

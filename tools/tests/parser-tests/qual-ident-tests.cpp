@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Qual_Ident_Runner = Parser_Value_Runner<sema::Qual_Ident, &Parser::parse_qual_ident>;
 

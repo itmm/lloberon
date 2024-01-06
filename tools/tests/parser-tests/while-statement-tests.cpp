@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/variable.h"
 
 using While_Statement_Runner = Parser_Value_Runner<
     sema::While_Statement, &Parser::parse_while_statement

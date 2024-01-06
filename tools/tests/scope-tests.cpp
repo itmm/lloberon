@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "sema/scope.h"
 #include "decl/declaration.h"
+#include "decl/variable.h"
 
 TEST(Scope_Tests, no_parent) {
     Scope scope;

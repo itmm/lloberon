@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Field_List_Runner = Parser_Value_Runner<
     sema::Field_List, &Parser::parse_field_list

@@ -1,4 +1,6 @@
 #include "parser-tests.h"
+#include "decl/variable.h"
+#include "decl/base-type.h"
 
 using Procedure_Declaration_Runner = Parser_Value_Runner<
     sema::Procedure_Declaration, &Parser::parse_procedure_declaration

@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Declaration_Sequence_Runner = Parser_Value_Runner<
     sema::Declaration_Sequence, &Parser::parse_declaration_sequence

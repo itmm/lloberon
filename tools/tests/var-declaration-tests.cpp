@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "decl/declaration.h"
+#include "decl/variable.h"
 
 class Var_Declaration_Test: public testing::Test {
 protected:

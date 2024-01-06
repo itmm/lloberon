@@ -2,6 +2,7 @@ add_lloberon_library(liboberon
         basic/version.cpp
         basic/diagnostic.cpp
         basic/token-kinds.cpp
+        decl/base-type.cpp
         lexer/lexer.cpp
         parser/parse-actual-parameters.cpp
         parser/parse-array-type.cpp
@@ -51,7 +52,6 @@ add_lloberon_library(liboberon
         parser/parse-variable-declaration.cpp
         parser/parse-while-statement.cpp
         parser/parser.cpp
-        sema/declaration.cpp
         sema/scope.cpp
 )
 

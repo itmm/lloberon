@@ -1,4 +1,5 @@
 #include "parser/parser.h"
+#include "decl/base-type.h"
 
 bool Parser::parse() {
     Scope scope;

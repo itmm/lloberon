@@ -1,5 +1,8 @@
 #include "parser-tests.h"
 
+#include "decl/variable.h"
+#include "decl/base-type.h"
+
 using Assignment_Runner = Parser_Value_Runner<
     sema::Assignment_Or_Procedure_Call,
     &Parser::parse_assignment_or_procedure_call

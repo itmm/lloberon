@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/base-type.h"
 
 using Pointer_Type_Runner = Parser_Value_Runner<
     sema::Pointer_Type, &Parser::parse_pointer_type

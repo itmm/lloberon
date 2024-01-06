@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/variable.h"
 
 using If_Statement_Runner = Parser_Value_Runner<
     sema::If_Statement, &Parser::parse_if_statement

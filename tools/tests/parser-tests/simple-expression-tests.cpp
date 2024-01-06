@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "decl/variable.h"
 
 using Simple_Expression_Runner = Parser_Value_Runner<sema::Simple_Expression, &Parser::parse_simple_expression>;
 
