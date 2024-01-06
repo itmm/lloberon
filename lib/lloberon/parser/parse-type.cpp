@@ -1,9 +1,13 @@
 #include "parser/parser.h"
 
 bool Parser::parse_type(sema::Type& type) {
+    type.clear();
     if (token_.is(token::identifier)) {
         sema::Qual_Ident qual_ident { type.scope() };
         if (parse_qual_ident(qual_ident)) { return true; }
+        auto got = llvm::dyn_cast<decl::Type>(&*qual_ident.declaration);
+        if (! got) { error(); return true; }
+        type.type = std::static_pointer_cast<decl::Type>(qual_ident.declaration);
     } else if (token_.is(token::keyword_ARRAY)) {
         sema::Array_Type array_type { type.scope() };
         if (parse_array_type(array_type)) { return true; }
