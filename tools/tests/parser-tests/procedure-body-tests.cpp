@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
 
 using Procedure_Body_Runner = Parser_Value_Runner<
     sema::Procedure_Body, &Parser::parse_procedure_body
@@ -32,7 +32,7 @@ TEST(Procedure_Body_Tests, simple) {
 
 TEST(Procedure_Body_Tests, with_declaration) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));

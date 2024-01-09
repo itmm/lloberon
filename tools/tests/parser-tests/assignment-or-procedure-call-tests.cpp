@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 
 #include "decl/variable.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
 
 using Assignment_Runner = Parser_Value_Runner<
     sema::Assignment_Or_Procedure_Call,
@@ -68,7 +68,7 @@ TEST(Procedure_Call_Tests, incomplete) {
 
 TEST(Procedure_Call_Tests, cast) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     scope.insert(std::make_shared<decl::Variable>(
         nullptr, llvm::SMLoc {}, "a", nullptr
     ));

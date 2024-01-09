@@ -1,5 +1,6 @@
 #include "parser-tests.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
+#include "type/base.h"
 
 using Formal_Type_Runner = Parser_Value_Runner<sema::Formal_Type, &Parser::parse_formal_type>;
 
@@ -11,7 +12,7 @@ TEST(Formal_Type_Tests, empty) {
 
 TEST(Formal_Type_Tests, simple) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Formal_Type formal_type { scope };
     Formal_Type_Runner test1 { "INTEGER", formal_type };
 }
@@ -21,8 +22,9 @@ TEST(Formal_Type_Tests, qualified) {
     auto module { std::make_shared<decl::Module>(
         llvm::SMLoc {}, "X", "X"
     ) };
-    module->insert(std::make_shared<decl::Base_Type>(
-        "Byte", decl::Base_Type::bt_BYTE
+    module->insert(std::make_shared<decl::Type>(
+        nullptr, llvm::SMLoc { }, "Byte",
+        std::make_shared<type::Base>(type::Base::bt_BYTE)
     ));
     scope.insert(module);
     sema::Formal_Type formal_type { scope };
@@ -31,14 +33,14 @@ TEST(Formal_Type_Tests, qualified) {
 
 TEST(Formal_Type_Tests, array) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Formal_Type formal_type { scope };
     Formal_Type_Runner test1 { "ARRAY OF BYTE", formal_type };
 }
 
 TEST(Formal_Type_Tests, multiple_arrays) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Formal_Type formal_type { scope };
     Formal_Type_Runner test1 { "ARRAY OF ARRAY OF BYTE", formal_type };
 }

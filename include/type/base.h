@@ -1,27 +1,15 @@
 #pragma once
 
-#include <utility>
+#include "type.h"
 
-#include "llvm/ADT/StringRef.h"
-#include "llvm/Support/SMLoc.h"
-
-#include "sema/scope.h"
-#include "decl/type.h"
-
-namespace decl {
-    class Base_Type : public Type {
+namespace type {
+    class Base : public Type {
     public:
         enum Kind {
             bt_BOOLEAN, bt_CHAR, bt_INTEGER, bt_REAL, bt_BYTE, bt_SET
         };
 
-        static void register_base_types(Scope &scope);
-
-        Base_Type(
-                std::string name, Kind kind
-        ) :
-                Type(nullptr, llvm::SMLoc{}, std::move(name)),
-                kind_{kind} {}
+        Base(Kind kind) : Type {}, kind_ { kind } { }
 
         bool is_bool() override { return kind_ == bt_BOOLEAN; }
 

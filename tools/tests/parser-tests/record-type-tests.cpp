@@ -1,5 +1,6 @@
 #include "parser-tests.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
+#include "type/base.h"
 
 using Record_Type_Runner = Parser_Value_Runner<
     sema::Record_Type, &Parser::parse_record_type
@@ -13,7 +14,7 @@ TEST(Record_Type_Tests, empty) {
 
 TEST(Record_Type_Tests, simple) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Record_Type record_type { scope };
     Record_Type_Runner test1 { "RECORD END", record_type };
 
@@ -23,11 +24,13 @@ TEST(Record_Type_Tests, simple) {
 
 TEST(Record_Type_Tests, sub_type) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Base_Type>(
-        "View", decl::Base_Type::bt_INTEGER
+    scope.insert(std::make_shared<decl::Type>(
+        nullptr, llvm::SMLoc { }, "View",
+        std::make_shared<type::Base>(type::Base::bt_INTEGER)
     ));
-    scope.insert(std::make_shared<decl::Base_Type>(
-        "Point", decl::Base_Type::bt_INTEGER
+    scope.insert(std::make_shared<decl::Type>(
+        nullptr, llvm::SMLoc { }, "Point",
+        std::make_shared<type::Base>(type::Base::bt_INTEGER)
     ));
     sema::Record_Type record_type { scope };
     Record_Type_Runner test1 { "RECORD (View) END", record_type };

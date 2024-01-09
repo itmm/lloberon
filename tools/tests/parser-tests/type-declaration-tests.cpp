@@ -1,5 +1,5 @@
 #include "parser-tests.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
 
 using Type_Declaration_Runner = Parser_Value_Runner<sema::Type_Declaration, &Parser::parse_type_declaration>;
 
@@ -11,7 +11,7 @@ TEST(Type_Declaration_Tests, empty) {
 
 TEST(Type_Declaration_Tests, simple) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Type_Declaration type_declaration { scope };
     Type_Declaration_Runner test1 { "a* = INTEGER", type_declaration };
 }

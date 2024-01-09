@@ -1,5 +1,6 @@
 #include "parser-tests.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
+#include "type/base.h"
 
 using Label_Runner = Parser_Value_Runner<
     sema::Label, &Parser::parse_label
@@ -22,12 +23,13 @@ TEST(Label_Tests, simple) {
 
 TEST(Label_Tests, qual_ident) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     auto module { std::make_shared<decl::Module>(
         llvm::SMLoc {}, "X", "X"
     ) };
-    module->insert(std::make_shared<decl::Base_Type>(
-        "Byte", decl::Base_Type::bt_BYTE
+    module->insert(std::make_shared<decl::Type>(
+        nullptr, llvm::SMLoc { }, "Byte",
+        std::make_shared<type::Base>(type::Base::bt_BYTE)
     ));
     scope.insert(module);
     sema::Label label { scope };

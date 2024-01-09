@@ -1,5 +1,5 @@
 #include "parser-tests.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
 
 using Var_Declaration_Runner = Parser_Value_Runner<sema::Var_Declaration, &Parser::parse_variable_declaration>;
 
@@ -11,7 +11,7 @@ TEST(Var_Declaration_Tests, empty) {
 
 TEST(Var_Declaration_Tests, simple) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Var_Declaration var_declaration { scope };
     Var_Declaration_Runner test1 { "a*: INTEGER", var_declaration };
 }
@@ -27,7 +27,7 @@ TEST(Var_Declaration_Tests, incomplete) {
 
 TEST(Var_Declaration_Tests, invalid) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Var_Declaration var_declaration { scope };
     Var_Declaration_Runner test1 { "a INTEGER", var_declaration, true, true };
 

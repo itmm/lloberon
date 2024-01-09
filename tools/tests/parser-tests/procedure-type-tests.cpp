@@ -1,5 +1,5 @@
 #include "parser-tests.h"
-#include "decl/base-type.h"
+#include "decl/type.h"
 
 using Procedure_Type_Runner = Parser_Value_Runner<sema::Procedure_Type, &Parser::parse_procedure_type>;
 
@@ -11,7 +11,7 @@ TEST(Procedure_Type_Tests, empty) {
 
 TEST(Procedure_Type_Tests, simple) {
     Scope scope;
-    decl::Base_Type::register_base_types(scope);
+    decl::Type::register_base_types(scope);
     sema::Procedure_Type procedure_type { scope };
     Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): INTEGER", procedure_type };
 }
