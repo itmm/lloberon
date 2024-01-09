@@ -5,7 +5,6 @@
 #include "sema/actual-parameters.h"
 #include "sema/array-type.h"
 #include "sema/assignment-or-procedure-call.h"
-#include "sema/base-type.h"
 #include "sema/case.h"
 #include "sema/case-list.h"
 #include "sema/case-statement.h"
@@ -14,8 +13,6 @@
 #include "sema/expression.h"
 #include "sema/expression-list.h"
 #include "sema/factor.h"
-#include "sema/field-list.h"
-#include "sema/field-list-sequence.h"
 #include "sema/for-statement.h"
 #include "sema/formal-parameter-section.h"
 #include "sema/formal-parameters.h"
@@ -100,11 +97,11 @@ public:
     [[nodiscard]] bool parse_qual_ident(sema::Qual_Ident& qual_ident);
     [[nodiscard]] bool parse_length();
     [[nodiscard]] bool parse_array_type(sema::Array_Type& array_type);
-    [[nodiscard]] bool parse_base_type(sema::Base_Type& base_type);
+    [[nodiscard]] bool parse_base_type(sema::Record_Type& base_type);
     [[nodiscard]] bool parse_ident_list(sema::Ident_List& ident_list);
-    [[nodiscard]] bool parse_field_list(sema::Field_List& field_list);
-    [[nodiscard]] bool parse_field_list_sequence(sema::Field_List_Sequence& field_list_sequence);
-    [[nodiscard]] bool parse_record_type(sema::Record_Type& record_type);
+    [[nodiscard]] bool parse_field_list(sema::Record_Type& record_type);
+    [[nodiscard]] bool parse_field_list_sequence(sema::Record_Type& record_type);
+    [[nodiscard]] bool parse_record_type(sema::Type& record_type);
     [[nodiscard]] bool parse_pointer_type(sema::Type& type);
     [[nodiscard]] bool parse_formal_type(sema::Formal_Type& formal_type);
     [[nodiscard]] bool parse_formal_parameter_section(

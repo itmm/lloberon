@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace sema {
     class Ident_Def {
     public:
-        Ident_Def(const std::string &ident = { }, bool exported = false):
-            ident { ident }, exported { exported }
+        explicit Ident_Def(std::string ident = { }, bool exported = false):
+            ident {std::move( ident )}, exported { exported }
         { }
 
         std::string ident;

@@ -9,7 +9,7 @@ bool Parser::parse_ident_list(sema::Ident_List& ident_list) {
     while (token_.is(token::comma)) {
         advance();
         if (parse_ident_def(ident_def)) { ident_list.clear(); return true; }
-        ident_list.push_back(ident_def);
+        ident_list.emplace_back(ident_def.ident, ident_def.exported);
     }
     return false;
 }
