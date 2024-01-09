@@ -23,7 +23,6 @@
 #include "sema/ident-def.h"
 #include "sema/if-statement.h"
 #include "sema/label.h"
-#include "sema/pointer-type.h"
 #include "sema/procedure-body.h"
 #include "sema/procedure-declaration.h"
 #include "sema/procedure-heading.h"
@@ -106,7 +105,7 @@ public:
     [[nodiscard]] bool parse_field_list(sema::Field_List& field_list);
     [[nodiscard]] bool parse_field_list_sequence(sema::Field_List_Sequence& field_list_sequence);
     [[nodiscard]] bool parse_record_type(sema::Record_Type& record_type);
-    [[nodiscard]] bool parse_pointer_type(sema::Pointer_Type& pointer_type);
+    [[nodiscard]] bool parse_pointer_type(sema::Type& type);
     [[nodiscard]] bool parse_formal_type(sema::Formal_Type& formal_type);
     [[nodiscard]] bool parse_formal_parameter_section(
         sema::Formal_Parameter_Section& formal_parameter_section

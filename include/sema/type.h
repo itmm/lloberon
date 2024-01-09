@@ -12,7 +12,7 @@ namespace sema {
 
         void clear() { type = nullptr; }
 
-        std::shared_ptr<decl::Type> type;
+        std::shared_ptr<type::Type> type;
     private:
         Scope& scope_;
     };

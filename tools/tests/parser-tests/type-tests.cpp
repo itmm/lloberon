@@ -18,22 +18,22 @@ TEST(Type_Tests, simple) {
     ));
     sema::Type type { scope };
     Type_Runner test1 { "BOOLEAN", type };
-    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type->type)->base_kind(), type::Base::bt_BOOLEAN);
+    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(), type::Base::bt_BOOLEAN);
 
     Type_Runner test2 { "CHAR", type };
-    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type->type)->base_kind(), type::Base::bt_CHAR);
+    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(), type::Base::bt_CHAR);
 
     Type_Runner test3 { "INTEGER", type };
-    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type->type)->base_kind(), type::Base::bt_INTEGER);
+    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(), type::Base::bt_INTEGER);
 
     Type_Runner test4 { "REAL", type };
-    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type->type)->base_kind(), type::Base::bt_REAL);
+    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(), type::Base::bt_REAL);
 
     Type_Runner test5 { "BYTE", type };
-    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type->type)->base_kind(), type::Base::bt_BYTE);
+    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(), type::Base::bt_BYTE);
 
     Type_Runner test6 { "SET", type };
-    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type->type)->base_kind(), type::Base::bt_SET);
+    EXPECT_EQ(std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(), type::Base::bt_SET);
 
     Type_Runner test7 { "ARRAY 10 OF INTEGER", type };
     Type_Runner test8 { "RECORD x, y: INTEGER END", type };
