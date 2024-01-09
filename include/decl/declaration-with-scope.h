@@ -9,10 +9,10 @@ namespace decl {
     class Declaration_With_Scope : public Declaration {
     public:
         Declaration_With_Scope(
-            Declaration::Kind kind, Declaration* enclosing_declaration,
+            Declaration* enclosing_declaration,
             llvm::SMLoc loc, const std::string &name
         ) :
-            Declaration(kind, enclosing_declaration, loc, name)
+            Declaration(enclosing_declaration, loc, name)
         {}
 
         std::shared_ptr<decl::Declaration> lookup(const std::string &name) {

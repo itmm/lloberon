@@ -18,10 +18,6 @@ protected:
     }
 };
 
-TEST_F(Var_Declaration_Test, kind) {
-    EXPECT_EQ(decl.kind(), decl::Declaration::DK_Var);
-}
-
 TEST_F(Var_Declaration_Test, location) {
     EXPECT_EQ(decl.location().getPointer(), source);
 }
@@ -32,10 +28,6 @@ TEST_F(Var_Declaration_Test, name) {
 
 TEST_F(Var_Declaration_Test, no_enclosing_decl) {
     EXPECT_EQ(decl.enclosing_declaration(), nullptr);
-}
-
-TEST_F(Var_Declaration_Test, class_of) {
-    EXPECT_TRUE(decl::Variable::classof(&decl));
 }
 
 TEST_F(Var_Declaration_Test, type) {
