@@ -15,8 +15,8 @@ TEST(Procedure_Declaration_Tests, empty) {
 TEST(Procedure_Declaration_Tests, simple) {
     Scope scope;
     decl::Type::register_base_types(scope);
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "x", nullptr
+    scope.insert("x", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Procedure_Declaration procedure_declaration { scope };
     Procedure_Declaration_Runner test1{

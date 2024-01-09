@@ -13,11 +13,11 @@ TEST(Case_Statetment_Tests, empty) {
 
 TEST(Case_Statement_Tests, single) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "x", nullptr
+    scope.insert("x", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Case_Statement case_statement { scope };
     Case_Statement_Runner test1 { "", case_statement, true };
@@ -28,11 +28,11 @@ TEST(Case_Statement_Tests, single) {
 
 TEST(Case_Statement_Tests, multiple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "x", nullptr
+    scope.insert("x", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Case_Statement case_statement { scope };
     Case_Statement_Runner test1 {
@@ -42,8 +42,8 @@ TEST(Case_Statement_Tests, multiple) {
 
 TEST(Case_Statement_Tests, wrong) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Case_Statement case_statement { scope };
     Case_Statement_Runner test1 { "CASE OF", case_statement, true, true };

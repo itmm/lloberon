@@ -25,19 +25,19 @@ TEST(Module_Tests, with_declarations) {
 
 TEST(Module_Tests, with_statements) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "EXIT", nullptr
+    scope.insert("EXIT", std::make_shared<decl::Variable>(
+        nullptr
     ));
     Module_Runner test1 { "MODULE A; BEGIN EXIT(10) END A.", scope };
 }
 
 TEST(Module_Tests, with_multiple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "EXIT", nullptr
+    scope.insert("EXIT", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "B", nullptr
+    scope.insert("B", std::make_shared<decl::Variable>(
+        nullptr
     ));
     Module_Runner test1 { "MODULE A; IMPORT x; CONST B = 3; BEGIN EXIT(B) END A.", scope };
 
@@ -45,17 +45,17 @@ TEST(Module_Tests, with_multiple) {
     Module_Runner test2 { "MODULE A; IMPORT x; CONST B = 3; END A.", scope };
 
     new (&scope) Scope {};
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "EXIT", nullptr
+    scope.insert("EXIT", std::make_shared<decl::Variable>(
+        nullptr
     ));
     Module_Runner test3 { "MODULE A; IMPORT x; BEGIN EXIT(10) END A.", scope };
 
     new (&scope) Scope {};
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "EXIT", nullptr
+    scope.insert("EXIT", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "B", nullptr
+    scope.insert("B", std::make_shared<decl::Variable>(
+        nullptr
     ));
     Module_Runner test4 { "MODULE A; CONST B = 3; BEGIN EXIT(B) END A.", scope };
 }

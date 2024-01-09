@@ -17,11 +17,11 @@ TEST(Simple_Expression_Tests, single) {
 
 TEST(Simple_Expression_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "b", nullptr
+    scope.insert("b", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Simple_Expression simple_expression { scope };
     Simple_Expression_Runner test1 { "3 + 4", simple_expression };

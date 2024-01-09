@@ -13,8 +13,8 @@ TEST(Designator_Tests, empty) {
 
 TEST(Designator_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Designator designator { scope };
     Designator_Runner test1 { "a", designator };
@@ -35,8 +35,8 @@ TEST(Designator_Tests, simple) {
 TEST(Designator_Tests, combined) {
     Scope scope;
     sema::Designator designator { scope };
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     Designator_Runner test1 { "a.b^[3].c^", designator };
 }
@@ -44,8 +44,8 @@ TEST(Designator_Tests, combined) {
 TEST(Designator_Tests, incomplete) {
     Scope scope;
     sema::Designator designator { scope };
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     Designator_Runner test1 { "a[3,", designator, true };
 

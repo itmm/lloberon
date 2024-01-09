@@ -14,8 +14,7 @@ TEST(Pointer_Type_Tests, empty) {
 
 TEST(Pointer_Type_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Type>(
-       nullptr, llvm::SMLoc { }, "Record",
+    scope.insert("Record", std::make_shared<decl::Type>(
        std::make_shared<type::Base>(type::Base::bt_INTEGER)
     ));
     sema::Pointer_Type pointer_type { scope };
@@ -24,8 +23,7 @@ TEST(Pointer_Type_Tests, simple) {
 
 TEST(Pointer_Type_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Type>(
-        nullptr, llvm::SMLoc { }, "Record",
+    scope.insert("Record", std::make_shared<decl::Type>(
         std::make_shared<type::Base>(type::Base::bt_INTEGER)
     ));
     sema::Pointer_Type pointer_type { scope };

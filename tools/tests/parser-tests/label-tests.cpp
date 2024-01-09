@@ -25,13 +25,12 @@ TEST(Label_Tests, qual_ident) {
     Scope scope;
     decl::Type::register_base_types(scope);
     auto module { std::make_shared<decl::Module>(
-        llvm::SMLoc {}, "X", "X"
+        "X"
     ) };
-    module->insert(std::make_shared<decl::Type>(
-        nullptr, llvm::SMLoc { }, "Byte",
+    module->insert("Byte", std::make_shared<decl::Type>(
         std::make_shared<type::Base>(type::Base::bt_BYTE)
     ));
-    scope.insert(module);
+    scope.insert("X", module);
     sema::Label label { scope };
     Label_Runner test1 { "INTEGER", label };
 
@@ -42,9 +41,9 @@ TEST(Label_Tests, qual_ident) {
 TEST(Label_Tests, wrong) {
     Scope scope;
     auto module { std::make_shared<decl::Module>(
-        llvm::SMLoc {}, "X", "X"
+        "X"
     ) };
-    scope.insert(module);
+    scope.insert("X", module);
     sema::Label label { scope };
     Label_Runner test1 { "X.", label, true };
 

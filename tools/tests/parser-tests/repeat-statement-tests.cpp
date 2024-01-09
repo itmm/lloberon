@@ -13,8 +13,8 @@ TEST(Repeat_Statement_Tests, empty) {
 
 TEST(Repeat_Statement_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Repeat_Statement repeat_statement { scope };
     Repeat_Statement_Runner test1 { "REPEAT a := a + 1 UNTIL a > 10", repeat_statement };

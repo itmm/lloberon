@@ -8,19 +8,14 @@
 namespace decl {
     class Declaration_With_Scope : public Declaration {
     public:
-        Declaration_With_Scope(
-            Declaration* enclosing_declaration,
-            llvm::SMLoc loc, const std::string &name
-        ) :
-            Declaration(enclosing_declaration, loc, name)
-        {}
+        explicit Declaration_With_Scope() = default;
 
         std::shared_ptr<decl::Declaration> lookup(const std::string &name) {
             return scope_.lookup(name);
         }
 
-        bool insert(const std::shared_ptr<decl::Declaration> &declaration) {
-            return scope_.insert(declaration);
+        bool insert(const std::string& name, const std::shared_ptr<decl::Declaration> &declaration) {
+            return scope_.insert(name, declaration);
         }
 
     private:

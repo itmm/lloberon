@@ -13,11 +13,11 @@ TEST(Expression_Tests, empty) {
 
 TEST(Expression_Tests, single) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-            nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "b", nullptr
+    scope.insert("b", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Expression expression { scope };
     Expression_Runner test1 { "3 = 4", expression };

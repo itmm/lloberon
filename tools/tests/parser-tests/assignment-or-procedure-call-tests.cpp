@@ -17,8 +17,8 @@ TEST(Assignment_Tests, empty) {
 
 TEST(Assignment_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+         nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
     Assignment_Runner("a := 3", assignment);
@@ -26,8 +26,8 @@ TEST(Assignment_Tests, simple) {
 
 TEST(Assignment_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-            nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
     Assignment_Runner("a :=", assignment, true);
@@ -35,11 +35,11 @@ TEST(Assignment_Tests, incomplete) {
 
 TEST(Procedure_Call_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "f", nullptr
+    scope.insert("f", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
     Procedure_Call_Runner test1 { "f()", assignment };
@@ -50,11 +50,11 @@ TEST(Procedure_Call_Tests, simple) {
 
 TEST(Procedure_Call_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "f", nullptr
+    scope.insert("f", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
     Procedure_Call_Runner test1 {"f(a,", assignment, true };
@@ -69,8 +69,8 @@ TEST(Procedure_Call_Tests, incomplete) {
 TEST(Procedure_Call_Tests, cast) {
     Scope scope;
     decl::Type::register_base_types(scope);
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Assignment_Or_Procedure_Call assignment { scope };
     Procedure_Call_Runner test1 { "a (INTEGER)", assignment };

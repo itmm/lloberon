@@ -12,8 +12,8 @@ TEST(Case_Tests, empty) {
 
 TEST(Case_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Case case_arg { scope };
     Case_Runner test1 { "3..4:", case_arg };
@@ -24,8 +24,8 @@ TEST(Case_Tests, simple) {
 
 TEST(Case_Tests, wrong) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Case case_arg { scope };
     Case_Runner test1 { "3 a := 3", case_arg, true, true };

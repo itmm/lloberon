@@ -42,8 +42,8 @@ TEST(Factor_Tests, grouped) {
 
 TEST(Factor_Tests, ident) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Factor factor { scope };
     Factor_Runner test1 { "a", factor };
@@ -55,8 +55,8 @@ TEST(Factor_Tests, ident) {
 
 TEST(Factor_Tests, incomplete) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Factor factor { scope };
     Factor_Runner test1 { "a(3,TRUE", factor, true };

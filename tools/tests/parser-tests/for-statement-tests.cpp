@@ -13,11 +13,11 @@ TEST(For_Statement_Tests, empty) {
 
 TEST(For_Statement_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "x", nullptr
+    scope.insert("x", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::For_Statement for_statement { scope };
     For_Statement_Runner test1 { "FOR a := 1 TO 3 DO x := x + a END", for_statement };
@@ -25,11 +25,11 @@ TEST(For_Statement_Tests, simple) {
 
 TEST(For_Statement_Tests, with_step) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "x", nullptr
+    scope.insert("x", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::For_Statement for_statement { scope };
     For_Statement_Runner test1 { "FOR a := 1 TO 10 BY 2 DO x := x + a END", for_statement };
@@ -37,11 +37,11 @@ TEST(For_Statement_Tests, with_step) {
 
 TEST(For_Statement_Tests, with_stepdown) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "x", nullptr
+    scope.insert("x", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::For_Statement for_statement { scope };
     For_Statement_Runner test1 { "FOR a := 10 TO 0 BY -2 DO x := x + a END", for_statement };
@@ -49,8 +49,8 @@ TEST(For_Statement_Tests, with_stepdown) {
 
 TEST(For_Statement_Tests, wrong) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::For_Statement for_statement { scope };
     For_Statement_Runner test1 { "FOR", for_statement, true };

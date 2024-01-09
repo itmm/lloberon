@@ -1,10 +1,12 @@
+#include <cassert>
+
 #include "sema/scope.h"
 #include "decl/declaration.h"
 
-bool Scope::insert(const std::shared_ptr<decl::Declaration>& declaration) {
-    if (has_in_scope(declaration->name())) { return false; }
+bool Scope::insert(const std::string& name, const std::shared_ptr<decl::Declaration>& declaration) {
+    if (has_in_scope(name)) { return false; }
     return symbols_.insert(std::pair<std::string, std::shared_ptr<decl::Declaration>>(
-        declaration->name(), declaration
+        name, declaration
     )).second;
 }
 
@@ -32,6 +34,6 @@ void Scope::consume(Scope& other) {
     assert(other.parent() == this && other.expand_);
 
     for (auto i { other.symbols_.begin() }, e { other.symbols_.end() }; i != e; ++i) {
-        insert(i->second);
+        insert(i->first, i->second);
     }
 }

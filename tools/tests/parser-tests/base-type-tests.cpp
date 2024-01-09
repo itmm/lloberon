@@ -20,13 +20,12 @@ TEST(Base_Type_Tests, simple) {
 TEST(Base_Type_Tests, qualified) {
     Scope scope;
     auto module = std::make_shared<decl::Module>(
-        llvm::SMLoc {}, "X", "X"
+        "X"
     );
-    module->insert(std::make_shared<decl::Type>(
-        nullptr, llvm::SMLoc { }, "Byte",
+    module->insert("Byte", std::make_shared<decl::Type>(
         std::make_shared<type::Base>(type::Base::bt_BYTE)
     ));
-    scope.insert(module);
+    scope.insert("X", module);
     sema::Base_Type base_type { scope };
     Base_Type_Runner test1 { "X.Byte", base_type };
 }

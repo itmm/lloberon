@@ -14,7 +14,7 @@ public:
         parent_ { parent }, expand_ { expand }
     { }
 
-    bool insert(const std::shared_ptr<decl::Declaration>& declaration);
+    bool insert(const std::string& name, const std::shared_ptr<decl::Declaration>& declaration);
     [[nodiscard]] std::shared_ptr<decl::Declaration> lookup(const std::string& name) const;
     [[nodiscard]] Scope* parent() const { return parent_; }
     [[nodiscard]] bool empty() const { return symbols_.empty(); }

@@ -13,11 +13,11 @@ TEST(While_Statement_Tests, empty) {
 
 TEST(While_Statement_Tests, simple) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "INC", nullptr
+    scope.insert("INC", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::While_Statement while_statement { scope };
     While_Statement_Runner test1 { "WHILE a < 3 DO INC(a) END", while_statement };
@@ -25,17 +25,17 @@ TEST(While_Statement_Tests, simple) {
 
 TEST(While_Statement_Tests, with_elsif) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "b", nullptr
+    scope.insert("b", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "c", nullptr
+    scope.insert("c", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "INC", nullptr
+    scope.insert("INC", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::While_Statement while_statement { scope };
     While_Statement_Runner test1{
@@ -46,11 +46,11 @@ TEST(While_Statement_Tests, with_elsif) {
 
 TEST(While_Statement_Tests, wrong) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "INC", nullptr
+    scope.insert("INC", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::While_Statement while_statement { scope };
     While_Statement_Runner test1 { "WHILE DO", while_statement, true, true };

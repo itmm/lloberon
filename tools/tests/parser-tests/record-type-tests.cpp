@@ -24,12 +24,10 @@ TEST(Record_Type_Tests, simple) {
 
 TEST(Record_Type_Tests, sub_type) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Type>(
-        nullptr, llvm::SMLoc { }, "View",
+    scope.insert("View", std::make_shared<decl::Type>(
         std::make_shared<type::Base>(type::Base::bt_INTEGER)
     ));
-    scope.insert(std::make_shared<decl::Type>(
-        nullptr, llvm::SMLoc { }, "Point",
+    scope.insert("Point", std::make_shared<decl::Type>(
         std::make_shared<type::Base>(type::Base::bt_INTEGER)
     ));
     sema::Record_Type record_type { scope };

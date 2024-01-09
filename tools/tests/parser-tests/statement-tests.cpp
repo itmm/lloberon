@@ -13,20 +13,20 @@ TEST(Statement_Tests, empty) {
 
 TEST(Statement_Tests, single) {
     Scope scope;
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "a", nullptr
+    scope.insert("a", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "b", nullptr
+    scope.insert("b", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "i", nullptr
+    scope.insert("i", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "cond", nullptr
+    scope.insert("cond", std::make_shared<decl::Variable>(
+        nullptr
     ));
-    scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc {}, "f", nullptr
+    scope.insert("f", std::make_shared<decl::Variable>(
+        nullptr
     ));
     sema::Statement statement { scope };
     Statement_Runner test1 { "a := 3", statement };

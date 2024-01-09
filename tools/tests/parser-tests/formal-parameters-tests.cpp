@@ -24,12 +24,11 @@ TEST(Formal_Parameters_Tests, simple) {
 
 TEST(Formal_Parameters_Tests, with_return) {
     Scope scope;
-    auto module = std::make_shared<decl::Module>(llvm::SMLoc {}, "X", "X");
-    module->insert(std::make_shared<decl::Type>(
-        nullptr, llvm::SMLoc { }, "Byte",
+    auto module = std::make_shared<decl::Module>("X");
+    module->insert("Byte", std::make_shared<decl::Type>(
         std::make_shared<type::Base>(type::Base::bt_BYTE)
     ));
-    scope.insert(module);
+    scope.insert("X", module);
     sema::Formal_Parameters formal_parameters { scope };
     Formal_Parameters_Runner test1 { "(): X.Byte", formal_parameters };
 }

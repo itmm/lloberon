@@ -21,10 +21,11 @@ TEST(Scope_Tests, not_found) {
 
 TEST(Scope_Tests, insert) {
     Scope scope;
-    EXPECT_TRUE(scope.insert(std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc { }, "abc", nullptr
-    )));
-    EXPECT_STREQ(scope.lookup("abc")->name().c_str(), "abc");
+    auto var { std::make_shared<decl::Variable>(
+        nullptr
+    )};
+    EXPECT_TRUE(scope.insert("abc", var));
+    EXPECT_EQ(scope.lookup("abc"), var);
 }
 
 TEST(Scope_Tests, not_found_with_parent) {
@@ -36,21 +37,22 @@ TEST(Scope_Tests, not_found_with_parent) {
 TEST(Scope_Tests, insert_with_parent) {
     Scope parent;
     Scope scope { &parent };
-    EXPECT_TRUE(parent.insert(std::make_shared<decl::Variable>(
-            nullptr, llvm::SMLoc { }, "abc", nullptr
-    )));
-    EXPECT_STREQ(scope.lookup("abc")->name().c_str(), "abc");
+    auto var { std::make_shared<decl::Variable>(
+        nullptr
+    ) };
+    EXPECT_TRUE(parent.insert("abc", var));
+    EXPECT_EQ(scope.lookup("abc"), var);
 }
 
 TEST(Scope_Tests, double_insert) {
     auto first { std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc { }, "abc", nullptr
+        nullptr
     ) };
     auto second { std::make_shared<decl::Variable>(
-        nullptr, llvm::SMLoc { }, "abc", nullptr
+        nullptr
     ) };
     Scope scope;
-    EXPECT_TRUE(scope.insert(first));
-    EXPECT_FALSE(scope.insert(second));
+    EXPECT_TRUE(scope.insert("abc", first));
+    EXPECT_FALSE(scope.insert("abc", second));
     EXPECT_EQ(scope.lookup("abc"), first);
 }

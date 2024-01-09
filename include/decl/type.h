@@ -11,8 +11,8 @@ class Scope;
 namespace decl {
     class Type : public Declaration {
     public:
-        Type(Declaration *enclosing_declaration, llvm::SMLoc loc, std::string name, std::shared_ptr<type::Type> type) :
-                Declaration(enclosing_declaration, loc, std::move(name)), type { std::move(type) } {}
+        explicit Type(std::shared_ptr<type::Type> type) :
+            Declaration { }, type { std::move(type) } {}
 
         std::shared_ptr<type::Type> type;
 
