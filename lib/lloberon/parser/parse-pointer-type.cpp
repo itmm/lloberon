@@ -8,6 +8,6 @@ bool Parser::parse_pointer_type(sema::Type& type) {
     if (consume(token::keyword_TO)) { return true; }
     sema::Type points_to { type.scope() };
     if (parse_type(points_to)) { return true; }
-    type.type = std::dynamic_pointer_cast<type::Type>(std::make_shared<type::Pointer>(points_to.type));
+    type.type = std::make_shared<type::Pointer>(points_to.type);
     return false;
 }
