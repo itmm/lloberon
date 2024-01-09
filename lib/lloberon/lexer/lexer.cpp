@@ -88,7 +88,7 @@ void Lexer::next(Token &token) {
                 ++end;
                 if (*end == '+' || *end == '-') { ++end; }
                 if (!char_info::is_digit(*end)) {
-                    form_token(token, end + 1, token::unknown);
+                    form_token(token, end, token::unknown);
                     return;
                 }
                 while (char_info::is_digit(*end)) { ++end; }

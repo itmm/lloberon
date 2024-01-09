@@ -33,19 +33,28 @@ protected:
     void expect_eof() {
         EXPECT_EQ(token.kind(), token::eof);
     }
+    void expect_not_eof() {
+        EXPECT_NE(token.kind(), token::eof);
+    }
 };
 
 class Single_Kind_Runner: public Lexer_String_Runner {
     token::Kind kind_;
+    bool has_more_;
 public:
-    Single_Kind_Runner(const char* source, token::Kind kind):
-            Lexer_String_Runner(source), kind_ {kind }
+    Single_Kind_Runner(const char* source, token::Kind kind, bool has_more = false):
+            Lexer_String_Runner { source }, kind_ { kind },
+            has_more_ { has_more }
     { }
 
     void run() override {
         EXPECT_EQ(token.kind(), kind_);
         lexer.next(token);
-        expect_eof();
+        if (has_more_) {
+            expect_not_eof();
+        } else {
+            expect_eof();
+        }
     }
 };
 
@@ -127,8 +136,8 @@ TEST(Comments_Tests, star_line) {
     expect_empty("(***)");
 }
 
-static void expect_unknown(const char* source) {
-    Single_Kind_Runner(source, token::unknown).run();
+static void expect_unknown(const char* source, bool has_more = false) {
+    Single_Kind_Runner(source, token::unknown, has_more).run();
 }
 
 TEST(Comments_Tests, open_comment) {
@@ -244,12 +253,12 @@ TEST(Float_Tests, following_identifiers) {
 }
 
 TEST(Float_Tests, invalid_literals) {
-    expect_unknown("12.E");
-    expect_unknown("12.EE");
-    expect_unknown("12.E+");
-    expect_unknown("12.E++");
-    expect_unknown("12.E+A");
-    expect_unknown("12.E-");
+    expect_unknown("12.E", false);
+    expect_unknown("12.EE", true);
+    expect_unknown("12.E+", false);
+    expect_unknown("12.E++", true);
+    expect_unknown("12.E+A", true);
+    expect_unknown("12.E-", false);
 }
 
 
