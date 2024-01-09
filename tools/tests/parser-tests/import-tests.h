@@ -16,5 +16,5 @@ inline void expect_module(Scope& scope, const char* name, const char* full_name)
         scope.lookup(name)
     );
     EXPECT_TRUE(got != nullptr);
-    EXPECT_STREQ(got->full_name().c_str(), full_name);
+    EXPECT_STREQ(got->name().c_str(), full_name);
 }

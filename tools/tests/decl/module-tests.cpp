@@ -11,5 +11,5 @@ protected:
 };
 
 TEST_F(Module_Declaration_Test, full_name) {
-    EXPECT_STREQ(decl.full_name().c_str(), "b");
+    EXPECT_STREQ(decl.name().c_str(), "b");
 }
