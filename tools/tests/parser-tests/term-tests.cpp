@@ -1,17 +1,17 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
 
-using Term_Runner = Parser_Value_Runner<sema::Term, &Parser::parse_term>;
+using Term_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_term>;
 
 TEST(Term_Tests, empty) {
     Scope scope;
-    sema::Term term { scope };
+    sema::Expression term { scope };
     Term_Runner test1 { "", term, true };
 }
 
 TEST(Term_Tests, single) {
     Scope scope;
-    sema::Term term { scope };
+    sema::Expression term { scope };
     Term_Runner test1 { "3", term };
 }
 
@@ -23,7 +23,7 @@ TEST(Term_Tests, simple) {
     scope.insert("b", std::make_shared<decl::Variable>(
         nullptr
     ));
-    sema::Term term { scope };
+    sema::Expression term { scope };
     Term_Runner test1 { "a * b", term };
 
     term.clear();
@@ -50,7 +50,7 @@ TEST(Term_Tests, multiple) {
     scope.insert("c", std::make_shared<decl::Variable>(
         nullptr
     ));
-    sema::Term term { scope };
+    sema::Expression term { scope };
     Term_Runner test1 { "a * b * c", term };
 
     term.clear();
@@ -62,7 +62,7 @@ TEST(Term_Tests, incomplete) {
     scope.insert("a", std::make_shared<decl::Variable>(
         nullptr
     ));
-    sema::Term term { scope };
+    sema::Expression term { scope };
     Term_Runner test1 { "a / 2 DIV", term, true };
 
     term.clear();

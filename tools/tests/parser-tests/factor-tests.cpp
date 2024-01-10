@@ -1,21 +1,24 @@
 #include "parser-tests.h"
 #include "decl/declaration.h"
 #include "decl/variable.h"
+#include "expr/int-literal.h"
 
-using Factor_Runner = Parser_Value_Runner<
-    sema::Factor, &Parser::parse_factor
->;
+using Factor_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_factor>;
 
 TEST(Factor_Tests, empty) {
     Scope scope;
-    sema::Factor factor { scope };
+    sema::Expression factor { scope };
     Factor_Runner("", factor, true);
 }
 
 TEST(Factor_Tests, literals) {
     Scope scope;
-    sema::Factor factor { scope };
+    sema::Expression factor { scope };
     Factor_Runner test1 { "3", factor };
+    auto int_factor { std::dynamic_pointer_cast<expr::Int_Literal>(factor.expression) };
+    EXPECT_NE(int_factor, nullptr);
+    EXPECT_EQ(int_factor->value, 3);
+
     factor.clear();
     Factor_Runner test2 { "3.241", factor };
     factor.clear();
@@ -30,13 +33,13 @@ TEST(Factor_Tests, literals) {
 
 TEST(Factor_Tests, set) {
     Scope scope;
-    sema::Factor factor { scope };
+    sema::Expression factor { scope };
     Factor_Runner test1 { "{3..5}", factor };
 }
 
 TEST(Factor_Tests, grouped) {
     Scope scope;
-    sema::Factor factor { scope };
+    sema::Expression factor { scope };
     Factor_Runner test1 { "(3 + 4)", factor };
 }
 
@@ -45,7 +48,7 @@ TEST(Factor_Tests, ident) {
     scope.insert("a", std::make_shared<decl::Variable>(
         nullptr
     ));
-    sema::Factor factor { scope };
+    sema::Expression factor { scope };
     Factor_Runner test1 { "a", factor };
     factor.clear();
     Factor_Runner test2 { "a(3, TRUE)", factor };
@@ -58,7 +61,7 @@ TEST(Factor_Tests, incomplete) {
     scope.insert("a", std::make_shared<decl::Variable>(
         nullptr
     ));
-    sema::Factor factor { scope };
+    sema::Expression factor { scope };
     Factor_Runner test1 { "a(3,TRUE", factor, true };
     factor.clear();
     Factor_Runner test2 { "a(3,", factor, true };

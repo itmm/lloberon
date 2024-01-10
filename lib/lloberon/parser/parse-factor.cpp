@@ -1,10 +1,20 @@
 #include "parser/parser.h"
-#include "sema/factor.h"
+#include "sema/expression.h"
+#include "expr/int-literal.h"
 
-bool Parser::parse_factor(sema::Factor& factor) {
+bool Parser::parse_factor(sema::Expression& factor) {
     factor.clear();
     switch (token_.kind()) {
-        case token::integer_literal: case token::float_literal: case token::string_literal:
+        case token::integer_literal: {
+            int value { 0 };
+            for (const auto& ch : token_.literal_data()) {
+                value = value * 10 + (ch - '0');
+            }
+            advance();
+            factor.expression = std::make_shared<expr::Int_Literal>(value);
+            break;
+        }
+        case token::float_literal: case token::string_literal:
         case token::keyword_NIL: case token::keyword_TRUE: case token::keyword_FALSE:
             advance();
             break;

@@ -9,8 +9,7 @@ bool Parser::parse_type(sema::Type& type) {
         if (! got) { error(); return true; }
         type.type = got->type;
     } else if (token_.is(token::keyword_ARRAY)) {
-        sema::Array_Type array_type { type.scope() };
-        if (parse_array_type(array_type)) { return true; }
+        if (parse_array_type(type)) { return true; }
     } else if (token_.is(token::keyword_RECORD)) {
         if (parse_record_type(type)) { return true; }
     } else if (token_.is(token::keyword_POINTER)) {

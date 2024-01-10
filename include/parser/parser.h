@@ -3,16 +3,15 @@
 #include "lexer/lexer.h"
 #include "llvm/Support/raw_ostream.h"
 #include "sema/actual-parameters.h"
-#include "sema/array-type.h"
 #include "sema/assignment-or-procedure-call.h"
 #include "sema/case.h"
 #include "sema/case-list.h"
 #include "sema/case-statement.h"
 #include "sema/declaration-sequence.h"
 #include "sema/designator.h"
+#include "sema/const-expression.h"
 #include "sema/expression.h"
 #include "sema/expression-list.h"
-#include "sema/factor.h"
 #include "sema/for-statement.h"
 #include "sema/formal-parameter-section.h"
 #include "sema/formal-parameters.h"
@@ -26,11 +25,9 @@
 #include "sema/procedure-type.h"
 #include "sema/record-type.h"
 #include "sema/repeat-statement.h"
-#include "sema/simple-expression.h"
 #include "sema/scope.h"
 #include "sema/statement.h"
 #include "sema/statement-sequence.h"
-#include "sema/term.h"
 #include "sema/type.h"
 #include "sema/type-declaration.h"
 #include "sema/qual-ident.h"
@@ -81,22 +78,22 @@ public:
     explicit Parser(Lexer &lexer) : lexer_ { lexer } { advance(); }
 
     [[nodiscard]] bool parse();
-    [[nodiscard]] bool parse_simple_expression(sema::Simple_Expression& expression);
+    [[nodiscard]] bool parse_simple_expression(sema::Expression& expression);
     [[nodiscard]] bool parse_expression(sema::Expression& expression);
-    [[nodiscard]] bool parse_term(sema::Term& term);
+    [[nodiscard]] bool parse_term(sema::Expression& term);
 
     [[nodiscard]] bool parse_element();
     [[nodiscard]] bool parse_set();
-    [[nodiscard]] bool parse_factor(sema::Factor& factor);
+    [[nodiscard]] bool parse_factor(sema::Expression& factor);
 
     [[nodiscard]] bool parse_import(Scope& scope);
     [[nodiscard]] bool parse_import_list(Scope& scope);
     [[nodiscard]] bool parse_ident_def(sema::Ident_Def& ident_def);
-    [[nodiscard]] bool parse_const_expression();
+    [[nodiscard]] bool parse_const_expression(sema::Const_Expression& expression);
     [[nodiscard]] bool parse_const_declaration();
     [[nodiscard]] bool parse_qual_ident(sema::Qual_Ident& qual_ident);
-    [[nodiscard]] bool parse_length();
-    [[nodiscard]] bool parse_array_type(sema::Array_Type& array_type);
+    [[nodiscard]] bool parse_length(sema::Const_Expression& expression);
+    [[nodiscard]] bool parse_array_type(sema::Type& type);
     [[nodiscard]] bool parse_base_type(sema::Record_Type& base_type);
     [[nodiscard]] bool parse_ident_list(sema::Ident_List& ident_list);
     [[nodiscard]] bool parse_field_list(sema::Record_Type& record_type);
