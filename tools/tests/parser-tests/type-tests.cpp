@@ -14,7 +14,7 @@ TEST(Type_Tests, simple) {
     Scope scope;
     decl::Type::register_base_types(scope);
     scope.insert("Entry", std::make_shared<decl::Type>(
-        std::make_shared<type::Base>(type::Base::bt_INTEGER)
+        std::make_shared<type::Record>()
     ));
     sema::Type type { scope };
     Type_Runner test1 { "BOOLEAN", type };

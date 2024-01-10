@@ -1,6 +1,5 @@
 #include "parser-tests.h"
 #include "decl/type.h"
-#include "type/base.h"
 #include "type/pointer.h"
 
 using Pointer_Type_Runner = Parser_Value_Runner<
@@ -16,7 +15,7 @@ TEST(Pointer_Type_Tests, empty) {
 TEST(Pointer_Type_Tests, simple) {
     Scope scope;
     scope.insert("Record", std::make_shared<decl::Type>(
-       std::make_shared<type::Base>(type::Base::bt_INTEGER)
+       std::make_shared<type::Record>()
     ));
     sema::Type pointer_type { scope };
     Pointer_Type_Runner test1 { "POINTER TO Record", pointer_type };
@@ -26,7 +25,7 @@ TEST(Pointer_Type_Tests, simple) {
 TEST(Pointer_Type_Tests, incomplete) {
     Scope scope;
     scope.insert("Record", std::make_shared<decl::Type>(
-        std::make_shared<type::Base>(type::Base::bt_INTEGER)
+        std::make_shared<type::Record>()
     ));
     sema::Type pointer_type { scope };
     Pointer_Type_Runner test1 { "POINTER TO", pointer_type, true };
