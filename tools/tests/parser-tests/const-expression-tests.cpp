@@ -20,7 +20,7 @@ TEST(Const_Expression_Tests, literals) {
 
     expression.clear();
     Const_Expression_Runner test3 { "2.34", expression };
-return;
+
     expression.clear();
     Const_Expression_Runner test4 { "NIL", expression };
 
