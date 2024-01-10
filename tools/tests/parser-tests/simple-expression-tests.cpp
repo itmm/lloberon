@@ -1,6 +1,7 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
 #include "expr/bool.h"
+#include "expr/integer.h"
 
 using Simple_Expression_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_simple_expression>;
 
@@ -10,13 +11,26 @@ TEST(Simple_Expression_Tests, empty) {
     Simple_Expression_Runner test1 { "", simple_expression, true };
 }
 
-TEST(Simple_Expression_Tests, single) {
+void expect_int(const sema::Expression& expression, int expected) {
+    auto value { std::dynamic_pointer_cast<expr::Integer>(expression.expression) };
+    EXPECT_EQ(value->value, expected);
+}
+
+void expect_int(const char* source, int expected) {
     Scope scope;
-    sema::Expression simple_expression { scope };
-    Simple_Expression_Runner test1 { "3", simple_expression };
+    sema::Expression expression { scope };
+    Simple_Expression_Runner runner { source, expression };
+    expect_int(expression, expected);
+}
+
+TEST(Simple_Expression_Tests, single) {
+    expect_int("345", 345);
 }
 
 TEST(Simple_Expression_Tests, simple) {
+    expect_int("3 + 4", 7);
+    expect_int("3 - 4", -1);
+
     Scope scope;
     scope.insert("a", std::make_shared<decl::Variable>(
         nullptr
@@ -25,12 +39,6 @@ TEST(Simple_Expression_Tests, simple) {
         nullptr
     ));
     sema::Expression simple_expression { scope };
-    Simple_Expression_Runner test1 { "3 + 4", simple_expression };
-
-    simple_expression.clear();
-    Simple_Expression_Runner test2 { "3 - 4", simple_expression };
-
-    simple_expression.clear();
     Simple_Expression_Runner test3 { "a OR b", simple_expression };
 }
 
