@@ -1,6 +1,7 @@
 #include "parser/parser.h"
 #include "sema/expression.h"
-#include "expr/int-literal.h"
+#include "expr/integer.h"
+#include "expr/bool.h"
 
 bool Parser::parse_factor(sema::Expression& factor) {
     factor.clear();
@@ -11,11 +12,15 @@ bool Parser::parse_factor(sema::Expression& factor) {
                 value = value * 10 + (ch - '0');
             }
             advance();
-            factor.expression = std::make_shared<expr::Int_Literal>(value);
+            factor.expression = std::make_shared<expr::Integer>(value);
             break;
         }
         case token::float_literal: case token::string_literal:
-        case token::keyword_NIL: case token::keyword_TRUE: case token::keyword_FALSE:
+        case token::keyword_NIL:
+            advance();
+            break;
+        case token::keyword_TRUE: case token::keyword_FALSE:
+            factor.expression = std::make_shared<expr::Bool>(token_.kind() == token::keyword_TRUE);
             advance();
             break;
         case token::left_brace:

@@ -1,12 +1,13 @@
 #include "parser-tests.h"
+#include "expr/integer.h"
 
 using Const_Expression_Runner = Parser_Value_Runner<sema::Const_Expression, &Parser::parse_const_expression>;
 
 TEST(Const_Expression_Tests, empty) {
     Scope scope;
     sema::Const_Expression expression { scope };
-    Const_Expression_Runner("", expression, true);
-    // TODO: more tests
+    Const_Expression_Runner test1 { "", expression, true };
+    EXPECT_EQ(expression.expression, nullptr);
 }
 
 TEST(Const_Expression_Tests, literals) {
@@ -14,9 +15,15 @@ TEST(Const_Expression_Tests, literals) {
     sema::Const_Expression expression { scope };
     // TODO: more tests
     Const_Expression_Runner test1 { "234", expression };
+    auto int_value { std::dynamic_pointer_cast<expr::Integer>(expression.expression) };
+    EXPECT_NE(int_value, nullptr);
+    EXPECT_EQ(int_value->value, 234);
 
     expression.clear();
     Const_Expression_Runner test2 { "-234", expression };
+    int_value = std::dynamic_pointer_cast<expr::Integer>(expression.expression);
+    EXPECT_NE(int_value, nullptr);
+    EXPECT_EQ(int_value->value, -234);
 
     expression.clear();
     Const_Expression_Runner test3 { "2.34", expression };
@@ -39,4 +46,10 @@ TEST(Const_Expression_Tests, expressions) {
 
     expression.clear();
     Const_Expression_Runner test2 { "2 < 4 # FALSE", expression };
+
+    expression.clear();
+    Const_Expression_Runner test3 { "5 - 3", expression };
+    auto int_value { std::dynamic_pointer_cast<expr::Integer>(expression.expression) };
+    EXPECT_NE(int_value, nullptr);
+    EXPECT_EQ(int_value->value, 2);
 }

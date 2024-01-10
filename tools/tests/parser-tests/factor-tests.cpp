@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "decl/declaration.h"
 #include "decl/variable.h"
-#include "expr/int-literal.h"
+#include "expr/integer.h"
 
 using Factor_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_factor>;
 
@@ -15,7 +15,7 @@ TEST(Factor_Tests, literals) {
     Scope scope;
     sema::Expression factor { scope };
     Factor_Runner test1 { "3", factor };
-    auto int_factor { std::dynamic_pointer_cast<expr::Int_Literal>(factor.expression) };
+    auto int_factor { std::dynamic_pointer_cast<expr::Integer>(factor.expression) };
     EXPECT_NE(int_factor, nullptr);
     EXPECT_EQ(int_factor->value, 3);
 
