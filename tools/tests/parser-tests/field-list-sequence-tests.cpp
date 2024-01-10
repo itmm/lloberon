@@ -30,4 +30,5 @@ TEST(Field_List_Sequence_Tests, incomplete) {
     decl::Type::register_base_types(scope);
     sema::Record_Type field_list_sequence { scope };
     Field_List_Sequence_Runner test1 { "a: BYTE;", field_list_sequence, true };
+    EXPECT_EQ(field_list_sequence.record->entries.size(), 0);
 }
