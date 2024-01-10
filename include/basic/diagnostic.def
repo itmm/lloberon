@@ -3,5 +3,28 @@
 #endif
 DIAG(err_sym_declared, Error, "symbol {0} already declared")
 DIAG(err_expected, Error, "expected `{0}', but got `{1}'")
-DIAG(err_unexpected, Error, "didn't expect `{0}'")
+DIAG(err_base_type_expected, Error, "base type must be a type")
+DIAG(err_base_type_must_be_record, Error, "base type must be a RECORD type")
+DIAG(err_bar_in_case_expected, Error, "| (or END) in CASE statement expected")
+DIAG(err_const_experssion_expected, Error, "constant expression expected")
+DIAG(err_factor_expected, Error, "Factor expression expected")
+DIAG(err_import_already_used, Error, "MODULE IMPORT {0} is already used")
+DIAG(
+	err_module_names_dont_match, Error, "MODULE names {0} and {1} do not match"
+)
+DIAG(err_length_must_be_nonnegative, Error, "length must be non-negative")
+DIAG(err_must_point_to_record, Error, "can only point to RECORD types")
+DIAG(err_identfier_expected, Error, "identifier expected")
+DIAG(err_module_identifier_expected, Error, "MODULE identifier expected")
+DIAG(
+	err_period_after_module_expected, Error,
+	". after MODULE identifier expected"
+)
+DIAG(
+	err_negate_must_be_numeric, Error, "only numeric expressions can be negated"
+)
+DIAG(err_add_subtract_must_be_numeric, Error, "operands of +/- must be numeric")
+DIAG(err_or_must_be_bool, Error, "operands of OR must be BOOLEAN")
+DIAG(err_identifier_must_be_type, Error, "identifier must be a type")
+DIAG(err_type_expected, Error, "type expected")
 #undef DIAG

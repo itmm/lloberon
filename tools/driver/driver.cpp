@@ -1,7 +1,6 @@
 #include "basic/diagnostic.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
-#include "basic/version.h"
 
 #include <llvm/Support/SourceMgr.h>
 #include "llvm/Support/InitLLVM.h"

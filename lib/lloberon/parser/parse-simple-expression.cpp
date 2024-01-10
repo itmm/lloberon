@@ -43,7 +43,9 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					-float_value->value
 				);
 			} else {
-				error();
+				diag().report(
+					token_.location(), diag::err_negate_must_be_numeric
+				);
 				return true;
 			}
 		}
@@ -88,7 +90,10 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					);
 					break;
 				default:
-					error();
+					diag().report(
+						token_.location(),
+						diag::err_add_subtract_must_be_numeric
+					);
 					return true;
 			}
 		} else if (float_value && right_float_value) {
@@ -106,7 +111,10 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					);
 					break;
 				default:
-					error();
+					diag().report(
+						token_.location(),
+						diag::err_add_subtract_must_be_numeric
+					);
 					return true;
 			}
 		} else if (bool_value && right_bool_value) {
@@ -115,7 +123,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					bool_value->value || right_bool_value->value
 				);
 			} else {
-				error();
+				diag().report(token_.location(), diag::err_or_must_be_bool);
 				return true;
 			}
 		} else {

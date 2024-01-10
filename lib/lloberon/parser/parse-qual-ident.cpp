@@ -6,7 +6,10 @@ bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
     auto decl = qual_ident.scope().lookup(token_.identifier().str());
     advance();
 
-    if (! decl) { error(); return true; }
+    if (! decl) {
+		diag().report(token_.location(), diag::err_identfier_expected);
+		return true;
+	}
     auto module = std::dynamic_pointer_cast<decl::Module>(decl);
 
     if (module) {
@@ -15,8 +18,18 @@ bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
             if (expect(token::identifier)) { return true; }
             decl = module->lookup(token_.identifier().str());
             advance();
-            if (! decl) { error(); return true; }
-        } else { error(); return true; }
+            if (! decl) {
+				diag().report(
+					token_.location(), diag::err_module_identifier_expected
+				);
+				return true;
+			}
+        } else {
+			diag().report(
+				token_.location(), diag::err_period_after_module_expected
+			);
+			return true;
+		}
         qual_ident.module = module;
     }
     qual_ident.declaration = decl;
