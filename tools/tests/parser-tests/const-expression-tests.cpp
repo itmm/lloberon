@@ -1,6 +1,8 @@
 #include "parser-tests.h"
 #include "expr/integer.h"
 #include "expr/bool.h"
+#include "expr/nil.h"
+#include "expr/float.h"
 
 using Const_Expression_Runner = Parser_Value_Runner<sema::Const_Expression, &Parser::parse_const_expression>;
 
@@ -14,7 +16,7 @@ TEST(Const_Expression_Tests, empty) {
 TEST(Const_Expression_Tests, literals) {
     Scope scope;
     sema::Const_Expression expression { scope };
-    // TODO: more tests
+
     Const_Expression_Runner test1 { "234", expression };
     auto int_value { std::dynamic_pointer_cast<expr::Integer>(expression.expression) };
     EXPECT_NE(int_value, nullptr);
@@ -28,15 +30,26 @@ TEST(Const_Expression_Tests, literals) {
 
     expression.clear();
     Const_Expression_Runner test3 { "2.34", expression };
+    auto float_value { std::dynamic_pointer_cast<expr::Float>(expression.expression) };
+    EXPECT_NE(float_value, nullptr);
+    EXPECT_EQ(float_value->value, 2.34);
 
     expression.clear();
     Const_Expression_Runner test4 { "NIL", expression };
+    auto nil_value { std::dynamic_pointer_cast<expr::Nil>(expression.expression) };
+    EXPECT_NE(nil_value, nullptr);
 
     expression.clear();
     Const_Expression_Runner test5 { "TRUE", expression };
+    auto bool_value { std::dynamic_pointer_cast<expr::Bool>(expression.expression) };
+    EXPECT_NE(bool_value, nullptr);
+    EXPECT_TRUE(bool_value->value);
 
     expression.clear();
     Const_Expression_Runner test6 { "FALSE", expression };
+    bool_value = std::dynamic_pointer_cast<expr::Bool>(expression.expression);
+    EXPECT_NE(bool_value, nullptr);
+    EXPECT_FALSE(bool_value->value);
 }
 
 TEST(Const_Expression_Tests, expressions) {
