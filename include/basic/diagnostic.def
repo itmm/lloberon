@@ -27,4 +27,5 @@ DIAG(err_add_subtract_must_be_numeric, Error, "operands of +/- must be numeric")
 DIAG(err_or_must_be_bool, Error, "operands of OR must be BOOLEAN")
 DIAG(err_identifier_must_be_type, Error, "identifier must be a type")
 DIAG(err_type_expected, Error, "type expected")
+DIAG(err_already_defined, Error, "identifier {0} is already defined")
 #undef DIAG

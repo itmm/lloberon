@@ -6,7 +6,9 @@ bool Parser::parse_declaration_sequence(
 	if (token_.is(token::keyword_CONST)) {
 		advance();
 		while (token_.is(token::identifier)) {
-			if (parse_const_declaration()) { return true; }
+			if (parse_const_declaration(declaration_sequence.scope())) {
+				return true;
+			}
 			if (consume(token::semicolon)) { return true; }
 		}
 	}

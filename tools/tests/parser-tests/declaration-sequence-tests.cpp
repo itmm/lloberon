@@ -66,54 +66,74 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 		"CONST a = 3; TYPE x = BYTE;", declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test2 {
 		"TYPE x = BYTE; VAR a: BYTE;", declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test3 {
 		"VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;", declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test4 {
 		"CONST a = 3; VAR a: BYTE;", declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test5 {
 		"TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;", declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test6 {
 		"CONST a = 3; PROCEDURE Nop(); BEGIN END Nop;", declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test7 {
 		"CONST a = 3; TYPE x = BYTE; VAR a: BYTE;", declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test8 {
 		"TYPE x = BYTE; VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;",
 		declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test9 {
 		"CONST a = 3; VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;",
 		declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test10 {
 		"CONST a = 3; TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;",
 		declaration_sequence
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	declaration_sequence.clear();
 	Declaration_Sequence_Runner test11 {
 		"CONST a = 3; TYPE x = BYTE; VAR a: BYTE; "

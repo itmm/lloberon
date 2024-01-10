@@ -43,6 +43,8 @@ TEST(Procedure_Body_Tests, with_declaration) {
 		"VAR a: INTEGER; BEGIN a := 42 END", procedure_body
 	};
 
+	new (&scope) Scope { };
+	decl::Type::register_base_types(scope);
 	procedure_body.clear();
 	Procedure_Body_Runner test2 {
 		"CONST a = 42; RETURN a END", procedure_body

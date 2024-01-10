@@ -32,7 +32,6 @@ TEST(Module_Tests, with_statements) {
 TEST(Module_Tests, with_multiple) {
 	Scope scope;
 	scope.insert("EXIT", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("B", std::make_shared<decl::Variable>(nullptr));
 	Module_Runner test1 {
 		"MODULE A; IMPORT x; CONST B = 3; BEGIN EXIT(B) END A.", scope
 	};
@@ -46,7 +45,6 @@ TEST(Module_Tests, with_multiple) {
 
 	new(&scope) Scope { };
 	scope.insert("EXIT", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("B", std::make_shared<decl::Variable>(nullptr));
 	Module_Runner test4 {
 		"MODULE A; CONST B = 3; BEGIN EXIT(B) END A.", scope
 	};
