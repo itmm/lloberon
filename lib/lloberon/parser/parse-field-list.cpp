@@ -7,7 +7,7 @@ bool Parser::parse_field_list(sema::Record_Type& record_type) {
     sema::Type type { record_type.scope() };
     if (parse_type(type)) { return true; }
     for (const auto& id : ident_list) {
-        record_type.entries.emplace_back(id.ident, type.type, id.exported);
+        record_type.record->entries.emplace_back(id.ident, type.type, id.exported);
     }
     return false;
 }

@@ -12,5 +12,6 @@ bool Parser::parse_record_type(sema::Type& type) {
         if (parse_field_list_sequence(record_type)) { return true; }
     }
     if (consume(token::keyword_END)) { return true; }
+    type.type = record_type.record;
     return false;
 }

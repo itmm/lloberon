@@ -16,8 +16,8 @@ TEST(Field_List_Tests, simple) {
     decl::Type::register_base_types(scope);
     sema::Record_Type record_type {scope };
     Field_List_Runner test1 {"a: INTEGER", record_type };
-    EXPECT_EQ(record_type.entries.size(), 1);
-    const auto& first { record_type.entries[0] };
+    EXPECT_EQ(record_type.record->entries.size(), 1);
+    const auto& first { record_type.record->entries[0] };
     EXPECT_STREQ(first.name.c_str(), "a");
     EXPECT_TRUE(first.type->is_integer());
     EXPECT_FALSE(first.exported);

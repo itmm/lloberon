@@ -1,6 +1,7 @@
 #include "parser-tests.h"
 #include "decl/type.h"
 #include "type/base.h"
+#include "type/record.h"
 
 using Base_Type_Runner = Parser_Value_Runner<sema::Record_Type, &Parser::parse_base_type>;
 
@@ -12,9 +13,9 @@ TEST(Base_Type_Tests, empty) {
 
 TEST(Base_Type_Tests, simple) {
     Scope scope;
-    decl::Type::register_base_types(scope);
+    scope.insert("Record", std::make_shared<decl::Type>(std::make_shared<type::Record>()));
     sema::Record_Type base_type { scope };
-    Base_Type_Runner test1 ("BYTE", base_type);
+    Base_Type_Runner test1 ("Record", base_type);
 }
 
 TEST(Base_Type_Tests, qualified) {
@@ -22,10 +23,10 @@ TEST(Base_Type_Tests, qualified) {
     auto module = std::make_shared<decl::Module>(
         "X"
     );
-    module->insert("Byte", std::make_shared<decl::Type>(
-        std::make_shared<type::Base>(type::Base::bt_BYTE)
+    module->insert("Record", std::make_shared<decl::Type>(
+        std::make_shared<type::Record>()
     ));
     scope.insert("X", module);
     sema::Record_Type base_type { scope };
-    Base_Type_Runner test1 { "X.Byte", base_type };
+    Base_Type_Runner test1 { "X.Record", base_type };
 }
