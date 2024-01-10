@@ -1,5 +1,6 @@
 #include "parser/parser.h"
 #include "expr/integer.h"
+#include "expr/float.h"
 #include "expr/bool.h"
 
 bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
@@ -11,16 +12,26 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
     Scope scope;
     if (parse_term(simple_expression)) { return true; }
 
+    std::shared_ptr<expr::Float> float_value;
     std::shared_ptr<expr::Integer> int_value;
     std::shared_ptr<expr::Bool> bool_value;
 
     int_value = std::dynamic_pointer_cast<expr::Integer>(simple_expression.expression);
-    bool_value = std::dynamic_pointer_cast<expr::Bool>(simple_expression.expression);
+    if (int_value) {
+        float_value = std::make_shared<expr::Float>(int_value->value);
+    } else {
+        bool_value = std::dynamic_pointer_cast<expr::Bool>(simple_expression.expression);
+        if (! bool_value) {
+            float_value = std::dynamic_pointer_cast<expr::Float>(simple_expression.expression);
+        }
+    }
 
     if (is_negative) {
         if (std::dynamic_pointer_cast<expr::Const>(simple_expression.expression)) {
             if (int_value) {
                 int_value = std::make_shared<expr::Integer>(-int_value->value);
+            } else if (float_value) {
+                float_value = std::make_shared<expr::Float>(-float_value->value);
             } else { error(); return true; }
         }
     }
@@ -29,14 +40,41 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
         auto op { token_.kind() };
         advance();
         if (parse_term(simple_expression)) { return true; }
-        auto right_int_value { std::dynamic_pointer_cast<expr::Integer>(simple_expression.expression) };
-        auto right_bool_value { std::dynamic_pointer_cast<expr::Bool>(simple_expression.expression) };
+
+        std::shared_ptr<expr::Integer> right_int_value;
+        std::shared_ptr<expr::Float> right_float_value;
+        std::shared_ptr<expr::Bool> right_bool_value;
+
+        right_int_value = std::dynamic_pointer_cast<expr::Integer>(simple_expression.expression);
+        if (right_int_value) {
+            right_float_value = std::make_shared<expr::Float>(right_int_value->value);
+        } else {
+            right_bool_value = std::dynamic_pointer_cast<expr::Bool>(simple_expression.expression);
+            if (! right_bool_value) {
+                right_float_value = std::dynamic_pointer_cast<expr::Float>(simple_expression.expression);
+            }
+        }
         if (int_value && right_int_value) {
             switch (op) {
-                case token::plus:int_value = std::make_shared<expr::Integer>(int_value->value + right_int_value->value);
+                case token::plus:
+                    int_value = std::make_shared<expr::Integer>(int_value->value + right_int_value->value);
                     break;
                 case token::minus:
                     int_value = std::make_shared<expr::Integer>(int_value->value - right_int_value->value);
+                    break;
+                default:
+                    error();
+                    return true;
+            }
+        } else if (float_value && right_float_value) {
+            switch (op) {
+                case token::plus:
+                    int_value = nullptr;
+                    float_value = std::make_shared<expr::Float>(float_value->value + right_float_value->value);
+                    break;
+                case token::minus:
+                    int_value = nullptr;
+                    float_value = std::make_shared<expr::Float>(float_value->value - right_float_value->value);
                     break;
                 default:
                     error();
@@ -49,11 +87,14 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
         } else {
             int_value = nullptr;
             bool_value = nullptr;
+            float_value = nullptr;
         }
     }
 
     if (int_value) {
         simple_expression.expression = int_value;
+    } else if (float_value) {
+        simple_expression.expression = float_value;
     } else if (bool_value) {
         simple_expression.expression = bool_value;
     }

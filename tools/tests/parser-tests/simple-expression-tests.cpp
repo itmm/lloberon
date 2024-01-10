@@ -2,6 +2,7 @@
 #include "decl/variable.h"
 #include "expr/bool.h"
 #include "expr/integer.h"
+#include "expr/float.h"
 
 using Simple_Expression_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_simple_expression>;
 
@@ -13,6 +14,7 @@ TEST(Simple_Expression_Tests, empty) {
 
 void expect_int(const sema::Expression& expression, int expected) {
     auto value { std::dynamic_pointer_cast<expr::Integer>(expression.expression) };
+    EXPECT_NE(value, nullptr);
     EXPECT_EQ(value->value, expected);
 }
 
@@ -23,13 +25,36 @@ void expect_int(const char* source, int expected) {
     expect_int(expression, expected);
 }
 
+void expect_float(const sema::Expression& expression, double expected) {
+    auto value { std::dynamic_pointer_cast<expr::Float>(expression.expression) };
+    EXPECT_NE(value, nullptr);
+    if (value) {
+        EXPECT_EQ(value->value, expected);
+    }
+}
+
+void expect_float(const char* source, double expected) {
+    Scope scope;
+    sema::Expression expression { scope };
+    Simple_Expression_Runner runner { source, expression };
+    expect_float(expression, expected);
+}
+
 TEST(Simple_Expression_Tests, single) {
     expect_int("345", 345);
 }
 
 TEST(Simple_Expression_Tests, simple) {
+    expect_int("-5", -5);
     expect_int("3 + 4", 7);
     expect_int("3 - 4", -1);
+
+    expect_float("-3.5", -3.5);
+    expect_float("2.5 + 5.25", 7.75);
+    expect_float("2.5 - 5.25", -2.75);
+
+    expect_float("2.5 + 5", 7.5);
+    expect_float("3 - 6.5", -3.5);
 
     Scope scope;
     scope.insert("a", std::make_shared<decl::Variable>(

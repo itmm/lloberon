@@ -14,7 +14,7 @@ namespace sema {
 
         std::shared_ptr<type::Record> record { std::make_shared<type::Record>() };
 
-        void clear() {
+        void clear() const {
             record->base = nullptr;
             record->entries.clear();
         }
