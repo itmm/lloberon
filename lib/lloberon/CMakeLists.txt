@@ -1,5 +1,4 @@
 add_lloberon_library(liboberon
-        basic/version.cpp
         basic/diagnostic.cpp
         basic/token-kinds.cpp
         decl/type.cpp
