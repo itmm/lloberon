@@ -19,6 +19,7 @@
 #include "sema/ident-def.h"
 #include "sema/if-statement.h"
 #include "sema/label.h"
+#include "sema/length.h"
 #include "sema/procedure-body.h"
 #include "sema/procedure-declaration.h"
 #include "sema/procedure-heading.h"
@@ -92,7 +93,7 @@ public:
     [[nodiscard]] bool parse_const_expression(sema::Const_Expression& expression);
     [[nodiscard]] bool parse_const_declaration();
     [[nodiscard]] bool parse_qual_ident(sema::Qual_Ident& qual_ident);
-    [[nodiscard]] bool parse_length(sema::Const_Expression& expression);
+    [[nodiscard]] bool parse_length(sema::Length& length);
     [[nodiscard]] bool parse_array_type(sema::Type& type);
     [[nodiscard]] bool parse_base_type(sema::Record_Type& base_type);
     [[nodiscard]] bool parse_ident_list(sema::Ident_List& ident_list);

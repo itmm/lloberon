@@ -2,19 +2,18 @@
 
 #include "parser/parser.h"
 #include "type/array.h"
-#include "expr/int-literal.h"
 
 bool Parser::parse_array_type(sema::Type& type) {
     type.clear();
     std::vector<int> counts;
     if (consume(token::keyword_ARRAY)) { return true; }
-    sema::Const_Expression expression { type.scope() };
+    sema::Length expression { type.scope() };
     if (parse_length(expression)) { return true; }
-    counts.push_back(std::dynamic_pointer_cast<expr::Int_Literal>(expression.expression)->value);
+    counts.push_back(expression.length);
     while (token_.is(token::comma)) {
         advance();
         if (parse_length(expression)) { return true; }
-        counts.push_back(std::dynamic_pointer_cast<expr::Int_Literal>(expression.expression)->value);
+        counts.push_back(expression.length);
     }
     if (consume(token::keyword_OF)) { return true; }
     sema::Type base { type.scope() };
