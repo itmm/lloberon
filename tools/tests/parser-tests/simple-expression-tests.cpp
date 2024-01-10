@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
+#include "expr/bool.h"
 
 using Simple_Expression_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_simple_expression>;
 
@@ -31,6 +32,33 @@ TEST(Simple_Expression_Tests, simple) {
 
     simple_expression.clear();
     Simple_Expression_Runner test3 { "a OR b", simple_expression };
+}
+
+void expect_bool(const sema::Expression& expression, bool expected) {
+    auto value { std::dynamic_pointer_cast<expr::Bool>(expression.expression) };
+    if (expected) {
+        EXPECT_TRUE(value->value);
+    } else {
+        EXPECT_FALSE(value->value);
+    }
+}
+
+void expect_bool(const char* source, bool expected) {
+    Scope scope;
+    sema::Expression expression { scope };
+    Simple_Expression_Runner runner { source, expression };
+    expect_bool(expression, expected);
+}
+
+void expect_true(const char* source) { expect_bool(source, true); }
+
+void expect_false(const char* source) { expect_bool(source, false); }
+
+TEST(Simple_Expression_Tests, constant_or) {
+    expect_false("FALSE OR FALSE");
+    expect_true("FALSE OR TRUE");
+    expect_true("TRUE OR TRUE");
+    expect_true("TRUE OR TRUE");
 }
 
 TEST(Simple_Expression_Tests, factor) {

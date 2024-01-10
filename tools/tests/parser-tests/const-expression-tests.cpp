@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "expr/integer.h"
+#include "expr/bool.h"
 
 using Const_Expression_Runner = Parser_Value_Runner<sema::Const_Expression, &Parser::parse_const_expression>;
 
@@ -52,4 +53,10 @@ TEST(Const_Expression_Tests, expressions) {
     auto int_value { std::dynamic_pointer_cast<expr::Integer>(expression.expression) };
     EXPECT_NE(int_value, nullptr);
     EXPECT_EQ(int_value->value, 2);
+
+    expression.clear();
+    Const_Expression_Runner test4 { "TRUE OR FALSE", expression };
+    auto bool_value { std::dynamic_pointer_cast<expr::Bool>(expression.expression) };
+    EXPECT_NE(bool_value, nullptr);
+    EXPECT_TRUE(bool_value->value);
 }
