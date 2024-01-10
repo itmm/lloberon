@@ -4,17 +4,17 @@
 #include "expr/const.h"
 
 namespace sema {
-    class Const_Expression {
-    public:
-        explicit Const_Expression(Scope& scope): scope_ { scope } { }
+	class Const_Expression {
+	public:
+		explicit Const_Expression(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { expression = nullptr; }
+		void clear() { expression = nullptr; }
 
-        std::shared_ptr<expr::Const> expression;
+		std::shared_ptr<expr::Const> expression;
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

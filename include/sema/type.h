@@ -4,16 +4,16 @@
 #include "decl/type.h"
 
 namespace sema {
-    class Type {
-    public:
-        explicit Type(Scope& scope): scope_ { scope } { }
+	class Type {
+	public:
+		explicit Type(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { type = nullptr; }
+		void clear() { type = nullptr; }
 
-        std::shared_ptr<type::Type> type;
-    private:
-        Scope& scope_;
-    };
+		std::shared_ptr<type::Type> type;
+	private:
+		Scope& scope_;
+	};
 }

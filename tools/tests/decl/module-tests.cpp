@@ -1,15 +1,15 @@
 #include "gtest/gtest.h"
 #include "decl/module.h"
 
-class Module_Declaration_Test: public testing::Test {
+class Module_Declaration_Test : public testing::Test {
 protected:
-    decl::Module decl { "" };
+	decl::Module decl { "" };
 
-    void SetUp() override {
-        new (&decl) decl::Module { "b" };
-    }
+	void SetUp() override {
+		new(&decl) decl::Module { "b" };
+	}
 };
 
 TEST_F(Module_Declaration_Test, full_name) {
-    EXPECT_STREQ(decl.name().c_str(), "b");
+	EXPECT_STREQ(decl.name().c_str(), "b");
 }

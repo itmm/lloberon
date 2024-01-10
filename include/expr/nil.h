@@ -3,8 +3,8 @@
 #include "const.h"
 
 namespace expr {
-    class Nil: public Const {
-    public:
-        Nil() = default;
-    };
+	class Nil : public Const {
+	public:
+		Nil() = default;
+	};
 }

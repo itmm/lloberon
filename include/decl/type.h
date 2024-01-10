@@ -9,13 +9,13 @@
 class Scope;
 
 namespace decl {
-    class Type : public Declaration {
-    public:
-        explicit Type(std::shared_ptr<type::Type> type) :
-            Declaration { }, type { std::move(type) } {}
+	class Type : public Declaration {
+	public:
+		explicit Type(std::shared_ptr<type::Type> type) :
+			Declaration { }, type { std::move(type) } { }
 
-        std::shared_ptr<type::Type> type;
+		std::shared_ptr<type::Type> type;
 
-        static void register_base_types(Scope& scope);
-    };
+		static void register_base_types(Scope& scope);
+	};
 }

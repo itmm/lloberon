@@ -4,9 +4,10 @@
 #include <string>
 
 namespace decl {
-    class Declaration {
-    public:
-        explicit Declaration() = default;
-        virtual ~Declaration() = default;
-    };
+	class Declaration {
+	public:
+		explicit Declaration() = default;
+
+		virtual ~Declaration() = default;
+	};
 }

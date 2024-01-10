@@ -3,15 +3,15 @@
 #include "scope.h"
 
 namespace sema {
-    class Designator {
-    public:
-        Designator(Scope& scope): scope_ { scope } { }
+	class Designator {
+	public:
+		explicit Designator(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

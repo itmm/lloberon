@@ -3,15 +3,15 @@
 #include "scope.h"
 
 namespace sema {
-    class Procedure_Type {
-    public:
-        Procedure_Type(Scope& scope): scope_ { scope } { }
+	class Procedure_Type {
+	public:
+		explicit Procedure_Type(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

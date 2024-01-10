@@ -4,17 +4,18 @@
 #include "expr/const.h"
 
 namespace sema {
-    class Length {
-    public:
-        explicit Length(Scope& scope, int length = 0): length { length }, scope_ { scope } { }
+	class Length {
+	public:
+		explicit Length(Scope& scope, int length = 0) :
+			length { length }, scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { length = 0; }
+		void clear() { length = 0; }
 
-        int length;
+		int length;
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

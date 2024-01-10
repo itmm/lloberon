@@ -3,15 +3,15 @@
 #include "scope.h"
 
 namespace sema {
-    class While_Statement {
-    public:
-        While_Statement(Scope& scope): scope_ { scope } { }
+	class While_Statement {
+	public:
+		explicit While_Statement(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

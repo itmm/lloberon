@@ -3,15 +3,15 @@
 #include "scope.h"
 
 namespace sema {
-    class Case {
-    public:
-        Case(Scope& scope): scope_ { scope } { }
+	class Case {
+	public:
+		explicit Case(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

@@ -7,26 +7,25 @@
 #include <vector>
 
 namespace type {
-    class Record : public Type {
-    public:
-        Record() = default;
+	class Record : public Type {
+	public:
+		Record() = default;
 
-        std::shared_ptr<Record> base;
+		std::shared_ptr<Record> base;
 
-        struct Entry {
-            Entry(
-                std::string name, std::shared_ptr<type::Type> type,
-                bool exported
-            ):
-                name { std::move( name ) }, type { std::move(type) },
-                exported { exported }
-            { }
+		struct Entry {
+			Entry(
+				std::string name, std::shared_ptr<type::Type> type,
+				bool exported
+			) :
+				name { std::move(name) }, type { std::move(type) },
+				exported { exported } { }
 
-            const std::string name;
-            std::shared_ptr<type::Type> type;
-            bool exported;
-        };
+			const std::string name;
+			std::shared_ptr<type::Type> type;
+			bool exported;
+		};
 
-        std::vector<Entry> entries;
-    };
+		std::vector<Entry> entries;
+	};
 }

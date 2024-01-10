@@ -3,15 +3,15 @@
 #include "scope.h"
 
 namespace sema {
-    class Formal_Parameter_Section {
-    public:
-        Formal_Parameter_Section(Scope& scope): scope_ { scope } { }
+	class Formal_Parameter_Section {
+	public:
+		explicit Formal_Parameter_Section(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

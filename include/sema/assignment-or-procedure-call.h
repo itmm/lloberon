@@ -3,15 +3,16 @@
 #include "scope.h"
 
 namespace sema {
-    class Assignment_Or_Procedure_Call {
-    public:
-        Assignment_Or_Procedure_Call(Scope& scope): scope_ { scope } { }
+	class Assignment_Or_Procedure_Call {
+	public:
+		explicit Assignment_Or_Procedure_Call(Scope& scope) :
+			scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

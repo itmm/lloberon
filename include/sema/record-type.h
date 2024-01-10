@@ -6,20 +6,22 @@
 #include "type/record.h"
 
 namespace sema {
-    class Record_Type {
-    public:
-        explicit Record_Type(Scope& scope): scope_ { scope } { }
+	class Record_Type {
+	public:
+		explicit Record_Type(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        std::shared_ptr<type::Record> record { std::make_shared<type::Record>() };
+		std::shared_ptr<type::Record> record {
+			std::make_shared<type::Record>()
+		};
 
-        void clear() const {
-            record->base = nullptr;
-            record->entries.clear();
-        }
+		void clear() const {
+			record->base = nullptr;
+			record->entries.clear();
+		}
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

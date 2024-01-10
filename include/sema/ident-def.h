@@ -5,15 +5,14 @@
 #include <vector>
 
 namespace sema {
-    class Ident_Def {
-    public:
-        explicit Ident_Def(std::string ident = { }, bool exported = false):
-            ident {std::move( ident )}, exported { exported }
-        { }
+	class Ident_Def {
+	public:
+		explicit Ident_Def(std::string ident = { }, bool exported = false) :
+			ident { std::move(ident) }, exported { exported } { }
 
-        std::string ident;
-        bool exported;
-    };
+		std::string ident;
+		bool exported;
+	};
 
-    using Ident_List = std::vector<Ident_Def>;
+	using Ident_List = std::vector<Ident_Def>;
 }

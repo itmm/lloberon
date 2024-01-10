@@ -3,15 +3,15 @@
 #include "scope.h"
 
 namespace sema {
-    class Repeat_Statement {
-    public:
-        Repeat_Statement(Scope& scope): scope_ { scope } { }
+	class Repeat_Statement {
+	public:
+		explicit Repeat_Statement(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }

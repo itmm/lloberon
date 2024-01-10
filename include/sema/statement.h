@@ -3,15 +3,15 @@
 #include "scope.h"
 
 namespace sema {
-    class Statement {
-    public:
-        Statement(Scope& scope): scope_ { scope } { }
+	class Statement {
+	public:
+		explicit Statement(Scope& scope) : scope_ { scope } { }
 
-        Scope &scope() { return scope_; }
+		Scope& scope() { return scope_; }
 
-        void clear() { }
+		void clear() { }
 
-    private:
-        Scope& scope_;
-    };
+	private:
+		Scope& scope_;
+	};
 }
