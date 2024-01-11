@@ -1,6 +1,6 @@
-#include "parser-tests.h"
 #include "decl/type.h"
-#include "type/base.h"
+#include "parser-tests.h"
+#include "type/type.h"
 
 using Type_Runner = Parser_Value_Runner<sema::Type, &Parser::parse_type>;
 
@@ -18,40 +18,22 @@ TEST(Type_Tests, simple) {
 	));
 	sema::Type type { scope };
 	Type_Runner test1 { "BOOLEAN", type };
-	EXPECT_EQ(
-		std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(),
-		type::Base::bt_BOOLEAN
-	);
+	EXPECT_EQ(type.type, type::Type::base_boolean);
 
 	Type_Runner test2 { "CHAR", type };
-	EXPECT_EQ(
-		std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(),
-		type::Base::bt_CHAR
-	);
+	EXPECT_EQ(type.type, type::Type::base_char);
 
 	Type_Runner test3 { "INTEGER", type };
-	EXPECT_EQ(
-		std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(),
-		type::Base::bt_INTEGER
-	);
+	EXPECT_EQ(type.type, type::Type::base_integer);
 
 	Type_Runner test4 { "REAL", type };
-	EXPECT_EQ(
-		std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(),
-		type::Base::bt_REAL
-	);
+	EXPECT_EQ(type.type, type::Type::base_real);
 
 	Type_Runner test5 { "BYTE", type };
-	EXPECT_EQ(
-		std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(),
-		type::Base::bt_BYTE
-	);
+	EXPECT_EQ(type.type, type::Type::base_byte);
 
 	Type_Runner test6 { "SET", type };
-	EXPECT_EQ(
-		std::dynamic_pointer_cast<type::Base>(type.type)->base_kind(),
-		type::Base::bt_SET
-	);
+	EXPECT_EQ(type.type, type::Type::base_set);
 
 	Type_Runner test7 { "ARRAY 10 OF INTEGER", type };
 	Type_Runner test8 { "RECORD x, y: INTEGER END", type };

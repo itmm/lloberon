@@ -1,6 +1,6 @@
-#include "parser-tests.h"
 #include "decl/type.h"
-#include "type/base.h"
+#include "parser-tests.h"
+#include "type/type.h"
 
 using Qual_Ident_Runner = Parser_Value_Runner<
 	sema::Qual_Ident, &Parser::parse_qual_ident
@@ -22,7 +22,7 @@ TEST(Qual_Ident_Tests, simple) {
 	auto module = std::make_shared<decl::Module>("X");
 	scope.insert("X", module);
 	module->insert("Byte", std::make_shared<decl::Type>(
-		type::Base::base_byte
+		type::Type::base_byte
 	));
 	Qual_Ident_Runner test2 { "X.Byte", qual_ident };
 }

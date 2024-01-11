@@ -1,6 +1,5 @@
 #include "parser-tests.h"
 #include "decl/type.h"
-#include "type/base.h"
 #include "type/record.h"
 
 using Base_Type_Runner = Parser_Value_Runner<

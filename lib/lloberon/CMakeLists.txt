@@ -52,6 +52,6 @@ add_lloberon_library(liboberon
 	parser/parse-while-statement.cpp
 	parser/parser.cpp
 	sema/scope.cpp
-	type/base.cpp
+	type/type.cpp
 )
 

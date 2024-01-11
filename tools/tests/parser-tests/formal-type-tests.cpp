@@ -1,6 +1,6 @@
-#include "parser-tests.h"
 #include "decl/type.h"
-#include "type/base.h"
+#include "parser-tests.h"
+#include "type/type.h"
 
 using Formal_Type_Runner = Parser_Value_Runner<
 	sema::Formal_Type, &Parser::parse_formal_type
@@ -23,7 +23,7 @@ TEST(Formal_Type_Tests, qualified) {
 	Scope scope;
 	auto module { std::make_shared<decl::Module>("X") };
 	module->insert("Byte", std::make_shared<decl::Type>(
-		type::Base::base_byte
+		type::Type::base_byte
 	));
 	scope.insert("X", module);
 	sema::Formal_Type formal_type { scope };
