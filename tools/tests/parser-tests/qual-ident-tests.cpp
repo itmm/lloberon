@@ -22,7 +22,7 @@ TEST(Qual_Ident_Tests, simple) {
 	auto module = std::make_shared<decl::Module>("X");
 	scope.insert("X", module);
 	module->insert("Byte", std::make_shared<decl::Type>(
-		std::make_shared<type::Base>(type::Base::bt_BYTE)
+		type::Base::base_byte
 	));
 	Qual_Ident_Runner test2 { "X.Byte", qual_ident };
 }

@@ -2,6 +2,8 @@
 
 #include "type.h"
 
+#include <memory>
+
 namespace type {
 	class Base : public Type {
 	public:
@@ -22,6 +24,13 @@ namespace type {
 		}
 
 		[[nodiscard]] Kind base_kind() const { return kind_; }
+
+		static std::shared_ptr<Base> base_boolean;
+		static std::shared_ptr<Base> base_char;
+		static std::shared_ptr<Base> base_integer;
+		static std::shared_ptr<Base> base_real;
+		static std::shared_ptr<Base> base_byte;
+		static std::shared_ptr<Base> base_set;
 
 	private:
 		const Kind kind_;
