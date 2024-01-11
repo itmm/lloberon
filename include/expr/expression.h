@@ -11,5 +11,7 @@ namespace expr {
 		virtual ~Expression() = default;
 
 		std::shared_ptr<type::Type> type;
+
+		static std::shared_ptr<expr::Expression> nil;
 	};
 }

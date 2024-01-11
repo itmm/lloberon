@@ -2,6 +2,7 @@ add_lloberon_library(liboberon
 	basic/diagnostic.cpp
 	basic/token-kinds.cpp
 	decl/type.cpp
+	expr/expression.cpp
 	lexer/lexer.cpp
 	parser/parse-actual-parameters.cpp
 	parser/parse-array-type.cpp

@@ -1,7 +1,6 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
 #include "expr/const.h"
-#include "expr/nil.h"
 
 using Factor_Runner = Parser_Value_Runner<
 	sema::Expression, &Parser::parse_factor
@@ -44,10 +43,7 @@ TEST(Factor_Tests, literals) {
 
 	factor.clear();
 	Factor_Runner test4 { "NIL", factor };
-	EXPECT_NE(
-		std::dynamic_pointer_cast<expr::Nil>(factor.expression),
-		nullptr
-	);
+	EXPECT_EQ(factor.expression, expr::Expression::nil);
 
 	factor.clear();
 	Factor_Runner test5 { "TRUE", factor };

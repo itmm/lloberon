@@ -1,5 +1,4 @@
 #include "expr/const.h"
-#include "expr/nil.h"
 #include "parser/parser.h"
 #include "sema/expression.h"
 
@@ -25,7 +24,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			advance();
 			break;
 		case token::keyword_NIL:
-			factor.expression = std::make_shared<expr::Nil>();
+			factor.expression = expr::Expression::nil;
 			advance();
 			break;
 		case token::keyword_TRUE:
