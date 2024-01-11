@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
+#include "expr/nil.h"
 
 using Expression_Runner = Parser_Value_Runner<
 	sema::Expression, &Parser::parse_expression
@@ -42,6 +43,13 @@ TEST(Expression_Tests, single) {
 
 	expression.clear();
 	Expression_Runner test8 { "a IS b", expression };
+
+	expression.clear();
+	Expression_Runner test9 { "NIL", expression };
+	auto nil_value { std::dynamic_pointer_cast<expr::Nil>(
+		expression.expression
+	) };
+	EXPECT_NE(nil_value, nullptr);
 }
 
 TEST(Expression_Tests, multiple) {

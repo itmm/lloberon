@@ -1,7 +1,4 @@
-#include "expr/bool.h"
-#include "expr/integer.h"
-#include "expr/nil.h"
-#include "expr/real.h"
+#include "expr/const.h"
 #include "parser-tests.h"
 
 using Const_Expression_Runner = Parser_Value_Runner<
@@ -20,46 +17,56 @@ TEST(Const_Expression_Tests, literals) {
 	sema::Const_Expression expression { scope };
 
 	Const_Expression_Runner test1 { "234", expression };
-	auto int_value { std::dynamic_pointer_cast<expr::Integer>(
+	auto int_value { std::dynamic_pointer_cast<expr::Const>(
 		expression.expression
 	) };
 	EXPECT_NE(int_value, nullptr);
-	EXPECT_EQ(int_value->value, 234);
+	if (int_value) {
+		EXPECT_TRUE(int_value->is_int());
+		if (int_value->is_int()) { EXPECT_EQ(int_value->int_value(), 234); }
+	}
 
 	expression.clear();
 	Const_Expression_Runner test2 { "-234", expression };
-	int_value = std::dynamic_pointer_cast<expr::Integer>(expression.expression);
+	int_value = std::dynamic_pointer_cast<expr::Const>(expression.expression);
 	EXPECT_NE(int_value, nullptr);
-	EXPECT_EQ(int_value->value, -234);
+	if (int_value) {
+		EXPECT_TRUE(int_value->is_int());
+		if (int_value->is_int()) { EXPECT_EQ(int_value->int_value(), -234); }
+	}
 
 	expression.clear();
 	Const_Expression_Runner test3 { "2.34", expression };
-	auto float_value { std::dynamic_pointer_cast<expr::Real>(
+	auto real_value { std::dynamic_pointer_cast<expr::Const>(
 		expression.expression
 	) };
-	EXPECT_NE(float_value, nullptr);
-	EXPECT_EQ(float_value->value, 2.34);
-
-	expression.clear();
-	Const_Expression_Runner test4 { "NIL", expression };
-	auto nil_value { std::dynamic_pointer_cast<expr::Nil>(
-		expression.expression
-	) };
-	EXPECT_NE(nil_value, nullptr);
+	EXPECT_NE(real_value, nullptr);
+	if (real_value) {
+		EXPECT_TRUE(real_value->is_real());
+		if (real_value->is_real()) {
+			EXPECT_EQ(real_value->real_value(), 2.34);
+		}
+	}
 
 	expression.clear();
 	Const_Expression_Runner test5 { "TRUE", expression };
-	auto bool_value { std::dynamic_pointer_cast<expr::Bool>(
+	auto bool_value { std::dynamic_pointer_cast<expr::Const>(
 		expression.expression
 	) };
 	EXPECT_NE(bool_value, nullptr);
-	EXPECT_TRUE(bool_value->value);
+	if (bool_value) {
+		EXPECT_TRUE(bool_value->is_bool());
+		if (bool_value->is_bool()) { EXPECT_TRUE(bool_value->bool_value()); }
+	}
 
 	expression.clear();
 	Const_Expression_Runner test6 { "FALSE", expression };
-	bool_value = std::dynamic_pointer_cast<expr::Bool>(expression.expression);
+	bool_value = std::dynamic_pointer_cast<expr::Const>(expression.expression);
 	EXPECT_NE(bool_value, nullptr);
-	EXPECT_FALSE(bool_value->value);
+	if (bool_value) {
+		EXPECT_TRUE(bool_value->is_bool());
+		if (bool_value->is_bool()) { EXPECT_FALSE(bool_value->bool_value()); }
+	}
 }
 
 TEST(Const_Expression_Tests, expressions) {
@@ -73,17 +80,23 @@ TEST(Const_Expression_Tests, expressions) {
 
 	expression.clear();
 	Const_Expression_Runner test3 { "5 - 3", expression };
-	auto int_value { std::dynamic_pointer_cast<expr::Integer>(
+	auto int_value { std::dynamic_pointer_cast<expr::Const>(
 		expression.expression
 	) };
 	EXPECT_NE(int_value, nullptr);
-	EXPECT_EQ(int_value->value, 2);
+	if (int_value) {
+		EXPECT_TRUE(int_value->is_int());
+		if (int_value->is_int()) { EXPECT_EQ(int_value->int_value(), 2); }
+	}
 
 	expression.clear();
 	Const_Expression_Runner test4 { "TRUE OR FALSE", expression };
-	auto bool_value { std::dynamic_pointer_cast<expr::Bool>(
+	auto bool_value { std::dynamic_pointer_cast<expr::Const>(
 		expression.expression
 	) };
 	EXPECT_NE(bool_value, nullptr);
-	EXPECT_TRUE(bool_value->value);
+	if (bool_value) {
+		EXPECT_TRUE(bool_value->is_bool());
+		if (bool_value->is_bool()) { EXPECT_TRUE(bool_value->bool_value()); }
+	}
 }

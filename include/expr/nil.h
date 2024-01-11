@@ -1,11 +1,11 @@
 #pragma once
 
-#include "const.h"
+#include "expression.h"
 #include "type/pointer.h"
 
 namespace expr {
-	class Nil : public Const {
+	class Nil : public Expression {
 	public:
-		Nil(): Const { type::Pointer::pointer_to_nil } { }
+		Nil(): Expression { type::Pointer::pointer_to_nil } { }
 	};
 }

@@ -1,6 +1,4 @@
-#include "expr/bool.h"
-#include "expr/integer.h"
-#include "expr/real.h"
+#include "expr/const.h"
 #include "parser/parser.h"
 
 bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
@@ -12,36 +10,16 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 	Scope scope;
 	if (parse_term(simple_expression)) { return true; }
 
-	std::shared_ptr<expr::Real> float_value;
-	std::shared_ptr<expr::Integer> int_value;
-	std::shared_ptr<expr::Bool> bool_value;
-
-	int_value = std::dynamic_pointer_cast<expr::Integer>(
+	auto value { std::dynamic_pointer_cast<expr::Const>(
 		simple_expression.expression
-	);
-	if (int_value) {
-		float_value = std::make_shared<expr::Real>(int_value->value);
-	} else {
-		bool_value = std::dynamic_pointer_cast<expr::Bool>(
-			simple_expression.expression
-		);
-		if (!bool_value) {
-			float_value = std::dynamic_pointer_cast<expr::Real>(
-				simple_expression.expression
-			);
-		}
-	}
+	) };
 
 	if (is_negative) {
-		if (std::dynamic_pointer_cast<expr::Const>(
-			simple_expression.expression
-		)) {
-			if (int_value) {
-				int_value = std::make_shared<expr::Integer>(-int_value->value);
-			} else if (float_value) {
-				float_value = std::make_shared<expr::Real>(
-					-float_value->value
-				);
+		if (value) {
+			if (value->is_int()) {
+				value = std::make_shared<expr::Const>(-value->int_value());
+			} else if (value->is_real()) {
+				value = std::make_shared<expr::Const>(-value->real_value());
 			} else {
 				diag().report(
 					token_.location(), diag::err_negate_must_be_numeric
@@ -56,89 +34,65 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 		advance();
 		if (parse_term(simple_expression)) { return true; }
 
-		std::shared_ptr<expr::Integer> right_int_value;
-		std::shared_ptr<expr::Real> right_float_value;
-		std::shared_ptr<expr::Bool> right_bool_value;
-
-		right_int_value = std::dynamic_pointer_cast<expr::Integer>(
+		auto right_value { std::dynamic_pointer_cast<expr::Const>(
 			simple_expression.expression
-		);
-		if (right_int_value) {
-			right_float_value = std::make_shared<expr::Real>(
-				right_int_value->value
-			);
-		} else {
-			right_bool_value = std::dynamic_pointer_cast<expr::Bool>(
-				simple_expression.expression
-			);
-			if (!right_bool_value) {
-				right_float_value = std::dynamic_pointer_cast<expr::Real>(
-					simple_expression.expression
-				);
-			}
-		}
-		if (int_value && right_int_value) {
-			switch (op) {
-				case token::plus:
-					int_value = std::make_shared<expr::Integer>(
-						int_value->value + right_int_value->value
+		) };
+
+		if (value && right_value) {
+			if (value->is_int() && right_value->is_int()) {
+				switch (op) {
+					case token::plus:
+						value = std::make_shared<expr::Const>(
+							value->int_value() + right_value->int_value()
+						);
+						break;
+					case token::minus:
+						value = std::make_shared<expr::Const>(
+							value->int_value() - right_value->int_value()
+						);
+						break;
+					default:
+						diag().report(
+							token_.location(),
+							diag::err_add_subtract_must_be_numeric
+						);
+						return true;
+				}
+			} else if (value->is_real() && right_value->is_real()) {
+				switch (op) {
+					case token::plus:
+						value = std::make_shared<expr::Const>(
+							value->real_value() + right_value->real_value()
+						);
+						break;
+					case token::minus:
+						value = std::make_shared<expr::Const>(
+							value->real_value() - right_value->real_value()
+						);
+						break;
+					default:
+						diag().report(
+							token_.location(),
+							diag::err_add_subtract_must_be_numeric
+						);
+						return true;
+				}
+			} else if (value->is_bool() && right_value->is_bool()) {
+				if (op == token::keyword_OR) {
+					value = std::make_shared<expr::Const>(
+						value->bool_value() || right_value->bool_value()
 					);
-					break;
-				case token::minus:
-					int_value = std::make_shared<expr::Integer>(
-						int_value->value - right_int_value->value
-					);
-					break;
-				default:
-					diag().report(
-						token_.location(),
-						diag::err_add_subtract_must_be_numeric
-					);
+				} else {
+					diag().report(token_.location(), diag::err_or_must_be_bool);
 					return true;
-			}
-		} else if (float_value && right_float_value) {
-			switch (op) {
-				case token::plus:
-					int_value = nullptr;
-					float_value = std::make_shared<expr::Real>(
-						float_value->value + right_float_value->value
-					);
-					break;
-				case token::minus:
-					int_value = nullptr;
-					float_value = std::make_shared<expr::Real>(
-						float_value->value - right_float_value->value
-					);
-					break;
-				default:
-					diag().report(
-						token_.location(),
-						diag::err_add_subtract_must_be_numeric
-					);
-					return true;
-			}
-		} else if (bool_value && right_bool_value) {
-			if (op == token::keyword_OR) {
-				bool_value = std::make_shared<expr::Bool>(
-					bool_value->value || right_bool_value->value
-				);
+				}
 			} else {
-				diag().report(token_.location(), diag::err_or_must_be_bool);
-				return true;
+				value = nullptr;
 			}
-		} else {
-			int_value = nullptr;
-			bool_value = nullptr;
-			float_value = nullptr;
 		}
 	}
 
-	if (int_value) {
-		simple_expression.expression = int_value;
-	} else if (float_value) {
-		simple_expression.expression = float_value;
-	} else if (bool_value) {
-		simple_expression.expression = bool_value;
-	}
+	if (value) { simple_expression.expression = value; }
+
 	return false;
 }
