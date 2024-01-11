@@ -11,5 +11,7 @@ namespace type {
 			points_to { std::move(points_to) } { }
 
 		std::shared_ptr<Record> points_to;
+
+		static std::shared_ptr<Pointer> pointer_to_nil;
 	};
 }
