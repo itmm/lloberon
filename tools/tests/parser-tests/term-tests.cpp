@@ -56,3 +56,50 @@ TEST(Term_Tests, incomplete) {
 	term.clear();
 	Term_Runner test2 { "a /", term, true };
 }
+
+TEST(Term_Tests, constant) {
+	Scope scope;
+	sema::Expression term { scope };
+	Term_Runner test1 { "3 * 5", term };
+	auto value { std::dynamic_pointer_cast<expr::Const>(term.expression)};
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_int());
+		if (value->is_int()) {
+			EXPECT_EQ(value->int_value(), 15);
+		}
+	}
+
+	term.clear();
+	Term_Runner  test2 { "15 / 6", term };
+	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_real());
+		if (value->is_real()) {
+			EXPECT_EQ(value->real_value(), 2.5);
+		}
+	}
+
+	term.clear();
+	Term_Runner test3 { "15 DIV 6", term };
+	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_int());
+		if (value->is_int()) {
+			EXPECT_EQ(value->int_value(), 2);
+		}
+	}
+
+	term.clear();
+	Term_Runner test4 { "15 MOD 6", term };
+	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_int());
+		if (value->is_int()) {
+			EXPECT_EQ(value->int_value(), 3);
+		}
+	}
+}

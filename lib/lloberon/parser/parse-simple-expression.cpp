@@ -53,8 +53,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 						break;
 					default:
 						diag().report(
-							token_.location(),
-							diag::err_add_subtract_must_be_numeric
+							token_.location(), diag::err_wrong_operator_for_int
 						);
 						return true;
 				}
@@ -72,8 +71,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 						break;
 					default:
 						diag().report(
-							token_.location(),
-							diag::err_add_subtract_must_be_numeric
+							token_.location(), diag::err_wrong_operator_for_real
 						);
 						return true;
 				}
@@ -83,7 +81,9 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 						value->bool_value() || right_value->bool_value()
 					);
 				} else {
-					diag().report(token_.location(), diag::err_or_must_be_bool);
+					diag().report(
+						token_.location(), diag::err_wrong_operator_for_bool
+					);
 					return true;
 				}
 			} else {

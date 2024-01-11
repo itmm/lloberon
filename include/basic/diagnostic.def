@@ -23,9 +23,11 @@ DIAG(
 DIAG(
 	err_negate_must_be_numeric, Error, "only numeric expressions can be negated"
 )
-DIAG(err_add_subtract_must_be_numeric, Error, "operands of +/- must be numeric")
-DIAG(err_or_must_be_bool, Error, "operands of OR must be BOOLEAN")
+DIAG(err_wrong_operator_for_int, Error, "wrong operator for INTEGER operands")
+DIAG(err_wrong_operator_for_real, Error, "wrong operator for REAL operands")
+DIAG(err_wrong_operator_for_bool, Error, "wrong operator for BOOLEAN operands")
 DIAG(err_identifier_must_be_type, Error, "identifier must be a type")
 DIAG(err_type_expected, Error, "type expected")
 DIAG(err_already_defined, Error, "identifier {0} is already defined")
+DIAG(err_divide_by_0, Error, "divide by zero")
 #undef DIAG

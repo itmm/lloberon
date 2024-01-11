@@ -65,6 +65,8 @@ class Parser {
 		return false;
 	}
 
+	bool check_0_int(const expr::Const& value);
+
 public:
 	explicit Parser(Lexer& lexer) : lexer_ { lexer } { advance(); }
 
