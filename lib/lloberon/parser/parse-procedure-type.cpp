@@ -1,8 +1,9 @@
 #include "parser/parser.h"
 
-bool Parser::parse_procedure_type(sema::Procedure_Type& procedure_type) {
+bool Parser::parse_procedure_type(sema::Type& type) {
+	sema::Procedure_Type procedure_type { type.scope() };
 	if (consume(token::keyword_PROCEDURE)) { return true; }
-	sema::Formal_Parameters formal_parameters { procedure_type.scope() };
-	if (parse_formal_parameters(formal_parameters)) { return true; }
+	if (parse_formal_parameters(procedure_type)) { return true; }
+	type.type = procedure_type.procedure;
 	return false;
 }

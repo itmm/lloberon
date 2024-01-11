@@ -13,9 +13,6 @@
 #include "sema/expression.h"
 #include "sema/expression-list.h"
 #include "sema/for-statement.h"
-#include "sema/formal-parameter-section.h"
-#include "sema/formal-parameters.h"
-#include "sema/formal-type.h"
 #include "sema/ident-def.h"
 #include "sema/if-statement.h"
 #include "sema/label.h"
@@ -124,14 +121,14 @@ public:
 	[[nodiscard]] bool parse_for_statement(sema::For_Statement& for_statement);
 
 	[[nodiscard]] bool parse_formal_parameter_section(
-		sema::Formal_Parameter_Section& formal_parameter_section
+		sema::Procedure_Type& procedure_type
 	);
 
 	[[nodiscard]] bool parse_formal_parameters(
-		sema::Formal_Parameters& formal_parameters
+		sema::Procedure_Type& procedure_type
 	);
 
-	[[nodiscard]] bool parse_formal_type(sema::Formal_Type& formal_type);
+	[[nodiscard]] bool parse_formal_type(sema::Type& type);
 
 	[[nodiscard]] bool parse_ident_def(sema::Ident_Def& ident_def);
 
@@ -165,9 +162,7 @@ public:
 		sema::Procedure_Heading& procedure_heading
 	);
 
-	[[nodiscard]] bool parse_procedure_type(
-		sema::Procedure_Type& procedure_type
-	);
+	[[nodiscard]] bool parse_procedure_type(sema::Type& type);
 
 	[[nodiscard]] bool parse_qual_ident(sema::Qual_Ident& qual_ident);
 

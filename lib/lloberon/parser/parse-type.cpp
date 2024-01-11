@@ -20,8 +20,7 @@ bool Parser::parse_type(sema::Type& type) {
 	} else if (token_.is(token::keyword_POINTER)) {
 		if (parse_pointer_type(type)) { return true; }
 	} else if (token_.is(token::keyword_PROCEDURE)) {
-		sema::Procedure_Type procedure_type { type.scope() };
-		if (parse_procedure_type(procedure_type)) { return true; }
+		if (parse_procedure_type(type)) { return true; }
 	} else {
 		diag().report(token_.location(), diag::err_type_expected);
 		return true;
