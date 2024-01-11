@@ -3,12 +3,29 @@
 #include "type/type.h"
 
 void decl::Type::register_base_types(Scope& scope) {
-	scope.insert("BOOLEAN", std::make_shared<decl::Type>(
+	static auto boolean_type { std::make_shared<decl::Type>(
 		type::Type::base_boolean
-	));
-	scope.insert("CHAR", std::make_shared<Type>(type::Type::base_char));
-	scope.insert("INTEGER", std::make_shared<Type>(type::Type::base_integer));
-	scope.insert("REAL", std::make_shared<Type>(type::Type::base_real));
-	scope.insert("BYTE", std::make_shared<Type>(type::Type::base_byte));
-	scope.insert("SET", std::make_shared<Type>(type::Type::base_set));
+	) };
+	static auto char_type { std::make_shared<decl::Type>(
+		type::Type::base_char
+	) };
+	static auto integer_type { std::make_shared<decl::Type>(
+		type::Type::base_integer
+	) };
+	static auto real_type { std::make_shared<decl::Type>(
+		type::Type::base_real
+	) };
+	static auto byte_type { std::make_shared<decl::Type>(
+		type::Type::base_byte
+	) };
+	static auto set_type { std::make_shared<decl::Type>(
+		type::Type::base_set
+	) };
+
+	scope.insert("BOOLEAN", boolean_type);
+	scope.insert("CHAR", char_type);
+	scope.insert("INTEGER", integer_type);
+	scope.insert("REAL", real_type);
+	scope.insert("BYTE", byte_type);
+	scope.insert("SET", set_type);
 }

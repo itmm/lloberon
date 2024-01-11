@@ -14,7 +14,7 @@ namespace decl {
 		explicit Type(std::shared_ptr<type::Type> type) :
 			Declaration { }, type { std::move(type) } { }
 
-		std::shared_ptr<type::Type> type;
+		const std::shared_ptr<type::Type> type;
 
 		static void register_base_types(Scope& scope);
 	};
