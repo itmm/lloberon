@@ -5,10 +5,11 @@
 namespace expr {
 	class Expression {
 	public:
-		Expression() = default;
+		explicit Expression(std::shared_ptr<type::Type> type) :
+			type { std::move(type) } { }
 
 		virtual ~Expression() = default;
 
-		std::shared_ptr<type::Type> type = nullptr;
+		std::shared_ptr<type::Type> type;
 	};
 }

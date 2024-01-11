@@ -1,10 +1,11 @@
 #pragma once
 
 #include "const.h"
+#include "type/pointer.h"
 
 namespace expr {
 	class Nil : public Const {
 	public:
-		Nil() = default;
+		Nil(): Const { type::Pointer::pointer_to_nil } { }
 	};
 }

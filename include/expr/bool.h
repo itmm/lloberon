@@ -5,8 +5,9 @@
 namespace expr {
 	class Bool : public Const {
 	public:
-		explicit Bool(bool value = false) : Const { }, value { value } { }
+		explicit Bool(bool value = false) :
+			Const { type::Type::base_boolean }, value { value } { }
 
-		bool value;
+		const bool value;
 	};
 }

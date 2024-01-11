@@ -1,7 +1,7 @@
-#include "parser/parser.h"
-#include "expr/integer.h"
-#include "expr/float.h"
 #include "expr/bool.h"
+#include "expr/integer.h"
+#include "expr/real.h"
+#include "parser/parser.h"
 
 bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 	bool is_negative { false };
@@ -12,7 +12,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 	Scope scope;
 	if (parse_term(simple_expression)) { return true; }
 
-	std::shared_ptr<expr::Float> float_value;
+	std::shared_ptr<expr::Real> float_value;
 	std::shared_ptr<expr::Integer> int_value;
 	std::shared_ptr<expr::Bool> bool_value;
 
@@ -20,13 +20,13 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 		simple_expression.expression
 	);
 	if (int_value) {
-		float_value = std::make_shared<expr::Float>(int_value->value);
+		float_value = std::make_shared<expr::Real>(int_value->value);
 	} else {
 		bool_value = std::dynamic_pointer_cast<expr::Bool>(
 			simple_expression.expression
 		);
 		if (!bool_value) {
-			float_value = std::dynamic_pointer_cast<expr::Float>(
+			float_value = std::dynamic_pointer_cast<expr::Real>(
 				simple_expression.expression
 			);
 		}
@@ -39,7 +39,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 			if (int_value) {
 				int_value = std::make_shared<expr::Integer>(-int_value->value);
 			} else if (float_value) {
-				float_value = std::make_shared<expr::Float>(
+				float_value = std::make_shared<expr::Real>(
 					-float_value->value
 				);
 			} else {
@@ -57,14 +57,14 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 		if (parse_term(simple_expression)) { return true; }
 
 		std::shared_ptr<expr::Integer> right_int_value;
-		std::shared_ptr<expr::Float> right_float_value;
+		std::shared_ptr<expr::Real> right_float_value;
 		std::shared_ptr<expr::Bool> right_bool_value;
 
 		right_int_value = std::dynamic_pointer_cast<expr::Integer>(
 			simple_expression.expression
 		);
 		if (right_int_value) {
-			right_float_value = std::make_shared<expr::Float>(
+			right_float_value = std::make_shared<expr::Real>(
 				right_int_value->value
 			);
 		} else {
@@ -72,7 +72,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 				simple_expression.expression
 			);
 			if (!right_bool_value) {
-				right_float_value = std::dynamic_pointer_cast<expr::Float>(
+				right_float_value = std::dynamic_pointer_cast<expr::Real>(
 					simple_expression.expression
 				);
 			}
@@ -100,13 +100,13 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 			switch (op) {
 				case token::plus:
 					int_value = nullptr;
-					float_value = std::make_shared<expr::Float>(
+					float_value = std::make_shared<expr::Real>(
 						float_value->value + right_float_value->value
 					);
 					break;
 				case token::minus:
 					int_value = nullptr;
-					float_value = std::make_shared<expr::Float>(
+					float_value = std::make_shared<expr::Real>(
 						float_value->value - right_float_value->value
 					);
 					break;

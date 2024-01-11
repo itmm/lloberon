@@ -1,9 +1,9 @@
+#include "expr/bool.h"
+#include "expr/integer.h"
+#include "expr/nil.h"
+#include "expr/real.h"
 #include "parser/parser.h"
 #include "sema/expression.h"
-#include "expr/float.h"
-#include "expr/integer.h"
-#include "expr/bool.h"
-#include "expr/nil.h"
 
 bool Parser::parse_factor(sema::Expression& factor) {
 	factor.clear();
@@ -20,7 +20,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		case token::float_literal: {
 			double value = std::stod(token_.literal_data().str());
 			advance();
-			factor.expression = std::make_shared<expr::Float>(value);
+			factor.expression = std::make_shared<expr::Real>(value);
 			break;
 		}
 		case token::string_literal:

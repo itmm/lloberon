@@ -5,6 +5,7 @@
 namespace expr {
 	class Const : public Expression {
 	public:
-		Const() = default;
+		explicit Const(std::shared_ptr<type::Type> type) :
+			Expression { std::move(type) } { }
 	};
 }

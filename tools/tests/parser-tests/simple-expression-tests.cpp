@@ -1,8 +1,8 @@
-#include "parser-tests.h"
 #include "decl/variable.h"
 #include "expr/bool.h"
 #include "expr/integer.h"
-#include "expr/float.h"
+#include "expr/real.h"
+#include "parser-tests.h"
 
 using Simple_Expression_Runner = Parser_Value_Runner<
 	sema::Expression, &Parser::parse_simple_expression
@@ -31,7 +31,7 @@ void expect_int(const char* source, int expected) {
 
 void expect_float(const sema::Expression& expression, double expected) {
 	auto value {
-		std::dynamic_pointer_cast<expr::Float>(expression.expression)
+		std::dynamic_pointer_cast<expr::Real>(expression.expression)
 	};
 	EXPECT_NE(value, nullptr);
 	if (value) {

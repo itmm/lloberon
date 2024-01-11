@@ -1,8 +1,8 @@
-#include "parser-tests.h"
-#include "expr/integer.h"
 #include "expr/bool.h"
+#include "expr/integer.h"
 #include "expr/nil.h"
-#include "expr/float.h"
+#include "expr/real.h"
+#include "parser-tests.h"
 
 using Const_Expression_Runner = Parser_Value_Runner<
 	sema::Const_Expression, &Parser::parse_const_expression
@@ -34,7 +34,7 @@ TEST(Const_Expression_Tests, literals) {
 
 	expression.clear();
 	Const_Expression_Runner test3 { "2.34", expression };
-	auto float_value { std::dynamic_pointer_cast<expr::Float>(
+	auto float_value { std::dynamic_pointer_cast<expr::Real>(
 		expression.expression
 	) };
 	EXPECT_NE(float_value, nullptr);
