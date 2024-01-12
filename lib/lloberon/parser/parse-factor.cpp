@@ -45,6 +45,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 				sema::Actual_Parameters actual_parameters { factor.scope() };
 				if (parse_actual_parameters(actual_parameters)) { return true; }
 			}
+			factor.expression = std::make_shared<expr::Expression>(nullptr);
 			break;
 		}
 		case token::left_parenthesis: {

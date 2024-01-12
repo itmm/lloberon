@@ -26,6 +26,7 @@ DIAG(
 DIAG(err_wrong_operator_for_int, Error, "wrong operator for INTEGER operands")
 DIAG(err_wrong_operator_for_real, Error, "wrong operator for REAL operands")
 DIAG(err_wrong_operator_for_bool, Error, "wrong operator for BOOLEAN operands")
+DIAG(err_wrong_operator_for_const, Error, "wrong operator for CONST operands")
 DIAG(err_identifier_must_be_type, Error, "identifier must be a type")
 DIAG(err_type_expected, Error, "type expected")
 DIAG(err_already_defined, Error, "identifier {0} is already defined")

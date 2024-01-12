@@ -1,5 +1,7 @@
 #include "expr/const.h"
 #include "parser/parser.h"
+#include "expr/unary.h"
+#include "expr/binary.h"
 
 bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 	bool is_negative { false };
@@ -10,20 +12,26 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 	Scope scope;
 	if (parse_term(simple_expression)) { return true; }
 
-	auto value { expr::Const::as_const(simple_expression.expression) };
+	auto value { simple_expression.expression };
+	auto const_value { expr::Const::as_const(value) };
 
 	if (is_negative) {
-		if (value) {
-			if (value->is_int()) {
-				value = expr::Const::create(-value->int_value());
-			} else if (value->is_real()) {
-				value = expr::Const::create(-value->real_value());
+		if (const_value) {
+			if (const_value->is_int()) {
+				const_value = expr::Const::create(-const_value->int_value());
+				value = const_value;
+			} else if (const_value->is_real()) {
+				const_value = expr::Const::create(-const_value->real_value());
+				value = const_value;
 			} else {
 				diag().report(
 					token_.location(), diag::err_negate_must_be_numeric
 				);
 				return true;
 			}
+		} else {
+			value = expr::Unary::create(token::minus, value);
+			const_value = nullptr;
 		}
 	}
 
@@ -32,13 +40,13 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 		advance();
 		if (parse_term(simple_expression)) { return true; }
 
-		auto right_value { expr::Const::as_const(
-			simple_expression.expression
-		) };
+		auto right_value { simple_expression.expression };
+		auto right_const_value { expr::Const::as_const(right_value) };
 
-		if (value && right_value) {
-			if (value->is_int() && right_value->is_int()) {
-				auto lv { value->int_value() }, rv { right_value->int_value() };
+		if (const_value && right_const_value) {
+			if (const_value->is_int() && right_const_value->is_int()) {
+				auto lv { const_value->int_value() };
+				auto rv { right_const_value->int_value() };
 				int result;
 				switch (op) {
 					case token::plus: result = lv + rv; break;
@@ -49,10 +57,11 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 						);
 						return true;
 				}
-				value = expr::Const::create(result);
-			} else if (value->is_real() && right_value->is_real()) {
-				auto lv { value->real_value() };
-				auto rv { right_value->real_value() };
+				const_value = expr::Const::create(result);
+				value = const_value;
+			} else if (const_value->is_real() && right_const_value->is_real()) {
+				auto lv { const_value->real_value() };
+				auto rv { right_const_value->real_value() };
 				double result;
 				switch (op) {
 					case token::plus: result = lv + rv; break;
@@ -63,12 +72,15 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 						);
 						return true;
 				}
-				value = expr::Const::create(result);
-			} else if (value->is_bool() && right_value->is_bool()) {
+				const_value = expr::Const::create(result);
+				value = const_value;
+			} else if (const_value->is_bool() && right_const_value->is_bool()) {
 				if (op == token::keyword_OR) {
-					value = expr::Const::create(
-						value->bool_value() || right_value->bool_value()
+					const_value = expr::Const::create(
+						const_value->bool_value() ||
+							right_const_value->bool_value()
 					);
+					value = const_value;
 				} else {
 					diag().report(
 						token_.location(), diag::err_wrong_operator_for_bool
@@ -76,12 +88,18 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					return true;
 				}
 			} else {
-				value = nullptr;
+				diag().report(
+					token_.location(), diag::err_wrong_operator_for_const
+				);
+				return true;
 			}
+		} else {
+			value = expr::Binary::create(op, value, right_value);
+			const_value = nullptr;
 		}
 	}
 
-	if (value) { simple_expression.expression = value; }
+	simple_expression.expression = value;
 
 	return false;
 }
