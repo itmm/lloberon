@@ -15,10 +15,9 @@ bool Parser::parse_declaration_sequence(
 	if (token_.is(token::keyword_TYPE)) {
 		advance();
 		while (token_.is(token::identifier)) {
-			sema::Type_Declaration type_declaration {
-				declaration_sequence.scope()
-			};
-			if (parse_type_declaration(type_declaration)) { return true; }
+			if (parse_type_declaration(declaration_sequence.scope())) {
+				return true;
+			}
 			if (consume(token::semicolon)) { return true; }
 		}
 	}

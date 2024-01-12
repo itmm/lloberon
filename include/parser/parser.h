@@ -27,7 +27,6 @@
 #include "sema/statement.h"
 #include "sema/statement-sequence.h"
 #include "sema/type.h"
-#include "sema/type-declaration.h"
 #include "sema/qual-ident.h"
 #include "sema/var-declaration.h"
 #include "sema/while-statement.h"
@@ -188,9 +187,7 @@ public:
 
 	[[nodiscard]] bool parse_type(sema::Type& type);
 
-	[[nodiscard]] bool parse_type_declaration(
-		sema::Type_Declaration& type_declaration
-	);
+	[[nodiscard]] bool parse_type_declaration(Scope& scope);
 
 	[[nodiscard]] bool parse_variable_declaration(
 		sema::Var_Declaration& var_declaration

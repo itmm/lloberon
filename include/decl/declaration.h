@@ -9,5 +9,7 @@ namespace decl {
 		explicit Declaration() = default;
 
 		virtual ~Declaration() = default;
+
+		bool exported { false };
 	};
 }

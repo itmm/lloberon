@@ -28,10 +28,12 @@ public:
 
 	void consume(Scope& other);
 
+	[[nodiscard]] bool has_in_scope(const std::string& name) const;
+
+	void clear() { symbols_.clear(); }
+
 private:
 	Scope* parent_;
 	const bool expand_;
 	std::map<std::string, std::shared_ptr<decl::Declaration>> symbols_;
-
-	[[nodiscard]] bool has_in_scope(const std::string& name) const;
 };
