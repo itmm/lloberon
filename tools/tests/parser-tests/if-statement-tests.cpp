@@ -13,15 +13,9 @@ TEST(If_Statement_Tests, empty) {
 
 TEST(If_Statement_Tests, simple) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
-	scope.insert("b", std::make_shared<decl::Variable>(
-		nullptr
-	));
-	scope.insert("cond", std::make_shared<decl::Variable>(
-		nullptr
-	));
+	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("cond", std::make_shared<decl::Variable>(nullptr));
 	sema::If_Statement if_statement { scope };
 	If_Statement_Runner test1 {
 		"IF cond THEN a := 1; b := TRUE END", if_statement

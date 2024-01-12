@@ -14,12 +14,8 @@ TEST(Expression_Tests, empty) {
 
 TEST(Expression_Tests, single) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
-	scope.insert("b", std::make_shared<decl::Variable>(
-		nullptr
-	));
+	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
 	sema::Expression expression { scope };
 	Expression_Runner test1 { "3 = 4", expression };
 

@@ -26,15 +26,9 @@ TEST(Identlist_Tests, multiple) {
 	sema::Ident_List list;
 	list.emplace_back("x");
 	Ident_List_Runner test1 { "a, b*, c", list };
-	expect_ident_list(
-		list, "a", false, "b", true,
-		"c", false
-	);
+	expect_ident_list(list, "a", false, "b", true, "c", false);
 	Ident_List_Runner test2 { "d*, e, f*", list };
-	expect_ident_list(
-		list, "d", true, "e", false,
-		"f", true
-	);
+	expect_ident_list(list, "d", true, "e", false, "f", true);
 	Ident_List_Runner test3 { "a, b", list };
 	expect_ident_list(list, "a", false, "b", false);
 

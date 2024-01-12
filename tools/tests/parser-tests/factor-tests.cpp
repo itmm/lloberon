@@ -1,6 +1,7 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
 #include "expr/const.h"
+#include "const-tests.h"
 
 using Factor_Runner = Parser_Value_Runner<
 	sema::Expression, &Parser::parse_factor
@@ -16,27 +17,11 @@ TEST(Factor_Tests, literals) {
 	Scope scope;
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "3", factor };
-	auto int_factor { std::dynamic_pointer_cast<expr::Const>(
-		factor.expression
-	) };
-	EXPECT_NE(int_factor, nullptr);
-	if (int_factor) {
-		EXPECT_TRUE(int_factor->is_int());
-		if (int_factor->is_int()) { EXPECT_EQ(int_factor->int_value(), 3); }
-	}
+	expect_int_value(factor.expression, 3);
 
 	factor.clear();
 	Factor_Runner test2 { "3.241", factor };
-	auto real_factor { std::dynamic_pointer_cast<expr::Const>(
-		factor.expression
-	) };
-	EXPECT_NE(real_factor, nullptr);
-	if (real_factor) {
-		EXPECT_TRUE(real_factor->is_real());
-		if (real_factor->is_real()) {
-			EXPECT_EQ(real_factor->real_value(), 3.241);
-		}
-	}
+	expect_real_value(factor.expression, 3.241);
 
 	factor.clear();
 	Factor_Runner test3 { "\"abc\"", factor };
@@ -47,29 +32,11 @@ TEST(Factor_Tests, literals) {
 
 	factor.clear();
 	Factor_Runner test5 { "TRUE", factor };
-	auto bool_factor { std::dynamic_pointer_cast<expr::Const>(
-		factor.expression
-	) };
-	EXPECT_NE(bool_factor, nullptr);
-	if (bool_factor) {
-		EXPECT_TRUE(bool_factor->is_bool());
-		if (bool_factor->is_bool()) {
-			EXPECT_TRUE(bool_factor->bool_value());
-		}
-	}
+	expect_bool_value(factor.expression, true);
 
 	factor.clear();
 	Factor_Runner test6 { "FALSE", factor };
-	bool_factor = std::dynamic_pointer_cast<expr::Const>(
-		factor.expression
-	);
-	EXPECT_NE(bool_factor, nullptr);
-	if (bool_factor) {
-		EXPECT_TRUE(bool_factor->is_bool());
-		if (bool_factor->is_bool()) {
-			EXPECT_FALSE(bool_factor->bool_value());
-		}
-	}
+	expect_bool_value(factor.expression, false);
 }
 
 TEST(Factor_Tests, set) {
@@ -82,16 +49,7 @@ TEST(Factor_Tests, grouped) {
 	Scope scope;
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "(3 + 4)", factor };
-	auto int_factor { std::dynamic_pointer_cast<expr::Const>(
-		factor.expression
-	) };
-	EXPECT_NE(int_factor, nullptr);
-	if (int_factor) {
-		EXPECT_TRUE(int_factor->is_int());
-		if (int_factor->is_int()) {
-			EXPECT_EQ(int_factor->int_value(), 7);
-		}
-	}
+	expect_int_value(factor.expression, 7);
 }
 
 TEST(Factor_Tests, ident) {

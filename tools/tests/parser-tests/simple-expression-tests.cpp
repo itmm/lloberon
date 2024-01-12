@@ -1,5 +1,6 @@
 #include "decl/variable.h"
 #include "expr/const.h"
+#include "const-tests.h"
 #include "parser-tests.h"
 
 using Simple_Expression_Runner = Parser_Value_Runner<
@@ -12,40 +13,18 @@ TEST(Simple_Expression_Tests, empty) {
 	Simple_Expression_Runner test1 { "", simple_expression, true };
 }
 
-void expect_int(const sema::Expression& expression, int expected) {
-	auto value {
-		std::dynamic_pointer_cast<expr::Const>(expression.expression)
-	};
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_int());
-		if (value->is_int()) { EXPECT_EQ(value->int_value(), expected); }
-	}
-}
-
 void expect_int(const char* source, int expected) {
 	Scope scope;
 	sema::Expression expression { scope };
 	Simple_Expression_Runner runner { source, expression };
-	expect_int(expression, expected);
-}
-
-void expect_real(const sema::Expression& expression, double expected) {
-	auto value {
-		std::dynamic_pointer_cast<expr::Const>(expression.expression)
-	};
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_real());
-		if (value->is_real()) { EXPECT_EQ(value->real_value(), expected); }
-	}
+	expect_int_value(expression.expression, expected);
 }
 
 void expect_real(const char* source, double expected) {
 	Scope scope;
 	sema::Expression expression { scope };
 	Simple_Expression_Runner runner { source, expression };
-	expect_real(expression, expected);
+	expect_real_value(expression.expression, expected);
 }
 
 TEST(Simple_Expression_Tests, single) {
@@ -71,28 +50,11 @@ TEST(Simple_Expression_Tests, simple) {
 	Simple_Expression_Runner test3 { "a OR b", simple_expression };
 }
 
-void expect_bool(const sema::Expression& expression, bool expected) {
-	auto value {
-		std::dynamic_pointer_cast<expr::Const>(expression.expression)
-	};
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_bool());
-		if (value->is_bool()) {
-			if (expected) {
-				EXPECT_TRUE(value->bool_value());
-			} else {
-				EXPECT_FALSE(value->bool_value());
-			}
-		}
-	}
-}
-
 void expect_bool(const char* source, bool expected) {
 	Scope scope;
 	sema::Expression expression { scope };
 	Simple_Expression_Runner runner { source, expression };
-	expect_bool(expression, expected);
+	expect_bool_value(expression.expression, expected);
 }
 
 void expect_true(const char* source) { expect_bool(source, true); }
@@ -107,22 +69,16 @@ TEST(Simple_Expression_Tests, constant_or) {
 }
 
 TEST(Simple_Expression_Tests, factor) {
-	Scope scope;
-	sema::Expression simple_expression { scope };
-	Simple_Expression_Runner test1 { "3 * 4", simple_expression };
-
-	simple_expression.clear();
-	Simple_Expression_Runner test2 { "3 / 2 + 4 * 3", simple_expression };
+	expect_int("3 * 4", 12);
+	expect_real("3 / 2 + 4 * 3", 13.5);
 }
 
 TEST(Simple_Expression_Tests, unaries) {
+	expect_int("+3", 3);
+	expect_int("-3 + 4", 1);
+
 	Scope scope;
 	sema::Expression simple_expression { scope };
-	Simple_Expression_Runner test1 { "+3", simple_expression };
-
-	simple_expression.clear();
-	Simple_Expression_Runner test2 { "-3 + 4", simple_expression };
-
 	simple_expression.clear();
 	Simple_Expression_Runner test3 { "+-3", simple_expression, true, true };
 }

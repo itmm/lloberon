@@ -13,21 +13,15 @@ TEST(Statement_Sequence_Tests, empty) {
 
 TEST(Statement_Sequence_Tests, single) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
+	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	sema::Statement_Sequence statement_sequence { scope };
 	Statement_Sequence_Runner test1 { "a := 3", statement_sequence };
 }
 
 TEST(Statement_Sequence_Tests, multiple) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
-	scope.insert("b", std::make_shared<decl::Variable>(
-		nullptr
-	));
+	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
 	sema::Statement_Sequence statement_sequence { scope };
 	Statement_Sequence_Runner test1 { "a := 3;", statement_sequence };
 

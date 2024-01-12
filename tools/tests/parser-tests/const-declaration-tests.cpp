@@ -1,6 +1,7 @@
 #include "parser-tests.h"
 #include "decl/const.h"
 #include "expr/const.h"
+#include "const-tests.h"
 
 using Const_Declaration_Runner = Parser_Value_Runner<
 	Scope, &Parser::parse_const_declaration
@@ -16,14 +17,7 @@ TEST(Const_Decalaration_Tests, simple) {
 	Const_Declaration_Runner test1 { "a* = 3 + 4", scope };
 	auto entry { std::dynamic_pointer_cast<decl::Const>(scope.lookup("a")) };
 	EXPECT_NE(entry, nullptr);
-	if (entry) {
-		auto value { std::dynamic_pointer_cast<expr::Const>(entry->value) };
-		EXPECT_NE(value, nullptr);
-		if (value) {
-			EXPECT_TRUE(value->is_int());
-			if (value->is_int()) { EXPECT_EQ(value->int_value(), 7); }
-		}
-	}
+	if (entry) { expect_int_value(entry->value, 7); }
 }
 
 TEST(Const_Declaration_Tests, incomplete) {

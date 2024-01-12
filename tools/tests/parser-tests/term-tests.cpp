@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
+#include "const-tests.h"
 
 using Term_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_term>;
 
@@ -61,117 +62,47 @@ TEST(Term_Tests, constant_int) {
 	Scope scope;
 	sema::Expression term { scope };
 	Term_Runner test1 { "3 * 5", term };
-	auto value { std::dynamic_pointer_cast<expr::Const>(term.expression)};
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_int());
-		if (value->is_int()) {
-			EXPECT_EQ(value->int_value(), 15);
-		}
-	}
+	expect_int_value(term.expression, 15);
 
 	term.clear();
 	Term_Runner  test2 { "15 / 6", term };
-	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_real());
-		if (value->is_real()) {
-			EXPECT_EQ(value->real_value(), 2.5);
-		}
-	}
+	expect_real_value(term.expression, 2.5);
 
 	term.clear();
 	Term_Runner test3 { "15 DIV 6", term };
-	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_int());
-		if (value->is_int()) {
-			EXPECT_EQ(value->int_value(), 2);
-		}
-	}
+	expect_int_value(term.expression, 2);
 
 	term.clear();
 	Term_Runner test4 { "15 MOD 6", term };
-	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_int());
-		if (value->is_int()) {
-			EXPECT_EQ(value->int_value(), 3);
-		}
-	}
+	expect_int_value(term.expression, 3);
 }
 
 TEST(Term_Tests, constant_real) {
 	Scope scope;
 	sema::Expression term { scope };
 	Term_Runner test1 { "3 * 5.0", term };
-	auto value { std::dynamic_pointer_cast<expr::Const>(term.expression)};
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_real());
-		if (value->is_real()) {
-			EXPECT_EQ(value->real_value(), 15.0);
-		}
-	}
+	expect_real_value(term.expression, 15.0);
 
 	term.clear();
 	Term_Runner  test2 { "15.0 / 6", term };
-	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_real());
-		if (value->is_real()) {
-			EXPECT_EQ(value->real_value(), 2.5);
-		}
-	}
+	expect_real_value(term.expression, 2.5);
 }
 
 TEST(Term_Tests, constant_bool) {
 	Scope scope;
 	sema::Expression term { scope };
 	Term_Runner test1 { "FALSE & FALSE", term };
-	auto value { std::dynamic_pointer_cast<expr::Const>(term.expression)};
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_bool());
-		if (value->is_bool()) {
-			EXPECT_FALSE(value->bool_value());
-		}
-	}
+	expect_bool_value(term.expression, false);
 
 	term.clear();
 	Term_Runner  test2 { "FALSE & TRUE", term };
-	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_bool());
-		if (value->is_bool()) {
-			EXPECT_FALSE(value->bool_value());
-		}
-	}
+	expect_bool_value(term.expression, false);
 
 	term.clear();
 	Term_Runner  test3 { "TRUE & FALSE", term };
-	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_bool());
-		if (value->is_bool()) {
-			EXPECT_FALSE(value->bool_value());
-		}
-	}
+	expect_bool_value(term.expression, false);
 
 	term.clear();
 	Term_Runner  test4 { "TRUE & TRUE", term };
-	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_bool());
-		if (value->is_bool()) {
-			EXPECT_TRUE(value->bool_value());
-		}
-	}
+	expect_bool_value(term.expression, true);
 }
