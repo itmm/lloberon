@@ -45,7 +45,7 @@ TEST(Const_Expression_Tests, expressions) {
 
 	expression.clear();
 	Const_Expression_Runner test2 { "2 < 4 # FALSE", expression };
-	// TODO expect_bool_value(expression.expression, true);
+	expect_bool_value(expression.expression, true);
 
 	expression.clear();
 	Const_Expression_Runner test3 { "5 - 3", expression };

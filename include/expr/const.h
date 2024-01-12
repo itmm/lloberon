@@ -36,6 +36,16 @@ namespace expr {
 			return is_int() ? int_value() : std::get<double>(values_);
 		}
 
+		static std::shared_ptr<Const> as_const(
+			const std::shared_ptr<Expression>& expression
+		) {
+			return std::dynamic_pointer_cast<Const>(expression);
+		}
+
+		template<typename TYPE>
+		static std::shared_ptr<Const> create(TYPE value) {
+			return std::make_shared<Const>(value);
+		}
 	private:
 		std::variant<bool, int, double> values_;
 	};
