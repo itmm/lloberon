@@ -129,7 +129,7 @@ public:
 
 	[[nodiscard]] bool parse_ident_list(sema::Ident_List& ident_list);
 
-	[[nodiscard]] bool parse_if_statement(sema::If_Statement& if_statement);
+	[[nodiscard]] bool parse_if_statement(sema::Statement& statement);
 
 	[[nodiscard]] bool parse_import(Scope& scope);
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scope.h"
+#include "stmt/statement.h"
 
 namespace sema {
 	class Statement_Sequence {
@@ -9,7 +10,9 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { }
+		void clear() { sequence.clear(); }
+
+		stmt::Statement_Sequence sequence;
 
 	private:
 		Scope& scope_;

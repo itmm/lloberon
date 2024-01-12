@@ -9,8 +9,7 @@ bool Parser::parse_statement(sema::Statement& statement) {
 			return true;
 		}
 	} else if (token_.is(token::keyword_IF)) {
-		sema::If_Statement if_statement { statement.scope() };
-		if (parse_if_statement(if_statement)) { return true; }
+		if (parse_if_statement(statement)) { return true; }
 	} else if (token_.is(token::keyword_CASE)) {
 		sema::Case_Statement case_statement { statement.scope() };
 		if (parse_case_statement(case_statement)) { return true; }
