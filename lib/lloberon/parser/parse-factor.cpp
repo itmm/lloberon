@@ -11,13 +11,13 @@ bool Parser::parse_factor(sema::Expression& factor) {
 				value = value * 10 + (ch - '0');
 			}
 			advance();
-			factor.expression = std::make_shared<expr::Const>(value);
+			factor.expression = expr::Const::create(value);
 			break;
 		}
 		case token::float_literal: {
 			double value = std::stod(token_.literal_data().str());
 			advance();
-			factor.expression = std::make_shared<expr::Const>(value);
+			factor.expression = expr::Const::create(value);
 			break;
 		}
 		case token::string_literal:
@@ -29,7 +29,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			break;
 		case token::keyword_TRUE:
 		case token::keyword_FALSE:
-			factor.expression = std::make_shared<expr::Const>(
+			factor.expression = expr::Const::create(
 				token_.kind() == token::keyword_TRUE
 			);
 			advance();
