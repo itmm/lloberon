@@ -1,7 +1,9 @@
 #include "parser/parser.h"
 
-bool Parser::parse_procedure_body(sema::Procedure_Body& procedure_body) {
-	auto& scope { procedure_body.scope() };
+bool Parser::parse_procedure_body(
+	sema::Procedure_Declaration& procedure_declaration
+) {
+	auto& scope { procedure_declaration.scope() };
 	if (parse_declaration_sequence(scope)) { return true; }
 	if (token_.is(token::keyword_BEGIN)) {
 		advance();

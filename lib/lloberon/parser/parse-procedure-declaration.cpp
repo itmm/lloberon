@@ -1,14 +1,12 @@
 #include "parser/parser.h"
 
-bool Parser::parse_procedure_declaration(
-	sema::Procedure_Declaration& procedure_declaration
-) {
-	sema::Procedure_Heading procedure_heading { procedure_declaration.scope() };
-	if (parse_procedure_heading(procedure_heading)) { return true; }
+bool Parser::parse_procedure_declaration(Scope& scope) {
+	sema::Procedure_Declaration declaration { scope };
+	if (parse_procedure_heading(declaration)) { return true; }
 	if (consume(token::semicolon)) { return true; }
-	sema::Procedure_Body procedure_body { procedure_declaration.scope() };
-	if (parse_procedure_body(procedure_body)) { return true; }
+	if (parse_procedure_body(declaration)) { return true; }
 	if (expect(token::identifier)) { return true; }
 	advance();
+	scope.insert(declaration.name, declaration.procedure);
 	return false;
 }

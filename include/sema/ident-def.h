@@ -12,6 +12,11 @@ namespace sema {
 
 		std::string ident;
 		bool exported;
+
+		void clear() {
+			ident.clear();
+			exported = false;
+		}
 	};
 
 	using Ident_List = std::vector<Ident_Def>;

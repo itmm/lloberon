@@ -3,32 +3,32 @@
 #include "decl/type.h"
 
 using Procedure_Body_Runner = Parser_Value_Runner<
-	sema::Procedure_Body, &Parser::parse_procedure_body
+	sema::Procedure_Declaration, &Parser::parse_procedure_body
 >;
 
 TEST(Procedure_Body_Tests, empty) {
 	Scope scope;
-	sema::Procedure_Body procedure_body { scope };
-	Procedure_Body_Runner test1 { "", procedure_body, true };
+	sema::Procedure_Declaration procedure_declaration { scope };
+	Procedure_Body_Runner test1 { "", procedure_declaration, true };
 }
 
 TEST(Procedure_Body_Tests, simple) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
-	sema::Procedure_Body procedure_body { scope };
-	Procedure_Body_Runner test1 { "END", procedure_body };
+	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Procedure_Declaration procedure_declaration { scope };
+	Procedure_Body_Runner test1 { "END", procedure_declaration };
 
-	procedure_body.clear();
-	Procedure_Body_Runner test2 { "RETURN 42 END", procedure_body };
+	procedure_declaration.clear();
+	Procedure_Body_Runner test2 { "RETURN 42 END", procedure_declaration };
 
-	procedure_body.clear();
-	Procedure_Body_Runner test3 { "BEGIN RETURN 42 END", procedure_body };
+	procedure_declaration.clear();
+	Procedure_Body_Runner test3 {
+		"BEGIN RETURN 42 END", procedure_declaration
+	};
 
-	procedure_body.clear();
+	procedure_declaration.clear();
 	Procedure_Body_Runner test4 {
-		"BEGIN a := 42; RETURN a END", procedure_body
+		"BEGIN a := 42; RETURN a END", procedure_declaration
 	};
 }
 
@@ -36,20 +36,22 @@ TEST(Procedure_Body_Tests, with_declaration) {
 	Scope base;
 	Scope scope { &base };
 	decl::Type::register_base_types(base);
-	sema::Procedure_Body procedure_body { scope };
+	sema::Procedure_Declaration procedure_declaration { scope };
 	Procedure_Body_Runner test1 {
-		"VAR a: INTEGER; BEGIN a := 42 END", procedure_body
+		"VAR a: INTEGER; BEGIN a := 42 END", procedure_declaration
 	};
 
 	scope.clear();
-	procedure_body.clear();
+	procedure_declaration.clear();
 	Procedure_Body_Runner test2 {
-		"CONST a = 42; RETURN a END", procedure_body
+		"CONST a = 42; RETURN a END", procedure_declaration
 	};
 }
 
 TEST(Procedure_Body_Tests, invalid) {
 	Scope scope;
-	sema::Procedure_Body procedure_body { scope };
-	Procedure_Body_Runner test1 { "RETURN END", procedure_body, true, true };
+	sema::Procedure_Declaration procedure_declaration { scope };
+	Procedure_Body_Runner test1 {
+		"RETURN END", procedure_declaration, true, true
+	};
 }

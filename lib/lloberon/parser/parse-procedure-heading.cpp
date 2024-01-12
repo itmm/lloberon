@@ -1,13 +1,14 @@
 #include "parser/parser.h"
-#include "sema/ident-def.h"
 
 bool Parser::parse_procedure_heading(
-	sema::Procedure_Heading& procedure_heading
+	sema::Procedure_Declaration& procedure_declaration
 ) {
 	if (consume(token::keyword_PROCEDURE)) { return true; }
-	sema::Ident_Def ident_def;
-	if (parse_ident_def(ident_def)) { return true; }
-	sema::Procedure_Type procedure_type { procedure_heading.scope() };
-	if (parse_formal_parameters(procedure_type)) { return true; }
+	if (parse_ident_def(procedure_declaration.name)) { return true; }
+	if (parse_formal_parameters(procedure_declaration.procedure_type)) {
+		return true;
+	}
+	procedure_declaration.procedure->type =
+		procedure_declaration.procedure_type.procedure;
 	return false;
 }

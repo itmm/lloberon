@@ -16,9 +16,7 @@
 #include "sema/if-statement.h"
 #include "sema/label.h"
 #include "sema/length.h"
-#include "sema/procedure-body.h"
 #include "sema/procedure-declaration.h"
-#include "sema/procedure-heading.h"
 #include "sema/procedure-type.h"
 #include "sema/record-type.h"
 #include "sema/repeat-statement.h"
@@ -148,15 +146,13 @@ public:
 	[[nodiscard]] bool parse_pointer_type(sema::Type& type);
 
 	[[nodiscard]] bool parse_procedure_body(
-		sema::Procedure_Body& procedure_body
-	);
-
-	[[nodiscard]] bool parse_procedure_declaration(
 		sema::Procedure_Declaration& procedure_declaration
 	);
 
+	[[nodiscard]] bool parse_procedure_declaration(Scope& scope);
+
 	[[nodiscard]] bool parse_procedure_heading(
-		sema::Procedure_Heading& procedure_heading
+		sema::Procedure_Declaration& procedure_declaration
 	);
 
 	[[nodiscard]] bool parse_procedure_type(sema::Type& type);
