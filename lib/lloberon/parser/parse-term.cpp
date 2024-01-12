@@ -53,6 +53,37 @@ bool Parser::parse_term(sema::Expression& term) {
 						);
 						return true;
 				}
+			} else if (value->is_real() && right_value->is_real()) {
+				switch (op) {
+					case token::star:
+						value = std::make_shared<expr::Const>(
+							value->real_value() * right_value->real_value()
+						);
+						break;
+					case token::slash:
+						value = std::make_shared<expr::Const>(
+							value->real_value() / right_value->real_value()
+						);
+						break;
+					default:
+						diag().report(
+							token_.location(), diag::err_wrong_operator_for_real
+						);
+						return true;
+				}
+			} else if (value->is_bool() && right_value->is_bool()) {
+				switch (op) {
+					case token::andop:
+						value = std::make_shared<expr::Const>(
+							value->bool_value() && right_value->bool_value()
+						);
+						break;
+					default:
+						diag().report(
+							token_.location(), diag::err_wrong_operator_for_bool
+						);
+						return true;
+				}
 			}
 		}
 	}

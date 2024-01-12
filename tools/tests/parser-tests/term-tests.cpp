@@ -57,7 +57,7 @@ TEST(Term_Tests, incomplete) {
 	Term_Runner test2 { "a /", term, true };
 }
 
-TEST(Term_Tests, constant) {
+TEST(Term_Tests, constant_int) {
 	Scope scope;
 	sema::Expression term { scope };
 	Term_Runner test1 { "3 * 5", term };
@@ -100,6 +100,78 @@ TEST(Term_Tests, constant) {
 		EXPECT_TRUE(value->is_int());
 		if (value->is_int()) {
 			EXPECT_EQ(value->int_value(), 3);
+		}
+	}
+}
+
+TEST(Term_Tests, constant_real) {
+	Scope scope;
+	sema::Expression term { scope };
+	Term_Runner test1 { "3 * 5.0", term };
+	auto value { std::dynamic_pointer_cast<expr::Const>(term.expression)};
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_real());
+		if (value->is_real()) {
+			EXPECT_EQ(value->real_value(), 15.0);
+		}
+	}
+
+	term.clear();
+	Term_Runner  test2 { "15.0 / 6", term };
+	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_real());
+		if (value->is_real()) {
+			EXPECT_EQ(value->real_value(), 2.5);
+		}
+	}
+}
+
+TEST(Term_Tests, constant_bool) {
+	Scope scope;
+	sema::Expression term { scope };
+	Term_Runner test1 { "FALSE & FALSE", term };
+	auto value { std::dynamic_pointer_cast<expr::Const>(term.expression)};
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_bool());
+		if (value->is_bool()) {
+			EXPECT_FALSE(value->bool_value());
+		}
+	}
+
+	term.clear();
+	Term_Runner  test2 { "FALSE & TRUE", term };
+	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_bool());
+		if (value->is_bool()) {
+			EXPECT_FALSE(value->bool_value());
+		}
+	}
+
+	term.clear();
+	Term_Runner  test3 { "TRUE & FALSE", term };
+	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_bool());
+		if (value->is_bool()) {
+			EXPECT_FALSE(value->bool_value());
+		}
+	}
+
+	term.clear();
+	Term_Runner  test4 { "TRUE & TRUE", term };
+	value = std::dynamic_pointer_cast<expr::Const>(term.expression);
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_bool());
+		if (value->is_bool()) {
+			EXPECT_TRUE(value->bool_value());
 		}
 	}
 }
