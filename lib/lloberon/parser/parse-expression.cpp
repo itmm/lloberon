@@ -1,8 +1,10 @@
 #include "parser/parser.h"
+#include "expr/binary.h"
 
 bool Parser::parse_expression(sema::Expression& expression) {
 	if (parse_simple_expression(expression)) { return true; }
-	auto value { expression.as_const() };
+	auto value { expression.expression };
+	auto const_value { expr::Const::as_const(value) };
 	while (token_.is_one_of(
 		token::equals, token::not_equals, token::less, token::less_or_equal,
 		token::greater, token::greater_or_equal, token::keyword_IS,
@@ -12,11 +14,13 @@ bool Parser::parse_expression(sema::Expression& expression) {
 		advance();
 
 		if (parse_simple_expression(expression)) { return true; }
-		auto right_value { expression.as_const() };
+		auto right_value { expression.expression };
+		auto right_const_value { expr::Const::as_const(right_value) };
 
-		if (value && right_value) {
-			if (value->is_int() && right_value->is_int()) {
-				auto lv { value->int_value() }, rv { right_value->int_value() };
+		if (const_value && right_const_value) {
+			if (const_value->is_int() && right_const_value->is_int()) {
+				auto lv { const_value->int_value() };
+				auto rv { right_const_value->int_value() };
 				bool result;
 				switch (op) {
 					case token::equals: result = (lv == rv); break;
@@ -31,10 +35,11 @@ bool Parser::parse_expression(sema::Expression& expression) {
 						);
 						return true;
 				}
-				value = expr::Const::create(result);
-			} else if (value->is_real() && right_value->is_real()) {
-				auto lv { value->real_value() };
-				auto rv { right_value->real_value() };
+				const_value = expr::Const::create(result);
+				value = const_value;
+			} else if (const_value->is_real() && right_const_value->is_real()) {
+				auto lv { const_value->real_value() };
+				auto rv { right_const_value->real_value() };
 				bool result;
 				switch (op) {
 					case token::equals: result = (lv == rv); break;
@@ -49,10 +54,11 @@ bool Parser::parse_expression(sema::Expression& expression) {
 						);
 						return true;
 				}
-				value = expr::Const::create(result);
-			} else if (value->is_bool() && right_value->is_bool()) {
-				auto lv { value->bool_value() };
-				auto rv { right_value->bool_value() };
+				const_value = expr::Const::create(result);
+				value = const_value;
+			} else if (const_value->is_bool() && right_const_value->is_bool()) {
+				auto lv { const_value->bool_value() };
+				auto rv { right_const_value->bool_value() };
 				bool result;
 				switch (op) {
 					case token::equals: result = (lv == rv); break;
@@ -63,12 +69,19 @@ bool Parser::parse_expression(sema::Expression& expression) {
 						);
 						return true;
 				}
-				value = expr::Const::create(result);
+				const_value = expr::Const::create(result);
+				value = const_value;
 			} else {
-				value = nullptr;
+				diag().report(
+					token_.location(), diag::err_wrong_operator_for_const
+				);
+				return true;
 			}
+		} else {
+			value = expr::Binary::create(op, value, right_value);
+			const_value = nullptr;
 		}
 	}
-	if (value) { expression.expression = value; }
+	expression.expression = value;
 	return false;
 }

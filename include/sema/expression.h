@@ -15,10 +15,6 @@ namespace sema {
 
 		std::shared_ptr<expr::Expression> expression;
 
-		[[nodiscard]] std::shared_ptr<expr::Const> as_const() const {
-			return expr::Const::as_const(expression);
-		}
-
 	private:
 		Scope& scope_;
 	};

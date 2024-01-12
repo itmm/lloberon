@@ -54,9 +54,7 @@ TEST(Factor_Tests, grouped) {
 
 TEST(Factor_Tests, ident) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
+	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "a", factor };
 	factor.clear();
@@ -65,11 +63,20 @@ TEST(Factor_Tests, ident) {
 	Factor_Runner test3 { "a[3](TRUE)", factor };
 }
 
+TEST(Factor_Tests, not) {
+	Scope scope;
+	sema::Expression factor { scope };
+	Factor_Runner test1 { "~FALSE", factor };
+	auto value { expr::Const::as_const(factor.expression) };
+	EXPECT_NE(value, nullptr);
+	if (value) {
+		EXPECT_TRUE(value->is_bool() && value->bool_value());
+	}
+}
+
 TEST(Factor_Tests, incomplete) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
+	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "a(3,TRUE", factor, true };
 	factor.clear();

@@ -1,6 +1,7 @@
 #include "expr/const.h"
 #include "parser/parser.h"
 #include "sema/expression.h"
+#include "expr/unary.h"
 
 bool Parser::parse_factor(sema::Expression& factor) {
 	factor.clear();
@@ -48,10 +49,33 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			factor.expression = std::make_shared<expr::Expression>(nullptr);
 			break;
 		}
-		case token::left_parenthesis: {
+		case token::left_parenthesis:
 			advance();
 			if (parse_expression(factor)) { return true; }
-			if (consume(token::right_parenthesis)) { factor.clear(); return true; }
+			if (consume(token::right_parenthesis)) {
+				factor.clear(); return true;
+			}
+			break;
+		case token::notop: {
+			advance();
+			if (parse_expression(factor)) { return true; }
+			auto value { expr::Const::as_const(factor.expression) };
+			if (value) {
+				if (value->is_bool()) {
+					factor.expression = expr::Const::create(
+						!value->bool_value()
+					);
+				} else {
+					diag().report(
+						token_.location(), diag::err_wrong_operator_for_const
+					);
+					return true;
+				}
+			} else {
+				factor.expression = expr::Unary::create(
+					token::notop, factor.expression
+				);
+			}
 			break;
 		}
 		default:
