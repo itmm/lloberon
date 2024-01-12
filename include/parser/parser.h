@@ -13,7 +13,6 @@
 #include "sema/expression-list.h"
 #include "sema/for-statement.h"
 #include "sema/ident-def.h"
-#include "sema/if-statement.h"
 #include "sema/label.h"
 #include "sema/length.h"
 #include "sema/procedure-declaration.h"
