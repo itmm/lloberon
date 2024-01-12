@@ -1,9 +1,6 @@
 #include "parser/parser.h"
 
-bool Parser::parse_declaration_sequence(
-	sema::Declaration_Sequence& declaration_sequence
-) {
-	auto& scope { declaration_sequence.scope() };
+bool Parser::parse_declaration_sequence(Scope& scope) {
 	if (token_.is(token::keyword_CONST)) {
 		advance();
 		while (token_.is(token::identifier)) {

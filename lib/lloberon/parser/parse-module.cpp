@@ -10,8 +10,7 @@ bool Parser::parse_module(Scope& scope) {
 	if (token_.is(token::keyword_IMPORT)) {
 		if (parse_import_list(scope)) { return true; }
 	}
-	sema::Declaration_Sequence declaration_sequence { scope };
-	if (parse_declaration_sequence(declaration_sequence)) { return true; }
+	if (parse_declaration_sequence(scope)) { return true; }
 	if (token_.is(token::keyword_BEGIN)) {
 		advance();
 		sema::Statement_Sequence statement_sequence { scope };

@@ -15,5 +15,15 @@ namespace decl {
 			Declaration { }, value { std::move(value) } { }
 
 		std::shared_ptr<expr::Const> value;
+
+		static std::shared_ptr<expr::Const> as_const(
+			const std::shared_ptr<Declaration>& declaration
+		) {
+			auto const_decl { std::dynamic_pointer_cast<Const>(declaration) };
+			if (const_decl) {
+				return const_decl->value;
+			}
+			return nullptr;
+		}
 	};
 }

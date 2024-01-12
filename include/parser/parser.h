@@ -7,7 +7,6 @@
 #include "sema/case.h"
 #include "sema/case-list.h"
 #include "sema/case-statement.h"
-#include "sema/declaration-sequence.h"
 #include "sema/designator.h"
 #include "sema/const-expression.h"
 #include "sema/expression.h"
@@ -28,7 +27,6 @@
 #include "sema/statement-sequence.h"
 #include "sema/type.h"
 #include "sema/qual-ident.h"
-#include "sema/var-declaration.h"
 #include "sema/while-statement.h"
 
 class Parser {
@@ -97,9 +95,7 @@ public:
 		sema::Const_Expression& expression
 	);
 
-	[[nodiscard]] bool parse_declaration_sequence(
-		sema::Declaration_Sequence& declaration_sequence
-	);
+	[[nodiscard]] bool parse_declaration_sequence(Scope& scope);
 
 	[[nodiscard]] bool parse_designator(sema::Designator& designator);
 
