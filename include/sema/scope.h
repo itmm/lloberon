@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+#include "ident-def.h"
+
 namespace decl {
 	class Declaration;
 }
@@ -18,6 +20,11 @@ public:
 		const std::shared_ptr<decl::Declaration>& declaration
 	);
 
+	bool insert(
+		const sema::Ident_Def& id,
+		const std::shared_ptr<decl::Declaration>& declaration
+	);
+
 	[[nodiscard]] std::shared_ptr<decl::Declaration> lookup(
 		const std::string& name
 	) const;
@@ -28,11 +35,11 @@ public:
 
 	void consume(Scope& other);
 
-	[[nodiscard]] bool has_in_scope(const std::string& name) const;
-
 	void clear() { symbols_.clear(); }
 
 private:
+	[[nodiscard]] bool has_in_scope(const std::string& name) const;
+
 	Scope* parent_;
 	const bool expand_;
 	std::map<std::string, std::shared_ptr<decl::Declaration>> symbols_;

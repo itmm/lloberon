@@ -33,18 +33,15 @@ TEST(Procedure_Body_Tests, simple) {
 }
 
 TEST(Procedure_Body_Tests, with_declaration) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
+	Scope base;
+	Scope scope { &base };
+	decl::Type::register_base_types(base);
 	sema::Procedure_Body procedure_body { scope };
 	Procedure_Body_Runner test1 {
 		"VAR a: INTEGER; BEGIN a := 42 END", procedure_body
 	};
 
-	new (&scope) Scope { };
-	decl::Type::register_base_types(scope);
+	scope.clear();
 	procedure_body.clear();
 	Procedure_Body_Runner test2 {
 		"CONST a = 42; RETURN a END", procedure_body

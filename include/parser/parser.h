@@ -189,9 +189,7 @@ public:
 
 	[[nodiscard]] bool parse_type_declaration(Scope& scope);
 
-	[[nodiscard]] bool parse_variable_declaration(
-		sema::Var_Declaration& var_declaration
-	);
+	[[nodiscard]] bool parse_variable_declaration(Scope& scope);
 
 	[[nodiscard]] bool parse_while_statement(
 		sema::While_Statement& while_statement

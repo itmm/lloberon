@@ -15,6 +15,14 @@ bool Scope::insert(
 	).second;
 }
 
+bool Scope::insert(
+	const sema::Ident_Def& id,
+	const std::shared_ptr<decl::Declaration>& declaration
+) {
+	declaration->exported = id.exported;
+	return insert(id.ident, declaration);
+}
+
 std::shared_ptr<decl::Declaration> Scope::lookup(
 	const std::string& name
 ) const {
