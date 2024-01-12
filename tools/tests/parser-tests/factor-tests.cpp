@@ -82,6 +82,16 @@ TEST(Factor_Tests, grouped) {
 	Scope scope;
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "(3 + 4)", factor };
+	auto int_factor { std::dynamic_pointer_cast<expr::Const>(
+		factor.expression
+	) };
+	EXPECT_NE(int_factor, nullptr);
+	if (int_factor) {
+		EXPECT_TRUE(int_factor->is_int());
+		if (int_factor->is_int()) {
+			EXPECT_EQ(int_factor->int_value(), 7);
+		}
+	}
 }
 
 TEST(Factor_Tests, ident) {

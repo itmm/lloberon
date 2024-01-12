@@ -49,10 +49,8 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		}
 		case token::left_parenthesis: {
 			advance();
-			Scope scope;
-			sema::Expression expression { scope };
-			if (parse_expression(expression)) { return true; }
-			if (consume(token::right_parenthesis)) { return true; }
+			if (parse_expression(factor)) { return true; }
+			if (consume(token::right_parenthesis)) { factor.clear(); return true; }
 			break;
 		}
 		default:
