@@ -22,7 +22,6 @@
 #include "sema/statement-sequence.h"
 #include "sema/type.h"
 #include "sema/qual-ident.h"
-#include "sema/while-statement.h"
 
 class Parser {
 	Lexer& lexer_;
