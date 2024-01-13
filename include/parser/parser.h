@@ -17,7 +17,6 @@
 #include "sema/procedure-declaration.h"
 #include "sema/procedure-type.h"
 #include "sema/record-type.h"
-#include "sema/repeat-statement.h"
 #include "sema/scope.h"
 #include "sema/statement.h"
 #include "sema/statement-sequence.h"
@@ -159,9 +158,7 @@ public:
 
 	[[nodiscard]] bool parse_record_type(sema::Type& record_type);
 
-	[[nodiscard]] bool parse_repeat_statement(
-		sema::Repeat_Statement& repeat_statement
-	);
+	[[nodiscard]] bool parse_repeat_statement(sema::Statement& statement);
 
 	[[nodiscard]] bool parse_set();
 
