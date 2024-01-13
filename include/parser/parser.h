@@ -79,9 +79,7 @@ public:
 
 	[[nodiscard]] bool parse_case_list(sema::Case_List& case_list);
 
-	[[nodiscard]] bool parse_case_statement(
-		sema::Case_Statement& case_statement
-	);
+	[[nodiscard]] bool parse_case_statement(sema::Statement& statement);
 
 	[[nodiscard]] bool parse_const_declaration(Scope& scope);
 
@@ -131,7 +129,9 @@ public:
 
 	[[nodiscard]] bool parse_import_list(Scope& scope);
 
-	[[nodiscard]] bool parse_label(sema::Label& label);
+	[[nodiscard]] bool parse_label(sema::Const_Label& label);
+
+	[[nodiscard]] bool parse_label(sema::Type_Label& label);
 
 	[[nodiscard]] bool parse_label_range();
 

@@ -21,9 +21,13 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			factor.expression = expr::Const::create(value);
 			break;
 		}
-		case token::string_literal:
+		case token::string_literal: {
+			std::string value { token_.literal_data().str() };
+			value = value.substr(1, value.size() - 2);
+			factor.expression = expr::Const::create(value);
 			advance();
 			break;
+		}
 		case token::keyword_NIL:
 			factor.expression = expr::Expression::nil;
 			advance();

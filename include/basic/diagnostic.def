@@ -7,6 +7,7 @@ DIAG(err_base_type_expected, Error, "base type must be a type")
 DIAG(err_base_type_must_be_record, Error, "base type must be a RECORD type")
 DIAG(err_bar_in_case_expected, Error, "| (or END) in CASE statement expected")
 DIAG(err_const_experssion_expected, Error, "constant expression expected")
+DIAG(err_const_label_expected, Error, "constant label expected")
 DIAG(err_factor_expected, Error, "Factor expression expected")
 DIAG(err_import_already_used, Error, "MODULE IMPORT {0} is already used")
 DIAG(

@@ -2,7 +2,7 @@
 
 bool Parser::parse_label_range() {
 	Scope scope;
-	sema::Label label { scope };
+	sema::Const_Label label { scope };
 	if (parse_label(label)) { return true; }
 	if (token_.is(token::range)) {
 		advance();

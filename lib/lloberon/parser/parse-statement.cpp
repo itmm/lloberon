@@ -11,8 +11,7 @@ bool Parser::parse_statement(sema::Statement& statement) {
 	} else if (token_.is(token::keyword_IF)) {
 		if (parse_if_statement(statement)) { return true; }
 	} else if (token_.is(token::keyword_CASE)) {
-		sema::Case_Statement case_statement { statement.scope() };
-		if (parse_case_statement(case_statement)) { return true; }
+		if (parse_case_statement(statement)) { return true; }
 	} else if (token_.is(token::keyword_WHILE)) {
 		if (parse_while_statement(statement)) { return true; }
 	} else if (token_.is(token::keyword_REPEAT)) {

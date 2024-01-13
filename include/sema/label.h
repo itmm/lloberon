@@ -3,9 +3,23 @@
 #include "scope.h"
 
 namespace sema {
-	class Label {
+	class Const_Label {
 	public:
-		explicit Label(Scope& scope) : scope_ { scope } { }
+		explicit Const_Label(Scope& scope) : scope_ { scope } { }
+
+		Scope& scope() { return scope_; }
+
+		void clear() { }
+
+		std::shared_ptr<expr::Const> value;
+
+	private:
+		Scope& scope_;
+	};
+
+	class Type_Label {
+	public:
+		explicit Type_Label(Scope& scope) : scope_ { scope } { }
 
 		Scope& scope() { return scope_; }
 

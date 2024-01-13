@@ -44,3 +44,16 @@ inline void expect_bool_value(
 	}
 }
 
+inline void expect_string_value(
+	const std::shared_ptr<expr::Expression>& expression, const char* expected
+) {
+	auto const_expr { std::dynamic_pointer_cast<expr::Const>(expression) };
+	EXPECT_NE(const_expr, nullptr);
+	if (const_expr) {
+		EXPECT_TRUE(const_expr->is_string());
+		if (const_expr->is_string()) {
+			EXPECT_STREQ(const_expr->string_value().c_str(), expected);
+		}
+	}
+}
+

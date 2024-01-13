@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+
 namespace type {
 	class Type {
 	public:
