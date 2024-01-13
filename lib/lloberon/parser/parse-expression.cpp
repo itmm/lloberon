@@ -2,6 +2,7 @@
 #include "expr/binary.h"
 
 bool Parser::parse_expression(sema::Expression& expression) {
+	expression.expression = nullptr;
 	if (parse_simple_expression(expression)) { return true; }
 	auto value { expression.expression };
 	auto const_value { expr::Const::as_const(value) };

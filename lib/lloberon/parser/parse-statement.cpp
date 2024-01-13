@@ -14,8 +14,7 @@ bool Parser::parse_statement(sema::Statement& statement) {
 		sema::Case_Statement case_statement { statement.scope() };
 		if (parse_case_statement(case_statement)) { return true; }
 	} else if (token_.is(token::keyword_WHILE)) {
-		sema::While_Statement while_statement { statement.scope() };
-		if (parse_while_statement(while_statement)) { return true; }
+		if (parse_while_statement(statement)) { return true; }
 	} else if (token_.is(token::keyword_REPEAT)) {
 		if (parse_repeat_statement(statement)) { return true; }
 	} else if (token_.is(token::keyword_FOR)) {

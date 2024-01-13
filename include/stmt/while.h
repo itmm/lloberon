@@ -4,9 +4,9 @@
 #include "expr/expression.h"
 
 namespace stmt {
-	class If: public Statement {
+	class While: public Statement {
 	public:
-		If() = default;
+		While() = default;
 
 		struct Entry {
 			Entry(

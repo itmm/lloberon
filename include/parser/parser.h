@@ -178,9 +178,7 @@ public:
 
 	[[nodiscard]] bool parse_variable_declaration(Scope& scope);
 
-	[[nodiscard]] bool parse_while_statement(
-		sema::While_Statement& while_statement
-	);
+	[[nodiscard]] bool parse_while_statement(sema::Statement& statement);
 
 	[[nodiscard]] bool is_eof() { return token_.is(token::eof); }
 };
