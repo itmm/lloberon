@@ -11,7 +11,6 @@
 #include "sema/const-expression.h"
 #include "sema/expression.h"
 #include "sema/expression-list.h"
-#include "sema/for-statement.h"
 #include "sema/ident-def.h"
 #include "sema/label.h"
 #include "sema/length.h"
@@ -112,7 +111,7 @@ public:
 		sema::Record_Type& record_type
 	);
 
-	[[nodiscard]] bool parse_for_statement(sema::For_Statement& for_statement);
+	[[nodiscard]] bool parse_for_statement(sema::Statement& for_statement);
 
 	[[nodiscard]] bool parse_formal_parameter_section(
 		sema::Procedure_Type& procedure_type

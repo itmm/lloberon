@@ -20,8 +20,7 @@ bool Parser::parse_statement(sema::Statement& statement) {
 		sema::Repeat_Statement repeat_statement { statement.scope() };
 		if (parse_repeat_statement(repeat_statement)) { return true; }
 	} else if (token_.is(token::keyword_FOR)) {
-		sema::For_Statement for_statement { statement.scope() };
-		if (parse_for_statement(for_statement)) { return true; }
+		if (parse_for_statement(statement)) { return true; }
 	}
 	return false;
 }
