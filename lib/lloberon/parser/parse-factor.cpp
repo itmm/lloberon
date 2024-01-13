@@ -7,10 +7,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 	factor.clear();
 	switch (token_.kind()) {
 		case token::integer_literal: {
-			int value { 0 };
-			for (const auto& ch : token_.literal_data()) {
-				value = value * 10 + (ch - '0');
-			}
+			int value = std::stoi(token_.literal_data().str());
 			advance();
 			factor.expression = expr::Const::create(value);
 			break;
@@ -33,10 +30,11 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			advance();
 			break;
 		case token::keyword_TRUE:
+			factor.expression = expr::Const::create(true);
+			advance();
+			break;
 		case token::keyword_FALSE:
-			factor.expression = expr::Const::create(
-				token_.kind() == token::keyword_TRUE
-			);
+			factor.expression = expr::Const::create(false);
 			advance();
 			break;
 		case token::left_brace:

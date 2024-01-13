@@ -9,7 +9,7 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { }
+		void clear() { value = nullptr; }
 
 		std::shared_ptr<expr::Const> value;
 
@@ -23,7 +23,9 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { }
+		void clear() { value = nullptr; }
+
+		std::shared_ptr<type::Type> value;
 
 	private:
 		Scope& scope_;

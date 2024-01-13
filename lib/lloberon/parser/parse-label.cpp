@@ -15,5 +15,13 @@ bool Parser::parse_label(sema::Const_Label& label) {
 bool Parser::parse_label(sema::Type_Label& label) {
 	sema::Qual_Ident qual_ident { label.scope() };
 	if (parse_qual_ident(qual_ident)) { return true; }
+	auto type_decl { std::dynamic_pointer_cast<decl::Type>(
+		qual_ident.declaration
+	) };
+	if (!type_decl) {
+		diag().report(token_.location(), diag::err_type_expected);
+		return true;
+	}
+	label.value = type_decl->type;
 	return false;
 }

@@ -40,9 +40,11 @@ TEST(Label_Tests, qual_ident) {
 	scope.insert("X", module);
 	sema::Type_Label label { scope };
 	Type_Label_Runner test1 { "INTEGER", label };
+	EXPECT_EQ(label.value, type::Type::base_integer);
 
 	label.clear();
 	Type_Label_Runner test2 { "X.Byte", label };
+	EXPECT_EQ(label.value, type::Type::base_byte);
 }
 
 TEST(Label_Tests, wrong) {
