@@ -1,5 +1,6 @@
 #include "parser/parser.h"
 #include "type/array.h"
+#include "type/pointer.h"
 
 bool Parser::parse_designator(sema::Designator& designator) {
 	sema::Qual_Ident qual_ident { designator.scope };
@@ -50,6 +51,16 @@ bool Parser::parse_designator(sema::Designator& designator) {
 				expression = std::make_shared<expr::Expression>(array_type->base);
 			}
 		} else if (token_.is(token::ptr)) {
+			auto pointer_type { std::dynamic_pointer_cast<type::Pointer>(
+				expression->type)
+			};
+			if (!pointer_type) {
+				diag().report(token_.location(), diag::err_pointer_expected);
+				return true;
+			}
+			expression = std::make_shared<expr::Expression>(
+				pointer_type->points_to
+			);
 			advance();
         } else if (token_.is(token::left_parenthesis)) {
             advance();
