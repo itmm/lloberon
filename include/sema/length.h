@@ -11,8 +11,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { length = 0; }
-
 		int length;
 
 	private:

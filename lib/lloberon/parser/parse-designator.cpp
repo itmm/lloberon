@@ -1,7 +1,6 @@
 #include "parser/parser.h"
 
 bool Parser::parse_designator(sema::Designator& designator) {
-	designator.clear();
 	sema::Qual_Ident qual_ident { designator.scope() };
 	if (parse_qual_ident(qual_ident)) { return true; }
 	for (;;) {

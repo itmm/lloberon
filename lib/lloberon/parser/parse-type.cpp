@@ -1,7 +1,6 @@
 #include "parser/parser.h"
 
 bool Parser::parse_type(sema::Type& type) {
-	type.clear();
 	if (token_.is(token::identifier)) {
 		sema::Qual_Ident qual_ident { type.scope() };
 		if (parse_qual_ident(qual_ident)) { return true; }

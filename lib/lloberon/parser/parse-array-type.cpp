@@ -4,7 +4,6 @@
 #include "type/array.h"
 
 bool Parser::parse_array_type(sema::Type& type) {
-	type.clear();
 	std::vector<int> counts;
 	if (consume(token::keyword_ARRAY)) { return true; }
 	sema::Length expression { type.scope() };

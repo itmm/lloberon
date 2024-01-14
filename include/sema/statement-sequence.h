@@ -10,8 +10,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { sequence.clear(); }
-
 		stmt::Statement_Sequence sequence;
 
 	private:

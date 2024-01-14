@@ -42,10 +42,6 @@ TEST(Field_List_Tests, incomplete) {
 	decl::Type::register_base_types(scope);
 	sema::Record_Type field_list { scope };
 	Field_List_Runner test1 { "a:", field_list, true };
-
-	field_list.clear();
 	Field_List_Runner test2 { "a INTEGER", field_list, true, true };
-
-	field_list.clear();
 	Field_List_Runner test3 { "a,:", field_list, true, true };
 }

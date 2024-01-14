@@ -19,22 +19,17 @@ TEST(Factor_Tests, literals) {
 	Factor_Runner test1 { "3", factor };
 	expect_int_value(factor.expression, 3);
 
-	factor.clear();
 	Factor_Runner test2 { "3.241", factor };
 	expect_real_value(factor.expression, 3.241);
 
-	factor.clear();
 	Factor_Runner test3 { "\"abc\"", factor };
 
-	factor.clear();
 	Factor_Runner test4 { "NIL", factor };
 	EXPECT_EQ(factor.expression, expr::Expression::nil);
 
-	factor.clear();
 	Factor_Runner test5 { "TRUE", factor };
 	expect_bool_value(factor.expression, true);
 
-	factor.clear();
 	Factor_Runner test6 { "FALSE", factor };
 	expect_bool_value(factor.expression, false);
 }
@@ -57,9 +52,7 @@ TEST(Factor_Tests, ident) {
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "a", factor };
-	factor.clear();
 	Factor_Runner test2 { "a(3, TRUE)", factor };
-	factor.clear();
 	Factor_Runner test3 { "a[3](TRUE)", factor };
 }
 
@@ -79,10 +72,7 @@ TEST(Factor_Tests, incomplete) {
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "a(3,TRUE", factor, true };
-	factor.clear();
 	Factor_Runner test2 { "a(3,", factor, true };
-	factor.clear();
 	Factor_Runner test3 { "a(3", factor, true };
-	factor.clear();
 	Factor_Runner test4 { "a(", factor, true };
 }

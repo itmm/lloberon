@@ -16,11 +16,6 @@ namespace sema {
 			std::make_shared<type::Record>()
 		};
 
-		void clear() const {
-			record->base = nullptr;
-			record->entries.clear();
-		}
-
 	private:
 		Scope& scope_;
 	};

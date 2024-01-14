@@ -13,12 +13,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() {
-			name.clear();
-			procedure = std::make_shared<decl::Procedure>();
-			procedure_type.clear();
-		}
-
 		Ident_Def name;
 
 		sema::Procedure_Type procedure_type;

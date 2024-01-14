@@ -20,7 +20,6 @@ TEST(Record_Type_Tests, simple) {
 	EXPECT_NE(record, nullptr);
 	EXPECT_EQ(record->base, nullptr);
 
-	record_type.clear();
 	Record_Type_Runner test2 { "RECORD a: INTEGER END", record_type };
 	record = std::dynamic_pointer_cast<type::Record>(record_type.type);
 	EXPECT_NE(record, nullptr);
@@ -44,7 +43,6 @@ TEST(Record_Type_Tests, sub_type) {
 	EXPECT_NE(record, nullptr);
 	EXPECT_EQ(record->base, view_record);
 
-	record_type.clear();
 	Record_Type_Runner test2 {
 		"RECORD (View) center*: Point END", record_type
 	};

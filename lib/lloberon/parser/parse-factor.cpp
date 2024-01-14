@@ -4,7 +4,6 @@
 #include "expr/unary.h"
 
 bool Parser::parse_factor(sema::Expression& factor) {
-	factor.clear();
 	switch (token_.kind()) {
 		case token::integer_literal: {
 			int value = std::stoi(token_.literal_data().str());
@@ -54,9 +53,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		case token::left_parenthesis:
 			advance();
 			if (parse_expression(factor)) { return true; }
-			if (consume(token::right_parenthesis)) {
-				factor.clear(); return true;
-			}
+			if (consume(token::right_parenthesis)) { return true; }
 			break;
 		case token::notop: {
 			advance();

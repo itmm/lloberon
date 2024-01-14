@@ -1,7 +1,6 @@
 #include "parser/parser.h"
 
 bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
-	qual_ident.clear();
 	if (expect(token::identifier)) { return true; }
 	auto decl = qual_ident.scope().lookup(token_.identifier().str());
 	advance();

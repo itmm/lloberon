@@ -2,7 +2,6 @@
 #include "expr/const.h"
 
 bool Parser::parse_length(sema::Length& length) {
-	length.clear();
 	sema::Const_Expression expression { length.scope() };
 	if (parse_const_expression(expression)) { return true; }
 	auto value {

@@ -10,10 +10,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() {
-			statement = std::make_shared<stmt::Statement>();
-		}
-
 		std::shared_ptr<stmt::Statement> statement {
 			std::make_shared<stmt::Statement>()
 		};

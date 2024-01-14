@@ -84,40 +84,18 @@ TEST(For_Statement_Tests, wrong) {
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	sema::Statement statement { scope };
 	For_Statement_Runner test1 { "FOR", statement, true };
-
-	statement.clear();
 	For_Statement_Runner test2 { "FOR a", statement, true };
-
-	statement.clear();
 	For_Statement_Runner test3 { "FOR :=", statement, true, true };
-
-	statement.clear();
 	For_Statement_Runner test4 { "FOR a :=", statement, true };
-
-	statement.clear();
 	For_Statement_Runner test5 { "FOR a 1", statement, true, true };
-
-	statement.clear();
 	For_Statement_Runner test6 { "FOR a := 1", statement, true };
-
-	statement.clear();
 	For_Statement_Runner test7 { "FOR a := 1 TO", statement, true };
-
-	statement.clear();
 	For_Statement_Runner test8 { "FOR a := 1 TO 10", statement, true };
-
-	statement.clear();
 	For_Statement_Runner test9 { "FOR a := 1 10", statement, true, true };
-
-	statement.clear();
 	For_Statement_Runner test10 { "FOR a := 1 TO 10 DO", statement, true };
-
-	statement.clear();
 	For_Statement_Runner test11 {
 		"FOR a := 1 TO 10 END", statement, true, true
 	};
-
-	statement.clear();
 	For_Statement_Runner test12 {
 		"FOR a := 1 TO 10 BY DO", statement, true, true
 	};

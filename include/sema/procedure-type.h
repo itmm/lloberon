@@ -10,10 +10,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() {
-			procedure = std::make_shared<type::Procedure>();
-		}
-
 		std::shared_ptr<type::Procedure> procedure {
 			std::make_shared<type::Procedure>()
 		};

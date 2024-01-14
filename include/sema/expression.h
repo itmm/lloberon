@@ -11,8 +11,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { expression = nullptr; }
-
 		std::shared_ptr<expr::Expression> expression;
 
 	private:

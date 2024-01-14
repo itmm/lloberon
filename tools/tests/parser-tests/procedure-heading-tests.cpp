@@ -37,7 +37,6 @@ TEST(Procedure_Heading_Tests, incomplete) {
 		"PROCEDURE f", procedure_declaration, true
 	};
 
-	procedure_declaration.clear();
 	Procedure_Heading_Runner test2 {
 		"PROCEDURE (): INTEGER", procedure_declaration, true, true
 	};

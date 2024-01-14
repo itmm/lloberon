@@ -70,11 +70,7 @@ TEST(Formal_Parameter_Section_Tests, incomplete) {
 	decl::Type::register_base_types(scope);
 	sema::Procedure_Type procedure_type { scope };
 	Formal_Parameter_Section_Runner test1 { "VAR", procedure_type, true };
-
-	procedure_type.clear();
 	Formal_Parameter_Section_Runner test2 { "a,", procedure_type, true };
-
-	procedure_type.clear();
 	Formal_Parameter_Section_Runner test3 {
 		"a INTEGER", procedure_type, true, true
 	};

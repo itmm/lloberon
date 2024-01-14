@@ -10,8 +10,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { type = nullptr; }
-
 		std::shared_ptr<type::Type> type;
 	private:
 		Scope& scope_;

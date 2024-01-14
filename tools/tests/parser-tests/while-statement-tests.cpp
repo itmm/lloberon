@@ -53,14 +53,8 @@ TEST(While_Statement_Tests, wrong) {
 	scope.insert("INC", std::make_shared<decl::Variable>(nullptr));
 	sema::Statement statement { scope };
 	While_Statement_Runner test1 { "WHILE DO", statement, true, true };
-
-	statement.clear();
 	While_Statement_Runner test2 { "WHILE a < 3 DO INC(a)", statement, true };
-
-	statement.clear();
 	While_Statement_Runner test3 { "WHILE a ELSIF", statement, true, true };
-
-	statement.clear();
 	While_Statement_Runner test4 {
 		"WHILE a < 3 DO ELSIF END", statement, true, true
 	};

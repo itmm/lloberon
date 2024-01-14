@@ -20,7 +20,6 @@ TEST(Formal_Parameters_Tests, simple) {
 	EXPECT_TRUE(procedure_type.procedure->parameters.empty());
 	EXPECT_EQ(procedure_type.procedure->return_type, nullptr);
 
-	procedure_type.clear();
 	Formal_Parameters_Runner test2 { "(VAR a: BYTE)", procedure_type };
 	EXPECT_EQ(procedure_type.procedure->parameters.size(), 1);
 	if (!procedure_type.procedure->parameters.empty()) {
@@ -48,7 +47,5 @@ TEST(Formal_Parameters_Tests, incomplete) {
 	Scope scope;
 	sema::Procedure_Type procedure_type { scope };
 	Formal_Parameters_Runner test1 { "(", procedure_type, true };
-
-	procedure_type.clear();
 	Formal_Parameters_Runner test2 { "():", procedure_type, true };
 }

@@ -17,16 +17,10 @@ TEST(Procedure_Body_Tests, simple) {
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	sema::Procedure_Declaration procedure_declaration { scope };
 	Procedure_Body_Runner test1 { "END", procedure_declaration };
-
-	procedure_declaration.clear();
 	Procedure_Body_Runner test2 { "RETURN 42 END", procedure_declaration };
-
-	procedure_declaration.clear();
 	Procedure_Body_Runner test3 {
 		"BEGIN RETURN 42 END", procedure_declaration
 	};
-
-	procedure_declaration.clear();
 	Procedure_Body_Runner test4 {
 		"BEGIN a := 42; RETURN a END", procedure_declaration
 	};
@@ -42,7 +36,6 @@ TEST(Procedure_Body_Tests, with_declaration) {
 	};
 
 	scope.clear();
-	procedure_declaration.clear();
 	Procedure_Body_Runner test2 {
 		"CONST a = 42; RETURN a END", procedure_declaration
 	};

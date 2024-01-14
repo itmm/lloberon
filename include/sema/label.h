@@ -23,8 +23,6 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
-		void clear() { begin = end = nullptr; }
-
 		std::shared_ptr<expr::Const> begin;
 		std::shared_ptr<expr::Const> end;
 

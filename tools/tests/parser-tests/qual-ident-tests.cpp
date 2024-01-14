@@ -17,7 +17,6 @@ TEST(Qual_Ident_Tests, simple) {
 	decl::Type::register_base_types(scope);
 	sema::Qual_Ident qual_ident { scope };
 	Qual_Ident_Runner test1 { "BYTE", qual_ident };
-	qual_ident.clear();
 	new(&scope) Scope { };
 	auto module = std::make_shared<decl::Module>("X");
 	scope.insert("X", module);
@@ -33,7 +32,5 @@ TEST(Qual_Ident_Tests, incomplete) {
 	auto module = std::make_shared<decl::Module>("X");
 	scope.insert("X", module);
 	Qual_Ident_Runner test1 { "X.", qual_ident, true };
-
-	qual_ident.clear();
 	Qual_Ident_Runner test2 { ".", qual_ident, true, true };
 }

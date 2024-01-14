@@ -20,19 +20,15 @@ TEST(Const_Expression_Tests, literals) {
 	Const_Expression_Runner test1 { "234", expression };
 	expect_int_value(expression.expression, 234);
 
-	expression.clear();
 	Const_Expression_Runner test2 { "-234", expression };
 	expect_int_value(expression.expression, -234);
 
-	expression.clear();
 	Const_Expression_Runner test3 { "2.34", expression };
 	expect_real_value(expression.expression, 2.34);
 
-	expression.clear();
 	Const_Expression_Runner test5 { "TRUE", expression };
 	expect_bool_value(expression.expression, true);
 
-	expression.clear();
 	Const_Expression_Runner test6 { "FALSE", expression };
 	expect_bool_value(expression.expression, false);
 }
@@ -43,15 +39,12 @@ TEST(Const_Expression_Tests, expressions) {
 	Const_Expression_Runner test1 { "3 + 4 * 2", expression };
 	expect_int_value(expression.expression, 11);
 
-	expression.clear();
 	Const_Expression_Runner test2 { "2 < 4 # FALSE", expression };
 	expect_bool_value(expression.expression, true);
 
-	expression.clear();
 	Const_Expression_Runner test3 { "5 - 3", expression };
 	expect_int_value(expression.expression, 2);
 
-	expression.clear();
 	Const_Expression_Runner test4 { "TRUE OR FALSE", expression };
 	expect_bool_value(expression.expression, true);
 }

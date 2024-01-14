@@ -79,7 +79,6 @@ TEST(Simple_Expression_Tests, unaries) {
 
 	Scope scope;
 	sema::Expression simple_expression { scope };
-	simple_expression.clear();
 	Simple_Expression_Runner test3 { "+-3", simple_expression, true, true };
 }
 
@@ -87,7 +86,5 @@ TEST(Simple_Expression_Tests, incomplete) {
 	Scope scope;
 	sema::Expression simple_expression { scope };
 	Simple_Expression_Runner test1 { "3 +", simple_expression, true };
-
-	simple_expression.clear();
 	Simple_Expression_Runner test2 { "+", simple_expression, true };
 }

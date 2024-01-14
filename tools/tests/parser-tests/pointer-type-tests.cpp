@@ -31,7 +31,5 @@ TEST(Pointer_Type_Tests, incomplete) {
 	));
 	sema::Type pointer_type { scope };
 	Pointer_Type_Runner test1 { "POINTER TO", pointer_type, true };
-
-	pointer_type.clear();
 	Pointer_Type_Runner test2 { "POINTER Record", pointer_type, true, true };
 }
