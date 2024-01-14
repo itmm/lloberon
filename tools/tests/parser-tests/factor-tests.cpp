@@ -26,13 +26,19 @@ TEST(Factor_Tests, literals) {
 	Factor_Runner test3 { "\"abc\"", factor };
 	expect_string_value(factor.expression, "abc");
 
-	Factor_Runner test4 { "NIL", factor };
+	Factor_Runner test4 { "020H", factor };
+	expect_int_value(factor.expression, 32);
+
+	Factor_Runner test5 { "40X", factor };
+	expect_string_value(factor.expression, "@");
+
+	Factor_Runner test6 { "NIL", factor };
 	EXPECT_EQ(factor.expression, expr::Expression::nil);
 
-	Factor_Runner test5 { "TRUE", factor };
+	Factor_Runner test7 { "TRUE", factor };
 	expect_bool_value(factor.expression, true);
 
-	Factor_Runner test6 { "FALSE", factor };
+	Factor_Runner test8 { "FALSE", factor };
 	expect_bool_value(factor.expression, false);
 }
 

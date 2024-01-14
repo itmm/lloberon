@@ -26,7 +26,7 @@ public:
 	llvm::StringRef literal_data() {
 		assert(is_one_of(
 			token::integer_literal, token::float_literal,
-			token::string_literal
+			token::string_literal, token::char_literal
 		) && "Cannot get literal data of non-literal");
 		return { ptr_, length_ };
 	}

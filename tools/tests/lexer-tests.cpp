@@ -191,7 +191,7 @@ static void expect_integer(
 }
 
 class String_Literal_Runner : public Literal_Runner {
-public:
+	public:
 	String_Literal_Runner(
 		const char* source, const char* first, const char* second
 	) :
@@ -203,6 +203,21 @@ static void expect_string(
 	const char* second = nullptr
 ) {
 	String_Literal_Runner(source, first ?: source, second).run();
+}
+
+class Char_Literal_Runner : public Literal_Runner {
+public:
+	Char_Literal_Runner(
+		const char* source, const char* first, const char* second
+	) :
+		Literal_Runner { source, token::char_literal, first, second } { }
+};
+
+static void expect_char(
+	const char* source, const char* first = nullptr,
+	const char* second = nullptr
+) {
+	Char_Literal_Runner(source, first ?: source, second).run();
 }
 
 TEST(Integer_Tests, simple_integers) {
@@ -221,8 +236,8 @@ TEST(Integer_Tests, valid_hex) {
 	expect_integer("0H");
 	expect_integer("2AH");
 	expect_integer("2AHH", "2AH", "H");
-	expect_string("0AAX");
-	expect_string("0AAXX", "0AAX", "X");
+	expect_char("0AAX");
+	expect_char("0AAXX", "0AAX", "X");
 }
 
 TEST(Integer_Tests, invalid_hex) {

@@ -85,7 +85,7 @@ void Lexer::next(Token& token) {
 			++end;
 		} else if (*end == 'X') {
 			++end;
-			form_token(token, end, token::string_literal);
+			form_token(token, end, token::char_literal);
 			return;
 		} else if (is_hex) {
 			form_token(token, end, token::unknown);
