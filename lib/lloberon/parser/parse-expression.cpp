@@ -72,6 +72,21 @@ bool Parser::parse_expression(sema::Expression& expression) {
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
+			} else if (const_value->is_set() && right_const_value->is_set()) {
+				auto lv { const_value->set_value() };
+				auto rv { right_const_value->set_value() };
+				bool result;
+				switch (op) {
+					case token::equals: result = (lv == rv); break;
+					case token::not_equals: result = (lv != rv); break;
+					default:
+						diag().report(
+							token_.location(), diag::err_wrong_operator_for_set
+						);
+						return true;
+				}
+				const_value = expr::Const::create(result);
+				value = const_value;
 			} else {
 				diag().report(
 					token_.location(), diag::err_wrong_operator_for_const

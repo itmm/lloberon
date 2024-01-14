@@ -38,6 +38,15 @@ TEST(Term_Tests, multiple) {
 	Term_Runner test2 { "a / 2 DIV b", term };
 }
 
+TEST(Term_Tests, set) {
+	Scope scope;
+	sema::Expression term { scope };
+	Term_Runner test1 { "{0..3} * {2..5}", term };
+	expect_set_value(term.expression, 0x000cu);
+	Term_Runner test2 { "{0..3} / {2..5}", term };
+	expect_set_value(term.expression, 0x0033u);
+}
+
 TEST(Term_Tests, incomplete) {
 	Scope scope;
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));

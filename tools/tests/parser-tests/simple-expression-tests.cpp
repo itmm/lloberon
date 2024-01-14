@@ -82,6 +82,16 @@ TEST(Simple_Expression_Tests, unaries) {
 	Simple_Expression_Runner test3 { "+-3", simple_expression, true, true };
 }
 
+TEST(Simple_Expression_Tests, set) {
+	Scope scope;
+	sema::Expression simple_expression { scope };
+	Simple_Expression_Runner test1 { "{0..3} + {2..5}", simple_expression };
+	expect_set_value(simple_expression.expression, 0x003fu);
+
+	Simple_Expression_Runner test2 { "{0..3} - {2..5}", simple_expression };
+	expect_set_value(simple_expression.expression, 0x0003u);
+}
+
 TEST(Simple_Expression_Tests, incomplete) {
 	Scope scope;
 	sema::Expression simple_expression { scope };

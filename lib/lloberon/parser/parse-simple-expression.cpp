@@ -78,7 +78,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 				if (op == token::keyword_OR) {
 					const_value = expr::Const::create(
 						const_value->bool_value() ||
-							right_const_value->bool_value()
+						right_const_value->bool_value()
 					);
 					value = const_value;
 				} else {
@@ -87,6 +87,21 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					);
 					return true;
 				}
+			} else if (const_value->is_set() && right_const_value->is_set()) {
+				auto lv { const_value->set_value() };
+				auto rv { right_const_value->set_value() };
+				unsigned result;
+				switch (op) {
+					case token::plus: result = lv | rv; break;
+					case token::minus: result = lv - (lv & rv); break;
+					default:
+						diag().report(
+							token_.location(), diag::err_wrong_operator_for_set
+						);
+						return true;
+				}
+				const_value = expr::Const::create(result);
+				value = const_value;
 			} else {
 				diag().report(
 					token_.location(), diag::err_wrong_operator_for_const

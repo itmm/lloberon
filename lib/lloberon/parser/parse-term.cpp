@@ -81,6 +81,21 @@ bool Parser::parse_term(sema::Expression& term) {
 						);
 						return true;
 				}
+			} else if (const_value->is_set() && right_const_value->is_set()) {
+				auto lv { const_value->set_value() };
+				auto rv { right_const_value->set_value() };
+				unsigned result;
+				switch (op) {
+					case token::star: result = lv & rv; break;
+					case token::slash: result = lv ^ rv; break;
+					default:
+						diag().report(
+							token_.location(), diag::err_wrong_operator_for_set
+						);
+						return true;
+				}
+				const_value = expr::Const::create(result);
+				value = const_value;
 			} else {
 				diag().report(
 					token_.location(), diag::err_wrong_operator_for_const

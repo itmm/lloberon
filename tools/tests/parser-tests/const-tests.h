@@ -57,3 +57,16 @@ inline void expect_string_value(
 	}
 }
 
+inline void expect_set_value(
+	const std::shared_ptr<expr::Expression>& expression, unsigned expected
+) {
+	auto const_expr { std::dynamic_pointer_cast<expr::Const>(expression) };
+	EXPECT_NE(const_expr, nullptr);
+	if (const_expr) {
+		EXPECT_TRUE(const_expr->is_set());
+		if (const_expr->is_set()) {
+			EXPECT_EQ(const_expr->set_value(), expected);
+		}
+	}
+}
+

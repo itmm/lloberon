@@ -1,6 +1,7 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
 #include "expr/expression.h"
+#include "const-tests.h"
 
 using Expression_Runner = Parser_Value_Runner<
 	sema::Expression, &Parser::parse_expression
@@ -33,6 +34,22 @@ TEST(Expression_Tests, multiple) {
 	Scope scope;
 	sema::Expression expression { scope };
 	Expression_Runner test1 { "3 < 4 = TRUE", expression };
+}
+
+TEST(Expression_Tests, set) {
+	Scope scope;
+	sema::Expression expression { scope };
+	Expression_Runner test1 { "{1..2} = {2,1}", expression };
+	expect_bool_value(expression.expression, true);
+
+	Expression_Runner test2 { "{1..2} = {2}", expression };
+	expect_bool_value(expression.expression, false);
+
+	Expression_Runner test3 { "{1..2} # {2,1}", expression };
+	expect_bool_value(expression.expression, false);
+
+	Expression_Runner test4 { "{1..2} # {2}", expression };
+	expect_bool_value(expression.expression, true);
 }
 
 TEST(Expression_Tests, invalid) {
