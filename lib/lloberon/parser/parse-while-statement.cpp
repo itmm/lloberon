@@ -2,7 +2,7 @@
 #include "stmt/while.h"
 
 bool Parser::parse_while_statement(sema::Statement& statement) {
-	auto& scope { statement.scope() };
+	auto& scope { statement.scope };
 	auto while_statement { std::make_shared<stmt::While>() };
 	if (consume(token::keyword_WHILE)) { return true; }
 	sema::Expression expression { scope };

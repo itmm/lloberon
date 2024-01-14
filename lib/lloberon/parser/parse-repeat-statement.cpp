@@ -2,7 +2,7 @@
 #include "stmt/repeat.h"
 
 bool Parser::parse_repeat_statement(sema::Statement& statement) {
-	auto& scope { statement.scope() };
+	auto& scope { statement.scope };
 	auto repeat_statement { std::make_shared<stmt::Repeat>() };
 	if (consume(token::keyword_REPEAT)) { return true; }
 	sema::Statement_Sequence statement_sequence { scope };

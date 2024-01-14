@@ -6,15 +6,12 @@
 namespace sema {
 	class Statement {
 	public:
-		explicit Statement(Scope& scope) : scope_ { scope } { }
+		explicit Statement(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::shared_ptr<stmt::Statement> statement {
 			std::make_shared<stmt::Statement>()
 		};
-
-	private:
-		Scope& scope_;
 	};
 }

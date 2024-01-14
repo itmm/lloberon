@@ -7,13 +7,10 @@ namespace sema {
 	class Length {
 	public:
 		explicit Length(Scope& scope, int length = 0) :
-			length { length }, scope_ { scope } { }
+			scope { scope }, length { length } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		int length;
-
-	private:
-		Scope& scope_;
 	};
 }

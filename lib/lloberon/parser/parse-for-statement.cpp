@@ -2,7 +2,7 @@
 #include "stmt/for.h"
 
 bool Parser::parse_for_statement(sema::Statement& statement) {
-	auto& scope { statement.scope() };
+	auto& scope { statement.scope };
 	auto for_statement { std::make_shared<stmt::For>() };
 
 	if (consume(token::keyword_FOR)) { return true; }

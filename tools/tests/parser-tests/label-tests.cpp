@@ -19,7 +19,6 @@ TEST(Label_Tests, simple) {
 	Const_Label_Runner test1 { "3", label };
 	expect_int_value(label.value, 3);
 
-	label.clear();
 	Const_Label_Runner test2 { "\"abc\"", label };
 	expect_string_value(label.value, "abc");
 }

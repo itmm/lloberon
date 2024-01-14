@@ -5,13 +5,10 @@
 namespace sema {
 	class Expression_List {
 	public:
-		explicit Expression_List(Scope& scope) : scope_ { scope } { }
+		explicit Expression_List(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::vector<std::shared_ptr<expr::Expression>> list;
-
-	private:
-		Scope& scope_;
 	};
 }

@@ -2,7 +2,7 @@
 #include "stmt/if.h"
 
 bool Parser::parse_if_statement(sema::Statement& statement) {
-	auto& scope { statement.scope() };
+	auto& scope { statement.scope };
 	auto if_statement { std::make_shared<stmt::If>() };
 	if (consume(token::keyword_IF)) { return true; }
 	sema::Expression expression { scope };

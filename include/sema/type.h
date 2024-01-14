@@ -6,12 +6,10 @@
 namespace sema {
 	class Type {
 	public:
-		explicit Type(Scope& scope) : scope_ { scope } { }
+		explicit Type(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::shared_ptr<type::Type> type;
-	private:
-		Scope& scope_;
 	};
 }

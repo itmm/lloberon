@@ -6,15 +6,12 @@
 namespace sema {
 	class Procedure_Type {
 	public:
-		explicit Procedure_Type(Scope& scope) : scope_ { scope } { }
+		explicit Procedure_Type(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::shared_ptr<type::Procedure> procedure {
 			std::make_shared<type::Procedure>()
 		};
-
-	private:
-		Scope& scope_;
 	};
 }

@@ -3,7 +3,7 @@
 bool Parser::parse_statement(sema::Statement& statement) {
 	if (token_.is(token::identifier)) {
 		sema::Assignment_Or_Procedure_Call assignment_or_procedure_call {
-			statement.scope()
+			statement.scope
 		};
 		if (parse_assignment_or_procedure_call(assignment_or_procedure_call)) {
 			return true;

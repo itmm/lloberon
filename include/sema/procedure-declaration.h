@@ -9,9 +9,9 @@ namespace sema {
 	class Procedure_Declaration {
 	public:
 		explicit Procedure_Declaration(Scope& scope) :
-			procedure_type { scope }, scope_ { scope } { }
+			scope { scope }, procedure_type { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		Ident_Def name;
 
@@ -20,8 +20,5 @@ namespace sema {
 		std::shared_ptr<decl::Procedure> procedure {
 			std::make_shared<decl::Procedure>()
 		};
-
-	private:
-		Scope& scope_;
 	};
 }

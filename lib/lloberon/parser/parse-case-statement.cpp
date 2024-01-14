@@ -4,7 +4,7 @@
 #include "type/record.h"
 
 bool Parser::parse_case_statement(sema::Statement& statement) {
-	auto& scope { statement.scope() };
+	auto& scope { statement.scope };
 
 	if (consume(token::keyword_CASE)) { return true; }
 	sema::Expression expression { scope };
