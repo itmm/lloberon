@@ -69,6 +69,13 @@ namespace expr {
 			return std::dynamic_pointer_cast<Const>(expression);
 		}
 
+		static std::shared_ptr<Const> true_value;
+		static std::shared_ptr<Const> false_value;
+
+		static std::shared_ptr<Const> create(bool value) {
+			return value ? true_value : false_value;
+		}
+
 		template<typename TYPE>
 		static std::shared_ptr<Const> create(TYPE value) {
 			return std::make_shared<Const>(value);

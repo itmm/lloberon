@@ -33,14 +33,10 @@ inline void expect_real_value(
 inline void expect_bool_value(
 	const std::shared_ptr<expr::Expression>& expression, bool expected
 ) {
-	auto const_expr { std::dynamic_pointer_cast<expr::Const>(expression) };
-	EXPECT_NE(const_expr, nullptr);
-	if (const_expr) {
-		EXPECT_TRUE(const_expr->is_bool());
-		if (const_expr->is_bool()) {
-			bool got { const_expr->bool_value() };
-			if (expected) { EXPECT_TRUE(got); } else { EXPECT_FALSE(got); }
-		}
+	if (expected) {
+		EXPECT_EQ(expression, expr::Const::true_value);
+	} else {
+		EXPECT_EQ(expression, expr::Const::false_value);
 	}
 }
 
