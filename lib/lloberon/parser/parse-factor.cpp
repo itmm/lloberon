@@ -3,20 +3,25 @@
 #include "sema/expression.h"
 #include "expr/unary.h"
 
+static int parse_int(const std::string& source, int base) {
+	int value { 0 };
+	for (const auto& ch: source) {
+		int digit { -1 };
+		if (ch >= '0' && ch <= '9') { digit = ch - '0'; }
+		else if (ch >= 'A' && ch <= 'F') { digit = ch - 'A' + 10; }
+		if (digit >= 0) {
+			value = value * base + digit;
+		}
+	}
+	return value;
+}
+
 bool Parser::parse_factor(sema::Expression& factor) {
 	switch (token_.kind()) {
 		case token::integer_literal: {
 			std::string source { token_.literal_data().str() };
-			int value { 0 };
 			int base { source[source.length() - 1] == 'H' ? 16 : 10 };
-			for (const auto& ch: source) {
-				int digit { -1 };
-				if (ch >= '0' && ch <= '9') { digit = ch - '0'; }
-				else if (ch >= 'A' && ch <= 'F') { digit = ch - 'A' + 10; }
-				if (digit >= 0) {
-					value = value * base + digit;
-				}
-			}
+			int value { parse_int(source, base) };
 			advance();
 			factor.expression = expr::Const::create(value);
 			break;
@@ -36,16 +41,8 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		}
 		case token::char_literal: {
 			std::string value { "_" };
-			int ch_value { 0 };
 			std::string source { token_.literal_data().str() };
-			for (const auto& ch: source) {
-				int digit { -1 };
-				if (ch >= '0' && ch <= '9') { digit = ch - '0'; }
-				else if (ch >= 'A' && ch <= 'F') { digit = ch - 'A' + 10; }
-				if (digit >= 0) {
-					ch_value = ch_value * 16 + digit;
-				}
-			}
+			int ch_value { parse_int(source, 16) };
 			value[0] = static_cast<char>(ch_value);
 			factor.expression = expr::Const::create(value);
 			advance();
