@@ -14,6 +14,16 @@ bool Parser::parse_expression(sema::Expression& expression) {
 		auto op { token_.kind() };
 		advance();
 
+		if (op == token::keyword_IS) {
+			sema::Qual_Ident qual_ident { expression.scope };
+			if (parse_qual_ident(qual_ident)) { return true; }
+			auto type { qual_ident.as_type() };
+			if (!type) {
+				diag().report(token_.location(), diag::err_type_expected);
+				return true;
+			}
+			continue;
+		}
 		if (parse_simple_expression(expression)) { return true; }
 		auto right_value { expression.expression };
 		auto right_const_value { expr::Const::as_const(right_value) };

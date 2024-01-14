@@ -15,6 +15,7 @@ TEST(Expression_Tests, empty) {
 
 TEST(Expression_Tests, single) {
 	Scope scope;
+	decl::Type::register_base_types(scope);
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
 	sema::Expression expression { scope };
@@ -25,7 +26,7 @@ TEST(Expression_Tests, single) {
 	Expression_Runner test5 { "3 > 4", expression };
 	Expression_Runner test6 { "3 >= 4", expression };
 	Expression_Runner test7 { "3 IN a", expression };
-	Expression_Runner test8 { "a IS b", expression };
+	Expression_Runner test8 { "a IS INTEGER", expression };
 	Expression_Runner test9 { "NIL", expression };
 	EXPECT_EQ(expression.expression, expr::Expression::nil);
 }
