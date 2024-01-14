@@ -75,9 +75,13 @@ public:
 
 	[[nodiscard]] bool parse_base_type(sema::Record_Type& base_type);
 
-	[[nodiscard]] bool parse_case(sema::Case& case_arg);
+	[[nodiscard]] bool parse_case(sema::Const_Case& const_case);
 
-	[[nodiscard]] bool parse_case_list(sema::Case_List& case_list);
+	[[nodiscard]] bool parse_case(sema::Type_Case& type_case);
+
+	[[nodiscard]] bool parse_case_list(sema::Const_Case_List& case_list);
+
+	[[nodiscard]] bool parse_case_list(sema::Type_Case_List& case_list);
 
 	[[nodiscard]] bool parse_case_statement(sema::Statement& statement);
 
@@ -131,9 +135,9 @@ public:
 
 	[[nodiscard]] bool parse_label(sema::Const_Label& label);
 
-	[[nodiscard]] bool parse_label(sema::Type_Label& label);
+	[[nodiscard]] bool parse_label(sema::Type& label);
 
-	[[nodiscard]] bool parse_label_range();
+	[[nodiscard]] bool parse_label_range(sema::Const_Label_Range& range);
 
 	[[nodiscard]] bool parse_length(sema::Length& length);
 

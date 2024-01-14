@@ -17,15 +17,16 @@ namespace sema {
 		Scope& scope_;
 	};
 
-	class Type_Label {
+	class Const_Label_Range {
 	public:
-		explicit Type_Label(Scope& scope) : scope_ { scope } { }
+		explicit Const_Label_Range(Scope& scope) : scope_ { scope } { }
 
 		Scope& scope() { return scope_; }
 
-		void clear() { value = nullptr; }
+		void clear() { begin = end = nullptr; }
 
-		std::shared_ptr<type::Type> value;
+		std::shared_ptr<expr::Const> begin;
+		std::shared_ptr<expr::Const> end;
 
 	private:
 		Scope& scope_;
