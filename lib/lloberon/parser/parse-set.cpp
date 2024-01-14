@@ -1,12 +1,13 @@
 #include "parser/parser.h"
 
-bool Parser::parse_set() {
+bool Parser::parse_set(sema::Const_Expression& expression) {
+	expression.expression = expr::Const::create(0U);
 	if (consume(token::left_brace)) { return true; }
 	if (!token_.is_one_of(token::right_brace, token::eof)) {
-		if (parse_element()) { return true; }
+		if (parse_element(expression)) { return true; }
 		while (token_.is(token::comma)) {
 			advance();
-			if (parse_element()) { return true; }
+			if (parse_element(expression)) { return true; }
 		}
 	}
 	if (consume(token::right_brace)) { return true; }

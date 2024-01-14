@@ -6,13 +6,9 @@
 namespace sema {
 	class Const_Expression {
 	public:
-		explicit Const_Expression(Scope& scope) : scope_ { scope } { }
+		explicit Const_Expression(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
-
+		Scope& scope;
 		std::shared_ptr<expr::Const> expression;
-
-	private:
-		Scope& scope_;
 	};
 }

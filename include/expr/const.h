@@ -24,6 +24,9 @@ namespace expr {
 			) },
 			values_ { value } { }
 
+		explicit Const(unsigned value):
+			Expression { type::Type::base_set }, values_ { value } { }
+
 		[[nodiscard]] bool is_bool() const {
 			return std::holds_alternative<bool>(values_);
 		}
@@ -40,6 +43,10 @@ namespace expr {
 			return std::holds_alternative<std::string>(values_);
 		}
 
+		[[nodiscard]] bool is_set() const {
+			return std::holds_alternative<unsigned>(values_);
+		}
+
 		[[nodiscard]] bool bool_value() const { return std::get<bool>(values_); }
 
 		[[nodiscard]] int int_value() const { return std::get<int>(values_); }
@@ -50,6 +57,10 @@ namespace expr {
 
 		[[nodiscard]] const std::string& string_value() const {
 			return std::get<std::string>(values_);
+		}
+
+		[[nodiscard]] unsigned set_value() const {
+			return std::get<unsigned>(values_);
 		}
 
 		static std::shared_ptr<Const> as_const(
@@ -63,6 +74,6 @@ namespace expr {
 			return std::make_shared<Const>(value);
 		}
 	private:
-		std::variant<bool, int, double, std::string> values_;
+		std::variant<bool, int, double, std::string, unsigned > values_;
 	};
 }

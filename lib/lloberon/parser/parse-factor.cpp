@@ -36,10 +36,12 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			factor.expression = expr::Const::create(false);
 			advance();
 			break;
-		case token::left_brace:
-			if (parse_set()) { return true; }
+		case token::left_brace: {
+			sema::Const_Expression const_expression { factor.scope() };
+			if (parse_set(const_expression)) { return true; }
+			factor.expression = const_expression.expression;
 			break;
-
+		}
 		case token::identifier: {
 			sema::Designator designator { factor.scope() };
 			if (parse_designator(designator)) { return true; }

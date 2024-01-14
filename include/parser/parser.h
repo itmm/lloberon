@@ -94,7 +94,7 @@ public:
 
 	[[nodiscard]] bool parse_designator(sema::Designator& designator);
 
-	[[nodiscard]] bool parse_element();
+	[[nodiscard]] bool parse_element(sema::Const_Expression& expression);
 
 	[[nodiscard]] bool parse_expression(sema::Expression& expression);
 
@@ -160,7 +160,7 @@ public:
 
 	[[nodiscard]] bool parse_repeat_statement(sema::Statement& statement);
 
-	[[nodiscard]] bool parse_set();
+	[[nodiscard]] bool parse_set(sema::Const_Expression& expression);
 
 	[[nodiscard]] bool parse_simple_expression(sema::Expression& expression);
 
