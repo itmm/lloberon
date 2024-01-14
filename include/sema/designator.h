@@ -5,11 +5,9 @@
 namespace sema {
 	class Designator {
 	public:
-		explicit Designator(Scope& scope) : scope_ { scope } { }
+		explicit Designator(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
-
-	private:
-		Scope& scope_;
+		Scope& scope;
+		std::shared_ptr<expr::Expression> expression;
 	};
 }

@@ -2,6 +2,7 @@
 #include "decl/variable.h"
 #include "expr/const.h"
 #include "const-tests.h"
+#include "type-tests.h"
 
 using Factor_Runner = Parser_Value_Runner<
 	sema::Expression, &Parser::parse_factor
@@ -48,11 +49,16 @@ TEST(Factor_Tests, grouped) {
 }
 
 TEST(Factor_Tests, ident) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	Scope base;
+	decl::Type::register_base_types(base);
+	Scope scope { &base };
+	sema::Type type { scope };
+	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };
+	scope.insert("a", std::make_shared<decl::Variable>(type.type));
+	scope.insert("f", std::make_shared<decl::Procedure>());
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "a", factor };
-	Factor_Runner test2 { "a(3, TRUE)", factor };
+	Factor_Runner test2 { "f(3, TRUE)", factor };
 	Factor_Runner test3 { "a[3](TRUE)", factor };
 }
 
@@ -69,7 +75,7 @@ TEST(Factor_Tests, not) {
 
 TEST(Factor_Tests, incomplete) {
 	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("a", std::make_shared<decl::Procedure>());
 	sema::Expression factor { scope };
 	Factor_Runner test1 { "a(3,TRUE", factor, true };
 	Factor_Runner test2 { "a(3,", factor, true };

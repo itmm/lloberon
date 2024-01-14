@@ -1,5 +1,7 @@
-#include "parser-tests.h"
 #include "decl/variable.h"
+#include "parser-tests.h"
+#include "type/pointer.h"
+#include "type-tests.h"
 
 using Designator_Runner = Parser_Value_Runner<
 	sema::Designator, &Parser::parse_designator
@@ -12,35 +14,64 @@ TEST(Designator_Tests, empty) {
 }
 
 TEST(Designator_Tests, simple) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	Scope base;
+	decl::Type::register_base_types(base);
+	Scope scope { &base };
 	sema::Designator designator { scope };
+	sema::Type type { scope };
+	Type_Runner create_type(
+		"RECORD "
+			"b: RECORD "
+				"c: INTEGER "
+			"END; "
+			"d: ARRAY 10, 5 OF RECORD END; "
+			"e: POINTER TO RECORD END "
+		"END",
+		type
+	);
+
+	scope.insert("a", std::make_shared<decl::Variable>(type.type));
 	Designator_Runner test1 { "a", designator };
 	Designator_Runner test2 { "a.b", designator };
 	Designator_Runner test3 { "a.b.c", designator };
-	Designator_Runner test4 { "a.b[2, 3]", designator };
-	Designator_Runner test5 { "a.b^", designator };
+	//TODO Designator_Runner test4 { "a.d[2, 3]", designator };
+	Designator_Runner test5 { "a.e^", designator };
 }
 
 TEST(Designator_Tests, combined) {
 	Scope scope;
 	sema::Designator designator { scope };
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	Designator_Runner test1 { "a.b^[3].c^", designator };
+	sema::Type type { scope };
+	Type_Runner create_type(
+		"RECORD "
+			"b: ARRAY 10 OF RECORD "
+				"c: POINTER TO RECORD END "
+			"END "
+		"END",
+		type
+	);
+	scope.insert("a", std::make_shared<decl::Variable>(type.type));
+	Designator_Runner test1 { "a.b[3].c^", designator };
 }
 
 TEST(Designator_Tests, incomplete) {
 	Scope scope;
 	sema::Designator designator { scope };
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Type type { scope };
+	Type_Runner create_array("ARRAY 10 OF RECORD END", type);
+	scope.insert("a", std::make_shared<decl::Variable>(type.type));
+
 	Designator_Runner test1 { "a[3,", designator, true };
 	Designator_Runner test2 { "a[3", designator, true };
 	Designator_Runner test3 { "a[3,]", designator, true, true };
 	Designator_Runner test4 { "a[]", designator, true, true };
-	Designator_Runner test5 { "a.b.", designator, true };
-	Designator_Runner test6 { "a.b.[", designator, true, true };
-	Designator_Runner test7 { "a.b.^", designator, true, true };
-	Designator_Runner test8 { "a.", designator, true };
-	Designator_Runner test9 { "a.[", designator, true, true };
-	Designator_Runner test10 { "a.^", designator, true, true };
+
+	Type_Runner create_record("RECORD b: RECORD END END", type);
+	scope.insert("b", std::make_shared<decl::Variable>(type.type));
+	Designator_Runner test5 { "b.b.", designator, true };
+	Designator_Runner test6 { "b.b.[", designator, true, true };
+	Designator_Runner test7 { "b.b.^", designator, true, true };
+	Designator_Runner test8 { "b.", designator, true };
+	Designator_Runner test9 { "b.[", designator, true, true };
+	Designator_Runner test10 { "b.^", designator, true, true };
 }

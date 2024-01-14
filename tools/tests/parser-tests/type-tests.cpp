@@ -1,8 +1,7 @@
 #include "decl/type.h"
-#include "parser-tests.h"
 #include "type/type.h"
 
-using Type_Runner = Parser_Value_Runner<sema::Type, &Parser::parse_type>;
+#include "type-tests.h"
 
 TEST(Type_Tests, empty) {
 	Scope scope;
@@ -39,6 +38,13 @@ TEST(Type_Tests, simple) {
 	Type_Runner test8 { "RECORD x, y: INTEGER END", type };
 	Type_Runner test9 { "POINTER TO Entry", type };
 	Type_Runner test10 { "PROCEDURE (a: INTEGER): INTEGER", type };
+}
+
+TEST(Type_Tests, cascading) {
+	Scope scope;
+	decl::Type::register_base_types(scope);
+	sema::Type type { scope };
+	Type_Runner test1 { "RECORD a: RECORD END END", type };
 }
 
 TEST(Type_Tests, invalid) {

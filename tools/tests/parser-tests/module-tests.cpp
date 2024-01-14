@@ -25,26 +25,25 @@ TEST(Module_Tests, with_declarations) {
 
 TEST(Module_Tests, with_statements) {
 	Scope scope;
-	scope.insert("EXIT", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("EXIT", std::make_shared<decl::Procedure>());
 	Module_Runner test1 { "MODULE A; BEGIN EXIT(10) END A.", scope };
 }
 
 TEST(Module_Tests, with_multiple) {
-	Scope scope;
-	scope.insert("EXIT", std::make_shared<decl::Variable>(nullptr));
+	Scope base;
+	Scope scope { &base };
+	base.insert("EXIT", std::make_shared<decl::Procedure>());
 	Module_Runner test1 {
 		"MODULE A; IMPORT x; CONST B = 3; BEGIN EXIT(B) END A.", scope
 	};
 
-	new(&scope) Scope { };
+	scope.clear();
 	Module_Runner test2 { "MODULE A; IMPORT x; CONST B = 3; END A.", scope };
 
-	new(&scope) Scope { };
-	scope.insert("EXIT", std::make_shared<decl::Variable>(nullptr));
+	scope.clear();
 	Module_Runner test3 { "MODULE A; IMPORT x; BEGIN EXIT(10) END A.", scope };
 
-	new(&scope) Scope { };
-	scope.insert("EXIT", std::make_shared<decl::Variable>(nullptr));
+	scope.clear();
 	Module_Runner test4 {
 		"MODULE A; CONST B = 3; BEGIN EXIT(B) END A.", scope
 	};

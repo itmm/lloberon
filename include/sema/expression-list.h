@@ -9,6 +9,8 @@ namespace sema {
 
 		Scope& scope() { return scope_; }
 
+		std::vector<std::shared_ptr<expr::Expression>> list;
+
 	private:
 		Scope& scope_;
 	};

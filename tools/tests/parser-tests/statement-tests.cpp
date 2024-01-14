@@ -17,7 +17,7 @@ TEST(Statement_Tests, single) {
 	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
 	scope.insert("i", std::make_shared<decl::Variable>(nullptr));
 	scope.insert("cond", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("f", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("f", std::make_shared<decl::Procedure>());
 	sema::Statement statement { scope };
 	Statement_Runner test1 { "a := 3", statement };
 	Statement_Runner test2 { "f(2, 3)", statement };

@@ -15,7 +15,7 @@ TEST(While_Statement_Tests, empty) {
 TEST(While_Statement_Tests, simple) {
 	Scope scope;
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("INC", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("INC", std::make_shared<decl::Procedure>());
 	sema::Statement statement { scope };
 	While_Statement_Runner test1 { "WHILE a < 3 DO INC(a) END", statement };
 	auto while_statement { std::dynamic_pointer_cast<stmt::While>(
@@ -32,7 +32,7 @@ TEST(While_Statement_Tests, with_elsif) {
 	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
 	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
 	scope.insert("c", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("INC", std::make_shared<decl::Variable>(nullptr));
+	scope.insert("INC", std::make_shared<decl::Procedure>());
 	sema::Statement statement { scope };
 	While_Statement_Runner test1 {
 		"WHILE a < 3 DO INC(a) ELSIF b < 3 DO INC(b) ELSIF c < 3 DO INC(c) END",
