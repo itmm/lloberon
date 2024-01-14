@@ -24,6 +24,7 @@ TEST(Factor_Tests, literals) {
 	expect_real_value(factor.expression, 3.241);
 
 	Factor_Runner test3 { "\"abc\"", factor };
+	expect_string_value(factor.expression, "abc");
 
 	Factor_Runner test4 { "NIL", factor };
 	EXPECT_EQ(factor.expression, expr::Expression::nil);

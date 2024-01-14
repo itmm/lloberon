@@ -24,7 +24,7 @@ TEST(Designator_Tests, simple) {
 			"b: RECORD "
 				"c: INTEGER "
 			"END; "
-			"d: ARRAY 10, 5 OF RECORD END; "
+			"d: ARRAY 10, 5 OF BYTE; "
 			"e: POINTER TO RECORD END "
 		"END",
 		type
@@ -32,10 +32,28 @@ TEST(Designator_Tests, simple) {
 
 	scope.insert("a", std::make_shared<decl::Variable>(type.type));
 	Designator_Runner test1 { "a", designator };
+	EXPECT_NE(
+		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
+		nullptr
+	);
+
 	Designator_Runner test2 { "a.b", designator };
+	EXPECT_NE(
+		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
+		nullptr
+	);
+
 	Designator_Runner test3 { "a.b.c", designator };
+	EXPECT_EQ(designator.expression->type, type::Type::base_integer);
+
 	Designator_Runner test4 { "a.d[2, 3]", designator };
+	EXPECT_EQ(designator.expression->type, type::Type::base_byte);
+
 	Designator_Runner test5 { "a.e^", designator };
+	EXPECT_NE(
+		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
+		nullptr
+	);
 }
 
 TEST(Designator_Tests, combined) {
@@ -52,6 +70,10 @@ TEST(Designator_Tests, combined) {
 	);
 	scope.insert("a", std::make_shared<decl::Variable>(type.type));
 	Designator_Runner test1 { "a.b[3].c^", designator };
+	EXPECT_NE(
+		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
+		nullptr
+	);
 }
 
 TEST(Designator_Tests, incomplete) {
