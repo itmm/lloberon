@@ -50,6 +50,12 @@ TEST(Expression_Tests, set) {
 
 	Expression_Runner test4 { "{1..2} # {2}", expression };
 	expect_bool_value(expression.expression, true);
+
+	Expression_Runner test5 { "2 IN {0..3}", expression };
+	expect_bool_value(expression.expression, true);
+
+	Expression_Runner test6 { "4 IN {0..3}", expression };
+	expect_bool_value(expression.expression, false);
 }
 
 TEST(Expression_Tests, invalid) {
