@@ -34,7 +34,7 @@ TEST(Designator_Tests, simple) {
 	Designator_Runner test1 { "a", designator };
 	Designator_Runner test2 { "a.b", designator };
 	Designator_Runner test3 { "a.b.c", designator };
-	//TODO Designator_Runner test4 { "a.d[2, 3]", designator };
+	Designator_Runner test4 { "a.d[2, 3]", designator };
 	Designator_Runner test5 { "a.e^", designator };
 }
 
