@@ -41,7 +41,6 @@ TEST(Procedure_Call_Tests, simple) {
 	sema::Assignment_Or_Procedure_Call assignment { scope };
 	Procedure_Call_Runner test1 { "f()", assignment };
 
-	assignment.clear();
 	Procedure_Call_Runner test2 { "f(a, 3)", assignment };
 }
 
@@ -51,11 +50,7 @@ TEST(Procedure_Call_Tests, incomplete) {
 	scope.insert("f", std::make_shared<decl::Procedure>());
 	sema::Assignment_Or_Procedure_Call assignment { scope };
 	Procedure_Call_Runner test1 { "f(a,", assignment, true };
-
-	assignment.clear();
 	Procedure_Call_Runner test2 { "f(a", assignment, true };
-
-	assignment.clear();
 	Procedure_Call_Runner test3 { "f(", assignment, true };
 }
 

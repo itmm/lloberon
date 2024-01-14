@@ -7,13 +7,10 @@
 namespace sema {
 	class Expression {
 	public:
-		explicit Expression(Scope& scope) : scope_ { scope } { }
+		explicit Expression(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::shared_ptr<expr::Expression> expression;
-
-	private:
-		Scope& scope_;
 	};
 }

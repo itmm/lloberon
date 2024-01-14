@@ -8,27 +8,21 @@
 namespace sema {
 	class Const_Case {
 	public:
-		explicit Const_Case(Scope& scope) : scope_ { scope } { }
+		explicit Const_Case(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::vector<expr::Const_Label_Range> label_ranges;
 		stmt::Statement_Sequence sequence;
-
-	private:
-		Scope& scope_;
 	};
 
 	class Type_Case {
 	public:
-		explicit Type_Case(Scope& scope) : scope_ { scope } { }
+		explicit Type_Case(Scope& scope): scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::vector<std::shared_ptr<type::Type>> types;
 		stmt::Statement_Sequence sequence;
-
-	private:
-		Scope& scope_;
 	};
 }

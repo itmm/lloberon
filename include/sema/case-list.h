@@ -8,9 +8,9 @@
 namespace sema {
 	class Const_Case_List {
 		public:
-		explicit Const_Case_List(Scope& scope) : scope_ { scope } { }
+		explicit Const_Case_List(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		struct Entry {
 			Entry(
@@ -22,20 +22,14 @@ namespace sema {
 			std::shared_ptr<expr::Const> end;
 		};
 		std::vector<Entry> entries;
-
-		private:
-		Scope& scope_;
 	};
 
 	class Type_Case_List {
 	public:
-		explicit Type_Case_List(Scope& scope) : scope_ { scope } { }
+		explicit Type_Case_List(Scope& scope): scope { scope } { }
 
-		Scope& scope() { return scope_; }
+		Scope& scope;
 
 		std::vector<std::shared_ptr<type::Type>> entries;
-
-	private:
-		Scope& scope_;
 	};
 }

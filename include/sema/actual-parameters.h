@@ -5,11 +5,8 @@
 namespace sema {
 	class Actual_Parameters {
 	public:
-		explicit Actual_Parameters(Scope& scope) : scope_ { scope } { }
+		explicit Actual_Parameters(Scope& scope) : scope { scope } { }
 
-		Scope& scope() { return scope_; }
-
-	private:
-		Scope& scope_;
+		Scope& scope;
 	};
 }

@@ -6,13 +6,8 @@ namespace sema {
 	class Assignment_Or_Procedure_Call {
 	public:
 		explicit Assignment_Or_Procedure_Call(Scope& scope) :
-			scope_ { scope } { }
+			scope { scope } { }
 
-		Scope& scope() { return scope_; }
-
-		void clear() { }
-
-	private:
-		Scope& scope_;
+		Scope& scope;
 	};
 }
