@@ -123,6 +123,23 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 }
 
+TEST(Declaration_Sequence_Tests, shadowing) {
+	auto base { std::make_shared<Scope>() };
+	decl::Type::register_base_types(*base);
+	Context context;
+	context.scope = std::make_shared<Scope>(base);
+	Declaration_Sequence_Runner test1 {
+		"CONST a = 42; PROCEDURE f(a: INTEGER): INTEGER; RETURN a END f;",
+		context
+	};
+
+	context.scope->clear();
+	Declaration_Sequence_Runner test2 {
+		"CONST a = 3; PROCEDURE f(): INTEGER; CONST a = 42; RETURN a END f;",
+		context
+	};
+}
+
 TEST(Declaration_Sequence_Tests, wrong_order) {
 	auto base { std::make_shared<Scope>() };
 	Context context;

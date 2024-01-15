@@ -35,6 +35,15 @@ TEST(Procedure_Declaration_Tests, simple) {
 	}
 }
 
+TEST(Procedure_Declaration_Tests, with_declaration) {
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	context.scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	Procedure_Declaration_Runner test1 {
+		"PROCEDURE Solution(): INTEGER; CONST a = 42; RETURN a END Solution", context
+	};
+}
+
 TEST(Procedure_Declaration_Tests, incomplete) {
 	auto base { std::make_shared<Scope>() };
 	Context context;
