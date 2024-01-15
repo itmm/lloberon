@@ -36,10 +36,10 @@ TEST(Procedure_Declaration_Tests, simple) {
 }
 
 TEST(Procedure_Declaration_Tests, incomplete) {
-	Scope base;
+	auto base { std::make_shared<Scope>() };
 	Context context;
-	context.scope = std::make_shared<Scope>(&base);
-	decl::Type::register_base_types(base);
+	context.scope = std::make_shared<Scope>(base);
+	decl::Type::register_base_types(*base);
 	Procedure_Declaration_Runner test1 {
 		"PROCEDURE RETURN", context, true, true
 	};

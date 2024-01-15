@@ -30,10 +30,10 @@ TEST(Module_Tests, with_statements) {
 }
 
 TEST(Module_Tests, with_multiple) {
-	Scope base;
+	auto base { std::make_shared<Scope>() };
 	Context context;
-	context.scope = std::make_shared<Scope>(&base);
-	base.insert("EXIT", std::make_shared<decl::Procedure>());
+	context.scope = std::make_shared<Scope>(base);
+	base->insert("EXIT", std::make_shared<decl::Procedure>());
 	Module_Runner test1 {
 		"MODULE A; IMPORT x; CONST B = 3; BEGIN EXIT(B) END A.", context
 	};

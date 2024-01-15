@@ -7,7 +7,6 @@ bool Scope::insert(
 	const std::string& name,
 	const std::shared_ptr<decl::Declaration>& declaration
 ) {
-	if (has_in_scope(name)) { return false; }
 	return symbols_.insert(
 		std::pair<std::string, std::shared_ptr<decl::Declaration>>(
 			name, declaration
@@ -30,28 +29,7 @@ std::shared_ptr<decl::Declaration> Scope::lookup(
 	while (current) {
 		auto i = current->symbols_.find(name);
 		if (i != current->symbols_.end()) { return i->second; }
-		current = current->parent();
+		current = current->parent().get();
 	}
 	return nullptr;
-}
-
-bool Scope::has_in_scope(const std::string& name) const {
-	Scope const* current = this;
-	while (current) {
-		auto i = current->symbols_.find(name);
-		if (i != current->symbols_.end()) { return true; }
-		current = current->expand_ ? current->parent() : nullptr;
-	}
-	return false;
-}
-
-void Scope::consume(Scope& other) {
-	assert(other.parent() == this && other.expand_);
-
-	for (
-		auto i { other.symbols_.begin() }, e { other.symbols_.end() };
-		i != e; ++i
-	) {
-		insert(i->first, i->second);
-	}
 }

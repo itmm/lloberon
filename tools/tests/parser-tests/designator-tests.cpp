@@ -14,10 +14,10 @@ TEST(Designator_Tests, empty) {
 }
 
 TEST(Designator_Tests, simple) {
-	Scope base;
-	decl::Type::register_base_types(base);
+	auto base { std::make_shared<Scope>() };
+	decl::Type::register_base_types(*base);
 	Context context;
-	context.scope = std::make_shared<Scope>(&base);
+	context.scope = std::make_shared<Scope>(base);
 	sema::Designator designator { context };
 	sema::Type type { context };
 	Type_Runner create_type(

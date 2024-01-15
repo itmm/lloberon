@@ -56,10 +56,10 @@ TEST(Factor_Tests, grouped) {
 }
 
 TEST(Factor_Tests, ident) {
-	Scope base;
-	decl::Type::register_base_types(base);
+	auto base { std::make_shared<Scope>() };
+	decl::Type::register_base_types(*base);
 	Context context;
-	context.scope = std::make_shared<Scope>(&base);
+	context.scope = std::make_shared<Scope>(base);
 	sema::Type type { context };
 	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };
 	context.scope->insert("a", std::make_shared<decl::Variable>(type.type));

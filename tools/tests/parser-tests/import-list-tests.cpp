@@ -40,25 +40,19 @@ TEST(Import_List_Tests, simple) {
 TEST(Import_List_Tests, missing) {
 	Scope scope;
 	Import_List_Runner test1 { "IMPORT", scope, true };
-	expect_no_modules(scope);
 
-	new(&scope) Scope { };
+	scope.clear();
 	Import_List_Runner test2 { "IMPORT a", scope, true };
-	expect_no_modules(scope);
 
-	new(&scope) Scope { };
+	scope.clear();
 	Import_List_Runner test3 { "IMPORT a,", scope, true };
-	expect_no_modules(scope);
 
-	new(&scope) Scope { };
+	scope.clear();
 	Import_List_Runner test4 { "IMPORT a, b", scope, true };
-	expect_no_modules(scope);
 
-	new(&scope) Scope { };
+	scope.clear();
 	Import_List_Runner test5 { "IMPORT a :=", scope, true };
-	expect_no_modules(scope);
 
-	new(&scope) Scope { };
+	scope.clear();
 	Import_List_Runner test6 { "IMPORT a := b", scope, true };
-	expect_no_modules(scope);
 }

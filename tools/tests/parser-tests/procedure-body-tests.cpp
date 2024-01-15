@@ -27,10 +27,10 @@ TEST(Procedure_Body_Tests, simple) {
 }
 
 TEST(Procedure_Body_Tests, with_declaration) {
-	Scope base;
+	auto base { std::make_shared<Scope>() };
 	Context context;
-	context.scope = std::make_shared<Scope>(&base);
-	decl::Type::register_base_types(base);
+	context.scope = std::make_shared<Scope>(base);
+	decl::Type::register_base_types(*base);
 	sema::Procedure_Declaration procedure_declaration { context };
 	Procedure_Body_Runner test1 {
 		"VAR a: INTEGER; BEGIN a := 42 END", procedure_declaration
