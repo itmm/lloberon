@@ -5,7 +5,7 @@
 bool Parser::parse_pointer_type(sema::Type& type) {
 	if (consume(token::keyword_POINTER)) { return true; }
 	if (consume(token::keyword_TO)) { return true; }
-	sema::Type points_to { type.scope };
+	sema::Type points_to { type.context };
 	if (parse_type(points_to)) { return true; }
 	auto pointed { std::dynamic_pointer_cast<type::Record>(points_to.type) };
 	if (!pointed) {

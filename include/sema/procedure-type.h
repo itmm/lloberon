@@ -1,14 +1,14 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 #include "type/procedure.h"
 
 namespace sema {
 	class Procedure_Type {
 	public:
-		explicit Procedure_Type(Scope& scope) : scope { scope } { }
+		explicit Procedure_Type(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
 
 		std::shared_ptr<type::Procedure> procedure {
 			std::make_shared<type::Procedure>()

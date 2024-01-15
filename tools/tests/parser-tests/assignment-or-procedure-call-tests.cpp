@@ -11,53 +11,49 @@ using Assignment_Runner = Parser_Value_Runner<
 using Procedure_Call_Runner = Assignment_Runner;
 
 TEST(Assignment_Tests, empty) {
-	Scope scope;
-	sema::Assignment_Or_Procedure_Call assignment { scope };
+	Context context;
+	sema::Assignment_Or_Procedure_Call assignment { context };
 	Assignment_Runner("", assignment, true);
 }
 
 TEST(Assignment_Tests, simple) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
-	sema::Assignment_Or_Procedure_Call assignment { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Assignment_Or_Procedure_Call assignment { context };
 	Assignment_Runner("a := 3", assignment);
 }
 
 TEST(Assignment_Tests, incomplete) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(
-		nullptr
-	));
-	sema::Assignment_Or_Procedure_Call assignment { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Assignment_Or_Procedure_Call assignment { context };
 	Assignment_Runner("a :=", assignment, true);
 }
 
 TEST(Procedure_Call_Tests, simple) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("f", std::make_shared<decl::Procedure>());
-	sema::Assignment_Or_Procedure_Call assignment { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("f", std::make_shared<decl::Procedure>());
+	sema::Assignment_Or_Procedure_Call assignment { context };
 	Procedure_Call_Runner test1 { "f()", assignment };
 
 	Procedure_Call_Runner test2 { "f(a, 3)", assignment };
 }
 
 TEST(Procedure_Call_Tests, incomplete) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("f", std::make_shared<decl::Procedure>());
-	sema::Assignment_Or_Procedure_Call assignment { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("f", std::make_shared<decl::Procedure>());
+	sema::Assignment_Or_Procedure_Call assignment { context };
 	Procedure_Call_Runner test1 { "f(a,", assignment, true };
 	Procedure_Call_Runner test2 { "f(a", assignment, true };
 	Procedure_Call_Runner test3 { "f(", assignment, true };
 }
 
 TEST(Procedure_Call_Tests, cast) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	sema::Assignment_Or_Procedure_Call assignment { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Assignment_Or_Procedure_Call assignment { context };
 	Procedure_Call_Runner test1 { "a (INTEGER)", assignment };
 }

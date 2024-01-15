@@ -1,13 +1,13 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 
 namespace sema {
 	class Expression_List {
 	public:
-		explicit Expression_List(Scope& scope) : scope { scope } { }
+		explicit Expression_List(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
 
 		std::vector<std::shared_ptr<expr::Expression>> list;
 	};

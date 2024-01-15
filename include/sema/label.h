@@ -5,18 +5,18 @@
 namespace sema {
 	class Const_Label {
 	public:
-		explicit Const_Label(Scope& scope) : scope { scope } { }
+		explicit Const_Label(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
 
 		std::shared_ptr<expr::Const> value;
 	};
 
 	class Const_Label_Range {
 	public:
-		explicit Const_Label_Range(Scope& scope) : scope { scope } { }
+		explicit Const_Label_Range(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
 
 		std::shared_ptr<expr::Const> begin;
 		std::shared_ptr<expr::Const> end;

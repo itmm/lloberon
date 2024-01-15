@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 
 bool Parser::parse_record_type(sema::Type& type) {
-	sema::Record_Type record_type { type.scope };
+	sema::Record_Type record_type { type.context };
 	if (consume(token::keyword_RECORD)) { return true; }
 	if (token_.is(token::left_parenthesis)) {
 		advance();

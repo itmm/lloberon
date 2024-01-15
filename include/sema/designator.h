@@ -1,13 +1,14 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 
 namespace sema {
 	class Designator {
 	public:
-		explicit Designator(Scope& scope) : scope { scope } { }
+		explicit Designator(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
+
 		std::shared_ptr<expr::Expression> expression;
 	};
 }

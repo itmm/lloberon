@@ -1,12 +1,12 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 
 namespace sema {
 	class Actual_Parameters {
 	public:
-		explicit Actual_Parameters(Scope& scope) : scope { scope } { }
+		explicit Actual_Parameters(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
 	};
 }

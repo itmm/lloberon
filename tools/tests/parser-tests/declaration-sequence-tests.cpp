@@ -4,148 +4,156 @@
 #include "const-tests.h"
 
 using Declaration_Sequence_Runner = Parser_Value_Runner<
-	Scope, &Parser::parse_declaration_sequence
+	Context, &Parser::parse_declaration_sequence
 >;
 
 TEST(Declaration_Sequence_Tests, empty) {
-	Scope scope;
-	Declaration_Sequence_Runner test1 { "", scope };
+	Context context;
+	Declaration_Sequence_Runner test1 { "", context };
 }
 
 TEST(Declaration_Sequence_Tests, single) {
 	Scope base;
-	Scope scope { &base };
+	Context context;
+	context.scope = std::make_shared<Scope>(&base);
 	decl::Type::register_base_types(base);
-	Declaration_Sequence_Runner test1 { "CONST a = 3;", scope };
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	Declaration_Sequence_Runner test1 { "CONST a = 3;", context };
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test2 {
-		"TYPE image = ARRAY 10 OF INTEGER;", scope
+		"TYPE image = ARRAY 10 OF INTEGER;", context
 	};
 
-	scope.clear();
-	Declaration_Sequence_Runner test3 { "VAR a: INTEGER;", scope };
+	context.scope->clear();
+	Declaration_Sequence_Runner test3 { "VAR a: INTEGER;", context };
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test4 {
-		"PROCEDURE Nop(); BEGIN END Nop;", scope
+		"PROCEDURE Nop(); BEGIN END Nop;", context
 	};
 }
 
 TEST(Declaration_Sequence_Tests, multiple) {
 	Scope base;
-	Scope scope { &base };
+	Context context;
+	context.scope = std::make_shared<Scope>(&base);
 	decl::Type::register_base_types(base);
-	Declaration_Sequence_Runner test1 { "CONST a = 3; b = 4;", scope };
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
-	expect_int_value(decl::Const::as_const(scope.lookup("b")), 4);
+	Declaration_Sequence_Runner test1 { "CONST a = 3; b = 4;", context };
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
+	expect_int_value(decl::Const::as_const(context.scope->lookup("b")), 4);
 
-	scope.clear();
-	Declaration_Sequence_Runner test2 { "TYPE X = INTEGER; Y = BYTE;", scope };
+	context.scope->clear();
+	Declaration_Sequence_Runner test2 { "TYPE X = INTEGER; Y = BYTE;", context };
 
-	scope.clear();
-	Declaration_Sequence_Runner test3 { "VAR a: INTEGER; b: BYTE;", scope };
+	context.scope->clear();
+	Declaration_Sequence_Runner test3 { "VAR a: INTEGER; b: BYTE;", context };
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test4 {
 		"PROCEDURE Nop(); BEGIN END Nop; PROCEDURE Nop2(); BEGIN END Nop2;",
-		scope
+		context
 	};
 }
 
 TEST(Declaration_Sequence_Tests, multiple_types) {
 	Scope base;
-	Scope scope { &base };
+	Context context;
+	context.scope = std::make_shared<Scope>(&base);
 	decl::Type::register_base_types(base);
-	Declaration_Sequence_Runner test1 { "CONST a = 3; TYPE x = BYTE;", scope };
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	Declaration_Sequence_Runner test1 {
+		"CONST a = 3; TYPE x = BYTE;", context
+	};
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 
-	scope.clear();
-	Declaration_Sequence_Runner test2 { "TYPE x = BYTE; VAR a: BYTE;", scope };
+	context.scope->clear();
+	Declaration_Sequence_Runner test2 {
+		"TYPE x = BYTE; VAR a: BYTE;", context
+	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test3 {
-		"VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;", scope
+		"VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;", context
 	};
 
-	scope.clear();
-	Declaration_Sequence_Runner test4 { "CONST a = 3; VAR b: BYTE;", scope };
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	context.scope->clear();
+	Declaration_Sequence_Runner test4 { "CONST a = 3; VAR b: BYTE;", context };
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test5 {
-		"TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;", scope
+		"TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;", context
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test6 {
-		"CONST a = 3; PROCEDURE Nop(); BEGIN END Nop;", scope
+		"CONST a = 3; PROCEDURE Nop(); BEGIN END Nop;", context
 	};
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test7 {
-		"CONST a = 3; TYPE x = BYTE; VAR b: BYTE;", scope
+		"CONST a = 3; TYPE x = BYTE; VAR b: BYTE;", context
 	};
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test8 {
-		"TYPE x = BYTE; VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;", scope
+		"TYPE x = BYTE; VAR a: BYTE; PROCEDURE Nop(); BEGIN END Nop;", context
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test9 {
-		"CONST a = 3; VAR b: BYTE; PROCEDURE Nop(); BEGIN END Nop;", scope
+		"CONST a = 3; VAR b: BYTE; PROCEDURE Nop(); BEGIN END Nop;", context
 	};
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test10 {
-		"CONST a = 3; TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;", scope
+		"CONST a = 3; TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;", context
 	};
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test11 {
 		"CONST a = 3; TYPE x = BYTE; VAR b: BYTE; "
 		"PROCEDURE Nop(); BEGIN END Nop;",
-		scope
+		context
 	};
-	expect_int_value(decl::Const::as_const(scope.lookup("a")), 3);
+	expect_int_value(decl::Const::as_const(context.scope->lookup("a")), 3);
 }
 
 TEST(Declaration_Sequence_Tests, wrong_order) {
 	Scope base;
-	Scope scope { &base };
+	Context context;
+	context.scope = std::make_shared<Scope>(&base);
 	decl::Type::register_base_types(base);
 	Declaration_Sequence_Runner test1 {
-		"TYPE x = BYTE; CONST a = 3;", scope, false, true
+		"TYPE x = BYTE; CONST a = 3;", context, false, true
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test2 {
-		"VAR x: BYTE; CONST a = 3;", scope, false, true
+		"VAR x: BYTE; CONST a = 3;", context, false, true
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test3 {
-		"PROCEDURE Nop(); BEGIN END Nop; CONST a = 3;", scope, false, true
+		"PROCEDURE Nop(); BEGIN END Nop; CONST a = 3;", context, false, true
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test4 {
-		"VAR x: BYTE; TYPE x: BYTE;", scope, false, true
+		"VAR x: BYTE; TYPE x: BYTE;", context, false, true
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test5 {
-		"PROCEDURE Nop(); BEGIN END Nop; TYPE x = BYTE;", scope, false, true
+		"PROCEDURE Nop(); BEGIN END Nop; TYPE x = BYTE;", context, false, true
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Declaration_Sequence_Runner test6 {
-		"PROCEDURE Nop(); BEGIN END Nop; VAR x: BYTE;", scope, false, true
+		"PROCEDURE Nop(); BEGIN END Nop; VAR x: BYTE;", context, false, true
 	};
 }

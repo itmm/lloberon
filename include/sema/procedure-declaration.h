@@ -1,17 +1,17 @@
 #pragma once
 
-#include "scope.h"
 #include "decl/procedure.h"
+#include "sema/context.h"
 #include "sema/ident-def.h"
 #include "sema/procedure-type.h"
 
 namespace sema {
 	class Procedure_Declaration {
 	public:
-		explicit Procedure_Declaration(Scope& scope) :
-			scope { scope }, procedure_type { scope } { }
+		explicit Procedure_Declaration(Context& context) :
+			context { context }, procedure_type { context } { }
 
-		Scope& scope;
+		Context& context;
 
 		Ident_Def name;
 

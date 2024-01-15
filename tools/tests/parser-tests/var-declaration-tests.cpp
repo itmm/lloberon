@@ -2,33 +2,33 @@
 #include "decl/type.h"
 
 using Var_Declaration_Runner = Parser_Value_Runner<
-	Scope, &Parser::parse_variable_declaration
+	Context, &Parser::parse_variable_declaration
 >;
 
 TEST(Var_Declaration_Tests, empty) {
-	Scope scope;
-	Var_Declaration_Runner test1 { "", scope, true };
+	Context context;
+	Var_Declaration_Runner test1 { "", context, true };
 }
 
 TEST(Var_Declaration_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	Var_Declaration_Runner test1 { "a*: INTEGER", scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	Var_Declaration_Runner test1 { "a*: INTEGER", context };
 }
 
 TEST(Var_Declaration_Tests, incomplete) {
-	Scope scope;
-	Var_Declaration_Runner test1 { "a:", scope, true };
+	Context context;
+	Var_Declaration_Runner test1 { "a:", context, true };
 
-	scope.clear();
-	Var_Declaration_Runner test2 { "a", scope, true };
+	context.scope->clear();
+	Var_Declaration_Runner test2 { "a", context, true };
 }
 
 TEST(Var_Declaration_Tests, invalid) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	Var_Declaration_Runner test1 { "a INTEGER", scope, true, true };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	Var_Declaration_Runner test1 { "a INTEGER", context, true, true };
 
-	scope.clear();
-	Var_Declaration_Runner test2 { "a;", scope, true, true };
+	context.scope->clear();
+	Var_Declaration_Runner test2 { "a;", context, true, true };
 }

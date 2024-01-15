@@ -8,17 +8,17 @@ using For_Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(For_Statement_Tests, empty) {
-	Scope scope;
-	sema::Statement statement { scope };
+	Context context;
+	sema::Statement statement { context };
 	For_Statement_Runner test1 { "", statement, true };
 }
 
 TEST(For_Statement_Tests, simple) {
-	Scope scope;
+	Context context;
 	auto var { std::make_shared<decl::Variable>(nullptr) };
-	scope.insert("a", var);
-	scope.insert("x", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement { scope };
+	context.scope->insert("a", var);
+	context.scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	sema::Statement statement { context };
 	For_Statement_Runner test1 {
 		"FOR a := 1 TO 3 DO x := x + a END", statement
 	};
@@ -36,11 +36,11 @@ TEST(For_Statement_Tests, simple) {
 }
 
 TEST(For_Statement_Tests, with_step) {
-	Scope scope;
+	Context context;
 	auto var { std::make_shared<decl::Variable>(nullptr) };
-	scope.insert("a", var);
-	scope.insert("x", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement { scope };
+	context.scope->insert("a", var);
+	context.scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	sema::Statement statement { context };
 	For_Statement_Runner test1 {
 		"FOR a := 1 TO 10 BY 2 DO x := x + a END", statement
 	};
@@ -58,11 +58,11 @@ TEST(For_Statement_Tests, with_step) {
 }
 
 TEST(For_Statement_Tests, with_stepdown) {
-	Scope scope;
+	Context context;
 	auto var { std::make_shared<decl::Variable>(nullptr) };
-	scope.insert("a", var);
-	scope.insert("x", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement { scope };
+	context.scope->insert("a", var);
+	context.scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	sema::Statement statement { context };
 	For_Statement_Runner test1 {
 		"FOR a := 10 TO 0 BY -2 DO x := x + a END", statement
 	};
@@ -80,9 +80,9 @@ TEST(For_Statement_Tests, with_stepdown) {
 }
 
 TEST(For_Statement_Tests, wrong) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Statement statement { context };
 	For_Statement_Runner test1 { "FOR", statement, true };
 	For_Statement_Runner test2 { "FOR a", statement, true };
 	For_Statement_Runner test3 { "FOR :=", statement, true, true };

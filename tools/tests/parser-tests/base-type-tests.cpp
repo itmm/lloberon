@@ -7,27 +7,27 @@ using Base_Type_Runner = Parser_Value_Runner<
 >;
 
 TEST(Base_Type_Tests, empty) {
-	Scope scope;
-	sema::Record_Type base_type { scope };
+	Context context;
+	sema::Record_Type base_type { context };
 	Base_Type_Runner("", base_type, true);
 }
 
 TEST(Base_Type_Tests, simple) {
-	Scope scope;
-	scope.insert("Record", std::make_shared<decl::Type>(
+	Context context;
+	context.scope->insert("Record", std::make_shared<decl::Type>(
 		std::make_shared<type::Record>()
 	));
-	sema::Record_Type base_type { scope };
+	sema::Record_Type base_type { context };
 	Base_Type_Runner test1("Record", base_type);
 }
 
 TEST(Base_Type_Tests, qualified) {
-	Scope scope;
+	Context context;
 	auto module = std::make_shared<decl::Module>("X");
 	module->insert("Record", std::make_shared<decl::Type>(
 		std::make_shared<type::Record>()
 	));
-	scope.insert("X", module);
-	sema::Record_Type base_type { scope };
+	context.scope->insert("X", module);
+	sema::Record_Type base_type { context };
 	Base_Type_Runner test1 { "X.Record", base_type };
 }

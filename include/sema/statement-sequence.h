@@ -1,14 +1,14 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 #include "stmt/statement.h"
 
 namespace sema {
 	class Statement_Sequence {
 	public:
-		explicit Statement_Sequence(Scope& scope) : scope { scope } { }
+		explicit Statement_Sequence(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
 
 		stmt::Statement_Sequence sequence;
 	};

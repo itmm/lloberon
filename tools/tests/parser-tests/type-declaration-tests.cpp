@@ -2,19 +2,19 @@
 #include "decl/type.h"
 
 using Type_Declaration_Runner = Parser_Value_Runner<
-	Scope, &Parser::parse_type_declaration
+	Context, &Parser::parse_type_declaration
 >;
 
 TEST(Type_Declaration_Tests, empty) {
-	Scope scope;
-	Type_Declaration_Runner test1 { "", scope, true };
+	Context context;
+	Type_Declaration_Runner test1 { "", context, true };
 }
 
 TEST(Type_Declaration_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	Type_Declaration_Runner test1 { "a* = INTEGER", scope };
-	auto got { std::dynamic_pointer_cast<decl::Type>(scope.lookup("a")) };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	Type_Declaration_Runner test1 { "a* = INTEGER", context };
+	auto got { std::dynamic_pointer_cast<decl::Type>(context.scope->lookup("a")) };
 	EXPECT_NE(got, nullptr);
 	if (got) {
 		EXPECT_TRUE(got->exported);
@@ -23,9 +23,9 @@ TEST(Type_Declaration_Tests, simple) {
 }
 
 TEST(Type_Declaration_Tests, incomplete) {
-	Scope scope;
-	Type_Declaration_Runner test1 { "a =", scope, true };
+	Context context;
+	Type_Declaration_Runner test1 { "a =", context, true };
 
-	scope.clear();
-	Type_Declaration_Runner test2 { "a", scope, true };
+	context.scope->clear();
+	Type_Declaration_Runner test2 { "a", context, true };
 }

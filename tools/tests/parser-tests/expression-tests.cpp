@@ -8,17 +8,17 @@ using Expression_Runner = Parser_Value_Runner<
 >;
 
 TEST(Expression_Tests, empty) {
-	Scope scope;
-	sema::Expression expression { scope };
+	Context context;
+	sema::Expression expression { context };
 	Expression_Runner test1 { "", expression, true };
 }
 
 TEST(Expression_Tests, single) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
-	sema::Expression expression { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	sema::Expression expression { context };
 	Expression_Runner test1 { "3 = 4", expression };
 	Expression_Runner test2 { "3 # 4", expression };
 	Expression_Runner test3 { "3 < 4", expression };
@@ -32,14 +32,14 @@ TEST(Expression_Tests, single) {
 }
 
 TEST(Expression_Tests, multiple) {
-	Scope scope;
-	sema::Expression expression { scope };
+	Context context;
+	sema::Expression expression { context };
 	Expression_Runner test1 { "3 < 4 = TRUE", expression };
 }
 
 TEST(Expression_Tests, set) {
-	Scope scope;
-	sema::Expression expression { scope };
+	Context context;
+	sema::Expression expression { context };
 	Expression_Runner test1 { "{1..2} = {2,1}", expression };
 	expect_bool_value(expression.expression, true);
 
@@ -60,7 +60,7 @@ TEST(Expression_Tests, set) {
 }
 
 TEST(Expression_Tests, invalid) {
-	Scope scope;
-	sema::Expression expression { scope };
+	Context context;
+	sema::Expression expression { context };
 	Expression_Runner test1 { "}", expression, true, true };
 }

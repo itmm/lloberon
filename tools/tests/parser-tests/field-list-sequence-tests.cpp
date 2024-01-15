@@ -6,31 +6,31 @@ using Field_List_Sequence_Runner = Parser_Value_Runner<
 >;
 
 TEST(Field_List_Sequence_Tests, empty) {
-	Scope scope;
-	sema::Record_Type field_list_sequence { scope };
+	Context context;
+	sema::Record_Type field_list_sequence { context };
 	Field_List_Sequence_Runner test1 { "", field_list_sequence, true };
 }
 
 TEST(Field_List_Sequence_Tests, single) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Record_Type field_list_sequence { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Record_Type field_list_sequence { context };
 	Field_List_Sequence_Runner test1 { "a: BYTE", field_list_sequence };
 }
 
 TEST(Field_List_Sequence_Tests, multiple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Record_Type field_list_sequence { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Record_Type field_list_sequence { context };
 	Field_List_Sequence_Runner test1 {
 		"a: BYTE; b: BYTE", field_list_sequence
 	};
 }
 
 TEST(Field_List_Sequence_Tests, incomplete) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Record_Type field_list_sequence { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Record_Type field_list_sequence { context };
 	Field_List_Sequence_Runner test1 { "a: BYTE;", field_list_sequence, true };
 	EXPECT_EQ(field_list_sequence.record->entries.size(), 0);
 }

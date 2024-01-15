@@ -7,16 +7,16 @@ using While_Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(While_Statement_Tests, empty) {
-	Scope scope;
-	sema::Statement statement { scope };
+	Context context;
+	sema::Statement statement { context };
 	While_Statement_Runner test1 { "", statement, true };
 }
 
 TEST(While_Statement_Tests, simple) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("INC", std::make_shared<decl::Procedure>());
-	sema::Statement statement { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("INC", std::make_shared<decl::Procedure>());
+	sema::Statement statement { context };
 	While_Statement_Runner test1 { "WHILE a < 3 DO INC(a) END", statement };
 	auto while_statement { std::dynamic_pointer_cast<stmt::While>(
 		statement.statement
@@ -28,12 +28,12 @@ TEST(While_Statement_Tests, simple) {
 }
 
 TEST(While_Statement_Tests, with_elsif) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("b", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("c", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("INC", std::make_shared<decl::Procedure>());
-	sema::Statement statement { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("c", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("INC", std::make_shared<decl::Procedure>());
+	sema::Statement statement { context };
 	While_Statement_Runner test1 {
 		"WHILE a < 3 DO INC(a) ELSIF b < 3 DO INC(b) ELSIF c < 3 DO INC(c) END",
 		statement
@@ -48,10 +48,10 @@ TEST(While_Statement_Tests, with_elsif) {
 }
 
 TEST(While_Statement_Tests, wrong) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Variable>(nullptr));
-	scope.insert("INC", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context.scope->insert("INC", std::make_shared<decl::Variable>(nullptr));
+	sema::Statement statement { context };
 	While_Statement_Runner test1 { "WHILE DO", statement, true, true };
 	While_Statement_Runner test2 { "WHILE a < 3 DO INC(a)", statement, true };
 	While_Statement_Runner test3 { "WHILE a ELSIF", statement, true, true };

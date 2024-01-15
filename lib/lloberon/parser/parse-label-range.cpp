@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 
 bool Parser::parse_label_range(sema::Const_Label_Range& range) {
-	sema::Const_Label label { range.scope };
+	sema::Const_Label label { range.context };
 	if (parse_label(label)) { return true; }
 	range.begin = label.value;
 

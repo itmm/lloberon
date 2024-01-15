@@ -9,14 +9,14 @@ using Factor_Runner = Parser_Value_Runner<
 >;
 
 TEST(Factor_Tests, empty) {
-	Scope scope;
-	sema::Expression factor { scope };
+	Context context;
+	sema::Expression factor { context };
 	Factor_Runner("", factor, true);
 }
 
 TEST(Factor_Tests, literals) {
-	Scope scope;
-	sema::Expression factor { scope };
+	Context context;
+	sema::Expression factor { context };
 	Factor_Runner test1 { "3", factor };
 	expect_int_value(factor.expression, 3);
 
@@ -43,14 +43,14 @@ TEST(Factor_Tests, literals) {
 }
 
 TEST(Factor_Tests, set) {
-	Scope scope;
-	sema::Expression factor { scope };
+	Context context;
+	sema::Expression factor { context };
 	Factor_Runner test1 { "{3..5}", factor };
 }
 
 TEST(Factor_Tests, grouped) {
-	Scope scope;
-	sema::Expression factor { scope };
+	Context context;
+	sema::Expression factor { context };
 	Factor_Runner test1 { "(3 + 4)", factor };
 	expect_int_value(factor.expression, 7);
 }
@@ -58,20 +58,21 @@ TEST(Factor_Tests, grouped) {
 TEST(Factor_Tests, ident) {
 	Scope base;
 	decl::Type::register_base_types(base);
-	Scope scope { &base };
-	sema::Type type { scope };
+	Context context;
+	context.scope = std::make_shared<Scope>(&base);
+	sema::Type type { context };
 	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };
-	scope.insert("a", std::make_shared<decl::Variable>(type.type));
-	scope.insert("f", std::make_shared<decl::Procedure>());
-	sema::Expression factor { scope };
+	context.scope->insert("a", std::make_shared<decl::Variable>(type.type));
+	context.scope->insert("f", std::make_shared<decl::Procedure>());
+	sema::Expression factor { context };
 	Factor_Runner test1 { "a", factor };
 	Factor_Runner test2 { "f(3, TRUE)", factor };
 	Factor_Runner test3 { "a[3](TRUE)", factor };
 }
 
 TEST(Factor_Tests, not) {
-	Scope scope;
-	sema::Expression factor { scope };
+	Context context;
+	sema::Expression factor { context };
 	Factor_Runner test1 { "~FALSE", factor };
 	auto value { expr::Const::as_const(factor.expression) };
 	EXPECT_NE(value, nullptr);
@@ -81,9 +82,9 @@ TEST(Factor_Tests, not) {
 }
 
 TEST(Factor_Tests, incomplete) {
-	Scope scope;
-	scope.insert("a", std::make_shared<decl::Procedure>());
-	sema::Expression factor { scope };
+	Context context;
+	context.scope->insert("a", std::make_shared<decl::Procedure>());
+	sema::Expression factor { context };
 	Factor_Runner test1 { "a(3,TRUE", factor, true };
 	Factor_Runner test2 { "a(3,", factor, true };
 	Factor_Runner test3 { "a(3", factor, true };

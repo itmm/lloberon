@@ -2,8 +2,8 @@
 #include "decl/type.h"
 
 bool Parser::parse() {
-	Scope scope;
-	decl::Type::register_base_types(scope);
+	Context context;
+	decl::Type::register_base_types(*context.scope);
 
-	return parse_module(scope);
+	return parse_module(context);
 }

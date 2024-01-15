@@ -4,10 +4,8 @@
 #include "type/record.h"
 
 bool Parser::parse_case_statement(sema::Statement& statement) {
-	auto& scope { statement.scope };
-
 	if (consume(token::keyword_CASE)) { return true; }
-	sema::Expression expression { scope };
+	sema::Expression expression { statement.context };
 	if (parse_expression(expression)) { return true; }
 
 	const auto& type { expression.expression->type };
@@ -19,7 +17,7 @@ bool Parser::parse_case_statement(sema::Statement& statement) {
 		case_statement->condition = expression.expression;
 
 		if (consume(token::keyword_OF)) { return true; }
-		sema::Type_Case type_case { scope };
+		sema::Type_Case type_case { statement.context };
 		if (parse_case(type_case)) { return true; }
 		while (token_.is(token::bar)) {
 			advance();
@@ -33,7 +31,7 @@ bool Parser::parse_case_statement(sema::Statement& statement) {
 		case_statement->condition = expression.expression;
 
 		if (consume(token::keyword_OF)) { return true; }
-		sema::Const_Case const_case { scope };
+		sema::Const_Case const_case { statement.context };
 		if (parse_case(const_case)) { return true; }
 		while (token_.is(token::bar)) {
 			advance();

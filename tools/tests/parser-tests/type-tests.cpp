@@ -4,18 +4,18 @@
 #include "type-tests.h"
 
 TEST(Type_Tests, empty) {
-	Scope scope;
-	sema::Type type { scope };
+	Context context;
+	sema::Type type { context };
 	Type_Runner test1 { "", type, true };
 }
 
 TEST(Type_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	scope.insert("Entry", std::make_shared<decl::Type>(
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	context.scope->insert("Entry", std::make_shared<decl::Type>(
 		std::make_shared<type::Record>()
 	));
-	sema::Type type { scope };
+	sema::Type type { context };
 	Type_Runner test1 { "BOOLEAN", type };
 	EXPECT_EQ(type.type, type::Type::base_boolean);
 
@@ -41,14 +41,14 @@ TEST(Type_Tests, simple) {
 }
 
 TEST(Type_Tests, cascading) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Type type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Type type { context };
 	Type_Runner test1 { "RECORD a: RECORD END END", type };
 }
 
 TEST(Type_Tests, invalid) {
-	Scope scope;
-	sema::Type type { scope };
+	Context context;
+	sema::Type type { context };
 	Type_Runner test1 { ":", type, true, true };
 }

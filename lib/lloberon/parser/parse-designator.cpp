@@ -3,7 +3,7 @@
 #include "type/pointer.h"
 
 bool Parser::parse_designator(sema::Designator& designator) {
-	sema::Qual_Ident qual_ident { designator.scope };
+	sema::Qual_Ident qual_ident { designator.context };
 	if (parse_qual_ident(qual_ident)) { return true; }
 
 	std::shared_ptr<expr::Expression> expression;
@@ -37,7 +37,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
 			advance();
 		} else if (token_.is(token::left_bracket)) {
 			advance();
-			sema::Expression_List expression_list { designator.scope };
+			sema::Expression_List expression_list { designator.context };
 			if (parse_expression_list(expression_list)) { return true; }
 			if (consume(token::right_bracket)) { return true; }
 			for (auto count { expression_list.list.size() }; count; --count) {

@@ -7,15 +7,15 @@ using Formal_Parameter_Section_Runner = Parser_Value_Runner<
 >;
 
 TEST(Formal_Parameter_Section_Tests, empty) {
-	Scope scope;
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameter_Section_Runner("", procedure_type, true);
 }
 
 TEST(Formal_Parameter_Section_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameter_Section_Runner test1 {
 		"a: ARRAY OF INTEGER", procedure_type
 	};
@@ -34,9 +34,9 @@ TEST(Formal_Parameter_Section_Tests, simple) {
 }
 
 TEST(Formal_Parameter_Section_Tests, multiple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameter_Section_Runner test1 { "a, b: INTEGER", procedure_type };
 	EXPECT_EQ(procedure_type.procedure->parameters.size(), 2);
 	if (procedure_type.procedure->parameters.size() >= 2) {
@@ -52,9 +52,9 @@ TEST(Formal_Parameter_Section_Tests, multiple) {
 }
 
 TEST(Formal_Parameter_Section_Tests, var_parameter) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameter_Section_Runner test1 { "VAR a: INTEGER", procedure_type };
 	EXPECT_EQ(procedure_type.procedure->parameters.size(), 1);
 	if (! procedure_type.procedure->parameters.empty()) {
@@ -66,9 +66,9 @@ TEST(Formal_Parameter_Section_Tests, var_parameter) {
 }
 
 TEST(Formal_Parameter_Section_Tests, incomplete) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameter_Section_Runner test1 { "VAR", procedure_type, true };
 	Formal_Parameter_Section_Runner test2 { "a,", procedure_type, true };
 	Formal_Parameter_Section_Runner test3 {

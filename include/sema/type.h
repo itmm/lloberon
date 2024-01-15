@@ -1,14 +1,14 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 #include "decl/type.h"
 
 namespace sema {
 	class Type {
 	public:
-		explicit Type(Scope& scope) : scope { scope } { }
+		explicit Type(Context& context) : context { context } { }
 
-		Scope& scope;
+		Context& context;
 
 		std::shared_ptr<type::Type> type;
 	};

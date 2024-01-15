@@ -7,15 +7,15 @@ using Formal_Parameters_Runner = Parser_Value_Runner<
 >;
 
 TEST(Formal_Parameters_Tests, empty) {
-	Scope scope;
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameters_Runner("", procedure_type, true);
 }
 
 TEST(Formal_Parameters_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameters_Runner test1 { "()", procedure_type };
 	EXPECT_TRUE(procedure_type.procedure->parameters.empty());
 	EXPECT_EQ(procedure_type.procedure->return_type, nullptr);
@@ -32,11 +32,11 @@ TEST(Formal_Parameters_Tests, simple) {
 }
 
 TEST(Formal_Parameters_Tests, with_return) {
-	Scope scope;
+	Context context;
 	auto module = std::make_shared<decl::Module>("X");
 	module->insert("Byte", std::make_shared<decl::Type>(type::Type::base_byte));
-	scope.insert("X", module);
-	sema::Procedure_Type procedure_type { scope };
+	context.scope->insert("X", module);
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameters_Runner test1 { "(): X.Byte", procedure_type };
 	EXPECT_EQ(procedure_type.procedure->parameters.size(), 0);
 	const auto& return_type { procedure_type.procedure->return_type };
@@ -44,8 +44,8 @@ TEST(Formal_Parameters_Tests, with_return) {
 }
 
 TEST(Formal_Parameters_Tests, incomplete) {
-	Scope scope;
-	sema::Procedure_Type procedure_type { scope };
+	Context context;
+	sema::Procedure_Type procedure_type { context };
 	Formal_Parameters_Runner test1 { "(", procedure_type, true };
 	Formal_Parameters_Runner test2 { "():", procedure_type, true };
 }

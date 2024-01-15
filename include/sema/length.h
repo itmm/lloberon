@@ -1,15 +1,15 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 #include "expr/const.h"
 
 namespace sema {
 	class Length {
 	public:
-		explicit Length(Scope& scope, int length = 0) :
-			scope { scope }, length { length } { }
+		explicit Length(Context& context, int length = 0) :
+			context { context }, length { length } { }
 
-		Scope& scope;
+		Context& context;
 
 		int length;
 	};

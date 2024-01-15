@@ -7,16 +7,16 @@ using Array_Type_Runner = Parser_Value_Runner<
 >;
 
 TEST(Array_Type_Tests, empty) {
-	Scope scope;
-	sema::Type array_type { scope };
+	Context context;
+	sema::Type array_type { context };
 	Array_Type_Runner test1 { "", array_type, true };
 	EXPECT_EQ(array_type.type, nullptr);
 }
 
 TEST(Array_Type_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Type array_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Type array_type { context };
 	Array_Type_Runner test1 { "ARRAY 3 OF BOOLEAN", array_type };
 	auto array { std::dynamic_pointer_cast<type::Array>(array_type.type) };
 	EXPECT_NE(array, nullptr);
@@ -26,9 +26,9 @@ TEST(Array_Type_Tests, simple) {
 }
 
 TEST(Array_Type_Tests, multiple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Type array_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Type array_type { context };
 	Array_Type_Runner test1 { "ARRAY 3, 4 OF BOOLEAN", array_type };
 	auto outer { std::dynamic_pointer_cast<type::Array>(array_type.type) };
 	EXPECT_NE(outer, nullptr);
@@ -40,9 +40,9 @@ TEST(Array_Type_Tests, multiple) {
 }
 
 TEST(Array_Type_Tests, cascading) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Type array_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Type array_type { context };
 	Array_Type_Runner test1 { "ARRAY 3 OF ARRAY 4 OF BOOLEAN", array_type };
 	auto outer { std::dynamic_pointer_cast<type::Array>(array_type.type) };
 	EXPECT_NE(outer, nullptr);

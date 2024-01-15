@@ -1,13 +1,13 @@
 #pragma once
 
-#include "scope.h"
+#include "context.h"
 
 namespace sema {
 	class Assignment_Or_Procedure_Call {
 	public:
-		explicit Assignment_Or_Procedure_Call(Scope& scope) :
-			scope { scope } { }
+		explicit Assignment_Or_Procedure_Call(Context& context):
+			context { context } { }
 
-		Scope& scope;
+		Context& context;
 	};
 }

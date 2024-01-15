@@ -6,15 +6,15 @@ using Record_Type_Runner = Parser_Value_Runner<
 >;
 
 TEST(Record_Type_Tests, empty) {
-	Scope scope;
-	sema::Type record_type { scope };
+	Context context;
+	sema::Type record_type { context };
 	Record_Type_Runner("", record_type, true);
 }
 
 TEST(Record_Type_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Type record_type { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Type record_type { context };
 	Record_Type_Runner test1 { "RECORD END", record_type };
 	auto record { std::dynamic_pointer_cast<type::Record>(record_type.type) };
 	EXPECT_NE(record, nullptr);
@@ -32,12 +32,12 @@ TEST(Record_Type_Tests, simple) {
 }
 
 TEST(Record_Type_Tests, sub_type) {
-	Scope scope;
+	Context context;
 	auto view_record { std::make_shared<type::Record>() };
 	auto point_record { std::make_shared<type::Record>() };
-	scope.insert("View", std::make_shared<decl::Type>(view_record));
-	scope.insert("Point", std::make_shared<decl::Type>(point_record));
-	sema::Type record_type { scope };
+	context.scope->insert("View", std::make_shared<decl::Type>(view_record));
+	context.scope->insert("Point", std::make_shared<decl::Type>(point_record));
+	sema::Type record_type { context };
 	Record_Type_Runner test1 { "RECORD (View) END", record_type };
 	auto record { std::dynamic_pointer_cast<type::Record>(record_type.type) };
 	EXPECT_NE(record, nullptr);

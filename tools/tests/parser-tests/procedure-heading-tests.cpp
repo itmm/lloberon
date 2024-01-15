@@ -6,15 +6,15 @@ using Procedure_Heading_Runner = Parser_Value_Runner<
 >;
 
 TEST(Procedure_Heading_Tests, empty) {
-	Scope scope;
-	sema::Procedure_Declaration procedure_declaration { scope };
+	Context context;
+	sema::Procedure_Declaration procedure_declaration { context };
 	Procedure_Heading_Runner test1 { "", procedure_declaration, true };
 }
 
 TEST(Procedure_Heading_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Procedure_Declaration procedure_declaration { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Procedure_Declaration procedure_declaration { context };
 	Procedure_Heading_Runner test1 {
 		"PROCEDURE f(x: INTEGER): INTEGER", procedure_declaration
 	};
@@ -30,9 +30,9 @@ TEST(Procedure_Heading_Tests, simple) {
 }
 
 TEST(Procedure_Heading_Tests, incomplete) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	sema::Procedure_Declaration procedure_declaration { scope };
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	sema::Procedure_Declaration procedure_declaration { context };
 	Procedure_Heading_Runner test1 {
 		"PROCEDURE f", procedure_declaration, true
 	};

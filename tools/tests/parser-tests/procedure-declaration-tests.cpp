@@ -3,23 +3,23 @@
 #include "decl/type.h"
 
 using Procedure_Declaration_Runner = Parser_Value_Runner<
-	Scope, &Parser::parse_procedure_declaration
+	Context, &Parser::parse_procedure_declaration
 >;
 
 TEST(Procedure_Declaration_Tests, empty) {
-	Scope scope;
-	Procedure_Declaration_Runner test1 { "", scope, true };
+	Context context;
+	Procedure_Declaration_Runner test1 { "", context, true };
 }
 
 TEST(Procedure_Declaration_Tests, simple) {
-	Scope scope;
-	decl::Type::register_base_types(scope);
-	scope.insert("x", std::make_shared<decl::Variable>(nullptr));
+	Context context;
+	decl::Type::register_base_types(*context.scope);
+	context.scope->insert("x", std::make_shared<decl::Variable>(nullptr));
 	Procedure_Declaration_Runner test1 {
-		"PROCEDURE Add1(x: INTEGER): INTEGER; RETURN x + 1 END Add1", scope
+		"PROCEDURE Add1(x: INTEGER): INTEGER; RETURN x + 1 END Add1", context
 	};
 	auto declaration { std::dynamic_pointer_cast<decl::Procedure>(
-		scope.lookup("Add1")
+		context.scope->lookup("Add1")
 	) };
 	EXPECT_NE(declaration, nullptr);
 	if (declaration) {
@@ -36,15 +36,16 @@ TEST(Procedure_Declaration_Tests, simple) {
 }
 
 TEST(Procedure_Declaration_Tests, incomplete) {
-	Scope parent;
-	Scope scope { &parent };
-	decl::Type::register_base_types(parent);
+	Scope base;
+	Context context;
+	context.scope = std::make_shared<Scope>(&base);
+	decl::Type::register_base_types(base);
 	Procedure_Declaration_Runner test1 {
-		"PROCEDURE RETURN", scope, true, true
+		"PROCEDURE RETURN", context, true, true
 	};
 
-	scope.clear();
+	context.scope->clear();
 	Procedure_Declaration_Runner test2 {
-		"PROCEDURE Answer(): INTEGER; RETURN", scope, true
+		"PROCEDURE Answer(): INTEGER; RETURN", context, true
 	};
 }
