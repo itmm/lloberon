@@ -10,27 +10,32 @@
 class Lexer {
 public:
 	explicit Lexer(llvm::SourceMgr& source_mgr, Base_Diagnostic_Engine& diag) :
-		diag_ { diag } {
-		current_buffer_ = source_mgr.getMainFileID();
-		current_str_ = source_mgr.getMemoryBuffer(current_buffer_)->getBuffer();
-		current_ptr_ = current_str_.begin();
-		add_keywords();
+		diag_ { diag }
+	{
+		str_ = source_mgr.getMemoryBuffer(
+			source_mgr.getMainFileID()
+		)->getBuffer();
+		ptr_ = str_.begin();
 		token::kind = token::unknown;
 	}
 
 	void next();
 
-	Base_Diagnostic_Engine& diag() { return diag_; }
+	template<typename... Args>
+	[[nodiscard]] bool report(unsigned diagnostic_id, Args&& ... arguments) {
+		diag_.report(
+			llvm::SMLoc::getFromPointer(token::source),
+			diagnostic_id, arguments...
+		);
+		return true;
+	}
 
 private:
 	Base_Diagnostic_Engine& diag_;
-	unsigned current_buffer_;
-	llvm::StringRef current_str_;
-	const char* current_ptr_;
+	llvm::StringRef str_;
+	const char* ptr_;
 
-	std::map<std::string, token::Kind> keywords_;
-
-	void add_keywords();
+	static std::map<std::string, token::Kind> keywords_;
 
 	void do_comment();
 

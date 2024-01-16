@@ -30,11 +30,7 @@ class Parser {
 
 	template<typename... Args>
 	[[nodiscard]] bool report(unsigned diagnostic_id, Args&& ... arguments) {
-		lexer_.diag().report(
-			llvm::SMLoc::getFromPointer(token::source),
-			diagnostic_id, arguments...
-		);
-		return true;
+		return lexer_.report(diagnostic_id, arguments...);
 	}
 
 	[[nodiscard]] bool expect(token::Kind kind) {

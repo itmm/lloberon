@@ -15,61 +15,61 @@ namespace char_info {
 	}
 }
 
-void Lexer::add_keywords() {
-	#define KEYWORD(name, flags) keywords_[#name] = token::keyword_##name;
+std::map<std::string, token::Kind> Lexer::keywords_ {
+	#define KEYWORD(name, flags) {#name, token::keyword_##name},
 	#include "basic/token-kinds.def"
 	#undef KEYWORD
-}
+};
 
 void Lexer::do_comment() {
 	int level { 0 };
 	bool done { false };
-	while (*current_ptr_) {
-		if (*current_ptr_ == '*' && current_ptr_[1] == ')') {
+	while (*ptr_) {
+		if (*ptr_ == '*' && ptr_[1] == ')') {
 			--level;
 			if (level <= 0) {
 				done = true;
-				current_ptr_ += 2;
+				ptr_ += 2;
 				break;
 			}
-		} else if (*current_ptr_ == '(' && current_ptr_[1] == '*') {
+		} else if (*ptr_ == '(' && ptr_[1] == '*') {
 			++level;
 		}
-		++current_ptr_;
+		++ptr_;
 	}
 	if (done) {
 		next();
 	} else {
-		form_token(current_ptr_, token::unknown);
+		form_token(ptr_, token::unknown);
 	}
 }
 
 void Lexer::next() {
-	while (*current_ptr_ && char_info::is_whitespace(*current_ptr_)) {
-		++current_ptr_;
+	while (*ptr_ && char_info::is_whitespace(*ptr_)) {
+		++ptr_;
 	}
 
 	if (token::kind == token::eof) { return; }
 
-	if (!*current_ptr_) {
+	if (!*ptr_) {
 		token::kind = token::eof;
 		return;
 	}
 
-	if (char_info::is_letter(*current_ptr_)) {
-		const char* end = current_ptr_ + 1;
+	if (char_info::is_letter(*ptr_)) {
+		const char* end = ptr_ + 1;
 		while (char_info::is_letter(*end) || char_info::is_digit(*end)) {
 			++end;
 		}
-		std::string name { current_ptr_, end };
+		std::string name {ptr_, end };
 		auto got { keywords_.find(name) };
 		token::Kind kind = got == keywords_.end() ? token::identifier : got->second;
 		form_token(end, kind);
 		return;
 	}
 
-	if (char_info::is_digit(*current_ptr_)) {
-		const char* end = current_ptr_ + 1;
+	if (char_info::is_digit(*ptr_)) {
+		const char* end = ptr_ + 1;
 		bool is_hex { false };
 		for (;;) {
 			if (char_info::is_digit(*end)) {
@@ -113,8 +113,8 @@ void Lexer::next() {
 		return;
 	}
 
-	switch (*current_ptr_) {
-		#define TOK(ch, kind) case ch: form_token(current_ptr_ + 1, kind); break;
+	switch (*ptr_) {
+		#define TOK(ch, kind) case ch: form_token(ptr_ + 1, kind); break;
 		TOK('+', token::plus)
 		TOK('-', token::minus)
 		TOK('*', token::star)
@@ -134,35 +134,35 @@ void Lexer::next() {
 		TOK('}', token::right_brace)
 		#undef TOK
 		case '.':
-			if (current_ptr_[1] == '.') {
-				form_token(current_ptr_ + 2, token::range);
+			if (ptr_[1] == '.') {
+				form_token(ptr_ + 2, token::range);
 			} else {
-				form_token(current_ptr_ + 1, token::period);
+				form_token(ptr_ + 1, token::period);
 			}
 			break;
 		case ':':
-			if (current_ptr_[1] == '=') {
-				form_token(current_ptr_ + 2, token::assign);
+			if (ptr_[1] == '=') {
+				form_token(ptr_ + 2, token::assign);
 			} else {
-				form_token(current_ptr_ + 1, token::colon);
+				form_token(ptr_ + 1, token::colon);
 			}
 			break;
 		case '<':
-			if (current_ptr_[1] == '=') {
-				form_token(current_ptr_ + 2, token::less_or_equal);
+			if (ptr_[1] == '=') {
+				form_token(ptr_ + 2, token::less_or_equal);
 			} else {
-				form_token(current_ptr_ + 1, token::less);
+				form_token(ptr_ + 1, token::less);
 			}
 			break;
 		case '>':
-			if (current_ptr_[1] == '=') {
-				form_token(current_ptr_ + 2, token::greater_or_equal);
+			if (ptr_[1] == '=') {
+				form_token(ptr_ + 2, token::greater_or_equal);
 			} else {
-				form_token(current_ptr_ + 1, token::greater);
+				form_token(ptr_ + 1, token::greater);
 			}
 			break;
 		case '"': {
-			const char* end = current_ptr_ + 1;
+			const char* end = ptr_ + 1;
 			while (*end && *end != '"') { ++end; }
 			if (!*end) {
 				form_token(end, token::unknown);
@@ -172,20 +172,20 @@ void Lexer::next() {
 			break;
 		}
 		case '(':
-			if (current_ptr_[1] == '*') {
+			if (ptr_[1] == '*') {
 				do_comment();
 			} else {
-				form_token(current_ptr_ + 1, token::left_parenthesis);
+				form_token(ptr_ + 1, token::left_parenthesis);
 			}
 			break;
 		default:
-			form_token(current_ptr_ + 1, token::unknown);
+			form_token(ptr_ + 1, token::unknown);
 	}
 }
 
 void Lexer::form_token(const char* token_end, token::Kind kind) {
 	token::kind = kind;
-	token::value = std::string { current_ptr_, token_end };
-	token::source = current_ptr_;
-	current_ptr_ = token_end;
+	token::value = std::string {ptr_, token_end };
+	token::source = ptr_;
+	ptr_ = token_end;
 }
