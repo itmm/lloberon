@@ -1,6 +1,7 @@
 #pragma once
 
 #include "context.h"
+#include "expr/expression.h"
 
 namespace sema {
 	class Assignment_Or_Procedure_Call {
@@ -9,5 +10,6 @@ namespace sema {
 			context { context } { }
 
 		Context& context;
+		std::shared_ptr<expr::Expression> return_value;
 	};
 }

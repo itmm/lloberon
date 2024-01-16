@@ -3,6 +3,10 @@
 #include <memory>
 
 namespace type {
+	class Type;
+
+	using Type_Ptr = std::shared_ptr<Type>;
+
 	class Type {
 	public:
 		virtual ~Type() = default;
@@ -13,16 +17,16 @@ namespace type {
 
 		bool is_integer();
 
-		static std::shared_ptr<Type> base_boolean;
+		static Type_Ptr base_boolean;
 
-		static std::shared_ptr<Type> base_char;
+		static Type_Ptr base_char;
 
-		static std::shared_ptr<Type> base_integer;
+		static Type_Ptr base_integer;
 
-		static std::shared_ptr<Type> base_real;
+		static Type_Ptr base_real;
 
-		static std::shared_ptr<Type> base_byte;
+		static Type_Ptr base_byte;
 
-		static std::shared_ptr<Type> base_set;
+		static Type_Ptr base_set;
 	};
 }

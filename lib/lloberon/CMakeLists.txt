@@ -1,6 +1,7 @@
 add_lloberon_library(liboberon
 	basic/diagnostic.cpp
 	basic/token-kinds.cpp
+	decl/procedure.cpp
 	decl/type.cpp
 	expr/const.cpp
 	expr/expression.cpp

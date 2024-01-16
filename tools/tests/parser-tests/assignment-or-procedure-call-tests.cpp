@@ -40,6 +40,13 @@ TEST(Procedure_Call_Tests, simple) {
 	Procedure_Call_Runner test2 { "f(a, 3)", assignment };
 }
 
+TEST(Procedure_Call_Tests, odd) {
+	Context context;
+	decl::Procedure::register_base_procedures(*context.scope);
+	sema::Assignment_Or_Procedure_Call assignment { context };
+	Procedure_Call_Runner test1 { "ODD(4)", assignment };
+}
+
 TEST(Procedure_Call_Tests, incomplete) {
 	Context context;
 	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
