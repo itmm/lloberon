@@ -7,11 +7,11 @@ bool Parser::parse_module(Context& context) {
 	auto module_name { token_.identifier() };
 	advance();
 	if (consume(token::semicolon)) { return true; }
-	if (token_.is(token::keyword_IMPORT)) {
+	if (token::is(token::keyword_IMPORT)) {
 		if (parse_import_list(*context.scope)) { return true; }
 	}
 	if (parse_declaration_sequence(context)) { return true; }
-	if (token_.is(token::keyword_BEGIN)) {
+	if (token::is(token::keyword_BEGIN)) {
 		advance();
 		sema::Statement_Sequence statement_sequence { context };
 		if (parse_statement_sequence(statement_sequence)) { return true; }

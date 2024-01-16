@@ -5,8 +5,8 @@
 
 bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 	bool is_negative { false };
-	if (token_.is_one_of(token::plus, token::minus)) {
-		is_negative = token_.is(token::minus);
+	if (token::is_one_of(token::plus, token::minus)) {
+		is_negative = token::is(token::minus);
 		advance();
 	}
 	Scope scope;
@@ -35,8 +35,8 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 		}
 	}
 
-	while (token_.is_one_of(token::plus, token::minus, token::keyword_OR)) {
-		auto op { token_.kind() };
+	while (token::is_one_of(token::plus, token::minus, token::keyword_OR)) {
+		auto op { token::kind };
 		advance();
 		if (parse_term(simple_expression)) { return true; }
 

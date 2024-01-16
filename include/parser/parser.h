@@ -32,7 +32,7 @@ class Parser {
 	Base_Diagnostic_Engine& diag() { return lexer_.diag(); }
 
 	[[nodiscard]] bool expect(token::Kind kind) {
-		if (!token_.is(kind)) {
+		if (!token::is(kind)) {
 			const char* expected = token::punctuator_spelling(kind);
 			if (!expected) { expected = token::keyword_spelling(kind); }
 			if (!expected) { expected = token::token_name(kind); }
@@ -181,5 +181,5 @@ public:
 
 	[[nodiscard]] bool parse_while_statement(sema::Statement& statement);
 
-	[[nodiscard]] bool is_eof() { return token_.is(token::eof); }
+	[[nodiscard]] static bool is_eof() { return token::is(token::eof); }
 };

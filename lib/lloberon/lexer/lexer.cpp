@@ -53,8 +53,10 @@ void Lexer::next(Token& token) {
 		++current_ptr_;
 	}
 
+	if (token::kind == token::eof) { return; }
+
 	if (!*current_ptr_) {
-		token.kind_ = token::eof;
+		token::kind = token::eof;
 		return;
 	}
 
@@ -185,8 +187,8 @@ void Lexer::next(Token& token) {
 }
 
 void Lexer::form_token(Token& result, const char* token_end, token::Kind kind) {
-	result.kind_ = kind;
-	result.ptr_ = current_ptr_;
-	result.length_ = token_end - current_ptr_;
+	token::kind = kind;
+	token::value = std::string { current_ptr_, token_end };
+	token::location = llvm::SMLoc::getFromPointer(current_ptr_);
 	current_ptr_ = token_end;
 }

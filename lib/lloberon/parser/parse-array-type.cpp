@@ -9,7 +9,7 @@ bool Parser::parse_array_type(sema::Type& type) {
 	sema::Length expression { type.context };
 	if (parse_length(expression)) { return true; }
 	counts.push_back(expression.length);
-	while (token_.is(token::comma)) {
+	while (token::is(token::comma)) {
 		advance();
 		if (parse_length(expression)) { return true; }
 		counts.push_back(expression.length);

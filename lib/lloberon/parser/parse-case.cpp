@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 
 bool Parser::parse_case(sema::Const_Case& const_case) {
-	if (token_.is_one_of(token::bar, token::keyword_END)) {
+	if (token::is_one_of(token::bar, token::keyword_END)) {
 		diag().report(token_.location(), diag::err_bar_in_case_expected);
 		return true;
 	}
@@ -15,7 +15,7 @@ bool Parser::parse_case(sema::Const_Case& const_case) {
 }
 
 bool Parser::parse_case(sema::Type_Case& type_case) {
-	if (token_.is_one_of(token::bar, token::keyword_END)) {
+	if (token::is_one_of(token::bar, token::keyword_END)) {
 		diag().report(token_.location(), diag::err_bar_in_case_expected);
 		return true;
 	}

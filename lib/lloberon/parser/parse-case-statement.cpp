@@ -19,7 +19,7 @@ bool Parser::parse_case_statement(sema::Statement& statement) {
 		if (consume(token::keyword_OF)) { return true; }
 		sema::Type_Case type_case { statement.context };
 		if (parse_case(type_case)) { return true; }
-		while (token_.is(token::bar)) {
+		while (token::is(token::bar)) {
 			advance();
 			if (parse_case(type_case)) { return true; }
 		}
@@ -33,7 +33,7 @@ bool Parser::parse_case_statement(sema::Statement& statement) {
 		if (consume(token::keyword_OF)) { return true; }
 		sema::Const_Case const_case { statement.context };
 		if (parse_case(const_case)) { return true; }
-		while (token_.is(token::bar)) {
+		while (token::is(token::bar)) {
 			advance();
 			if (parse_case(const_case)) { return true; }
 		}

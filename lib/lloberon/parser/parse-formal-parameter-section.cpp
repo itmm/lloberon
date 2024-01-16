@@ -4,15 +4,15 @@ bool Parser::parse_formal_parameter_section(
 	sema::Procedure_Type& procedure_type
 ) {
 	bool reference { false };
-	if (token_.is(token::keyword_VAR)) { reference = true; advance(); }
+	if (token::is(token::keyword_VAR)) { reference = true; advance(); }
 	std::vector<std::string> names;
 	if (expect(token::identifier)) { return true; }
-	names.push_back(token_.identifier().str());
+	names.push_back(token_.identifier());
 	advance();
-	while (token_.is(token::comma)) {
+	while (token::is(token::comma)) {
 		advance();
 		if (expect(token::identifier)) { return true; }
-		names.push_back(token_.identifier().str());
+		names.push_back(token_.identifier());
 		advance();
 	}
 

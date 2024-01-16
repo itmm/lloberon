@@ -10,7 +10,7 @@ bool Parser::parse_element(sema::Const_Expression& expression) {
 	}
 	int begin = const_element->int_value();
 	int end = begin;
-	if (token_.is(token::range)) {
+	if (token::is(token::range)) {
 		advance();
 		if (parse_expression(element)) { return true; }
 		const_element = expr::Const::as_const(element.expression);

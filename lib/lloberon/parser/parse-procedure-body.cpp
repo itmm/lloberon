@@ -6,14 +6,14 @@ bool Parser::parse_procedure_body(
 	if (parse_declaration_sequence(procedure_declaration.context)) {
 		return true;
 	}
-	if (token_.is(token::keyword_BEGIN)) {
+	if (token::is(token::keyword_BEGIN)) {
 		advance();
 		sema::Statement_Sequence statement_sequence {
 			procedure_declaration.context
 		};
 		if (parse_statement_sequence(statement_sequence)) { return true; }
 	}
-	if (token_.is(token::keyword_RETURN)) {
+	if (token::is(token::keyword_RETURN)) {
 		advance();
 		sema::Expression expression { procedure_declaration.context };
 		if (parse_expression(expression)) { return true; }

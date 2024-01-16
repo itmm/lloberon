@@ -28,16 +28,16 @@ protected:
 	Token token { };
 
 	void expect_identifier(const std::string& name) {
-		EXPECT_EQ(token.kind(), token::identifier);
-		EXPECT_EQ(token.identifier().str(), name);
+		EXPECT_EQ(token::kind, token::identifier);
+		EXPECT_EQ(token.identifier(), name);
 	}
 
-	void expect_eof() {
-		EXPECT_EQ(token.kind(), token::eof);
+	static void expect_eof() {
+		EXPECT_EQ(token::kind, token::eof);
 	}
 
-	void expect_not_eof() {
-		EXPECT_NE(token.kind(), token::eof);
+	static void expect_not_eof() {
+		EXPECT_NE(token::kind, token::eof);
 	}
 };
 
@@ -52,7 +52,7 @@ public:
 		has_more_ { has_more } { }
 
 	void run() override {
-		EXPECT_EQ(token.kind(), kind_);
+		EXPECT_EQ(token::kind, kind_);
 		lexer.next(token);
 		if (has_more_) {
 			expect_not_eof();
@@ -166,8 +166,8 @@ public:
 		first_ { first }, second_ { second } { }
 
 	void run() override {
-		EXPECT_EQ(token.kind(), kind_);
-		EXPECT_EQ(token.literal_data().str(), std::string(first_));
+		EXPECT_EQ(token::kind, kind_);
+		EXPECT_EQ(token.literal_data(), std::string(first_));
 		lexer.next(token);
 		if (second_) {
 			expect_identifier(second_);
@@ -198,11 +198,8 @@ class String_Literal_Runner : public Literal_Runner {
 		Literal_Runner { source, token::string_literal, first, second } { }
 };
 
-static void expect_string(
-	const char* source, const char* first = nullptr,
-	const char* second = nullptr
-) {
-	String_Literal_Runner(source, first ?: source, second).run();
+static void expect_string(const char* source) {
+	String_Literal_Runner(source, source, nullptr).run();
 }
 
 class Char_Literal_Runner : public Literal_Runner {
@@ -297,9 +294,9 @@ public:
 		Lexer_String_Runner { source } { }
 
 	void run() override {
-		EXPECT_EQ(token.kind(), token::integer_literal);
+		EXPECT_EQ(token::kind, token::integer_literal);
 		lexer.next(token);
-		EXPECT_EQ(token.kind(), token::range);
+		EXPECT_EQ(token::kind, token::range);
 		lexer.next(token);
 		expect_eof();
 

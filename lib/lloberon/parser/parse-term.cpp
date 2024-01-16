@@ -14,11 +14,11 @@ bool Parser::parse_term(sema::Expression& term) {
 	auto value { term.expression };
 	auto const_value { expr::Const::as_const(value) };
 
-	while (token_.is_one_of(
+	while (token::is_one_of(
 		token::star, token::slash, token::keyword_DIV,
 		token::keyword_MOD, token::andop
 	)) {
-		auto op { token_.kind() };
+		auto op { token::kind };
 		advance();
 		if (parse_factor(term)) { return true; }
 		auto right_value { term.expression };

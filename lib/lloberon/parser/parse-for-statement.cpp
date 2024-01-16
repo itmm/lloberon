@@ -7,7 +7,7 @@ bool Parser::parse_for_statement(sema::Statement& statement) {
 	if (consume(token::keyword_FOR)) { return true; }
 	if (expect(token::identifier)) { return true; }
 	for_statement->variable = std::dynamic_pointer_cast<decl::Variable>(
-		statement.context.scope->lookup(token_.identifier().str())
+		statement.context.scope->lookup(token_.identifier())
 	);
 	advance();
 	if (consume(token::assign)) { return true; }
@@ -17,7 +17,7 @@ bool Parser::parse_for_statement(sema::Statement& statement) {
 	if (consume(token::keyword_TO)) { return true; }
 	if (parse_expression(expression)) { return true; }
 	for_statement->end = expression.expression;
-	if (token_.is(token::keyword_BY)) {
+	if (token::is(token::keyword_BY)) {
 		advance();
 		sema::Const_Expression const_expression { statement.context };
 		if (parse_const_expression(const_expression)) { return true; }

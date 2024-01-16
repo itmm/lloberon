@@ -17,9 +17,9 @@ static int parse_int(const std::string& source, int base) {
 }
 
 bool Parser::parse_factor(sema::Expression& factor) {
-	switch (token_.kind()) {
+	switch (token::kind) {
 		case token::integer_literal: {
-			std::string source { token_.literal_data().str() };
+			std::string source { token_.literal_data() };
 			int base { source[source.length() - 1] == 'H' ? 16 : 10 };
 			int value { parse_int(source, base) };
 			advance();
@@ -27,13 +27,13 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			break;
 		}
 		case token::float_literal: {
-			double value = std::stod(token_.literal_data().str());
+			double value = std::stod(token_.literal_data());
 			advance();
 			factor.expression = expr::Const::create(value);
 			break;
 		}
 		case token::string_literal: {
-			std::string value { token_.literal_data().str() };
+			std::string value { token_.literal_data() };
 			value = value.substr(1, value.size() - 2);
 			factor.expression = expr::Const::create(value);
 			advance();
@@ -41,7 +41,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		}
 		case token::char_literal: {
 			std::string value { "_" };
-			std::string source { token_.literal_data().str() };
+			std::string source { token_.literal_data() };
 			int ch_value { parse_int(source, 16) };
 			value[0] = static_cast<char>(ch_value);
 			factor.expression = expr::Const::create(value);
@@ -69,7 +69,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		case token::identifier: {
 			sema::Designator designator { factor.context };
 			if (parse_designator(designator)) { return true; }
-			if (token_.is(token::left_parenthesis)) {
+			if (token::is(token::left_parenthesis)) {
 				Context context;
 				sema::Actual_Parameters actual_parameters { context };
 				if (parse_actual_parameters(actual_parameters)) { return true; }

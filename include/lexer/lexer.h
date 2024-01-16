@@ -35,6 +35,7 @@ public:
 		current_str_ = source_mgr.getMemoryBuffer(current_buffer_)->getBuffer();
 		current_ptr_ = current_str_.begin();
 		keyword_filter_.add_keywords();
+		token::kind = token::unknown;
 	}
 
 	void next(Token& token);

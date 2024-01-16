@@ -12,7 +12,7 @@ bool Parser::parse_if_statement(sema::Statement& statement) {
 	if_statement->entries.emplace_back(
 		expression.expression, std::move(statement_sequence.sequence)
 	);
-	while (token_.is(token::keyword_ELSIF)) {
+	while (token::is(token::keyword_ELSIF)) {
 		advance();
 		sema::Expression sub_expression { statement.context };
 		if (parse_expression(sub_expression)) { return true; }
@@ -23,7 +23,7 @@ bool Parser::parse_if_statement(sema::Statement& statement) {
 			sub_expression.expression, std::move(sub_sequence.sequence)
 		);
 	}
-	if (token_.is(token::keyword_ELSE)) {
+	if (token::is(token::keyword_ELSE)) {
 		advance();
 		sema::Statement_Sequence else_sequence { statement.context };
 		if (parse_statement_sequence(else_sequence)) { return true; }

@@ -3,7 +3,7 @@
 
 bool Parser::parse_formal_type(sema::Type& type) {
 	int arrays { 0 };
-	while (token_.is(token::keyword_ARRAY)) {
+	while (token::is(token::keyword_ARRAY)) {
 		advance();
 		if (consume(token::keyword_OF)) { return true; }
 		++arrays;

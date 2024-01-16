@@ -4,7 +4,7 @@ bool Parser::parse_actual_parameters(
 	sema::Actual_Parameters& actual_parameters
 ) {
 	if (consume(token::left_parenthesis)) { return true; }
-	if (!token_.is(token::right_parenthesis)) {
+	if (!token::is(token::right_parenthesis)) {
 		sema::Expression_List expression_list {
 			actual_parameters.context
 		};

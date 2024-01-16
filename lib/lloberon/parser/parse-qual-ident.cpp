@@ -2,7 +2,7 @@
 
 bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
 	if (expect(token::identifier)) { return true; }
-	auto decl = qual_ident.context.scope->lookup(token_.identifier().str());
+	auto decl = qual_ident.context.scope->lookup(token_.identifier());
 	advance();
 
 	if (!decl) {
@@ -12,10 +12,10 @@ bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
 	auto module = std::dynamic_pointer_cast<decl::Module>(decl);
 
 	if (module) {
-		if (token_.is(token::period)) {
+		if (token::is(token::period)) {
 			advance();
 			if (expect(token::identifier)) { return true; }
-			decl = module->lookup(token_.identifier().str());
+			decl = module->lookup(token_.identifier());
 			advance();
 			if (!decl) {
 				diag().report(

@@ -5,6 +5,7 @@ add_lloberon_library(liboberon
 	expr/const.cpp
 	expr/expression.cpp
 	lexer/lexer.cpp
+	lexer/token.cpp
 	parser/parse-actual-parameters.cpp
 	parser/parse-array-type.cpp
 	parser/parse-assignment-or-procedure-call.cpp

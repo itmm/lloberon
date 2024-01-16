@@ -10,7 +10,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
 	expression = qual_ident.as_variable();
 
 	while (expression && !std::dynamic_pointer_cast<type::Procedure>(expression->type)) {
-		if (token_.is(token::period)) {
+		if (token::is(token::period)) {
 			advance();
 			if (expect(token::identifier)) { return true; }
 			auto record_type { std::dynamic_pointer_cast<type::Record>(
@@ -22,7 +22,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
 			}
 			bool found { false };
 			for (const auto& entry : record_type->entries) {
-				if (entry.name == token_.identifier().str()) {
+				if (entry.name == token_.identifier()) {
 					expression = std::make_shared<expr::Expression>(entry.type);
 					found = true;
 					break;
@@ -35,7 +35,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
 				return true;
 			}
 			advance();
-		} else if (token_.is(token::left_bracket)) {
+		} else if (token::is(token::left_bracket)) {
 			advance();
 			sema::Expression_List expression_list { designator.context };
 			if (parse_expression_list(expression_list)) { return true; }
@@ -50,7 +50,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
 				}
 				expression = std::make_shared<expr::Expression>(array_type->base);
 			}
-		} else if (token_.is(token::ptr)) {
+		} else if (token::is(token::ptr)) {
 			auto pointer_type { std::dynamic_pointer_cast<type::Pointer>(
 				expression->type)
 			};
@@ -62,7 +62,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
 				pointer_type->points_to
 			);
 			advance();
-        } else if (token_.is(token::left_parenthesis)) {
+        } else if (token::is(token::left_parenthesis)) {
             advance();
             if (parse_qual_ident(qual_ident)) { return true; }
             if (consume(token::right_parenthesis)) { return true; }

@@ -3,9 +3,9 @@
 bool Parser::parse_set(sema::Const_Expression& expression) {
 	expression.expression = expr::Const::create(0U);
 	if (consume(token::left_brace)) { return true; }
-	if (!token_.is_one_of(token::right_brace, token::eof)) {
+	if (!token::is_one_of(token::right_brace, token::eof)) {
 		if (parse_element(expression)) { return true; }
-		while (token_.is(token::comma)) {
+		while (token::is(token::comma)) {
 			advance();
 			if (parse_element(expression)) { return true; }
 		}
