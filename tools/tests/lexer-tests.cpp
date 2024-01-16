@@ -5,7 +5,7 @@ class Lexer_String_Runner {
 public:
 	explicit Lexer_String_Runner(const char* source) :
 		source_mgr_ { }, diag_ { source_mgr_ },
-		lexer { initialize(source_mgr_, source), diag_ } { lexer.next(token); }
+		lexer { initialize(source_mgr_, source), diag_ } { lexer.next(); }
 
 	virtual ~Lexer_String_Runner() = default;
 
@@ -25,11 +25,10 @@ private:
 	Diagnostics_Engine diag_;
 protected:
 	Lexer lexer;
-	Token token { };
 
-	void expect_identifier(const std::string& name) {
+	static void expect_identifier(const std::string& name) {
 		EXPECT_EQ(token::kind, token::identifier);
-		EXPECT_EQ(token.identifier(), name);
+		EXPECT_EQ(token::value, name);
 	}
 
 	static void expect_eof() {
@@ -53,7 +52,7 @@ public:
 
 	void run() override {
 		EXPECT_EQ(token::kind, kind_);
-		lexer.next(token);
+		lexer.next();
 		if (has_more_) {
 			expect_not_eof();
 		} else {
@@ -91,10 +90,10 @@ public:
 
 	void run() override {
 		expect_identifier(first_);
-		lexer.next(token);
+		lexer.next();
 		if (second_) {
 			expect_identifier(second_);
-			lexer.next(token);
+			lexer.next();
 		}
 		expect_eof();
 	}
@@ -167,11 +166,11 @@ public:
 
 	void run() override {
 		EXPECT_EQ(token::kind, kind_);
-		EXPECT_EQ(token.literal_data(), std::string(first_));
-		lexer.next(token);
+		EXPECT_EQ(token::value, std::string(first_));
+		lexer.next();
 		if (second_) {
 			expect_identifier(second_);
-			lexer.next(token);
+			lexer.next();
 		}
 		expect_eof();
 	}
@@ -295,9 +294,9 @@ public:
 
 	void run() override {
 		EXPECT_EQ(token::kind, token::integer_literal);
-		lexer.next(token);
+		lexer.next();
 		EXPECT_EQ(token::kind, token::range);
-		lexer.next(token);
+		lexer.next();
 		expect_eof();
 
 	}

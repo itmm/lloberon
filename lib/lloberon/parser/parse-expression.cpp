@@ -19,8 +19,7 @@ bool Parser::parse_expression(sema::Expression& expression) {
 			if (parse_qual_ident(qual_ident)) { return true; }
 			auto type { qual_ident.as_type() };
 			if (!type) {
-				diag().report(token_.location(), diag::err_type_expected);
-				return true;
+				return report(diag::err_type_expected);
 			}
 			continue;
 		}
@@ -41,10 +40,7 @@ bool Parser::parse_expression(sema::Expression& expression) {
 					case token::greater: result = (lv > rv); break;
 					case token::greater_or_equal: result = (lv >= rv); break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_int
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_int);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -60,10 +56,7 @@ bool Parser::parse_expression(sema::Expression& expression) {
 					case token::greater: result = (lv > rv); break;
 					case token::greater_or_equal: result = (lv >= rv); break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_real
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_real);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -75,10 +68,7 @@ bool Parser::parse_expression(sema::Expression& expression) {
 					case token::equals: result = (lv == rv); break;
 					case token::not_equals: result = (lv != rv); break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_bool
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_bool);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -90,10 +80,7 @@ bool Parser::parse_expression(sema::Expression& expression) {
 					case token::equals: result = (lv == rv); break;
 					case token::not_equals: result = (lv != rv); break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_set
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -105,18 +92,12 @@ bool Parser::parse_expression(sema::Expression& expression) {
 					case token::keyword_IN:
 						result = (((1 << lv) & rv) != 0); break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_set
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
 			} else {
-				diag().report(
-					token_.location(), diag::err_wrong_operator_for_const
-				);
-				return true;
+				return report(diag::err_wrong_operator_for_const);
 			}
 		} else {
 			value = expr::Binary::create(op, value, right_value);

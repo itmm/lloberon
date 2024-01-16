@@ -9,8 +9,7 @@ bool Parser::parse_type_declaration(Context& context) {
 	auto declaration { std::make_shared<decl::Type>(type.type) };
 	declaration->exported = ident_def.exported;
 	if (!context.scope->insert(ident_def.ident, declaration)) {
-		diag().report(token_.location(), diag::err_already_defined);
-		return true;
+		return report(diag::err_already_defined);
 	}
 	return false;
 }

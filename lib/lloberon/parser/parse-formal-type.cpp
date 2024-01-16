@@ -14,8 +14,7 @@ bool Parser::parse_formal_type(sema::Type& type) {
 		std::dynamic_pointer_cast<decl::Type>(qual_ident.declaration)
 	};
 	if (! decl_type) {
-		diag().report(token_.location(), diag::err_type_expected);
-		return true;
+		return report(diag::err_type_expected);
 	}
 	auto current { decl_type->type };
 	for (; arrays; --arrays) {

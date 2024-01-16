@@ -2,10 +2,7 @@
 #include "expr/binary.h"
 
 bool Parser::check_0_int(const expr::Const& value) {
-	if (value.int_value() == 0) {
-		diag().report(token_.location(), diag::err_divide_by_0);
-		return true;
-	}
+	if (value.int_value() == 0) { return report(diag::err_divide_by_0); }
 	return false;
 }
 
@@ -45,10 +42,7 @@ bool Parser::parse_term(sema::Expression& term) {
 						const_value = expr::Const::create(lv % rv);
 						break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_int
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_int);
 				}
 				value = const_value;
 			} else if (const_value->is_real() && right_const_value->is_real()) {
@@ -59,10 +53,7 @@ bool Parser::parse_term(sema::Expression& term) {
 					case token::star: result = lv * rv; break;
 					case token::slash: result = lv / rv; break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_real
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_real);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -76,10 +67,7 @@ bool Parser::parse_term(sema::Expression& term) {
 						value = const_value;
 						break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_bool
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_bool);
 				}
 			} else if (const_value->is_set() && right_const_value->is_set()) {
 				auto lv { const_value->set_value() };
@@ -89,18 +77,12 @@ bool Parser::parse_term(sema::Expression& term) {
 					case token::star: result = lv & rv; break;
 					case token::slash: result = lv ^ rv; break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_set
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
 			} else {
-				diag().report(
-					token_.location(), diag::err_wrong_operator_for_const
-				);
-				return true;
+				return report(diag::err_wrong_operator_for_const);
 			}
 		} else {
 			value = expr::Binary::create(op, value, right_value);

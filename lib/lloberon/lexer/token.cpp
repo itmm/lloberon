@@ -3,5 +3,5 @@
 namespace token {
 	Kind kind;
 	std::string value;
-	llvm::SMLoc location;
+	const char* source;
 }

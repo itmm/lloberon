@@ -24,10 +24,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 				const_value = expr::Const::create(-const_value->real_value());
 				value = const_value;
 			} else {
-				diag().report(
-					token_.location(), diag::err_negate_must_be_numeric
-				);
-				return true;
+				return report(diag::err_negate_must_be_numeric);
 			}
 		} else {
 			value = expr::Unary::create(token::minus, value);
@@ -52,10 +49,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					case token::plus: result = lv + rv; break;
 					case token::minus: result = lv - rv; break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_int
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_int);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -67,10 +61,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					case token::plus: result = lv + rv; break;
 					case token::minus: result = lv - rv; break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_real
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_real);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -82,10 +73,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					);
 					value = const_value;
 				} else {
-					diag().report(
-						token_.location(), diag::err_wrong_operator_for_bool
-					);
-					return true;
+					return report(diag::err_wrong_operator_for_bool);
 				}
 			} else if (const_value->is_set() && right_const_value->is_set()) {
 				auto lv { const_value->set_value() };
@@ -95,18 +83,12 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 					case token::plus: result = lv | rv; break;
 					case token::minus: result = lv - (lv & rv); break;
 					default:
-						diag().report(
-							token_.location(), diag::err_wrong_operator_for_set
-						);
-						return true;
+						return report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
 			} else {
-				diag().report(
-					token_.location(), diag::err_wrong_operator_for_const
-				);
-				return true;
+				return report(diag::err_wrong_operator_for_const);
 			}
 		} else {
 			value = expr::Binary::create(op, value, right_value);

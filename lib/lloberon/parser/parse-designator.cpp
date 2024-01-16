@@ -16,24 +16,16 @@ bool Parser::parse_designator(sema::Designator& designator) {
 			auto record_type { std::dynamic_pointer_cast<type::Record>(
 				expression->type
 			) };
-			if (! record_type) {
-				diag().report(token_.location(), diag::err_record_expected);
-				return true;
-			}
+			if (! record_type) { return report(diag::err_record_expected); }
 			bool found { false };
 			for (const auto& entry : record_type->entries) {
-				if (entry.name == token_.identifier()) {
+				if (entry.name == token::value) {
 					expression = std::make_shared<expr::Expression>(entry.type);
 					found = true;
 					break;
 				}
 			}
-			if (!found) {
-				diag().report(
-					token_.location(), diag::err_unknown_record_entry
-				);
-				return true;
-			}
+			if (!found) { return report(diag::err_unknown_record_entry); }
 			advance();
 		} else if (token::is(token::left_bracket)) {
 			advance();
@@ -44,20 +36,14 @@ bool Parser::parse_designator(sema::Designator& designator) {
 				auto array_type { std::dynamic_pointer_cast<type::Array>(
 					expression->type
 				) };
-				if (!array_type) {
-					diag().report(token_.location(), diag::err_array_expected);
-					return true;
-				}
+				if (!array_type) { return report(diag::err_array_expected); }
 				expression = std::make_shared<expr::Expression>(array_type->base);
 			}
 		} else if (token::is(token::ptr)) {
 			auto pointer_type { std::dynamic_pointer_cast<type::Pointer>(
 				expression->type)
 			};
-			if (!pointer_type) {
-				diag().report(token_.location(), diag::err_pointer_expected);
-				return true;
-			}
+			if (!pointer_type) { return report(diag::err_pointer_expected); }
 			expression = std::make_shared<expr::Expression>(
 				pointer_type->points_to
 			);
@@ -67,10 +53,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
             if (parse_qual_ident(qual_ident)) { return true; }
             if (consume(token::right_parenthesis)) { return true; }
 			auto type { std::dynamic_pointer_cast<decl::Type>(qual_ident.declaration)};
-			if (!type) {
-				diag().report(token_.location(), diag::err_type_expected);
-				return true;
-			}
+			if (!type) { return report(diag::err_type_expected); }
 			expression = std::make_shared<expr::Expression>(type->type);
 		} else { break; }
 	}

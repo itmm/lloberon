@@ -10,10 +10,7 @@ bool Parser::parse_const_declaration(Context& context) {
 	auto declaration { std::make_shared<decl::Const>(expression.expression) };
 	declaration->exported = ident_def.exported;
 	if (!context.scope->insert(ident_def.ident, declaration)) {
-		diag().report(
-			token_.location(), diag::err_already_defined, ident_def.ident
-		);
-		return true;
+		return report(diag::err_already_defined, ident_def.ident);
 	}
 	return false;
 }

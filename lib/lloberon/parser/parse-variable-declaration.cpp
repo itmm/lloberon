@@ -10,8 +10,7 @@ bool Parser::parse_variable_declaration(Context& context) {
 
 	for (const auto& id: ident_list) {
 		if (!context.scope->insert(id, std::make_shared<decl::Variable>(type.type))) {
-			diag().report(token_.location(), diag::err_already_defined);
-			return true;
+			return report(diag::err_already_defined);
 		}
 	}
 	return false;

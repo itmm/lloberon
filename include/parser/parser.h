@@ -25,11 +25,17 @@
 
 class Parser {
 	Lexer& lexer_;
-	Token token_ { };
 
-	void advance() { lexer_.next(token_); }
+	void advance() { lexer_.next(); }
 
-	Base_Diagnostic_Engine& diag() { return lexer_.diag(); }
+	template<typename... Args>
+	[[nodiscard]] bool report(unsigned diagnostic_id, Args&& ... arguments) {
+		lexer_.diag().report(
+			llvm::SMLoc::getFromPointer(token::source),
+			diagnostic_id, arguments...
+		);
+		return true;
+	}
 
 	[[nodiscard]] bool expect(token::Kind kind) {
 		if (!token::is(kind)) {
@@ -37,15 +43,7 @@ class Parser {
 			if (!expected) { expected = token::keyword_spelling(kind); }
 			if (!expected) { expected = token::token_name(kind); }
 
-			llvm::StringRef actual(
-				token_.location().getPointer(), token_.length()
-			);
-
-			diag().report(
-				token_.location(), diag::err_expected,
-				expected, actual
-			);
-			return true;
+			return report(diag::err_expected, expected, token::value);
 		}
 		return false;
 	}

@@ -19,7 +19,7 @@ static int parse_int(const std::string& source, int base) {
 bool Parser::parse_factor(sema::Expression& factor) {
 	switch (token::kind) {
 		case token::integer_literal: {
-			std::string source { token_.literal_data() };
+			std::string source { token::value };
 			int base { source[source.length() - 1] == 'H' ? 16 : 10 };
 			int value { parse_int(source, base) };
 			advance();
@@ -27,13 +27,13 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			break;
 		}
 		case token::float_literal: {
-			double value = std::stod(token_.literal_data());
+			double value = std::stod(token::value);
 			advance();
 			factor.expression = expr::Const::create(value);
 			break;
 		}
 		case token::string_literal: {
-			std::string value { token_.literal_data() };
+			std::string value { token::value };
 			value = value.substr(1, value.size() - 2);
 			factor.expression = expr::Const::create(value);
 			advance();
@@ -41,7 +41,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		}
 		case token::char_literal: {
 			std::string value { "_" };
-			std::string source { token_.literal_data() };
+			std::string source { token::value };
 			int ch_value { parse_int(source, 16) };
 			value[0] = static_cast<char>(ch_value);
 			factor.expression = expr::Const::create(value);
@@ -92,10 +92,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 						!value->bool_value()
 					);
 				} else {
-					diag().report(
-						token_.location(), diag::err_wrong_operator_for_const
-					);
-					return true;
+					return report(diag::err_wrong_operator_for_const);
 				}
 			} else {
 				factor.expression = expr::Unary::create(
@@ -105,8 +102,7 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			break;
 		}
 		default:
-			diag().report(token_.location(), diag::err_factor_expected);
-			return true;
+			return report(diag::err_factor_expected);
 	}
 	return false;
 }

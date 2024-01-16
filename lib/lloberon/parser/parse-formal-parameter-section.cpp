@@ -7,12 +7,12 @@ bool Parser::parse_formal_parameter_section(
 	if (token::is(token::keyword_VAR)) { reference = true; advance(); }
 	std::vector<std::string> names;
 	if (expect(token::identifier)) { return true; }
-	names.push_back(token_.identifier());
+	names.push_back(token::value);
 	advance();
 	while (token::is(token::comma)) {
 		advance();
 		if (expect(token::identifier)) { return true; }
-		names.push_back(token_.identifier());
+		names.push_back(token::value);
 		advance();
 	}
 
@@ -25,8 +25,7 @@ bool Parser::parse_formal_parameter_section(
 	}
 	for (const auto& entry: counts) {
 		if (entry.second > 1) {
-			diag().report(token_.location(), diag::err_already_defined, entry.first);
-			return true;
+			return report(diag::err_already_defined, entry.first);
 		}
 	}
 

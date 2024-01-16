@@ -4,7 +4,7 @@
 bool Parser::parse_module(Context& context) {
 	if (consume(token::keyword_MODULE)) { return true; }
 	if (expect(token::identifier)) { return true; }
-	auto module_name { token_.identifier() };
+	auto module_name { token::value };
 	advance();
 	if (consume(token::semicolon)) { return true; }
 	if (token::is(token::keyword_IMPORT)) {
@@ -18,12 +18,10 @@ bool Parser::parse_module(Context& context) {
 	}
 	if (consume(token::keyword_END)) { return true; }
 	if (expect(token::identifier)) { return true; }
-	if (module_name != token_.identifier()) {
-		diag().report(
-			token_.location(), diag::err_module_names_dont_match,
-			module_name, token_.identifier()
+	if (module_name != token::value) {
+		return report(
+			diag::err_module_names_dont_match, module_name, token::value
 		);
-		return true;
 	}
 	advance();
 	if (consume(token::period)) { return true; }

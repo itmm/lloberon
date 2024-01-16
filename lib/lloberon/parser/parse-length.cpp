@@ -8,8 +8,7 @@ bool Parser::parse_length(sema::Length& length) {
 		std::dynamic_pointer_cast<expr::Const>(expression.expression)
 	};
 	if (!value || !value->is_int() || value->int_value() < 0) {
-		diag().report(token_.location(), diag::err_length_must_be_nonnegative);
-		return true;
+		return report(diag::err_length_must_be_nonnegative);
 	}
 	length.length = value->int_value();
 	return false;

@@ -7,8 +7,7 @@ bool Parser::parse_const_expression(sema::Const_Expression& const_expression) {
 		std::dynamic_pointer_cast<expr::Const>(expression.expression)
 	};
 	if (!const_value) {
-		diag().report(token_.location(), diag::err_const_experssion_expected);
-		return true;
+		return report(diag::err_const_experssion_expected);
 	}
 	const_expression.expression = const_value;
 	return false;

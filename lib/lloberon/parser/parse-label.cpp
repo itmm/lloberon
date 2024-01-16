@@ -8,8 +8,7 @@ bool Parser::parse_label(sema::Const_Label& label) {
 		if (parse_factor(expression)) { return true; }
 		label.value = expr::Const::as_const(expression.expression);
 	} else {
-		diag().report(token_.location(), diag::err_const_label_expected);
-		return true;
+		return report(diag::err_const_label_expected);
 	}
 	return false;
 }

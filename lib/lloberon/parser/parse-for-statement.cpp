@@ -7,7 +7,7 @@ bool Parser::parse_for_statement(sema::Statement& statement) {
 	if (consume(token::keyword_FOR)) { return true; }
 	if (expect(token::identifier)) { return true; }
 	for_statement->variable = std::dynamic_pointer_cast<decl::Variable>(
-		statement.context.scope->lookup(token_.identifier())
+		statement.context.scope->lookup(token::value)
 	);
 	advance();
 	if (consume(token::assign)) { return true; }

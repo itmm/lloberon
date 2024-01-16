@@ -8,8 +8,7 @@ bool Parser::parse_type(sema::Type& type) {
 			qual_ident.declaration
 		);
 		if (!got) {
-			diag().report(token_.location(), diag::err_identifier_must_be_type);
-			return true;
+			return report(diag::err_identifier_must_be_type);
 		}
 		type.type = got->type;
 	} else if (token::is(token::keyword_ARRAY)) {
@@ -21,8 +20,7 @@ bool Parser::parse_type(sema::Type& type) {
 	} else if (token::is(token::keyword_PROCEDURE)) {
 		if (parse_procedure_type(type)) { return true; }
 	} else {
-		diag().report(token_.location(), diag::err_type_expected);
-		return true;
+		return report(diag::err_type_expected);
 	}
 	return false;
 }

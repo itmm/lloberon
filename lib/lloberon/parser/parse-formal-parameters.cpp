@@ -20,10 +20,7 @@ bool Parser::parse_formal_parameters(
 			qual_ident.declaration
 		) };
 
-		if (! return_type) {
-			diag().report(token_.location(), diag::err_type_expected);
-			return true;
-		}
+		if (! return_type) { return report(diag::err_type_expected); }
 		procedure_type.procedure->return_type = return_type->type;
 	}
 	return false;

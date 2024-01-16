@@ -38,7 +38,7 @@ public:
 		token::kind = token::unknown;
 	}
 
-	void next(Token& token);
+	void next();
 
 	Base_Diagnostic_Engine& diag() { return diag_; }
 
@@ -49,7 +49,7 @@ private:
 	const char* current_ptr_;
 	Keyword_Filter keyword_filter_;
 
-	void do_comment(Token& result);
+	void do_comment();
 
-	void form_token(Token& result, const char* token_end, token::Kind kind);
+	void form_token(const char* token_end, token::Kind kind);
 };

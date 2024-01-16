@@ -25,7 +25,7 @@ void Keyword_Filter::add_keywords() {
 	#include "basic/token-kinds.def"
 }
 
-void Lexer::do_comment(Token& token) {
+void Lexer::do_comment() {
 	int level { 0 };
 	bool done { false };
 	while (*current_ptr_) {
@@ -42,13 +42,13 @@ void Lexer::do_comment(Token& token) {
 		++current_ptr_;
 	}
 	if (done) {
-		next(token);
+		next();
 	} else {
-		form_token(token, current_ptr_, token::unknown);
+		form_token(current_ptr_, token::unknown);
 	}
 }
 
-void Lexer::next(Token& token) {
+void Lexer::next() {
 	while (*current_ptr_ && char_info::is_whitespace(*current_ptr_)) {
 		++current_ptr_;
 	}
@@ -67,7 +67,7 @@ void Lexer::next(Token& token) {
 		}
 		llvm::StringRef name(current_ptr_, end - current_ptr_);
 		token::Kind kind = keyword_filter_.get_keyword(name, token::identifier);
-		form_token(token, end, kind);
+		form_token(end, kind);
 		return;
 	}
 
@@ -87,16 +87,16 @@ void Lexer::next(Token& token) {
 			++end;
 		} else if (*end == 'X') {
 			++end;
-			form_token(token, end, token::char_literal);
+			form_token(end, token::char_literal);
 			return;
 		} else if (is_hex) {
-			form_token(token, end, token::unknown);
+			form_token(end, token::unknown);
 			return;
 		}
 		if (*end == '.' && end[1] != '.') {
 			++end;
 			if (is_hex) {
-				form_token(token, end, token::unknown);
+				form_token(end, token::unknown);
 				return;
 			}
 			while (char_info::is_digit(*end)) { ++end; }
@@ -104,20 +104,20 @@ void Lexer::next(Token& token) {
 				++end;
 				if (*end == '+' || *end == '-') { ++end; }
 				if (!char_info::is_digit(*end)) {
-					form_token(token, end, token::unknown);
+					form_token(end, token::unknown);
 					return;
 				}
 				while (char_info::is_digit(*end)) { ++end; }
 			}
-			form_token(token, end, token::float_literal);
+			form_token(end, token::float_literal);
 			return;
 		}
-		form_token(token, end, token::integer_literal);
+		form_token(end, token::integer_literal);
 		return;
 	}
 
 	switch (*current_ptr_) {
-		#define TOK(ch, kind) case ch: form_token(token, current_ptr_ + 1, kind); break;
+		#define TOK(ch, kind) case ch: form_token(current_ptr_ + 1, kind); break;
 		TOK('+', token::plus)
 		TOK('-', token::minus)
 		TOK('*', token::star)
@@ -138,57 +138,57 @@ void Lexer::next(Token& token) {
 		#undef TOK
 		case '.':
 			if (current_ptr_[1] == '.') {
-				form_token(token, current_ptr_ + 2, token::range);
+				form_token(current_ptr_ + 2, token::range);
 			} else {
-				form_token(token, current_ptr_ + 1, token::period);
+				form_token(current_ptr_ + 1, token::period);
 			}
 			break;
 		case ':':
 			if (current_ptr_[1] == '=') {
-				form_token(token, current_ptr_ + 2, token::assign);
+				form_token(current_ptr_ + 2, token::assign);
 			} else {
-				form_token(token, current_ptr_ + 1, token::colon);
+				form_token(current_ptr_ + 1, token::colon);
 			}
 			break;
 		case '<':
 			if (current_ptr_[1] == '=') {
-				form_token(token, current_ptr_ + 2, token::less_or_equal);
+				form_token(current_ptr_ + 2, token::less_or_equal);
 			} else {
-				form_token(token, current_ptr_ + 1, token::less);
+				form_token(current_ptr_ + 1, token::less);
 			}
 			break;
 		case '>':
 			if (current_ptr_[1] == '=') {
-				form_token(token, current_ptr_ + 2, token::greater_or_equal);
+				form_token(current_ptr_ + 2, token::greater_or_equal);
 			} else {
-				form_token(token, current_ptr_ + 1, token::greater);
+				form_token(current_ptr_ + 1, token::greater);
 			}
 			break;
 		case '"': {
 			const char* end = current_ptr_ + 1;
 			while (*end && *end != '"') { ++end; }
 			if (!*end) {
-				form_token(token, end, token::unknown);
+				form_token(end, token::unknown);
 			} else {
-				form_token(token, end + 1, token::string_literal);
+				form_token(end + 1, token::string_literal);
 			}
 			break;
 		}
 		case '(':
 			if (current_ptr_[1] == '*') {
-				do_comment(token);
+				do_comment();
 			} else {
-				form_token(token, current_ptr_ + 1, token::left_parenthesis);
+				form_token(current_ptr_ + 1, token::left_parenthesis);
 			}
 			break;
 		default:
-			form_token(token, current_ptr_ + 1, token::unknown);
+			form_token(current_ptr_ + 1, token::unknown);
 	}
 }
 
-void Lexer::form_token(Token& result, const char* token_end, token::Kind kind) {
+void Lexer::form_token(const char* token_end, token::Kind kind) {
 	token::kind = kind;
 	token::value = std::string { current_ptr_, token_end };
-	token::location = llvm::SMLoc::getFromPointer(current_ptr_);
+	token::source = current_ptr_;
 	current_ptr_ = token_end;
 }
