@@ -15,14 +15,10 @@ namespace char_info {
 	}
 }
 
-void Keyword_Filter::add_keyword(llvm::StringRef keyword, token::Kind kind) {
-	hashtable_.insert(std::make_pair(keyword, kind));
-}
-
-void Keyword_Filter::add_keywords() {
-	#define KEYWORD(name, flags) add_keyword(llvm::StringRef(#name), token::keyword_##name);
-
+void Lexer::add_keywords() {
+	#define KEYWORD(name, flags) keywords_[#name] = token::keyword_##name;
 	#include "basic/token-kinds.def"
+	#undef KEYWORD
 }
 
 void Lexer::do_comment() {
@@ -65,8 +61,9 @@ void Lexer::next() {
 		while (char_info::is_letter(*end) || char_info::is_digit(*end)) {
 			++end;
 		}
-		llvm::StringRef name(current_ptr_, end - current_ptr_);
-		token::Kind kind = keyword_filter_.get_keyword(name, token::identifier);
+		std::string name { current_ptr_, end };
+		auto got { keywords_.find(name) };
+		token::Kind kind = got == keywords_.end() ? token::identifier : got->second;
 		form_token(end, kind);
 		return;
 	}
