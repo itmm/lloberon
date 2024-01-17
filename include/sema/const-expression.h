@@ -6,9 +6,7 @@
 namespace sema {
 	class Const_Expression {
 	public:
-		explicit Const_Expression(Context& context) : context { context } { }
-
-		Context& context;
+		explicit Const_Expression() = default;
 
 		std::shared_ptr<expr::Const> expression;
 	};

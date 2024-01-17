@@ -7,14 +7,14 @@ using Const_Label_Runner = Parser_Value_Runner<
 >;
 
 TEST(Label_Tests, empty) {
-	Context context;
-	sema::Const_Label const_label { context };
+	context::clear();
+	sema::Const_Label const_label;
 	Const_Label_Runner test1 { "", const_label, true };
 }
 
 TEST(Label_Tests, simple) {
-	Context context;
-	sema::Const_Label label { context };
+	context::clear();
+	sema::Const_Label label;
 	Const_Label_Runner test1 { "3", label };
 	expect_int_value(label.value, 3);
 

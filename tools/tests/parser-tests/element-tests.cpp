@@ -3,14 +3,14 @@
 using Element_Runner = Parser_Value_Runner<sema::Const_Expression, &Parser::parse_element>;
 
 TEST(Element_Tests, empty) {
-	Context context;
-	sema::Const_Expression value { context };
+	context::clear();
+	sema::Const_Expression value;
 	Element_Runner test1 { "", value, true };
 }
 
 TEST(Element_Tests, simple) {
-	Context context;
-	sema::Const_Expression value { context };
+	context::clear();
+	sema::Const_Expression value;
 	value.expression = expr::Const::create(0U);
 	Element_Runner test1 { "3", value };
 	EXPECT_TRUE(value.expression->is_set());
@@ -18,8 +18,8 @@ TEST(Element_Tests, simple) {
 }
 
 TEST(Element_Tests, range) {
-	Context context;
-	sema::Const_Expression value { context };
+	context::clear();
+	sema::Const_Expression value;
 	value.expression = expr::Const::create(0U);
 	Element_Runner test1 { "3..6", value };
 	EXPECT_TRUE(value.expression->is_set());
@@ -27,8 +27,8 @@ TEST(Element_Tests, range) {
 }
 
 TEST(Element_Tests, incomplete) {
-	Context context;
-	sema::Const_Expression value { context };
+	context::clear();
+	sema::Const_Expression value;
 	value.expression = expr::Const::create(0U);
 	Element_Runner test1 { "3..", value, true };
 }

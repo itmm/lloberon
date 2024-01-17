@@ -5,8 +5,6 @@
 namespace sema {
 	class Actual_Parameters {
 	public:
-		explicit Actual_Parameters(Context& context) : context { context } { }
-
-		Context& context;
+		Actual_Parameters() = default;
 	};
 }

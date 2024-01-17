@@ -15,7 +15,7 @@ bool Parser::parse_expression(sema::Expression& expression) {
 		advance();
 
 		if (op == token::keyword_IS) {
-			sema::Qual_Ident qual_ident { expression.context };
+			sema::Qual_Ident qual_ident;
 			if (parse_qual_ident(qual_ident)) { return true; }
 			auto type { qual_ident.as_type() };
 			if (!type) {

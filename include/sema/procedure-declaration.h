@@ -8,10 +8,7 @@
 namespace sema {
 	class Procedure_Declaration {
 	public:
-		explicit Procedure_Declaration(Context& context) :
-			context { context }, procedure_type { context } { }
-
-		Context& context;
+		Procedure_Declaration() = default;
 
 		Ident_Def name;
 

@@ -30,7 +30,7 @@ bool Parser::parse_formal_parameter_section(
 	}
 
 	if (consume(token::colon)) { return true; }
-	sema::Type formal_type { procedure_type.context };
+	sema::Type formal_type;
 	if (parse_formal_type(formal_type)) { return true; }
 
 	for (const auto& name : names) {

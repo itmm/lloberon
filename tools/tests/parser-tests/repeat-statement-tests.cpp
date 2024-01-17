@@ -7,15 +7,15 @@ using Repeat_Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(Repeat_Statement_Tests, empty) {
-	Context context;
-	sema::Statement statement { context };
+	context::clear();
+	sema::Statement statement;
 	Repeat_Statement_Runner test1 { "", statement, true };
 }
 
 TEST(Repeat_Statement_Tests, simple) {
-	Context context;
-	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement { context };
+	context::clear();
+	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Statement statement;
 	Repeat_Statement_Runner test1 {
 		"REPEAT a := a + 1 UNTIL a > 10", statement
 	};

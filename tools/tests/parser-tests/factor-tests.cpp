@@ -9,14 +9,14 @@ using Factor_Runner = Parser_Value_Runner<
 >;
 
 TEST(Factor_Tests, empty) {
-	Context context;
-	sema::Expression factor { context };
+	context::clear();
+	sema::Expression factor;
 	Factor_Runner("", factor, true);
 }
 
 TEST(Factor_Tests, literals) {
-	Context context;
-	sema::Expression factor { context };
+	context::clear();
+	sema::Expression factor;
 	Factor_Runner test1 { "3", factor };
 	expect_int_value(factor.expression, 3);
 
@@ -43,36 +43,37 @@ TEST(Factor_Tests, literals) {
 }
 
 TEST(Factor_Tests, set) {
-	Context context;
-	sema::Expression factor { context };
+	context::clear();
+	sema::Expression factor;
 	Factor_Runner test1 { "{3..5}", factor };
 }
 
 TEST(Factor_Tests, grouped) {
-	Context context;
-	sema::Expression factor { context };
+	context::clear();
+	sema::Expression factor;
 	Factor_Runner test1 { "(3 + 4)", factor };
 	expect_int_value(factor.expression, 7);
 }
 
 TEST(Factor_Tests, ident) {
+	context::clear();
 	auto base { std::make_shared<Scope>() };
 	decl::Type::register_base_types(*base);
-	Context context;
-	context.scope = std::make_shared<Scope>(base);
-	sema::Type type { context };
+	context::scope = std::make_shared<Scope>(base);
+	sema::Type type;
 	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };
-	context.scope->insert("a", std::make_shared<decl::Variable>(type.type));
-	context.scope->insert("f", std::make_shared<decl::Procedure>());
-	sema::Expression factor { context };
+	context::scope->insert("a", std::make_shared<decl::Variable>(type.type));
+	context::scope->insert("f", std::make_shared<decl::Procedure>());
+	sema::Expression factor;
 	Factor_Runner test1 { "a", factor };
 	Factor_Runner test2 { "f(3, TRUE)", factor };
+	context::scope->insert("a", std::make_shared<decl::Variable>(type.type));
 	Factor_Runner test3 { "a[3](TRUE)", factor };
 }
 
 TEST(Factor_Tests, not) {
-	Context context;
-	sema::Expression factor { context };
+	context::clear();
+	sema::Expression factor;
 	Factor_Runner test1 { "~FALSE", factor };
 	auto value { expr::Const::as_const(factor.expression) };
 	EXPECT_NE(value, nullptr);
@@ -82,9 +83,9 @@ TEST(Factor_Tests, not) {
 }
 
 TEST(Factor_Tests, incomplete) {
-	Context context;
-	context.scope->insert("a", std::make_shared<decl::Procedure>());
-	sema::Expression factor { context };
+	context::clear();
+	context::scope->insert("a", std::make_shared<decl::Procedure>());
+	sema::Expression factor;
 	Factor_Runner test1 { "a(3,TRUE", factor, true };
 	Factor_Runner test2 { "a(3,", factor, true };
 	Factor_Runner test3 { "a(3", factor, true };

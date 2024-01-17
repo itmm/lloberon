@@ -7,21 +7,21 @@ using Simple_Expression_Runner = Parser_Value_Runner<
 >;
 
 TEST(Simple_Expression_Tests, empty) {
-	Context context;
-	sema::Expression simple_expression { context };
+	context::clear();
+	sema::Expression simple_expression;
 	Simple_Expression_Runner test1 { "", simple_expression, true };
 }
 
 void expect_int(const char* source, int expected) {
-	Context context;
-	sema::Expression expression { context };
+	context::clear();
+	sema::Expression expression;
 	Simple_Expression_Runner runner { source, expression };
 	expect_int_value(expression.expression, expected);
 }
 
 void expect_real(const char* source, double expected) {
-	Context context;
-	sema::Expression expression { context };
+	context::clear();
+	sema::Expression expression;
 	Simple_Expression_Runner runner { source, expression };
 	expect_real_value(expression.expression, expected);
 }
@@ -42,16 +42,16 @@ TEST(Simple_Expression_Tests, simple) {
 	expect_real("2.5 + 5", 7.5);
 	expect_real("3 - 6.5", -3.5);
 
-	Context context;
-	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	sema::Expression simple_expression { context };
+	context::clear();
+	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	sema::Expression simple_expression;
 	Simple_Expression_Runner test3 { "a OR b", simple_expression };
 }
 
 void expect_bool(const char* source, bool expected) {
-	Context context;
-	sema::Expression expression { context };
+	context::clear();
+	sema::Expression expression;
 	Simple_Expression_Runner runner { source, expression };
 	expect_bool_value(expression.expression, expected);
 }
@@ -76,14 +76,14 @@ TEST(Simple_Expression_Tests, unaries) {
 	expect_int("+3", 3);
 	expect_int("-3 + 4", 1);
 
-	Context context;
-	sema::Expression simple_expression { context };
+	context::clear();
+	sema::Expression simple_expression;
 	Simple_Expression_Runner test3 { "+-3", simple_expression, true, true };
 }
 
 TEST(Simple_Expression_Tests, set) {
-	Context context;
-	sema::Expression simple_expression { context };
+	context::clear();
+	sema::Expression simple_expression;
 	Simple_Expression_Runner test1 { "{0..3} + {2..5}", simple_expression };
 	expect_set_value(simple_expression.expression, 0x003fu);
 
@@ -92,8 +92,8 @@ TEST(Simple_Expression_Tests, set) {
 }
 
 TEST(Simple_Expression_Tests, incomplete) {
-	Context context;
-	sema::Expression simple_expression { context };
+	context::clear();
+	sema::Expression simple_expression;
 	Simple_Expression_Runner test1 { "3 +", simple_expression, true };
 	Simple_Expression_Runner test2 { "+", simple_expression, true };
 }

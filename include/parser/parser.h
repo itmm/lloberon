@@ -79,13 +79,13 @@ public:
 
 	[[nodiscard]] bool parse_case_statement(sema::Statement& statement);
 
-	[[nodiscard]] bool parse_const_declaration(Context& context);
+	[[nodiscard]] bool parse_const_declaration();
 
 	[[nodiscard]] bool parse_const_expression(
 		sema::Const_Expression& expression
 	);
 
-	[[nodiscard]] bool parse_declaration_sequence(Context& context);
+	[[nodiscard]] bool parse_declaration_sequence();
 
 	[[nodiscard]] bool parse_designator(sema::Designator& designator);
 
@@ -133,7 +133,7 @@ public:
 
 	[[nodiscard]] bool parse_length(sema::Length& length);
 
-	[[nodiscard]] bool parse_module(Context& context);
+	[[nodiscard]] bool parse_module();
 
 	[[nodiscard]] bool parse_pointer_type(sema::Type& type);
 
@@ -141,7 +141,7 @@ public:
 		sema::Procedure_Declaration& procedure_declaration
 	);
 
-	[[nodiscard]] bool parse_procedure_declaration(Context& context);
+	[[nodiscard]] bool parse_procedure_declaration();
 
 	[[nodiscard]] bool parse_procedure_heading(
 		sema::Procedure_Declaration& procedure_declaration
@@ -169,9 +169,9 @@ public:
 
 	[[nodiscard]] bool parse_type(sema::Type& type);
 
-	[[nodiscard]] bool parse_type_declaration(Context& context);
+	[[nodiscard]] bool parse_type_declaration();
 
-	[[nodiscard]] bool parse_variable_declaration(Context& context);
+	[[nodiscard]] bool parse_variable_declaration();
 
 	[[nodiscard]] bool parse_while_statement(sema::Statement& statement);
 

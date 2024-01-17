@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 
 bool Parser::parse_element(sema::Const_Expression& expression) {
-	sema::Expression element { expression.context };
+	sema::Expression element;
 	if (parse_expression(element)) { return true; }
 	auto const_element { expr::Const::as_const(element.expression)};
 	if (!const_element || !const_element->is_int()) {

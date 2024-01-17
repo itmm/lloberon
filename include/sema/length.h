@@ -6,10 +6,7 @@
 namespace sema {
 	class Length {
 	public:
-		explicit Length(Context& context, int length = 0) :
-			context { context }, length { length } { }
-
-		Context& context;
+		explicit Length(int length = 0): length { length } { }
 
 		int length;
 	};

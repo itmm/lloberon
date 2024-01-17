@@ -6,19 +6,19 @@ using Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(Statement_Tests, empty) {
-	Context context;
-	sema::Statement statement { context };
+	context::clear();
+	sema::Statement statement;
 	Statement_Runner("", statement);
 }
 
 TEST(Statement_Tests, single) {
-	Context context;
-	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("i", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("cond", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("f", std::make_shared<decl::Procedure>());
-	sema::Statement statement { context };
+	context::clear();
+	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("i", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("cond", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("f", std::make_shared<decl::Procedure>());
+	sema::Statement statement;
 	Statement_Runner test1 { "a := 3", statement };
 	Statement_Runner test2 { "f(2, 3)", statement };
 	Statement_Runner test3 { "IF b THEN a := 3 END", statement };
@@ -29,7 +29,7 @@ TEST(Statement_Tests, single) {
 }
 
 TEST(Statement_Tests, invalid) {
-	Context context;
-	sema::Statement statement { context };
+	context::clear();
+	sema::Statement statement;
 	Statement_Runner test1 { "3", statement, false, true };
 }

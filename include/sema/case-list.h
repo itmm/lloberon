@@ -8,9 +8,7 @@
 namespace sema {
 	class Const_Case_List {
 		public:
-		explicit Const_Case_List(Context& context) : context { context } { }
-
-		Context& context;
+		explicit Const_Case_List() = default;
 
 		struct Entry {
 			Entry(
@@ -26,9 +24,7 @@ namespace sema {
 
 	class Type_Case_List {
 	public:
-		explicit Type_Case_List(Context& context): context { context } { }
-
-		Context& context;
+		explicit Type_Case_List() = default;
 
 		std::vector<std::shared_ptr<type::Type>> entries;
 	};

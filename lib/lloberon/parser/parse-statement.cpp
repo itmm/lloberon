@@ -2,9 +2,7 @@
 
 bool Parser::parse_statement(sema::Statement& statement) {
 	if (token::is(token::identifier)) {
-		sema::Assignment_Or_Procedure_Call assignment_or_procedure_call {
-			statement.context
-		};
+		sema::Assignment_Or_Procedure_Call assignment_or_procedure_call;
 		if (parse_assignment_or_procedure_call(assignment_or_procedure_call)) {
 			return true;
 		}

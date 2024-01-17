@@ -9,9 +9,7 @@
 namespace sema {
 	class Qual_Ident {
 	public:
-		explicit Qual_Ident(Context& context) : context { context } { }
-
-		Context& context;
+		explicit Qual_Ident() = default;
 
 		std::shared_ptr<decl::Declaration> declaration { nullptr };
 		std::shared_ptr<decl::Module> module { nullptr };

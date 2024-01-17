@@ -6,9 +6,7 @@
 namespace sema {
 	class Type {
 	public:
-		explicit Type(Context& context) : context { context } { }
-
-		Context& context;
+		Type() = default;
 
 		std::shared_ptr<type::Type> type;
 	};

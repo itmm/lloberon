@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 
 bool Parser::parse_const_expression(sema::Const_Expression& const_expression) {
-	sema::Expression expression { const_expression.context };
+	sema::Expression expression;
 	if (parse_expression(expression)) { return true; }
 	auto const_value {
 		std::dynamic_pointer_cast<expr::Const>(expression.expression)

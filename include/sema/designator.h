@@ -5,9 +5,7 @@
 namespace sema {
 	class Designator {
 	public:
-		explicit Designator(Context& context) : context { context } { }
-
-		Context& context;
+		explicit Designator() = default;
 
 		std::shared_ptr<expr::Expression> expression;
 	};

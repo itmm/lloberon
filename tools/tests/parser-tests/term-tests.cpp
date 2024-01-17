@@ -5,22 +5,22 @@
 using Term_Runner = Parser_Value_Runner<sema::Expression, &Parser::parse_term>;
 
 TEST(Term_Tests, empty) {
-	Context context;
-	sema::Expression term { context };
+	context::clear();
+	sema::Expression term;
 	Term_Runner test1 { "", term, true };
 }
 
 TEST(Term_Tests, single) {
-	Context context;
-	sema::Expression term { context };
+	context::clear();
+	sema::Expression term;
 	Term_Runner test1 { "3", term };
 }
 
 TEST(Term_Tests, simple) {
-	Context context;
-	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	sema::Expression term { context };
+	context::clear();
+	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	sema::Expression term;
 	Term_Runner test1 { "a * b", term };
 	Term_Runner test2 { "a / b", term };
 	Term_Runner test3 { "a DIV b", term };
@@ -29,18 +29,18 @@ TEST(Term_Tests, simple) {
 }
 
 TEST(Term_Tests, multiple) {
-	Context context;
-	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	context.scope->insert("c", std::make_shared<decl::Variable>(nullptr));
-	sema::Expression term { context };
+	context::clear();
+	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("c", std::make_shared<decl::Variable>(nullptr));
+	sema::Expression term;
 	Term_Runner test1 { "a * b * c", term };
 	Term_Runner test2 { "a DIV 2 / b", term };
 }
 
 TEST(Term_Tests, set) {
-	Context context;
-	sema::Expression term { context };
+	context::clear();
+	sema::Expression term;
 	Term_Runner test1 { "{0..3} * {2..5}", term };
 	expect_set_value(term.expression, 0x000cu);
 	Term_Runner test2 { "{0..3} / {2..5}", term };
@@ -48,16 +48,16 @@ TEST(Term_Tests, set) {
 }
 
 TEST(Term_Tests, incomplete) {
-	Context context;
-	context.scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	sema::Expression term { context };
+	context::clear();
+	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	sema::Expression term;
 	Term_Runner test1 { "a / 2 DIV", term, true };
 	Term_Runner test2 { "a /", term, true };
 }
 
 TEST(Term_Tests, constant_int) {
-	Context context;
-	sema::Expression term { context };
+	context::clear();
+	sema::Expression term;
 	Term_Runner test1 { "3 * 5", term };
 	expect_int_value(term.expression, 15);
 
@@ -72,8 +72,8 @@ TEST(Term_Tests, constant_int) {
 }
 
 TEST(Term_Tests, constant_real) {
-	Context context;
-	sema::Expression term { context };
+	context::clear();
+	sema::Expression term;
 	Term_Runner test1 { "3 * 5.0", term };
 	expect_real_value(term.expression, 15.0);
 
@@ -82,8 +82,8 @@ TEST(Term_Tests, constant_real) {
 }
 
 TEST(Term_Tests, constant_bool) {
-	Context context;
-	sema::Expression term { context };
+	context::clear();
+	sema::Expression term;
 	Term_Runner test1 { "FALSE & FALSE", term };
 	expect_bool_value(term.expression, false);
 

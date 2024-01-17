@@ -14,7 +14,7 @@ bool Parser::parse_formal_parameters(
 	if (consume(token::right_parenthesis)) { return true; }
 	if (token::is(token::colon)) {
 		advance();
-		sema::Qual_Ident qual_ident { procedure_type.context };
+		sema::Qual_Ident qual_ident;
 		if (parse_qual_ident(qual_ident)) { return true; }
 		auto return_type { std::dynamic_pointer_cast<decl::Type>(
 			qual_ident.declaration

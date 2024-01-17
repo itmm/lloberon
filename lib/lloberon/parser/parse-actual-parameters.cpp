@@ -5,9 +5,7 @@ bool Parser::parse_actual_parameters(
 ) {
 	if (consume(token::left_parenthesis)) { return true; }
 	if (!token::is(token::right_parenthesis)) {
-		sema::Expression_List expression_list {
-			actual_parameters.context
-		};
+		sema::Expression_List expression_list;
 		if (parse_expression_list(expression_list)) { return true; }
 	}
 	if (consume(token::right_parenthesis)) { return true; }

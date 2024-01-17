@@ -6,9 +6,7 @@
 namespace sema {
 	class Statement_Sequence {
 	public:
-		explicit Statement_Sequence(Context& context) : context { context } { }
-
-		Context& context;
+		Statement_Sequence() = default;
 
 		stmt::Statement_Sequence sequence;
 	};

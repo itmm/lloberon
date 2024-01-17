@@ -8,7 +8,7 @@ bool Parser::parse_formal_type(sema::Type& type) {
 		if (consume(token::keyword_OF)) { return true; }
 		++arrays;
 	}
-	sema::Qual_Ident qual_ident { type.context };
+	sema::Qual_Ident qual_ident;
 	if (parse_qual_ident(qual_ident)) { return true; }
 	auto decl_type {
 		std::dynamic_pointer_cast<decl::Type>(qual_ident.declaration)

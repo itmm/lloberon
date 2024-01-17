@@ -7,20 +7,20 @@ using Qual_Ident_Runner = Parser_Value_Runner<
 >;
 
 TEST(Qual_Ident_Tests, empty) {
-	Context context;
-	sema::Qual_Ident qual_ident { context };
+	context::clear();
+	sema::Qual_Ident qual_ident;
 	Qual_Ident_Runner test1 { "", qual_ident, true };
 }
 
 TEST(Qual_Ident_Tests, simple) {
-	Context context;
-	decl::Type::register_base_types(*context.scope);
-	sema::Qual_Ident qual_ident { context };
+	context::clear();
+	decl::Type::register_base_types(*context::scope);
+	sema::Qual_Ident qual_ident;
 	Qual_Ident_Runner test1 { "BYTE", qual_ident };
 
-	context.scope->clear();
+	context::scope->clear();
 	auto module = std::make_shared<decl::Module>("X");
-	context.scope->insert("X", module);
+	context::scope->insert("X", module);
 	module->insert("Byte", std::make_shared<decl::Type>(
 		type::Type::base_byte
 	));
@@ -28,10 +28,10 @@ TEST(Qual_Ident_Tests, simple) {
 }
 
 TEST(Qual_Ident_Tests, incomplete) {
-	Context context;
-	sema::Qual_Ident qual_ident { context };
+	context::clear();
+	sema::Qual_Ident qual_ident;
 	auto module = std::make_shared<decl::Module>("X");
-	context.scope->insert("X", module);
+	context::scope->insert("X", module);
 	Qual_Ident_Runner test1 { "X.", qual_ident, true };
 	Qual_Ident_Runner test2 { ".", qual_ident, true, true };
 }

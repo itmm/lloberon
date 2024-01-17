@@ -2,7 +2,7 @@
 #include "expr/const.h"
 
 bool Parser::parse_length(sema::Length& length) {
-	sema::Const_Expression expression { length.context };
+	sema::Const_Expression expression;
 	if (parse_const_expression(expression)) { return true; }
 	auto value {
 		std::dynamic_pointer_cast<expr::Const>(expression.expression)

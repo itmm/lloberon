@@ -2,7 +2,7 @@
 
 bool Parser::parse_qual_ident(sema::Qual_Ident& qual_ident) {
 	if (expect(token::identifier)) { return true; }
-	auto decl = qual_ident.context.scope->lookup(token::value);
+	auto decl = context::scope->lookup(token::value);
 	advance();
 
 	if (!decl) {

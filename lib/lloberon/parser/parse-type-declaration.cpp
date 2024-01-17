@@ -1,14 +1,14 @@
 #include "parser/parser.h"
 
-bool Parser::parse_type_declaration(Context& context) {
+bool Parser::parse_type_declaration() {
 	sema::Ident_Def ident_def;
 	if (parse_ident_def(ident_def)) { return true; }
 	if (consume(token::equals)) { return true; }
-	sema::Type type { context };
+	sema::Type type;
 	if (parse_type(type)) { return true; }
 	auto declaration { std::make_shared<decl::Type>(type.type) };
 	declaration->exported = ident_def.exported;
-	if (!context.scope->insert(ident_def.ident, declaration)) {
+	if (!context::scope->insert(ident_def.ident, declaration)) {
 		return report(diag::err_already_defined);
 	}
 	return false;

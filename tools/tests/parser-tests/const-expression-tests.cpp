@@ -7,15 +7,15 @@ using Const_Expression_Runner = Parser_Value_Runner<
 >;
 
 TEST(Const_Expression_Tests, empty) {
-	Context context;
-	sema::Const_Expression expression { context };
+	context::clear();
+	sema::Const_Expression expression;
 	Const_Expression_Runner test1 { "", expression, true };
 	EXPECT_EQ(expression.expression, nullptr);
 }
 
 TEST(Const_Expression_Tests, literals) {
-	Context context;
-	sema::Const_Expression expression { context };
+	context::clear();
+	sema::Const_Expression expression;
 
 	Const_Expression_Runner test1 { "234", expression };
 	expect_int_value(expression.expression, 234);
@@ -34,8 +34,8 @@ TEST(Const_Expression_Tests, literals) {
 }
 
 TEST(Const_Expression_Tests, expressions) {
-	Context context;
-	sema::Const_Expression expression { context };
+	context::clear();
+	sema::Const_Expression expression;
 	Const_Expression_Runner test1 { "3 + 4 * 2", expression };
 	expect_int_value(expression.expression, 11);
 

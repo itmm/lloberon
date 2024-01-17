@@ -2,7 +2,7 @@
 
 bool Parser::parse_type(sema::Type& type) {
 	if (token::is(token::identifier)) {
-		sema::Qual_Ident qual_ident { type.context };
+		sema::Qual_Ident qual_ident;
 		if (parse_qual_ident(qual_ident)) { return true; }
 		auto got = std::dynamic_pointer_cast<decl::Type>(
 			qual_ident.declaration

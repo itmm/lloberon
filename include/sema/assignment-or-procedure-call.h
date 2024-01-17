@@ -6,10 +6,8 @@
 namespace sema {
 	class Assignment_Or_Procedure_Call {
 	public:
-		explicit Assignment_Or_Procedure_Call(Context& context):
-			context { context } { }
+		Assignment_Or_Procedure_Call() = default;
 
-		Context& context;
 		std::shared_ptr<expr::Expression> return_value;
 	};
 }

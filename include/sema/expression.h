@@ -7,9 +7,7 @@
 namespace sema {
 	class Expression {
 	public:
-		explicit Expression(Context& context) : context { context } { }
-
-		Context& context;
+		explicit Expression() = default;
 
 		std::shared_ptr<expr::Expression> expression;
 	};

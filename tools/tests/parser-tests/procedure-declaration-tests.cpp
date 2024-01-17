@@ -2,24 +2,24 @@
 #include "decl/variable.h"
 #include "decl/type.h"
 
-using Procedure_Declaration_Runner = Parser_Value_Runner<
-	Context, &Parser::parse_procedure_declaration
+using Procedure_Declaration_Runner = Parser_String_Runner<
+	&Parser::parse_procedure_declaration
 >;
 
 TEST(Procedure_Declaration_Tests, empty) {
-	Context context;
-	Procedure_Declaration_Runner test1 { "", context, true };
+	context::clear();
+	Procedure_Declaration_Runner test1 { "", true };
 }
 
 TEST(Procedure_Declaration_Tests, simple) {
-	Context context;
-	decl::Type::register_base_types(*context.scope);
-	context.scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	context::clear();
+	decl::Type::register_base_types(*context::scope);
+	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
 	Procedure_Declaration_Runner test1 {
-		"PROCEDURE Add1(x: INTEGER): INTEGER; RETURN x + 1 END Add1", context
+		"PROCEDURE Add1(x: INTEGER): INTEGER; RETURN x + 1 END Add1"
 	};
 	auto declaration { std::dynamic_pointer_cast<decl::Procedure>(
-		context.scope->lookup("Add1")
+		context::scope->lookup("Add1")
 	) };
 	EXPECT_NE(declaration, nullptr);
 	if (declaration) {
@@ -36,25 +36,23 @@ TEST(Procedure_Declaration_Tests, simple) {
 }
 
 TEST(Procedure_Declaration_Tests, with_declaration) {
-	Context context;
-	decl::Type::register_base_types(*context.scope);
-	context.scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	context::clear();
+	decl::Type::register_base_types(*context::scope);
+	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
 	Procedure_Declaration_Runner test1 {
-		"PROCEDURE Solution(): INTEGER; CONST a = 42; RETURN a END Solution", context
+		"PROCEDURE Solution(): INTEGER; CONST a = 42; RETURN a END Solution"
 	};
 }
 
 TEST(Procedure_Declaration_Tests, incomplete) {
 	auto base { std::make_shared<Scope>() };
-	Context context;
-	context.scope = std::make_shared<Scope>(base);
+	context::clear();
+	context::scope = std::make_shared<Scope>(base);
 	decl::Type::register_base_types(*base);
-	Procedure_Declaration_Runner test1 {
-		"PROCEDURE RETURN", context, true, true
-	};
+	Procedure_Declaration_Runner test1 { "PROCEDURE RETURN", true, true };
 
-	context.scope->clear();
+	context::scope->clear();
 	Procedure_Declaration_Runner test2 {
-		"PROCEDURE Answer(): INTEGER; RETURN", context, true
+		"PROCEDURE Answer(): INTEGER; RETURN", true
 	};
 }
