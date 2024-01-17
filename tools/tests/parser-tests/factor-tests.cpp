@@ -60,14 +60,13 @@ TEST(Factor_Tests, ident) {
 	auto base { std::make_shared<Scope>() };
 	decl::Type::register_base_types(*base);
 	context::scope = std::make_shared<Scope>(base);
-	sema::Type type;
+	type::Type_Ptr type;
 	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };
-	context::scope->insert("a", std::make_shared<decl::Variable>(type.type));
+	context::scope->insert("a", std::make_shared<decl::Variable>(type));
 	context::scope->insert("f", std::make_shared<decl::Procedure>());
 	sema::Expression factor;
 	Factor_Runner test1 { "a", factor };
 	Factor_Runner test2 { "f(3, TRUE)", factor };
-	context::scope->insert("a", std::make_shared<decl::Variable>(type.type));
 	Factor_Runner test3 { "a[3](TRUE)", factor };
 }
 

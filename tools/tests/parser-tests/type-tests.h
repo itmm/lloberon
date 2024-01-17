@@ -2,4 +2,4 @@
 
 #include "parser-tests.h"
 
-using Type_Runner = Parser_Value_Runner<sema::Type, &Parser::parse_type>;
+using Type_Runner = Parser_Value_Runner<type::Type_Ptr, &Parser::parse_type>;

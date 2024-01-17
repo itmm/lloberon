@@ -1,6 +1,6 @@
 #include "parser/parser.h"
 
-bool Parser::parse_type(sema::Type& type) {
+bool Parser::parse_type(type::Type_Ptr& type) {
 	if (token::is(token::identifier)) {
 		sema::Qual_Ident qual_ident;
 		if (parse_qual_ident(qual_ident)) { return true; }
@@ -10,7 +10,7 @@ bool Parser::parse_type(sema::Type& type) {
 		if (!got) {
 			return report(diag::err_identifier_must_be_type);
 		}
-		type.type = got->type;
+		type = got->type;
 	} else if (token::is(token::keyword_ARRAY)) {
 		if (parse_array_type(type)) { return true; }
 	} else if (token::is(token::keyword_RECORD)) {

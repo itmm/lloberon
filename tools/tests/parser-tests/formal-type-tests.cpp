@@ -3,41 +3,39 @@
 #include "type/array.h"
 
 using Formal_Type_Runner = Parser_Value_Runner<
-	sema::Type, &Parser::parse_formal_type
+	type::Type_Ptr, &Parser::parse_formal_type
 >;
 
 TEST(Formal_Type_Tests, empty) {
 	context::clear();
-	sema::Type formal_type;
+	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "", formal_type, true };
 }
 
 TEST(Formal_Type_Tests, simple) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Type formal_type;
+	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "INTEGER", formal_type };
-	EXPECT_EQ(formal_type.type, type::Type::base_integer);
+	EXPECT_EQ(formal_type, type::Type::base_integer);
 }
 
 TEST(Formal_Type_Tests, qualified) {
 	context::clear();
 	auto module { std::make_shared<decl::Module>("X") };
-	module->insert("Byte", std::make_shared<decl::Type>(
-		type::Type::base_byte
-	));
+	module->insert("Byte", std::make_shared<decl::Type>(type::Type::base_byte));
 	context::scope->insert("X", module);
-	sema::Type formal_type;
+	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "X.Byte", formal_type };
-	EXPECT_EQ(formal_type.type, type::Type::base_byte);
+	EXPECT_EQ(formal_type, type::Type::base_byte);
 }
 
 TEST(Formal_Type_Tests, array) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Type formal_type;
+	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "ARRAY OF BYTE", formal_type };
-	auto array { std::dynamic_pointer_cast<type::Array>(formal_type.type) };
+	auto array { std::dynamic_pointer_cast<type::Array>(formal_type) };
 	EXPECT_NE(array, nullptr);
 	if (array) {
 		EXPECT_EQ(array->count, -1);
@@ -48,9 +46,9 @@ TEST(Formal_Type_Tests, array) {
 TEST(Formal_Type_Tests, multiple_arrays) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Type formal_type;
+	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "ARRAY OF ARRAY OF BYTE", formal_type };
-	auto outer { std::dynamic_pointer_cast<type::Array>(formal_type.type) };
+	auto outer { std::dynamic_pointer_cast<type::Array>(formal_type) };
 	EXPECT_NE(outer, nullptr);
 	if (outer) {
 		EXPECT_EQ(outer->count, -1);

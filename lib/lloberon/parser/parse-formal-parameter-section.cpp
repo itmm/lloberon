@@ -30,12 +30,12 @@ bool Parser::parse_formal_parameter_section(
 	}
 
 	if (consume(token::colon)) { return true; }
-	sema::Type formal_type;
+	type::Type_Ptr formal_type;
 	if (parse_formal_type(formal_type)) { return true; }
 
 	for (const auto& name : names) {
 		procedure_type.procedure->parameters.emplace_back(
-			name, formal_type.type, reference
+			name, formal_type, reference
 		);
 	}
 

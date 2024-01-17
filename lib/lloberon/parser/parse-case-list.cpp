@@ -13,13 +13,13 @@ bool Parser::parse_case_list(sema::Const_Case_List& case_list) {
 }
 
 bool Parser::parse_case_list(sema::Type_Case_List& case_list) {
-	sema::Type type;
+	type::Type_Ptr type;
 	if (parse_type(type)) { return true;}
-	case_list.entries.push_back(type.type);
+	case_list.entries.push_back(type);
 	while (token::is(token::comma)) {
 		advance();
 		if (parse_type(type)) { return true; }
-		case_list.entries.push_back(type.type);
+		case_list.entries.push_back(type);
 	}
 	return false;
 }

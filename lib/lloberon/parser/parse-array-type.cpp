@@ -3,7 +3,7 @@
 #include "parser/parser.h"
 #include "type/array.h"
 
-bool Parser::parse_array_type(sema::Type& type) {
+bool Parser::parse_array_type(type::Type_Ptr& type) {
 	std::vector<int> counts;
 	if (consume(token::keyword_ARRAY)) { return true; }
 	sema::Length expression;
@@ -15,13 +15,13 @@ bool Parser::parse_array_type(sema::Type& type) {
 		counts.push_back(expression.length);
 	}
 	if (consume(token::keyword_OF)) { return true; }
-	sema::Type base;
+	type::Type_Ptr base;
 	if (parse_type(base)) { return true; }
-	std::shared_ptr<type::Type> current { base.type };
+	type::Type_Ptr current { base };
 	for (auto i { counts.size() }; i; --i) {
 		auto array { std::make_shared<type::Array>(counts[i - 1], current) };
 		current = array;
 	}
-	type.type = current;
+	type = current;
 	return false;
 }

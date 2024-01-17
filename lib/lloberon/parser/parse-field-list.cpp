@@ -4,12 +4,10 @@ bool Parser::parse_field_list(sema::Record_Type& record_type) {
 	sema::Ident_List ident_list;
 	if (parse_ident_list(ident_list)) { return true; }
 	if (consume(token::colon)) { return true; }
-	sema::Type type;
+	type::Type_Ptr type;
 	if (parse_type(type)) { return true; }
 	for (const auto& id : ident_list) {
-		record_type.record->entries.emplace_back(
-			id.ident, type.type, id.exported
-		);
+		record_type.record->entries.emplace_back(id.ident, type, id.exported);
 	}
 	return false;
 }

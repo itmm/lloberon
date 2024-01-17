@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 #include "type/array.h"
 
-bool Parser::parse_formal_type(sema::Type& type) {
+bool Parser::parse_formal_type(type::Type_Ptr& type) {
 	int arrays { 0 };
 	while (token::is(token::keyword_ARRAY)) {
 		advance();
@@ -20,6 +20,6 @@ bool Parser::parse_formal_type(sema::Type& type) {
 	for (; arrays; --arrays) {
 		current = std::make_shared<type::Array>(-1, current);
 	}
-	type.type = current;
+	type = current;
 	return false;
 }

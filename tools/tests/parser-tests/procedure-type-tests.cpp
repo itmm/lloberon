@@ -2,22 +2,22 @@
 #include "decl/type.h"
 
 using Procedure_Type_Runner = Parser_Value_Runner<
-	sema::Type, &Parser::parse_procedure_type
+	type::Type_Ptr, &Parser::parse_procedure_type
 >;
 
 TEST(Procedure_Type_Tests, empty) {
 	context::clear();
-	sema::Type type;
+	type::Type_Ptr type;
 	Procedure_Type_Runner test1 { "", type, true };
 }
 
 TEST(Procedure_Type_Tests, simple) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Type type;
+	type::Type_Ptr type;
 	Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): BYTE", type };
 	auto procedure_type {
-		std::dynamic_pointer_cast<type::Procedure>(type.type)
+		std::dynamic_pointer_cast<type::Procedure>(type)
 	};
 	EXPECT_NE(procedure_type, nullptr);
 	if (procedure_type) {

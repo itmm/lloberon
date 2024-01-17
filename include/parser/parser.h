@@ -17,7 +17,6 @@
 #include "sema/scope.h"
 #include "sema/statement.h"
 #include "sema/statement-sequence.h"
-#include "sema/type.h"
 #include "sema/qual-ident.h"
 
 class Parser {
@@ -56,7 +55,7 @@ public:
 
 	[[nodiscard]] bool parse_actual_parameters();
 
-	[[nodiscard]] bool parse_array_type(sema::Type& type);
+	[[nodiscard]] bool parse_array_type(type::Type_Ptr& type);
 
 	[[nodiscard]] bool parse_assignment_or_procedure_call(
 		expr::Expression_Ptr& expression
@@ -108,7 +107,7 @@ public:
 		sema::Procedure_Type& procedure_type
 	);
 
-	[[nodiscard]] bool parse_formal_type(sema::Type& type);
+	[[nodiscard]] bool parse_formal_type(type::Type_Ptr& type);
 
 	[[nodiscard]] bool parse_ident_def(sema::Ident_Def& ident_def);
 
@@ -128,7 +127,7 @@ public:
 
 	[[nodiscard]] bool parse_module();
 
-	[[nodiscard]] bool parse_pointer_type(sema::Type& type);
+	[[nodiscard]] bool parse_pointer_type(type::Type_Ptr& type);
 
 	[[nodiscard]] bool parse_procedure_body(
 		sema::Procedure_Declaration& procedure_declaration
@@ -140,11 +139,11 @@ public:
 		sema::Procedure_Declaration& procedure_declaration
 	);
 
-	[[nodiscard]] bool parse_procedure_type(sema::Type& type);
+	[[nodiscard]] bool parse_procedure_type(type::Type_Ptr& type);
 
 	[[nodiscard]] bool parse_qual_ident(sema::Qual_Ident& qual_ident);
 
-	[[nodiscard]] bool parse_record_type(sema::Type& record_type);
+	[[nodiscard]] bool parse_record_type(type::Type_Ptr& record_type);
 
 	[[nodiscard]] bool parse_repeat_statement(sema::Statement& statement);
 
@@ -160,7 +159,7 @@ public:
 
 	[[nodiscard]] bool parse_term(sema::Expression& term);
 
-	[[nodiscard]] bool parse_type(sema::Type& type);
+	[[nodiscard]] bool parse_type(type::Type_Ptr& type);
 
 	[[nodiscard]] bool parse_type_declaration();
 
