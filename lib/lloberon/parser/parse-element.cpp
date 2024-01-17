@@ -1,6 +1,6 @@
 #include "parser/parser.h"
 
-bool Parser::parse_element(sema::Const_Expression& expression) {
+bool Parser::parse_element(expr::Const_Ptr& expression) {
 	sema::Expression element;
 	if (parse_expression(element)) { return true; }
 	auto const_element { expr::Const::as_const(element.expression)};
@@ -18,10 +18,10 @@ bool Parser::parse_element(sema::Const_Expression& expression) {
 		}
 		end = const_element->int_value();
 	}
-	unsigned set { expression.expression->set_value() };
+	unsigned set { expression->set_value() };
 	for (int i { begin }; i <= end; ++i) {
 		set |= (1 << i);
 	}
-	expression.expression = expr::Const::create(set);
+	expression = expr::Const::create(set);
 	return false;
 }

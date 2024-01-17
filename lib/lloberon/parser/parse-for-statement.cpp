@@ -19,9 +19,9 @@ bool Parser::parse_for_statement(sema::Statement& statement) {
 	for_statement->end = expression.expression;
 	if (token::is(token::keyword_BY)) {
 		advance();
-		sema::Const_Expression const_expression;
+		expr::Const_Ptr const_expression;
 		if (parse_const_expression(const_expression)) { return true; }
-		for_statement->increment = const_expression.expression;
+		for_statement->increment = const_expression;
 	} else {
 		for_statement->increment = expr::Const::create(1);
 	}

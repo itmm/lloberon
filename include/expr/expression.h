@@ -14,4 +14,6 @@ namespace expr {
 
 		static std::shared_ptr<expr::Expression> nil;
 	};
+
+	using Expression_Ptr = std::shared_ptr<Expression>;
 }

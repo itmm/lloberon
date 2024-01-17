@@ -2,10 +2,8 @@
 
 bool Parser::parse_statement(sema::Statement& statement) {
 	if (token::is(token::identifier)) {
-		sema::Assignment_Or_Procedure_Call assignment_or_procedure_call;
-		if (parse_assignment_or_procedure_call(assignment_or_procedure_call)) {
-			return true;
-		}
+		expr::Expression_Ptr expression;
+		if (parse_assignment_or_procedure_call(expression)) { return true; }
 	} else if (token::is(token::keyword_IF)) {
 		if (parse_if_statement(statement)) { return true; }
 	} else if (token::is(token::keyword_CASE)) {

@@ -7,6 +7,10 @@
 #include <string>
 
 namespace expr {
+	class Const;
+
+	using Const_Ptr = std::shared_ptr<Const>;
+
 	class Const : public Expression {
 	public:
 		explicit Const(bool value):
@@ -63,24 +67,22 @@ namespace expr {
 			return std::get<unsigned>(values_);
 		}
 
-		static std::shared_ptr<Const> as_const(
-			const std::shared_ptr<Expression>& expression
-		) {
+		static Const_Ptr as_const(const Expression_Ptr & expression) {
 			return std::dynamic_pointer_cast<Const>(expression);
 		}
 
-		static std::shared_ptr<Const> true_value;
-		static std::shared_ptr<Const> false_value;
+		static Const_Ptr true_value;
+		static Const_Ptr false_value;
 
-		static std::shared_ptr<Const> create(bool value) {
+		static Const_Ptr create(bool value) {
 			return value ? true_value : false_value;
 		}
 
-		template<typename TYPE>
-		static std::shared_ptr<Const> create(TYPE value) {
+		template<typename TYPE> static Const_Ptr create(TYPE value) {
 			return std::make_shared<Const>(value);
 		}
 	private:
 		std::variant<bool, int, double, std::string, unsigned > values_;
 	};
+
 }

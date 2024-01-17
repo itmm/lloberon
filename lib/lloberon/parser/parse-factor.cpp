@@ -61,17 +61,16 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			advance();
 			break;
 		case token::left_brace: {
-			sema::Const_Expression const_expression;
+			expr::Const_Ptr const_expression;
 			if (parse_set(const_expression)) { return true; }
-			factor.expression = const_expression.expression;
+			factor.expression = const_expression;
 			break;
 		}
 		case token::identifier: {
 			sema::Designator designator;
 			if (parse_designator(designator)) { return true; }
 			if (token::is(token::left_parenthesis)) {
-				sema::Actual_Parameters actual_parameters;
-				if (parse_actual_parameters(actual_parameters)) { return true; }
+				if (parse_actual_parameters()) { return true; }
 			}
 			factor.expression = std::make_shared<expr::Expression>(nullptr);
 			break;

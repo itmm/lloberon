@@ -2,13 +2,10 @@
 
 #include "lexer/lexer.h"
 #include "llvm/Support/raw_ostream.h"
-#include "sema/actual-parameters.h"
-#include "sema/assignment-or-procedure-call.h"
 #include "sema/case.h"
 #include "sema/case-list.h"
 #include "sema/context.h"
 #include "sema/designator.h"
-#include "sema/const-expression.h"
 #include "sema/expression.h"
 #include "sema/expression-list.h"
 #include "sema/ident-def.h"
@@ -57,14 +54,12 @@ public:
 
 	[[nodiscard]] bool parse();
 
-	[[nodiscard]] bool parse_actual_parameters(
-		sema::Actual_Parameters& actual_parameters
-	);
+	[[nodiscard]] bool parse_actual_parameters();
 
 	[[nodiscard]] bool parse_array_type(sema::Type& type);
 
 	[[nodiscard]] bool parse_assignment_or_procedure_call(
-		sema::Assignment_Or_Procedure_Call& assignment_or_procedure_call
+		expr::Expression_Ptr& expression
 	);
 
 	[[nodiscard]] bool parse_base_type(sema::Record_Type& base_type);
@@ -81,15 +76,13 @@ public:
 
 	[[nodiscard]] bool parse_const_declaration();
 
-	[[nodiscard]] bool parse_const_expression(
-		sema::Const_Expression& expression
-	);
+	[[nodiscard]] bool parse_const_expression(expr::Const_Ptr& expression);
 
 	[[nodiscard]] bool parse_declaration_sequence();
 
 	[[nodiscard]] bool parse_designator(sema::Designator& designator);
 
-	[[nodiscard]] bool parse_element(sema::Const_Expression& expression);
+	[[nodiscard]] bool parse_element(expr::Const_Ptr& expression);
 
 	[[nodiscard]] bool parse_expression(sema::Expression& expression);
 
@@ -155,7 +148,7 @@ public:
 
 	[[nodiscard]] bool parse_repeat_statement(sema::Statement& statement);
 
-	[[nodiscard]] bool parse_set(sema::Const_Expression& expression);
+	[[nodiscard]] bool parse_set(expr::Const_Ptr& expression);
 
 	[[nodiscard]] bool parse_simple_expression(sema::Expression& expression);
 

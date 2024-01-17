@@ -1,8 +1,6 @@
 #include "parser/parser.h"
 
-bool Parser::parse_actual_parameters(
-	sema::Actual_Parameters& actual_parameters
-) {
+bool Parser::parse_actual_parameters() {
 	if (consume(token::left_parenthesis)) { return true; }
 	if (!token::is(token::right_parenthesis)) {
 		sema::Expression_List expression_list;

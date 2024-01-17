@@ -1,18 +1,17 @@
 #include "parser/parser.h"
 
 bool Parser::parse_assignment_or_procedure_call(
-	sema::Assignment_Or_Procedure_Call& assignment_or_procedure_call
+	expr::Expression_Ptr& expression
 ) {
 	sema::Designator designator;
 	if (parse_designator(designator)) { return true; }
 	if (token::is(token::assign)) {
 		advance();
-		sema::Expression expression;
-		if (parse_expression(expression)) { return true; }
+		sema::Expression rhs;
+		if (parse_expression(rhs)) { return true; }
 	} else {
 		if (token::is(token::left_parenthesis)) {
-			sema::Actual_Parameters actual_parameters { };
-			if (parse_actual_parameters(actual_parameters)) { return true; }
+			if (parse_actual_parameters()) { return true; }
 		}
 	}
 	return false;
