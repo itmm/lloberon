@@ -13,7 +13,7 @@ bool Parser::parse_procedure_body(
 	}
 	if (token::is(token::keyword_RETURN)) {
 		advance();
-		sema::Expression expression;
+		expr::Expression_Ptr expression;
 		if (parse_expression(expression)) { return true; }
 	}
 	if (consume(token::keyword_END)) { return true; }

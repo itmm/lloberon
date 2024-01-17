@@ -1,6 +1,5 @@
 #include "expr/const.h"
 #include "parser/parser.h"
-#include "sema/expression.h"
 #include "expr/unary.h"
 
 static int parse_int(const std::string& source, int base) {
@@ -16,26 +15,26 @@ static int parse_int(const std::string& source, int base) {
 	return value;
 }
 
-bool Parser::parse_factor(sema::Expression& factor) {
+bool Parser::parse_factor(expr::Expression_Ptr& factor) {
 	switch (token::kind) {
 		case token::integer_literal: {
 			std::string source { token::value };
 			int base { source[source.length() - 1] == 'H' ? 16 : 10 };
 			int value { parse_int(source, base) };
 			advance();
-			factor.expression = expr::Const::create(value);
+			factor = expr::Const::create(value);
 			break;
 		}
 		case token::float_literal: {
 			double value = std::stod(token::value);
 			advance();
-			factor.expression = expr::Const::create(value);
+			factor = expr::Const::create(value);
 			break;
 		}
 		case token::string_literal: {
 			std::string value { token::value };
 			value = value.substr(1, value.size() - 2);
-			factor.expression = expr::Const::create(value);
+			factor = expr::Const::create(value);
 			advance();
 			break;
 		}
@@ -44,30 +43,30 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			std::string source { token::value };
 			int ch_value { parse_int(source, 16) };
 			value[0] = static_cast<char>(ch_value);
-			factor.expression = expr::Const::create(value);
+			factor = expr::Const::create(value);
 			advance();
 			break;
 		}
 		case token::keyword_NIL:
-			factor.expression = expr::Expression::nil;
+			factor = expr::Expression::nil;
 			advance();
 			break;
 		case token::keyword_TRUE:
-			factor.expression = expr::Const::create(true);
+			factor = expr::Const::create(true);
 			advance();
 			break;
 		case token::keyword_FALSE:
-			factor.expression = expr::Const::create(false);
+			factor = expr::Const::create(false);
 			advance();
 			break;
 		case token::left_brace: {
 			expr::Const_Ptr const_expression;
 			if (parse_set(const_expression)) { return true; }
-			factor.expression = const_expression;
+			factor = const_expression;
 			break;
 		}
 		case token::identifier: {
-			if (parse_designator(factor.expression)) { return true; }
+			if (parse_designator(factor)) { return true; }
 			if (token::is(token::left_parenthesis)) {
 				if (parse_actual_parameters()) { return true; }
 			}
@@ -81,19 +80,15 @@ bool Parser::parse_factor(sema::Expression& factor) {
 		case token::notop: {
 			advance();
 			if (parse_expression(factor)) { return true; }
-			auto value { expr::Const::as_const(factor.expression) };
+			auto value { expr::Const::as_const(factor) };
 			if (value) {
 				if (value->is_bool()) {
-					factor.expression = expr::Const::create(
-						!value->bool_value()
-					);
+					factor = expr::Const::create(!value->bool_value());
 				} else {
 					return report(diag::err_wrong_operator_for_const);
 				}
 			} else {
-				factor.expression = expr::Unary::create(
-					token::notop, factor.expression
-				);
+				factor = expr::Unary::create(token::notop, factor);
 			}
 			break;
 		}

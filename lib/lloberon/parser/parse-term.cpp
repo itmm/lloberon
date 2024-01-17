@@ -6,9 +6,9 @@ bool Parser::check_0_int(const expr::Const& value) {
 	return false;
 }
 
-bool Parser::parse_term(sema::Expression& term) {
+bool Parser::parse_term(expr::Expression_Ptr& term) {
 	if (parse_factor(term)) { return true; }
-	auto value { term.expression };
+	auto value { term };
 	auto const_value { expr::Const::as_const(value) };
 
 	while (token::is_one_of(
@@ -18,7 +18,7 @@ bool Parser::parse_term(sema::Expression& term) {
 		auto op { token::kind };
 		advance();
 		if (parse_factor(term)) { return true; }
-		auto right_value { term.expression };
+		auto right_value { term };
 		auto right_const_value { expr::Const::as_const(right_value) };
 		if (const_value && right_const_value) {
 			if (const_value->is_int() && right_const_value->is_int()) {
@@ -89,6 +89,6 @@ bool Parser::parse_term(sema::Expression& term) {
 			const_value = nullptr;
 		}
 	}
-	term.expression = value;
+	term = value;
 	return false;
 }

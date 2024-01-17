@@ -1,9 +1,9 @@
 #include "parser/parser.h"
 
 bool Parser::parse_element(expr::Const_Ptr& expression) {
-	sema::Expression element;
+	expr::Expression_Ptr element;
 	if (parse_expression(element)) { return true; }
-	auto const_element { expr::Const::as_const(element.expression)};
+	auto const_element { expr::Const::as_const(element)};
 	if (!const_element || !const_element->is_int()) {
 		return report(diag::err_int_expected);
 	}
@@ -12,7 +12,7 @@ bool Parser::parse_element(expr::Const_Ptr& expression) {
 	if (token::is(token::range)) {
 		advance();
 		if (parse_expression(element)) { return true; }
-		const_element = expr::Const::as_const(element.expression);
+		const_element = expr::Const::as_const(element);
 		if (!const_element || !const_element->is_int()) {
 			return report(diag::err_int_expected);
 		}

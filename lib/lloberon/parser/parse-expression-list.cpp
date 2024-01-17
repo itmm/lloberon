@@ -1,13 +1,13 @@
 #include "parser/parser.h"
 
 bool Parser::parse_expression_list(sema::Expression_List& expression_list) {
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	if (parse_expression(expression)) { return true; }
-	expression_list.list.push_back(expression.expression);
+	expression_list.list.push_back(expression);
 	while (token::is(token::comma)) {
 		advance();
 		if (parse_expression(expression)) { return true; }
-		expression_list.list.push_back(expression.expression);
+		expression_list.list.push_back(expression);
 	}
 	return false;
 }

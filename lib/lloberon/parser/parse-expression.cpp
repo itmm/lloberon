@@ -1,10 +1,10 @@
 #include "parser/parser.h"
 #include "expr/binary.h"
 
-bool Parser::parse_expression(sema::Expression& expression) {
-	expression.expression = nullptr;
+bool Parser::parse_expression(expr::Expression_Ptr& expression) {
+	expression = nullptr;
 	if (parse_simple_expression(expression)) { return true; }
-	auto value { expression.expression };
+	auto value { expression };
 	auto const_value { expr::Const::as_const(value) };
 	while (token::is_one_of(
 		token::equals, token::not_equals, token::less, token::less_or_equal,
@@ -24,7 +24,7 @@ bool Parser::parse_expression(sema::Expression& expression) {
 			continue;
 		}
 		if (parse_simple_expression(expression)) { return true; }
-		auto right_value { expression.expression };
+		auto right_value { expression };
 		auto right_const_value { expr::Const::as_const(right_value) };
 
 		if (const_value && right_const_value) {
@@ -104,6 +104,6 @@ bool Parser::parse_expression(sema::Expression& expression) {
 			const_value = nullptr;
 		}
 	}
-	expression.expression = value;
+	expression = value;
 	return false;
 }

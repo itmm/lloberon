@@ -3,27 +3,27 @@
 #include "parser-tests.h"
 
 using Simple_Expression_Runner = Parser_Value_Runner<
-	sema::Expression, &Parser::parse_simple_expression
+	expr::Expression_Ptr, &Parser::parse_simple_expression
 >;
 
 TEST(Simple_Expression_Tests, empty) {
 	context::clear();
-	sema::Expression simple_expression;
+	expr::Expression_Ptr simple_expression;
 	Simple_Expression_Runner test1 { "", simple_expression, true };
 }
 
 void expect_int(const char* source, int expected) {
 	context::clear();
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Simple_Expression_Runner runner { source, expression };
-	expect_int_value(expression.expression, expected);
+	expect_int_value(expression, expected);
 }
 
 void expect_real(const char* source, double expected) {
 	context::clear();
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Simple_Expression_Runner runner { source, expression };
-	expect_real_value(expression.expression, expected);
+	expect_real_value(expression, expected);
 }
 
 TEST(Simple_Expression_Tests, single) {
@@ -45,15 +45,15 @@ TEST(Simple_Expression_Tests, simple) {
 	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	sema::Expression simple_expression;
+	expr::Expression_Ptr simple_expression;
 	Simple_Expression_Runner test3 { "a OR b", simple_expression };
 }
 
 void expect_bool(const char* source, bool expected) {
 	context::clear();
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Simple_Expression_Runner runner { source, expression };
-	expect_bool_value(expression.expression, expected);
+	expect_bool_value(expression, expected);
 }
 
 void expect_true(const char* source) { expect_bool(source, true); }
@@ -77,23 +77,23 @@ TEST(Simple_Expression_Tests, unaries) {
 	expect_int("-3 + 4", 1);
 
 	context::clear();
-	sema::Expression simple_expression;
+	expr::Expression_Ptr simple_expression;
 	Simple_Expression_Runner test3 { "+-3", simple_expression, true, true };
 }
 
 TEST(Simple_Expression_Tests, set) {
 	context::clear();
-	sema::Expression simple_expression;
+	expr::Expression_Ptr simple_expression;
 	Simple_Expression_Runner test1 { "{0..3} + {2..5}", simple_expression };
-	expect_set_value(simple_expression.expression, 0x003fu);
+	expect_set_value(simple_expression, 0x003fu);
 
 	Simple_Expression_Runner test2 { "{0..3} - {2..5}", simple_expression };
-	expect_set_value(simple_expression.expression, 0x0003u);
+	expect_set_value(simple_expression, 0x0003u);
 }
 
 TEST(Simple_Expression_Tests, incomplete) {
 	context::clear();
-	sema::Expression simple_expression;
+	expr::Expression_Ptr simple_expression;
 	Simple_Expression_Runner test1 { "3 +", simple_expression, true };
 	Simple_Expression_Runner test2 { "+", simple_expression, true };
 }

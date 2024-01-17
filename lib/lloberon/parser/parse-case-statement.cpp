@@ -5,16 +5,16 @@
 
 bool Parser::parse_case_statement(sema::Statement& statement) {
 	if (consume(token::keyword_CASE)) { return true; }
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	if (parse_expression(expression)) { return true; }
 
-	const auto& type { expression.expression->type };
+	const auto& type { expression->type };
 	if (
 		std::dynamic_pointer_cast<type::Pointer>(type) ||
 		    std::dynamic_pointer_cast<type::Record>(type)>(type)
 	) {
 		auto case_statement { std::make_shared<stmt::Type_Case>() };
-		case_statement->condition = expression.expression;
+		case_statement->condition = expression;
 
 		if (consume(token::keyword_OF)) { return true; }
 		sema::Type_Case type_case;
@@ -28,7 +28,7 @@ bool Parser::parse_case_statement(sema::Statement& statement) {
 		statement.statement = case_statement;
 	} else {
 		auto case_statement { std::make_shared<stmt::Const_Case>() };
-		case_statement->condition = expression.expression;
+		case_statement->condition = expression;
 
 		if (consume(token::keyword_OF)) { return true; }
 		sema::Const_Case const_case;

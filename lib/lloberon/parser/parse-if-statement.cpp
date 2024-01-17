@@ -4,23 +4,23 @@
 bool Parser::parse_if_statement(sema::Statement& statement) {
 	auto if_statement { std::make_shared<stmt::If>() };
 	if (consume(token::keyword_IF)) { return true; }
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	if (parse_expression(expression)) { return true; }
 	if (consume(token::keyword_THEN)) { return true; }
 	sema::Statement_Sequence statement_sequence;
 	if (parse_statement_sequence(statement_sequence)) { return true; }
 	if_statement->entries.emplace_back(
-		expression.expression, std::move(statement_sequence.sequence)
+		expression, std::move(statement_sequence.sequence)
 	);
 	while (token::is(token::keyword_ELSIF)) {
 		advance();
-		sema::Expression sub_expression;
+		expr::Expression_Ptr sub_expression;
 		if (parse_expression(sub_expression)) { return true; }
 		if (consume(token::keyword_THEN)) { return true; }
 		sema::Statement_Sequence sub_sequence;
 		if (parse_statement_sequence(sub_sequence)) { return true; }
 		if_statement->entries.emplace_back(
-			sub_expression.expression, std::move(sub_sequence.sequence)
+			sub_expression, std::move(sub_sequence.sequence)
 		);
 	}
 	if (token::is(token::keyword_ELSE)) {

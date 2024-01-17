@@ -4,12 +4,12 @@
 #include "const-tests.h"
 
 using Expression_Runner = Parser_Value_Runner<
-	sema::Expression, &Parser::parse_expression
+	expr::Expression_Ptr, &Parser::parse_expression
 >;
 
 TEST(Expression_Tests, empty) {
 	context::clear();
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Expression_Runner test1 { "", expression, true };
 }
 
@@ -18,7 +18,7 @@ TEST(Expression_Tests, single) {
 	decl::Type::register_base_types(*context::scope);
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Expression_Runner test1 { "3 = 4", expression };
 	Expression_Runner test2 { "3 # 4", expression };
 	Expression_Runner test3 { "3 < 4", expression };
@@ -28,39 +28,39 @@ TEST(Expression_Tests, single) {
 	Expression_Runner test7 { "3 IN a", expression };
 	Expression_Runner test8 { "a IS INTEGER", expression };
 	Expression_Runner test9 { "NIL", expression };
-	EXPECT_EQ(expression.expression, expr::Expression::nil);
+	EXPECT_EQ(expression, expr::Expression::nil);
 }
 
 TEST(Expression_Tests, multiple) {
 	context::clear();
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Expression_Runner test1 { "3 < 4 = TRUE", expression };
 }
 
 TEST(Expression_Tests, set) {
 	context::clear();
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Expression_Runner test1 { "{1..2} = {2,1}", expression };
-	expect_bool_value(expression.expression, true);
+	expect_bool_value(expression, true);
 
 	Expression_Runner test2 { "{1..2} = {2}", expression };
-	expect_bool_value(expression.expression, false);
+	expect_bool_value(expression, false);
 
 	Expression_Runner test3 { "{1..2} # {2,1}", expression };
-	expect_bool_value(expression.expression, false);
+	expect_bool_value(expression, false);
 
 	Expression_Runner test4 { "{1..2} # {2}", expression };
-	expect_bool_value(expression.expression, true);
+	expect_bool_value(expression, true);
 
 	Expression_Runner test5 { "2 IN {0..3}", expression };
-	expect_bool_value(expression.expression, true);
+	expect_bool_value(expression, true);
 
 	Expression_Runner test6 { "4 IN {0..3}", expression };
-	expect_bool_value(expression.expression, false);
+	expect_bool_value(expression, false);
 }
 
 TEST(Expression_Tests, invalid) {
 	context::clear();
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	Expression_Runner test1 { "}", expression, true, true };
 }

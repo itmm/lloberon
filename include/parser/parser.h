@@ -5,7 +5,6 @@
 #include "sema/case.h"
 #include "sema/case-list.h"
 #include "sema/context.h"
-#include "sema/expression.h"
 #include "sema/expression-list.h"
 #include "sema/ident-def.h"
 #include "sema/label.h"
@@ -82,13 +81,13 @@ public:
 
 	[[nodiscard]] bool parse_element(expr::Const_Ptr& expression);
 
-	[[nodiscard]] bool parse_expression(sema::Expression& expression);
+	[[nodiscard]] bool parse_expression(expr::Expression_Ptr& expression);
 
 	[[nodiscard]] bool parse_expression_list(
 		sema::Expression_List& expression_list
 	);
 
-	[[nodiscard]] bool parse_factor(sema::Expression& factor);
+	[[nodiscard]] bool parse_factor(expr::Expression_Ptr& factor);
 
 	[[nodiscard]] bool parse_field_list(sema::Record_Type& record_type);
 
@@ -148,7 +147,9 @@ public:
 
 	[[nodiscard]] bool parse_set(expr::Const_Ptr& expression);
 
-	[[nodiscard]] bool parse_simple_expression(sema::Expression& expression);
+	[[nodiscard]] bool parse_simple_expression(
+		expr::Expression_Ptr& expression
+	);
 
 	[[nodiscard]] bool parse_statement(sema::Statement& statement);
 
@@ -156,7 +157,7 @@ public:
 		sema::Statement_Sequence& statement_sequence
 	);
 
-	[[nodiscard]] bool parse_term(sema::Expression& term);
+	[[nodiscard]] bool parse_term(expr::Expression_Ptr& term);
 
 	[[nodiscard]] bool parse_type(type::Type_Ptr& type);
 

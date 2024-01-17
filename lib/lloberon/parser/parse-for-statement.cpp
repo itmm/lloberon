@@ -11,12 +11,12 @@ bool Parser::parse_for_statement(sema::Statement& statement) {
 	);
 	advance();
 	if (consume(token::assign)) { return true; }
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	if (parse_expression(expression)) { return true; }
-	for_statement->begin = expression.expression;
+	for_statement->begin = expression;
 	if (consume(token::keyword_TO)) { return true; }
 	if (parse_expression(expression)) { return true; }
-	for_statement->end = expression.expression;
+	for_statement->end = expression;
 	if (token::is(token::keyword_BY)) {
 		advance();
 		expr::Const_Ptr const_expression;

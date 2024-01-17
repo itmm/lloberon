@@ -3,7 +3,7 @@
 #include "expr/unary.h"
 #include "expr/binary.h"
 
-bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
+bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 	bool is_negative { false };
 	if (token::is_one_of(token::plus, token::minus)) {
 		is_negative = token::is(token::minus);
@@ -12,7 +12,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 	Scope scope;
 	if (parse_term(simple_expression)) { return true; }
 
-	auto value { simple_expression.expression };
+	auto value { simple_expression };
 	auto const_value { expr::Const::as_const(value) };
 
 	if (is_negative) {
@@ -37,7 +37,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 		advance();
 		if (parse_term(simple_expression)) { return true; }
 
-		auto right_value { simple_expression.expression };
+		auto right_value { simple_expression };
 		auto right_const_value { expr::Const::as_const(right_value) };
 
 		if (const_value && right_const_value) {
@@ -96,7 +96,7 @@ bool Parser::parse_simple_expression(sema::Expression& simple_expression) {
 		}
 	}
 
-	simple_expression.expression = value;
+	simple_expression = value;
 
 	return false;
 }

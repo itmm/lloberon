@@ -7,7 +7,7 @@ bool Parser::parse_assignment_or_procedure_call(
 	if (parse_designator(designator)) { return true; }
 	if (token::is(token::assign)) {
 		advance();
-		sema::Expression rhs;
+		expr::Expression_Ptr rhs;
 		if (parse_expression(rhs)) { return true; }
 	} else {
 		if (token::is(token::left_parenthesis)) {

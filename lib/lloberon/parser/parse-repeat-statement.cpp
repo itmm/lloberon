@@ -8,9 +8,9 @@ bool Parser::parse_repeat_statement(sema::Statement& statement) {
 	if (parse_statement_sequence(statement_sequence)) { return true; }
 	repeat_statement->statements = std::move(statement_sequence.sequence);
 	if (consume(token::keyword_UNTIL)) { return true; }
-	sema::Expression expression;
+	expr::Expression_Ptr expression;
 	if (parse_expression(expression)) { return true; }
-	repeat_statement->condition = expression.expression;
+	repeat_statement->condition = expression;
 	statement.statement = repeat_statement;
 	return false;
 }
