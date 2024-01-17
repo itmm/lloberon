@@ -3,7 +3,7 @@
 bool Parser::parse_assignment_or_procedure_call(
 	expr::Expression_Ptr& expression
 ) {
-	sema::Designator designator;
+	expr::Expression_Ptr designator;
 	if (parse_designator(designator)) { return true; }
 	if (token::is(token::assign)) {
 		advance();

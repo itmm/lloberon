@@ -5,7 +5,6 @@
 #include "sema/case.h"
 #include "sema/case-list.h"
 #include "sema/context.h"
-#include "sema/designator.h"
 #include "sema/expression.h"
 #include "sema/expression-list.h"
 #include "sema/ident-def.h"
@@ -79,7 +78,7 @@ public:
 
 	[[nodiscard]] bool parse_declaration_sequence();
 
-	[[nodiscard]] bool parse_designator(sema::Designator& designator);
+	[[nodiscard]] bool parse_designator(expr::Expression_Ptr& designator);
 
 	[[nodiscard]] bool parse_element(expr::Const_Ptr& expression);
 

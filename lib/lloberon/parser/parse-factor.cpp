@@ -67,12 +67,10 @@ bool Parser::parse_factor(sema::Expression& factor) {
 			break;
 		}
 		case token::identifier: {
-			sema::Designator designator;
-			if (parse_designator(designator)) { return true; }
+			if (parse_designator(factor.expression)) { return true; }
 			if (token::is(token::left_parenthesis)) {
 				if (parse_actual_parameters()) { return true; }
 			}
-			factor.expression = std::make_shared<expr::Expression>(nullptr);
 			break;
 		}
 		case token::left_parenthesis:

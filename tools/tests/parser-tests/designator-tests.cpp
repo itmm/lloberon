@@ -4,12 +4,12 @@
 #include "type-tests.h"
 
 using Designator_Runner = Parser_Value_Runner<
-	sema::Designator, &Parser::parse_designator
+	expr::Expression_Ptr, &Parser::parse_designator
 >;
 
 TEST(Designator_Tests, empty) {
 	context::clear();
-	sema::Designator designator;
+	expr::Expression_Ptr designator;
 	Designator_Runner test1 { "", designator, true };
 }
 
@@ -18,7 +18,7 @@ TEST(Designator_Tests, simple) {
 	decl::Type::register_base_types(*base);
 	context::clear();
 	context::scope = std::make_shared<Scope>(base);
-	sema::Designator designator;
+	expr::Expression_Ptr designator;
 	type::Type_Ptr type;
 	Type_Runner create_type(
 		"RECORD "
@@ -34,32 +34,29 @@ TEST(Designator_Tests, simple) {
 	context::scope->insert("a", std::make_shared<decl::Variable>(type));
 	Designator_Runner test1 { "a", designator };
 	EXPECT_NE(
-		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
-		nullptr
+		std::dynamic_pointer_cast<type::Record>(designator->type), nullptr
 	);
 
 	Designator_Runner test2 { "a.b", designator };
 	EXPECT_NE(
-		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
-		nullptr
+		std::dynamic_pointer_cast<type::Record>(designator->type), nullptr
 	);
 
 	Designator_Runner test3 { "a.b.c", designator };
-	EXPECT_EQ(designator.expression->type, type::Type::base_integer);
+	EXPECT_EQ(designator->type, type::Type::base_integer);
 
 	Designator_Runner test4 { "a.d[2, 3]", designator };
-	EXPECT_EQ(designator.expression->type, type::Type::base_byte);
+	EXPECT_EQ(designator->type, type::Type::base_byte);
 
 	Designator_Runner test5 { "a.e^", designator };
 	EXPECT_NE(
-		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
-		nullptr
+		std::dynamic_pointer_cast<type::Record>(designator->type), nullptr
 	);
 }
 
 TEST(Designator_Tests, combined) {
 	context::clear();
-	sema::Designator designator;
+	expr::Expression_Ptr designator;
 	type::Type_Ptr type;
 	Type_Runner create_type(
 		"RECORD "
@@ -72,14 +69,14 @@ TEST(Designator_Tests, combined) {
 	context::scope->insert("a", std::make_shared<decl::Variable>(type));
 	Designator_Runner test1 { "a.b[3].c^", designator };
 	EXPECT_NE(
-		std::dynamic_pointer_cast<type::Record>(designator.expression->type),
+		std::dynamic_pointer_cast<type::Record>(designator->type),
 		nullptr
 	);
 }
 
 TEST(Designator_Tests, incomplete) {
 	context::clear();
-	sema::Designator designator;
+	expr::Expression_Ptr designator;
 	type::Type_Ptr type;
 	Type_Runner create_array("ARRAY 10 OF RECORD END", type);
 	context::scope->insert("a", std::make_shared<decl::Variable>(type));

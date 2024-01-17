@@ -2,14 +2,18 @@
 #include "type/array.h"
 #include "type/pointer.h"
 
-bool Parser::parse_designator(sema::Designator& designator) {
+bool Parser::parse_designator(expr::Expression_Ptr& designator) {
 	sema::Qual_Ident qual_ident;
 	if (parse_qual_ident(qual_ident)) { return true; }
 
 	std::shared_ptr<expr::Expression> expression;
 	expression = qual_ident.as_variable();
 
-	while (expression && !std::dynamic_pointer_cast<type::Procedure>(expression->type)) {
+	while (
+		expression && !std::dynamic_pointer_cast<type::Procedure>(
+			expression->type
+		)
+	) {
 		if (token::is(token::period)) {
 			advance();
 			if (expect(token::identifier)) { return true; }
@@ -59,7 +63,7 @@ bool Parser::parse_designator(sema::Designator& designator) {
 	}
 
 	if (! expression) { expression = qual_ident.as_procedure(); }
-	designator.expression = expression;
+	designator = expression;
 
 	return false;
 }
