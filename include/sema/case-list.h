@@ -6,26 +6,17 @@
 #include <vector>
 
 namespace sema {
-	class Const_Case_List {
-		public:
-		explicit Const_Case_List() = default;
+	struct Const_Case_Entry {
+		Const_Case_Entry(
+			const std::shared_ptr<expr::Const>& begin,
+			const std::shared_ptr<expr::Const>& end
+		): begin { begin }, end { end } { }
 
-		struct Entry {
-			Entry(
-				const std::shared_ptr<expr::Const>& begin,
-				const std::shared_ptr<expr::Const>& end
-			): begin { begin }, end { end } { }
-
-			std::shared_ptr<expr::Const> begin;
-			std::shared_ptr<expr::Const> end;
-		};
-		std::vector<Entry> entries;
+		std::shared_ptr<expr::Const> begin;
+		std::shared_ptr<expr::Const> end;
 	};
 
-	class Type_Case_List {
-	public:
-		explicit Type_Case_List() = default;
+	using Const_Case_List = std::vector<Const_Case_Entry>;
 
-		std::vector<std::shared_ptr<type::Type>> entries;
-	};
+	using Type_Case_List = std::vector<type::Type_Ptr>;
 }
