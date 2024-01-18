@@ -1,8 +1,7 @@
 #include "parser/parser.h"
 
-bool Parser::parse_formal_parameters(
-	sema::Procedure_Type& procedure_type
-) {
+bool Parser::parse_formal_parameters(type::Procedure_Ptr& procedure_type) {
+	procedure_type = std::make_shared<type::Procedure>();
 	if (consume(token::left_parenthesis)) { return true; }
 	if (!token::is(token::right_parenthesis)) {
 		if (parse_formal_parameter_section(procedure_type)) { return true; }
@@ -21,7 +20,7 @@ bool Parser::parse_formal_parameters(
 		) };
 
 		if (! return_type) { return report(diag::err_type_expected); }
-		procedure_type.procedure->return_type = return_type->type;
+		procedure_type->return_type = return_type->type;
 	}
 	return false;
 }

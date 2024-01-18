@@ -3,7 +3,7 @@
 #include "decl/procedure.h"
 #include "sema/context.h"
 #include "sema/ident-def.h"
-#include "sema/procedure-type.h"
+#include "type/procedure.h"
 
 namespace sema {
 	class Procedure_Declaration {
@@ -12,7 +12,7 @@ namespace sema {
 
 		Ident_Def name;
 
-		sema::Procedure_Type procedure_type;
+		type::Procedure_Ptr procedure_type;
 
 		std::shared_ptr<decl::Procedure> procedure {
 			std::make_shared<decl::Procedure>()

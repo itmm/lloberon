@@ -11,21 +11,20 @@ namespace type {
 	public:
 		Procedure() = default;
 
-		std::shared_ptr<Type> return_type;
+		Type_Ptr return_type;
 
 		struct Parameter {
-			Parameter(
-				std::string name, std::shared_ptr<type::Type> type,
-				bool reference
-			) :
+			Parameter(std::string name, Type_Ptr type, bool reference) :
 				name { std::move(name) }, type { std::move(type) },
 				reference { reference } { }
 
 			const std::string name;
-			std::shared_ptr<type::Type> type;
+			Type_Ptr type;
 			bool reference;
 		};
 
 		std::vector<Parameter> parameters;
 	};
+
+	using Procedure_Ptr = std::shared_ptr<Procedure>;
 }

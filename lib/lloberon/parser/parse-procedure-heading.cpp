@@ -9,6 +9,6 @@ bool Parser::parse_procedure_heading(
 		return true;
 	}
 	procedure_declaration.procedure->type =
-		procedure_declaration.procedure_type.procedure;
+		procedure_declaration.procedure_type;
 	return false;
 }

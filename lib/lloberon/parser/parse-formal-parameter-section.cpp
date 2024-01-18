@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 
 bool Parser::parse_formal_parameter_section(
-	sema::Procedure_Type& procedure_type
+	type::Procedure_Ptr& procedure_type
 ) {
 	bool reference { false };
 	if (token::is(token::keyword_VAR)) { reference = true; advance(); }
@@ -20,7 +20,7 @@ bool Parser::parse_formal_parameter_section(
 	for (const auto& name: names) {
 		counts[name] += 1;
 	}
-	for (const auto& param: procedure_type.procedure->parameters) {
+	for (const auto& param: procedure_type->parameters) {
 		counts[param.name] += 1;
 	}
 	for (const auto& entry: counts) {
@@ -34,7 +34,7 @@ bool Parser::parse_formal_parameter_section(
 	if (parse_formal_type(formal_type)) { return true; }
 
 	for (const auto& name : names) {
-		procedure_type.procedure->parameters.emplace_back(
+		procedure_type->parameters.emplace_back(
 			name, formal_type, reference
 		);
 	}

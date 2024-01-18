@@ -8,7 +8,6 @@
 #include "sema/ident-def.h"
 #include "sema/label.h"
 #include "sema/procedure-declaration.h"
-#include "sema/procedure-type.h"
 #include "sema/record-type.h"
 #include "sema/scope.h"
 #include "sema/statement.h"
@@ -96,11 +95,11 @@ public:
 	[[nodiscard]] bool parse_for_statement(sema::Statement& for_statement);
 
 	[[nodiscard]] bool parse_formal_parameter_section(
-		sema::Procedure_Type& procedure_type
+		type::Procedure_Ptr& procedure_type
 	);
 
 	[[nodiscard]] bool parse_formal_parameters(
-		sema::Procedure_Type& procedure_type
+		type::Procedure_Ptr& procedure_type
 	);
 
 	[[nodiscard]] bool parse_formal_type(type::Type_Ptr& type);

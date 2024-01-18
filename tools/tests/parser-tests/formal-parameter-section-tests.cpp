@@ -3,25 +3,26 @@
 #include "type/array.h"
 
 using Formal_Parameter_Section_Runner = Parser_Value_Runner<
-	sema::Procedure_Type, &Parser::parse_formal_parameter_section
+	type::Procedure_Ptr, &Parser::parse_formal_parameter_section
 >;
 
 TEST(Formal_Parameter_Section_Tests, empty) {
 	context::clear();
-	sema::Procedure_Type procedure_type;
+	type::Procedure_Ptr procedure_type;
 	Formal_Parameter_Section_Runner("", procedure_type, true);
 }
 
 TEST(Formal_Parameter_Section_Tests, simple) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Procedure_Type procedure_type;
+	type::Procedure_Ptr procedure_type;
+	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 {
 		"a: ARRAY OF INTEGER", procedure_type
 	};
-	EXPECT_EQ(procedure_type.procedure->parameters.size(), 1);
-	if (! procedure_type.procedure->parameters.empty()) {
-		const auto& first { procedure_type.procedure->parameters[0] };
+	EXPECT_EQ(procedure_type->parameters.size(), 1);
+	if (! procedure_type->parameters.empty()) {
+		const auto& first { procedure_type->parameters[0] };
 		EXPECT_STREQ(first.name.c_str(), "a");
 		auto array { std::dynamic_pointer_cast<type::Array>(first.type) };
 		EXPECT_NE(array, nullptr);
@@ -36,15 +37,16 @@ TEST(Formal_Parameter_Section_Tests, simple) {
 TEST(Formal_Parameter_Section_Tests, multiple) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Procedure_Type procedure_type;
+	type::Procedure_Ptr procedure_type;
+	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 { "a, b: INTEGER", procedure_type };
-	EXPECT_EQ(procedure_type.procedure->parameters.size(), 2);
-	if (procedure_type.procedure->parameters.size() >= 2) {
-		const auto& first { procedure_type.procedure->parameters[0] };
+	EXPECT_EQ(procedure_type->parameters.size(), 2);
+	if (procedure_type->parameters.size() >= 2) {
+		const auto& first { procedure_type->parameters[0] };
 		EXPECT_STREQ(first.name.c_str(), "a");
 		EXPECT_EQ(first.type, type::Type::base_integer);
 		EXPECT_FALSE(first.reference);
-		const auto& second { procedure_type.procedure->parameters[1] };
+		const auto& second { procedure_type->parameters[1] };
 		EXPECT_STREQ(second.name.c_str(), "b");
 		EXPECT_EQ(second.type, type::Type::base_integer);
 		EXPECT_FALSE(second.reference);
@@ -54,11 +56,12 @@ TEST(Formal_Parameter_Section_Tests, multiple) {
 TEST(Formal_Parameter_Section_Tests, var_parameter) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Procedure_Type procedure_type;
+	type::Procedure_Ptr procedure_type;
+	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 { "VAR a: INTEGER", procedure_type };
-	EXPECT_EQ(procedure_type.procedure->parameters.size(), 1);
-	if (! procedure_type.procedure->parameters.empty()) {
-		const auto& first { procedure_type.procedure->parameters[0] };
+	EXPECT_EQ(procedure_type->parameters.size(), 1);
+	if (! procedure_type->parameters.empty()) {
+		const auto& first { procedure_type->parameters[0] };
 		EXPECT_STREQ(first.name.c_str(), "a");
 		EXPECT_EQ(first.type, type::Type::base_integer);
 		EXPECT_TRUE(first.reference);
@@ -68,7 +71,8 @@ TEST(Formal_Parameter_Section_Tests, var_parameter) {
 TEST(Formal_Parameter_Section_Tests, incomplete) {
 	context::clear();
 	decl::Type::register_base_types(*context::scope);
-	sema::Procedure_Type procedure_type;
+	type::Procedure_Ptr procedure_type;
+	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 { "VAR", procedure_type, true };
 	Formal_Parameter_Section_Runner test2 { "a,", procedure_type, true };
 	Formal_Parameter_Section_Runner test3 {
