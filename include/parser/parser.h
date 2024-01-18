@@ -7,7 +7,6 @@
 #include "sema/context.h"
 #include "sema/ident-def.h"
 #include "sema/label.h"
-#include "sema/length.h"
 #include "sema/procedure-declaration.h"
 #include "sema/procedure-type.h"
 #include "sema/record-type.h"
@@ -120,7 +119,7 @@ public:
 
 	[[nodiscard]] bool parse_label_range(sema::Const_Label_Range& range);
 
-	[[nodiscard]] bool parse_length(sema::Length& length);
+	[[nodiscard]] bool parse_length(int& length);
 
 	[[nodiscard]] bool parse_module();
 

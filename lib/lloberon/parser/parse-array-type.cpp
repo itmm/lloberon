@@ -6,13 +6,13 @@
 bool Parser::parse_array_type(type::Type_Ptr& type) {
 	std::vector<int> counts;
 	if (consume(token::keyword_ARRAY)) { return true; }
-	sema::Length expression;
-	if (parse_length(expression)) { return true; }
-	counts.push_back(expression.length);
+	int length;
+	if (parse_length(length)) { return true; }
+	counts.push_back(length);
 	while (token::is(token::comma)) {
 		advance();
-		if (parse_length(expression)) { return true; }
-		counts.push_back(expression.length);
+		if (parse_length(length)) { return true; }
+		counts.push_back(length);
 	}
 	if (consume(token::keyword_OF)) { return true; }
 	type::Type_Ptr base;
