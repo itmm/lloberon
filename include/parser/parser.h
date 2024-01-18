@@ -8,11 +8,11 @@
 #include "sema/ident-def.h"
 #include "sema/label.h"
 #include "sema/procedure-declaration.h"
-#include "sema/record-type.h"
 #include "sema/scope.h"
 #include "sema/statement.h"
 #include "sema/statement-sequence.h"
 #include "sema/qual-ident.h"
+#include "type/record.h"
 
 class Parser {
 	Lexer& lexer_;
@@ -56,7 +56,7 @@ public:
 		expr::Expression_Ptr& expression
 	);
 
-	[[nodiscard]] bool parse_base_type(sema::Record_Type& base_type);
+	[[nodiscard]] bool parse_base_type(type::Record_Ptr& base_type);
 
 	[[nodiscard]] bool parse_case(sema::Const_Case& const_case);
 
@@ -86,11 +86,9 @@ public:
 
 	[[nodiscard]] bool parse_factor(expr::Expression_Ptr& factor);
 
-	[[nodiscard]] bool parse_field_list(sema::Record_Type& record_type);
+	[[nodiscard]] bool parse_field_list(type::Record_Ptr& record_type);
 
-	[[nodiscard]] bool parse_field_list_sequence(
-		sema::Record_Type& record_type
-	);
+	[[nodiscard]] bool parse_field_list_sequence(type::Record_Ptr& record_type);
 
 	[[nodiscard]] bool parse_for_statement(sema::Statement& for_statement);
 
