@@ -33,10 +33,10 @@ bool Parser::parse_designator(expr::Expression_Ptr& designator) {
 			advance();
 		} else if (token::is(token::left_bracket)) {
 			advance();
-			sema::Expression_List expression_list;
+			expr::Expression_List expression_list;
 			if (parse_expression_list(expression_list)) { return true; }
 			if (consume(token::right_bracket)) { return true; }
-			for (auto count { expression_list.list.size() }; count; --count) {
+			for (auto count { expression_list.size() }; count; --count) {
 				auto array_type { std::dynamic_pointer_cast<type::Array>(
 					expression->type
 				) };

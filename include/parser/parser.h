@@ -5,7 +5,6 @@
 #include "sema/case.h"
 #include "sema/case-list.h"
 #include "sema/context.h"
-#include "sema/expression-list.h"
 #include "sema/ident-def.h"
 #include "sema/label.h"
 #include "sema/length.h"
@@ -84,7 +83,7 @@ public:
 	[[nodiscard]] bool parse_expression(expr::Expression_Ptr& expression);
 
 	[[nodiscard]] bool parse_expression_list(
-		sema::Expression_List& expression_list
+		expr::Expression_List& expression_list
 	);
 
 	[[nodiscard]] bool parse_factor(expr::Expression_Ptr& factor);

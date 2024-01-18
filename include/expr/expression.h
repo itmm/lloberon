@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "type/type.h"
 
 namespace expr {
@@ -16,4 +18,6 @@ namespace expr {
 	};
 
 	using Expression_Ptr = std::shared_ptr<Expression>;
+
+	using Expression_List = std::vector<Expression_Ptr>;
 }
