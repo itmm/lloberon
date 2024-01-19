@@ -23,10 +23,7 @@ public:
 
 	template<typename... Args>
 	[[nodiscard]] bool report(unsigned diagnostic_id, Args&& ... arguments) {
-		diag_.report(
-			llvm::SMLoc::getFromPointer(token::source),
-			diagnostic_id, arguments...
-		);
+		diag::report(diagnostic_id, arguments...);
 		return true;
 	}
 

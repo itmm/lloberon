@@ -28,7 +28,7 @@ class Parser {
 			if (!expected) { expected = token::keyword_spelling(kind); }
 			if (!expected) { expected = token::token_name(kind); }
 
-			return report(diag::err_expected, expected, token::value);
+			diag::report(diag::err_expected, expected, token::value);
 		}
 		return false;
 	}

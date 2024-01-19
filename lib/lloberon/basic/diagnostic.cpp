@@ -8,8 +8,9 @@ namespace {
 	};
 }
 
-const char* Base_Diagnostic_Engine::diagnostic_text(
-	unsigned int diagnostic_id
-) {
-	return diagnostic_texts[diagnostic_id];
+namespace diag {
+	const char* diagnostic_text(unsigned int diagnostic_id) {
+		return diagnostic_texts[diagnostic_id];
+	}
+
 }

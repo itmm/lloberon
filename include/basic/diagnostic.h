@@ -14,6 +14,28 @@ namespace diag {
 		#include "diagnostic.def"
 	};
 
+	const char* diagnostic_text(unsigned diagnostic_id);
+
+	class Error: public std::exception {
+	public:
+		explicit Error(std::string  what): what_ { std::move(what) } { }
+
+		[[nodiscard]] const char* what() const noexcept override {
+			return what_.c_str();
+		}
+
+	private:
+		std::string what_;
+	};
+
+	template<typename... Args>
+	inline void report(unsigned diagnostic_id, Args&& ... arguments) {
+		std::string message = llvm::formatv(
+			diag::diagnostic_text(diagnostic_id),
+			std::forward<Args>(arguments)...
+		).str();
+		throw Error { message };
+	}
 }
 
 class Base_Diagnostic_Engine {
@@ -27,14 +49,12 @@ public:
 		llvm::SMLoc loc, unsigned diagnostic_id, Args&& ... arguments
 	) {
 		std::string message = llvm::formatv(
-			diagnostic_text(diagnostic_id),
+			diag::diagnostic_text(diagnostic_id),
 			std::forward<Args>(arguments)...
 		).str();
 		report_message(loc, llvm::SourceMgr::DK_Error, message);
 		++num_errors_;
 	}
-
-	static const char* diagnostic_text(unsigned diagnostic_id);
 
 	[[nodiscard]] unsigned num_errors() const { return num_errors_; }
 

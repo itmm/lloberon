@@ -16,12 +16,16 @@ public:
     { run(); }
 
     void run() {
+		bool failed;
+		try {
+			failed = (parser_.*METHOD)();
+		}
+		catch (const diag::Error&) { failed = true; }
+
         if (expected_) {
-            EXPECT_TRUE((parser_.*METHOD)());
-            EXPECT_GT(diag_.num_errors(), 0);
+            EXPECT_TRUE(failed);
         } else {
-            EXPECT_FALSE((parser_.*METHOD)());
-            EXPECT_EQ(diag_.num_errors(), 0);
+            EXPECT_FALSE(failed);
         }
         if (has_more_) {
             EXPECT_FALSE(parser_.is_eof());
@@ -60,12 +64,15 @@ public:
     { run(); }
 
     void run() {
+		bool failed;
+		try {
+			failed = (parser_.*METHOD)(value_);
+		}
+		catch (const diag::Error&) { failed = true; }
         if (expected_) {
-            EXPECT_TRUE((parser_.*METHOD)(value_));
-            EXPECT_GT(diag_.num_errors(), 0);
+            EXPECT_TRUE(failed);
         } else {
-            EXPECT_FALSE((parser_.*METHOD)(value_));
-            EXPECT_EQ(diag_.num_errors(), 0);
+            EXPECT_FALSE(failed);
         }
         if (has_more_) {
             EXPECT_FALSE(parser_.is_eof());

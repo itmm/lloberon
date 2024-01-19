@@ -33,6 +33,5 @@ TEST(Field_List_Sequence_Tests, incomplete) {
 	type::Record_Ptr field_list_sequence;
 	field_list_sequence = std::make_shared<type::Record>();
 	Field_List_Sequence_Runner test1 { "a: BYTE;", field_list_sequence, true };
-	EXPECT_EQ(field_list_sequence->entries.size(), 0);
 	context::clear();
 }

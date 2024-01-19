@@ -11,7 +11,6 @@
 int main(int argc_, const char** argv_) {
 	llvm::InitLLVM X(argc_, argv_);
 
-	bool failed { false };
 	for (auto i { argv_ + 1 }, e { argv_ + argc_ }; i < e; ++i) {
 		llvm::outs() << "parsing " << *i << "\n";
 		llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>> file_or_error =
@@ -27,8 +26,16 @@ int main(int argc_, const char** argv_) {
 		source_mgr.AddNewSourceBuffer(std::move(*file_or_error), llvm::SMLoc());
 		Lexer lexer { source_mgr, diag };
 		Parser parser { lexer };
-		if (parser.parse()) { failed = true; }
+		try {
+			if (parser.parse()) { return 10; }
+		} catch (const diag::Error& error) {
+			source_mgr.PrintMessage(
+				llvm::SMLoc::getFromPointer(token::source),
+				llvm::SourceMgr::DK_Error, error.what()
+			);
+			return 10;
+		}
 	}
-	return failed ? 10 : 0;
+	return 0;
 }
 

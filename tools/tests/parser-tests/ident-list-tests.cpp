@@ -40,21 +40,20 @@ TEST(Identlist_Tests, empty_items) {
 	sema::Ident_List list;
 	list.emplace_back("x");
 	Ident_List_Runner test1 { "a,", list, true };
-	expect_empty_ident_list(list);
+
 	list.emplace_back("x");
 	Ident_List_Runner test2 { ",", list, true, true };
-	expect_empty_ident_list(list);
+
 	list.emplace_back("x");
 	Ident_List_Runner test3 { "a,,b", list, true, true };
-	expect_empty_ident_list(list);
+
 }
 
 TEST(Identlist_Tests, wrong_items) {
 	sema::Ident_List list;
 	list.emplace_back("x");
 	Ident_List_Runner test1 { "1", list, true, true };
-	expect_empty_ident_list(list);
+
 	list.emplace_back("x");
 	Ident_List_Runner test2 { "a,2", list, true, true };
-	expect_empty_ident_list(list);
 }
