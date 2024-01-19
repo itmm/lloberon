@@ -8,8 +8,7 @@ bool Parser::parse_case(sema::Const_Case& const_case) {
 	if (parse_case_list(case_list)) { return true; }
 
 	if (consume(token::colon)) { return true; }
-	sema::Statement_Sequence statement_sequence;
-	if (parse_statement_sequence(statement_sequence)) { return true; }
+	if (parse_statement_sequence(const_case.sequence)) { return true; }
 	return false;
 }
 
@@ -20,10 +19,7 @@ bool Parser::parse_case(sema::Type_Case& type_case) {
 	if (parse_case_list(type_case.types)) { return true; }
 
 	if (consume(token::colon)) { return true; }
-	sema::Statement_Sequence statement_sequence;
-	if (parse_statement_sequence(statement_sequence)) { return true; }
-
-	type_case.sequence = std::move(statement_sequence.sequence);
+	if (parse_statement_sequence(type_case.sequence)) { return true; }
 
 	return false;
 }

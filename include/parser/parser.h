@@ -9,7 +9,6 @@
 #include "sema/label.h"
 #include "sema/procedure-declaration.h"
 #include "sema/scope.h"
-#include "sema/statement-sequence.h"
 #include "sema/qual-ident.h"
 #include "type/record.h"
 
@@ -148,7 +147,7 @@ public:
 	[[nodiscard]] bool parse_statement(stmt::Statement_Ptr& statement);
 
 	[[nodiscard]] bool parse_statement_sequence(
-		sema::Statement_Sequence& statement_sequence
+		stmt::Statement_Sequence& statement_sequence
 	);
 
 	[[nodiscard]] bool parse_term(expr::Expression_Ptr& term);

@@ -8,7 +8,7 @@ bool Parser::parse_procedure_body(
 	}
 	if (token::is(token::keyword_BEGIN)) {
 		advance();
-		sema::Statement_Sequence statement_sequence;
+		stmt::Statement_Sequence statement_sequence;
 		if (parse_statement_sequence(statement_sequence)) { return true; }
 	}
 	if (token::is(token::keyword_RETURN)) {

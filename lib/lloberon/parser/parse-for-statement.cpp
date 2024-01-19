@@ -26,9 +26,7 @@ bool Parser::parse_for_statement(stmt::Statement_Ptr& statement) {
 		for_statement->increment = expr::Const::create(1);
 	}
 	if (consume(token::keyword_DO)) { return true; }
-	sema::Statement_Sequence statement_sequence;
-	if (parse_statement_sequence(statement_sequence)) { return true; }
-	for_statement->statements = std::move(statement_sequence.sequence);
+	if (parse_statement_sequence(for_statement->statements)) { return true; }
 	if (consume(token::keyword_END)) { return true; }
 	statement = for_statement;
 	return false;
