@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/type.h"
 
 using Procedure_Type_Runner = Parser_Value_Runner<
 	type::Type_Ptr, &Parser::parse_procedure_type
@@ -13,7 +12,7 @@ TEST(Procedure_Type_Tests, empty) {
 
 TEST(Procedure_Type_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Type_Ptr type;
 	Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): BYTE", type };
 	auto procedure_type {

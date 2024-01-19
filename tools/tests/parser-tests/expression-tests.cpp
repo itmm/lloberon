@@ -15,7 +15,7 @@ TEST(Expression_Tests, empty) {
 
 TEST(Expression_Tests, single) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	expr::Expression_Ptr expression;

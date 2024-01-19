@@ -58,7 +58,7 @@ TEST(Factor_Tests, grouped) {
 TEST(Factor_Tests, ident) {
 	context::clear();
 	auto base { std::make_shared<Scope>() };
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 	context::scope = std::make_shared<Scope>(base);
 	type::Type_Ptr type;
 	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };

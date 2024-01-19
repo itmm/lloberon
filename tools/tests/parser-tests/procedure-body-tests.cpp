@@ -1,6 +1,5 @@
 #include "parser-tests.h"
 #include "decl/variable.h"
-#include "decl/type.h"
 
 using Procedure_Body_Runner = Parser_Value_Runner<
 	sema::Procedure_Declaration, &Parser::parse_procedure_body
@@ -30,7 +29,7 @@ TEST(Procedure_Body_Tests, with_declaration) {
 	auto base { std::make_shared<Scope>() };
 	context::clear();
 	context::scope = std::make_shared<Scope>(base);
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 	sema::Procedure_Declaration procedure_declaration;
 	Procedure_Body_Runner test1 {
 		"VAR a: INTEGER; BEGIN a := 42 END", procedure_declaration

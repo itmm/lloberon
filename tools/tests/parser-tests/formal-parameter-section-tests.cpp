@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/type.h"
 #include "type/array.h"
 
 using Formal_Parameter_Section_Runner = Parser_Value_Runner<
@@ -14,7 +13,7 @@ TEST(Formal_Parameter_Section_Tests, empty) {
 
 TEST(Formal_Parameter_Section_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 {
@@ -36,7 +35,7 @@ TEST(Formal_Parameter_Section_Tests, simple) {
 
 TEST(Formal_Parameter_Section_Tests, multiple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 { "a, b: INTEGER", procedure_type };
@@ -55,7 +54,7 @@ TEST(Formal_Parameter_Section_Tests, multiple) {
 
 TEST(Formal_Parameter_Section_Tests, var_parameter) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 { "VAR a: INTEGER", procedure_type };
@@ -70,7 +69,7 @@ TEST(Formal_Parameter_Section_Tests, var_parameter) {
 
 TEST(Formal_Parameter_Section_Tests, incomplete) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
 	Formal_Parameter_Section_Runner test1 { "VAR", procedure_type, true };

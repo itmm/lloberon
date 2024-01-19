@@ -35,6 +35,8 @@ public:
 
 	void clear() { symbols_.clear(); }
 
+	void register_base_types();
+
 private:
 	std::shared_ptr<Scope> parent_;
 	std::map<std::string, std::shared_ptr<decl::Declaration>> symbols_;

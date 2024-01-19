@@ -15,7 +15,7 @@ TEST(Designator_Tests, empty) {
 
 TEST(Designator_Tests, simple) {
 	auto base { std::make_shared<Scope>() };
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 	context::clear();
 	context::scope = std::make_shared<Scope>(base);
 	expr::Expression_Ptr designator;

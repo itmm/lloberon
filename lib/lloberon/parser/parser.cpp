@@ -1,11 +1,10 @@
 #include "parser/parser.h"
 #include "decl/procedure.h"
-#include "decl/type.h"
 
 bool Parser::parse() {
 	context::clear();
 	decl::Procedure::register_base_procedures(*context::scope);
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 
 	return parse_module();
 }

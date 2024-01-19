@@ -1,4 +1,3 @@
-#include "decl/type.h"
 #include "parser-tests.h"
 #include "type/type.h"
 
@@ -14,7 +13,7 @@ TEST(Formal_Parameters_Tests, empty) {
 
 TEST(Formal_Parameters_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	Formal_Parameters_Runner test1 { "()", procedure_type };
 	EXPECT_TRUE(procedure_type->parameters.empty());
@@ -34,7 +33,7 @@ TEST(Formal_Parameters_Tests, simple) {
 TEST(Formal_Parameters_Tests, with_return) {
 	context::clear();
 	auto module = std::make_shared<decl::Module>("X");
-	module->insert("Byte", std::make_shared<decl::Type>(type::Type::base_byte));
+	module->insert("Byte", type::Type::base_byte);
 	context::scope->insert("X", module);
 	type::Procedure_Ptr procedure_type;
 	Formal_Parameters_Runner test1 { "(): X.Byte", procedure_type };

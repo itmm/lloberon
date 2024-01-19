@@ -1,4 +1,3 @@
-#include "decl/type.h"
 #include "type/type.h"
 
 #include "type-tests.h"
@@ -11,10 +10,8 @@ TEST(Type_Tests, empty) {
 
 TEST(Type_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
-	context::scope->insert("Entry", std::make_shared<decl::Type>(
-		std::make_shared<type::Record>()
-	));
+	context::scope->register_base_types();
+	context::scope->insert("Entry", std::make_shared<type::Record>());
 	type::Type_Ptr type;
 	Type_Runner test1 { "BOOLEAN", type };
 	EXPECT_EQ(type, type::Type::base_boolean);
@@ -42,7 +39,7 @@ TEST(Type_Tests, simple) {
 
 TEST(Type_Tests, cascading) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Type_Ptr type;
 	Type_Runner test1 { "RECORD a: RECORD END END", type };
 }

@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/type.h"
 
 using Procedure_Heading_Runner = Parser_Value_Runner<
 	sema::Procedure_Declaration, &Parser::parse_procedure_heading
@@ -13,7 +12,7 @@ TEST(Procedure_Heading_Tests, empty) {
 
 TEST(Procedure_Heading_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	sema::Procedure_Declaration procedure_declaration;
 	Procedure_Heading_Runner test1 {
 		"PROCEDURE f(x: INTEGER): INTEGER", procedure_declaration
@@ -31,7 +30,7 @@ TEST(Procedure_Heading_Tests, simple) {
 
 TEST(Procedure_Heading_Tests, incomplete) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	sema::Procedure_Declaration procedure_declaration;
 	Procedure_Heading_Runner test1 {
 		"PROCEDURE f", procedure_declaration, true

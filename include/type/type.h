@@ -2,14 +2,16 @@
 
 #include <memory>
 
+#include "decl/declaration.h"
+
 namespace type {
 	class Type;
 
 	using Type_Ptr = std::shared_ptr<Type>;
 
-	class Type {
+	class Type: public decl::Declaration {
 	public:
-		virtual ~Type() = default;
+		Type() = default;
 
 		bool is_bool();
 
@@ -28,5 +30,6 @@ namespace type {
 		static Type_Ptr base_byte;
 
 		static Type_Ptr base_set;
+
 	};
 }

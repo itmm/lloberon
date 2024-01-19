@@ -56,9 +56,9 @@ bool Parser::parse_designator(expr::Expression_Ptr& designator) {
             advance();
             if (parse_qual_ident(qual_ident)) { return true; }
             if (consume(token::right_parenthesis)) { return true; }
-			auto type { std::dynamic_pointer_cast<decl::Type>(qual_ident.declaration)};
+			auto type { qual_ident.as_type() };
 			if (!type) { return report(diag::err_type_expected); }
-			expression = std::make_shared<expr::Expression>(type->type);
+			expression = std::make_shared<expr::Expression>(type);
 		} else { break; }
 	}
 

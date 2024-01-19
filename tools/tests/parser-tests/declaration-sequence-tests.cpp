@@ -1,6 +1,5 @@
 #include "parser-tests.h"
 #include "decl/const.h"
-#include "decl/type.h"
 #include "const-tests.h"
 
 using Declaration_Sequence_Runner = Parser_String_Runner<
@@ -16,7 +15,7 @@ TEST(Declaration_Sequence_Tests, single) {
 	context::clear();
 	auto base { std::make_shared<Scope>() };
 	context::scope = std::make_shared<Scope>(base);
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 	Declaration_Sequence_Runner test1 { "CONST a = 3;" };
 	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
 
@@ -34,7 +33,7 @@ TEST(Declaration_Sequence_Tests, multiple) {
 	context::clear();
 	auto base { std::make_shared<Scope>() };
 	context::scope = std::make_shared<Scope>(base);
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 	Declaration_Sequence_Runner test1 { "CONST a = 3; b = 4;" };
 	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
 	expect_int_value(decl::Const::as_const(context::scope->lookup("b")), 4);
@@ -55,7 +54,7 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 	context::clear();
 	auto base { std::make_shared<Scope>() };
 	context::scope = std::make_shared<Scope>(base);
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 	Declaration_Sequence_Runner test1 { "CONST a = 3; TYPE x = BYTE;" };
 	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
 
@@ -116,7 +115,7 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 TEST(Declaration_Sequence_Tests, shadowing) {
 	context::clear();
 	auto base { std::make_shared<Scope>() };
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 	context::scope = std::make_shared<Scope>(base);
 	Declaration_Sequence_Runner test1 {
 		"CONST a = 42; PROCEDURE f(a: INTEGER): INTEGER; RETURN a END f;"
@@ -132,7 +131,7 @@ TEST(Declaration_Sequence_Tests, wrong_order) {
 	context::clear();
 	auto base { std::make_shared<Scope>() };
 	context::scope = std::make_shared<Scope>(base);
-	decl::Type::register_base_types(*base);
+	base->register_base_types();
 
 	Declaration_Sequence_Runner test1 {
 		"TYPE x = BYTE; CONST a = 3;", false, true

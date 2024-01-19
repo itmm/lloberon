@@ -26,7 +26,7 @@ TEST(Case_List_Tests, multiple) {
 	Const_Case_List_Runner test1 { "3..4, 7..8, 12", const_cases};
 	EXPECT_EQ(const_cases.size(), 3);
 
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	sema::Type_Case_List type_cases;
 	Type_Case_List_Runner test2 { "INTEGER, BYTE", type_cases};
 	EXPECT_EQ(type_cases.size(), 2);

@@ -1,4 +1,3 @@
-#include "decl/type.h"
 #include "parser-tests.h"
 #include "type/type.h"
 
@@ -14,16 +13,14 @@ TEST(Qual_Ident_Tests, empty) {
 
 TEST(Qual_Ident_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	sema::Qual_Ident qual_ident;
 	Qual_Ident_Runner test1 { "BYTE", qual_ident };
 
 	context::scope->clear();
 	auto module = std::make_shared<decl::Module>("X");
 	context::scope->insert("X", module);
-	module->insert("Byte", std::make_shared<decl::Type>(
-		type::Type::base_byte
-	));
+	module->insert("Byte", type::Type::base_byte);
 	Qual_Ident_Runner test2 { "X.Byte", qual_ident };
 }
 

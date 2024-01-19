@@ -15,12 +15,10 @@ bool Parser::parse_formal_parameters(type::Procedure_Ptr& procedure_type) {
 		advance();
 		sema::Qual_Ident qual_ident;
 		if (parse_qual_ident(qual_ident)) { return true; }
-		auto return_type { std::dynamic_pointer_cast<decl::Type>(
-			qual_ident.declaration
-		) };
+		auto return_type { qual_ident.as_type() };
 
 		if (! return_type) { return report(diag::err_type_expected); }
-		procedure_type->return_type = return_type->type;
+		procedure_type->return_type = return_type;
 	}
 	return false;
 }

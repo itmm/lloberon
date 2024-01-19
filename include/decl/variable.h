@@ -2,17 +2,17 @@
 
 #include <utility>
 
-#include "decl/type.h"
+#include "type/type.h"
 
 namespace decl {
 	class Variable : public Declaration {
 	public:
-		explicit Variable(std::shared_ptr<type::Type> type) :
+		explicit Variable(type::Type_Ptr type) :
 			Declaration { }, type_ { std::move(type) } { }
 
-		[[nodiscard]] std::shared_ptr<type::Type> type() const { return type_; }
+		[[nodiscard]] type::Type_Ptr type() const { return type_; }
 
 	private:
-		std::shared_ptr<type::Type> type_;
+		type::Type_Ptr type_;
 	};
 }

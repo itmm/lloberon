@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/type.h"
 
 using Field_List_Runner = Parser_Value_Runner<
 	type::Record_Ptr, &Parser::parse_field_list
@@ -13,7 +12,7 @@ TEST(Field_List_Tests, empty) {
 
 TEST(Field_List_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	auto record_type { std::make_shared<type::Record>() };
 	Field_List_Runner test1 { "a: INTEGER", record_type };
 	EXPECT_EQ(record_type->entries.size(), 1);
@@ -25,21 +24,21 @@ TEST(Field_List_Tests, simple) {
 
 TEST(Field_List_Tests, exported) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	auto field_list { std::make_shared<type::Record>() };
 	Field_List_Runner test1 { "a*: INTEGER", field_list };
 }
 
 TEST(Field_List_Tests, multiple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	auto field_list { std::make_shared<type::Record>() };
 	Field_List_Runner test1 { "a, b: INTEGER", field_list };
 }
 
 TEST(Field_List_Tests, incomplete) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	auto field_list { std::make_shared<type::Record>() };
 	Field_List_Runner test1 { "a:", field_list, true };
 	Field_List_Runner test2 { "a INTEGER", field_list, true, true };

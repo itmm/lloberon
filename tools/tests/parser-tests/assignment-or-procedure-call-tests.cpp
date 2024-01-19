@@ -1,7 +1,6 @@
 #include "parser-tests.h"
 
 #include "decl/variable.h"
-#include "decl/type.h"
 #include "decl/procedure.h"
 
 using Assignment_Runner = Parser_Value_Runner<
@@ -58,7 +57,7 @@ TEST(Procedure_Call_Tests, incomplete) {
 
 TEST(Procedure_Call_Tests, cast) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	expr::Expression_Ptr assignment;
 	Procedure_Call_Runner test1 { "a (INTEGER)", assignment };

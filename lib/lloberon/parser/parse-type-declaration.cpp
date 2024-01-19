@@ -6,9 +6,8 @@ bool Parser::parse_type_declaration() {
 	if (consume(token::equals)) { return true; }
 	type::Type_Ptr type;
 	if (parse_type(type)) { return true; }
-	auto declaration { std::make_shared<decl::Type>(type) };
-	declaration->exported = ident_def.exported;
-	if (!context::scope->insert(ident_def.ident, declaration)) {
+	type->exported = ident_def.exported;
+	if (!context::scope->insert(ident_def.ident, type)) {
 		return report(diag::err_already_defined);
 	}
 	return false;

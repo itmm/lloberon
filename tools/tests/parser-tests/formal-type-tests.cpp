@@ -1,4 +1,3 @@
-#include "decl/type.h"
 #include "parser-tests.h"
 #include "type/array.h"
 
@@ -14,7 +13,7 @@ TEST(Formal_Type_Tests, empty) {
 
 TEST(Formal_Type_Tests, simple) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "INTEGER", formal_type };
 	EXPECT_EQ(formal_type, type::Type::base_integer);
@@ -23,7 +22,7 @@ TEST(Formal_Type_Tests, simple) {
 TEST(Formal_Type_Tests, qualified) {
 	context::clear();
 	auto module { std::make_shared<decl::Module>("X") };
-	module->insert("Byte", std::make_shared<decl::Type>(type::Type::base_byte));
+	module->insert("Byte", type::Type::base_byte);
 	context::scope->insert("X", module);
 	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "X.Byte", formal_type };
@@ -32,7 +31,7 @@ TEST(Formal_Type_Tests, qualified) {
 
 TEST(Formal_Type_Tests, array) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "ARRAY OF BYTE", formal_type };
 	auto array { std::dynamic_pointer_cast<type::Array>(formal_type) };
@@ -45,7 +44,7 @@ TEST(Formal_Type_Tests, array) {
 
 TEST(Formal_Type_Tests, multiple_arrays) {
 	context::clear();
-	decl::Type::register_base_types(*context::scope);
+	context::scope->register_base_types();
 	type::Type_Ptr formal_type;
 	Formal_Type_Runner test1 { "ARRAY OF ARRAY OF BYTE", formal_type };
 	auto outer { std::dynamic_pointer_cast<type::Array>(formal_type) };
