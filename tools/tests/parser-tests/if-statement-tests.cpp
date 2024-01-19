@@ -7,7 +7,6 @@ using If_Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(If_Statement_Tests, empty) {
-	context::clear();
 	stmt::Statement_Ptr if_statement;
 	If_Statement_Runner test1 { "", if_statement, true };
 }
@@ -21,7 +20,6 @@ void expect_entries_count(const stmt::Statement_Ptr& statement, int count) {
 }
 
 TEST(If_Statement_Tests, simple) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("cond", std::make_shared<decl::Variable>(nullptr));
@@ -30,10 +28,10 @@ TEST(If_Statement_Tests, simple) {
 		"IF cond THEN a := 1; b := TRUE END", statement
 	};
 	expect_entries_count(statement, 1);
+	context::clear();
 }
 
 TEST(If_Statement_Tests, with_else) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("cond", std::make_shared<decl::Variable>(nullptr));
@@ -42,10 +40,10 @@ TEST(If_Statement_Tests, with_else) {
 		"IF cond THEN a := 1 ELSE a := 2; b := TRUE END", statement
 	};
 	expect_entries_count(statement, 2);
+	context::clear();
 }
 
 TEST(If_Statement_Tests, with_elsif) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
 	If_Statement_Runner test1 {
@@ -53,4 +51,5 @@ TEST(If_Statement_Tests, with_elsif) {
 		statement
 	};
 	expect_entries_count(statement, 3);
+	context::clear();
 }

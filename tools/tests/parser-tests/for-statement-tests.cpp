@@ -8,13 +8,11 @@ using For_Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(For_Statement_Tests, empty) {
-	context::clear();
 	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 { "", statement, true };
 }
 
 TEST(For_Statement_Tests, simple) {
-	context::clear();
 	auto var { std::make_shared<decl::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
@@ -31,10 +29,10 @@ TEST(For_Statement_Tests, simple) {
 		expect_int_value(for_statement->increment, 1);
 		EXPECT_EQ(for_statement->statements.size(), 1);
 	}
+	context::clear();
 }
 
 TEST(For_Statement_Tests, with_step) {
-	context::clear();
 	auto var { std::make_shared<decl::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
@@ -51,10 +49,10 @@ TEST(For_Statement_Tests, with_step) {
 		expect_int_value(for_statement->increment, 2);
 		EXPECT_EQ(for_statement->statements.size(), 1);
 	}
+	context::clear();
 }
 
 TEST(For_Statement_Tests, with_stepdown) {
-	context::clear();
 	auto var { std::make_shared<decl::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
@@ -71,10 +69,10 @@ TEST(For_Statement_Tests, with_stepdown) {
 		expect_int_value(for_statement->increment, -2);
 		EXPECT_EQ(for_statement->statements.size(), 1);
 	}
+	context::clear();
 }
 
 TEST(For_Statement_Tests, wrong) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 { "FOR", statement, true };
@@ -93,4 +91,5 @@ TEST(For_Statement_Tests, wrong) {
 	For_Statement_Runner test12 {
 		"FOR a := 1 TO 10 BY DO", statement, true, true
 	};
+	context::clear();
 }

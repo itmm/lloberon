@@ -6,6 +6,7 @@ protected:
 	decl::Module decl { "" };
 
 	void SetUp() override {
+		decl.~Module();
 		new(&decl) decl::Module { "b" };
 	}
 };

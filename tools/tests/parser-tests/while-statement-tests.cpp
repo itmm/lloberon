@@ -7,13 +7,11 @@ using While_Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(While_Statement_Tests, empty) {
-	context::clear();
 	stmt::Statement_Ptr statement;
 	While_Statement_Runner test1 { "", statement, true };
 }
 
 TEST(While_Statement_Tests, simple) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("INC", std::make_shared<decl::Procedure>());
 	stmt::Statement_Ptr statement;
@@ -23,10 +21,10 @@ TEST(While_Statement_Tests, simple) {
 	if (while_statement) {
 		EXPECT_EQ(while_statement->entries.size(), 1);
 	}
+	context::clear();
 }
 
 TEST(While_Statement_Tests, with_elsif) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("c", std::make_shared<decl::Variable>(nullptr));
@@ -41,10 +39,10 @@ TEST(While_Statement_Tests, with_elsif) {
 	if (while_statement) {
 		EXPECT_EQ(while_statement->entries.size(), 3);
 	}
+	context::clear();
 }
 
 TEST(While_Statement_Tests, wrong) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("INC", std::make_shared<decl::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
@@ -54,4 +52,5 @@ TEST(While_Statement_Tests, wrong) {
 	While_Statement_Runner test4 {
 		"WHILE a < 3 DO ELSIF END", statement, true, true
 	};
+	context::clear();
 }

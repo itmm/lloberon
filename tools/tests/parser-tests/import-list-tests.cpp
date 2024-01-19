@@ -15,23 +15,23 @@ TEST(Import_List_Tests, simple) {
 	Scope scope;
 	Import_List_Runner test1 { "IMPORT a;", scope };
 	expect_module(scope, "a", "a");
+	scope.clear();
 
-	new(&scope) Scope { };
 	Import_List_Runner test2 { "IMPORT a, b;", scope };
 	expect_module(scope, "a", "a");
 	expect_module(scope, "b", "b");
+	scope.clear();
 
-	new(&scope) Scope { };
 	Import_List_Runner test3 { "IMPORT a := b, c;", scope };
 	expect_module(scope, "a", "b");
 	expect_module(scope, "c", "c");
+	scope.clear();
 
-	new(&scope) Scope { };
 	Import_List_Runner test4 { "IMPORT a, b := c;", scope };
 	expect_module(scope, "a", "a");
 	expect_module(scope, "b", "c");
+	scope.clear();
 
-	new(&scope) Scope { };
 	Import_List_Runner test5 { "IMPORT a := b, c := d;", scope };
 	expect_module(scope, "a", "b");
 	expect_module(scope, "c", "d");
@@ -40,19 +40,19 @@ TEST(Import_List_Tests, simple) {
 TEST(Import_List_Tests, missing) {
 	Scope scope;
 	Import_List_Runner test1 { "IMPORT", scope, true };
-
 	scope.clear();
+
 	Import_List_Runner test2 { "IMPORT a", scope, true };
-
 	scope.clear();
+
 	Import_List_Runner test3 { "IMPORT a,", scope, true };
-
 	scope.clear();
+
 	Import_List_Runner test4 { "IMPORT a, b", scope, true };
-
 	scope.clear();
+
 	Import_List_Runner test5 { "IMPORT a :=", scope, true };
-
 	scope.clear();
+
 	Import_List_Runner test6 { "IMPORT a := b", scope, true };
 }

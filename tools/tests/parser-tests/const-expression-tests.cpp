@@ -7,14 +7,12 @@ using Const_Expression_Runner = Parser_Value_Runner<
 >;
 
 TEST(Const_Expression_Tests, empty) {
-	context::clear();
 	expr::Const_Ptr expression;
 	Const_Expression_Runner test1 { "", expression, true };
 	EXPECT_EQ(expression, nullptr);
 }
 
 TEST(Const_Expression_Tests, literals) {
-	context::clear();
 	expr::Const_Ptr expression;
 
 	Const_Expression_Runner test1 { "234", expression };
@@ -34,7 +32,6 @@ TEST(Const_Expression_Tests, literals) {
 }
 
 TEST(Const_Expression_Tests, expressions) {
-	context::clear();
 	expr::Const_Ptr expression;
 	Const_Expression_Runner test1 { "3 + 4 * 2", expression };
 	expect_int_value(expression, 11);

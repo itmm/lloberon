@@ -5,13 +5,11 @@ using Element_Runner = Parser_Value_Runner<
 >;
 
 TEST(Element_Tests, empty) {
-	context::clear();
 	expr::Const_Ptr value;
 	Element_Runner test1 { "", value, true };
 }
 
 TEST(Element_Tests, simple) {
-	context::clear();
 	expr::Const_Ptr value;
 	value = expr::Const::create(0U);
 	Element_Runner test1 { "3", value };
@@ -20,7 +18,6 @@ TEST(Element_Tests, simple) {
 }
 
 TEST(Element_Tests, range) {
-	context::clear();
 	expr::Const_Ptr value;
 	value = expr::Const::create(0U);
 	Element_Runner test1 { "3..6", value };
@@ -29,7 +26,6 @@ TEST(Element_Tests, range) {
 }
 
 TEST(Element_Tests, incomplete) {
-	context::clear();
 	expr::Const_Ptr value;
 	value = expr::Const::create(0U);
 	Element_Runner test1 { "3..", value, true };

@@ -5,13 +5,11 @@ using Record_Type_Runner = Parser_Value_Runner<
 >;
 
 TEST(Record_Type_Tests, empty) {
-	context::clear();
 	type::Type_Ptr record_type;
 	Record_Type_Runner("", record_type, true);
 }
 
 TEST(Record_Type_Tests, simple) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Type_Ptr record_type;
 	Record_Type_Runner test1 { "RECORD END", record_type };
@@ -28,10 +26,10 @@ TEST(Record_Type_Tests, simple) {
 	EXPECT_STREQ(first.name.c_str(), "a");
 	EXPECT_TRUE(first.type->is_integer());
 	EXPECT_FALSE(first.exported);
+	context::clear();
 }
 
 TEST(Record_Type_Tests, sub_type) {
-	context::clear();
 	auto view_record { std::make_shared<type::Record>() };
 	auto point_record { std::make_shared<type::Record>() };
 	context::scope->insert("View", view_record);
@@ -53,4 +51,5 @@ TEST(Record_Type_Tests, sub_type) {
 	EXPECT_STREQ(first.name.c_str(), "center");
 	EXPECT_EQ(first.type, point_record);
 	EXPECT_TRUE(first.exported);
+	context::clear();
 }

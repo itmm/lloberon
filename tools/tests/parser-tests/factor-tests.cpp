@@ -9,13 +9,11 @@ using Factor_Runner = Parser_Value_Runner<
 >;
 
 TEST(Factor_Tests, empty) {
-	context::clear();
 	expr::Expression_Ptr factor;
 	Factor_Runner("", factor, true);
 }
 
 TEST(Factor_Tests, literals) {
-	context::clear();
 	expr::Expression_Ptr factor;
 	Factor_Runner test1 { "3", factor };
 	expect_int_value(factor, 3);
@@ -43,20 +41,17 @@ TEST(Factor_Tests, literals) {
 }
 
 TEST(Factor_Tests, set) {
-	context::clear();
 	expr::Expression_Ptr factor;
 	Factor_Runner test1 { "{3..5}", factor };
 }
 
 TEST(Factor_Tests, grouped) {
-	context::clear();
 	expr::Expression_Ptr factor;
 	Factor_Runner test1 { "(3 + 4)", factor };
 	expect_int_value(factor, 7);
 }
 
 TEST(Factor_Tests, ident) {
-	context::clear();
 	auto base { std::make_shared<Scope>() };
 	base->register_base_types();
 	context::scope = std::make_shared<Scope>(base);
@@ -68,10 +63,10 @@ TEST(Factor_Tests, ident) {
 	Factor_Runner test1 { "a", factor };
 	Factor_Runner test2 { "f(3, TRUE)", factor };
 	Factor_Runner test3 { "a[3](TRUE)", factor };
+	context::clear();
 }
 
 TEST(Factor_Tests, not) {
-	context::clear();
 	expr::Expression_Ptr factor;
 	Factor_Runner test1 { "~FALSE", factor };
 	auto value { expr::Const::as_const(factor) };
@@ -82,11 +77,11 @@ TEST(Factor_Tests, not) {
 }
 
 TEST(Factor_Tests, incomplete) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Procedure>());
 	expr::Expression_Ptr factor;
 	Factor_Runner test1 { "a(3,TRUE", factor, true };
 	Factor_Runner test2 { "a(3,", factor, true };
 	Factor_Runner test3 { "a(3", factor, true };
 	Factor_Runner test4 { "a(", factor, true };
+	context::clear();
 }

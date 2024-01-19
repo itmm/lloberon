@@ -6,13 +6,11 @@ using Formal_Parameter_Section_Runner = Parser_Value_Runner<
 >;
 
 TEST(Formal_Parameter_Section_Tests, empty) {
-	context::clear();
 	type::Procedure_Ptr procedure_type;
 	Formal_Parameter_Section_Runner("", procedure_type, true);
 }
 
 TEST(Formal_Parameter_Section_Tests, simple) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
@@ -31,10 +29,10 @@ TEST(Formal_Parameter_Section_Tests, simple) {
 		}
 		EXPECT_FALSE(first.reference);
 	}
+	context::clear();
 }
 
 TEST(Formal_Parameter_Section_Tests, multiple) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
@@ -50,10 +48,10 @@ TEST(Formal_Parameter_Section_Tests, multiple) {
 		EXPECT_EQ(second.type, type::Type::base_integer);
 		EXPECT_FALSE(second.reference);
 	}
+	context::clear();
 }
 
 TEST(Formal_Parameter_Section_Tests, var_parameter) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
@@ -65,10 +63,10 @@ TEST(Formal_Parameter_Section_Tests, var_parameter) {
 		EXPECT_EQ(first.type, type::Type::base_integer);
 		EXPECT_TRUE(first.reference);
 	}
+	context::clear();
 }
 
 TEST(Formal_Parameter_Section_Tests, incomplete) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	procedure_type = std::make_shared<type::Procedure>();
@@ -77,4 +75,5 @@ TEST(Formal_Parameter_Section_Tests, incomplete) {
 	Formal_Parameter_Section_Runner test3 {
 		"a INTEGER", procedure_type, true, true
 	};
+	context::clear();
 }

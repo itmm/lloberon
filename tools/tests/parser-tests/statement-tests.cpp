@@ -6,13 +6,11 @@ using Statement_Runner = Parser_Value_Runner<
 >;
 
 TEST(Statement_Tests, empty) {
-	context::clear();
 	stmt::Statement_Ptr statement;
 	Statement_Runner("", statement);
 }
 
 TEST(Statement_Tests, single) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("i", std::make_shared<decl::Variable>(nullptr));
@@ -26,10 +24,10 @@ TEST(Statement_Tests, single) {
 	Statement_Runner test5 { "WHILE cond DO END", statement };
 	Statement_Runner test6 { "REPEAT UNTIL cond", statement };
 	Statement_Runner test7 { "FOR i := 1 TO 10 DO END", statement };
+	context::clear();
 }
 
 TEST(Statement_Tests, invalid) {
-	context::clear();
 	stmt::Statement_Ptr statement;
 	Statement_Runner test1 { "3", statement, false, true };
 }

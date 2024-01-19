@@ -5,13 +5,11 @@ using Procedure_Type_Runner = Parser_Value_Runner<
 >;
 
 TEST(Procedure_Type_Tests, empty) {
-	context::clear();
 	type::Type_Ptr type;
 	Procedure_Type_Runner test1 { "", type, true };
 }
 
 TEST(Procedure_Type_Tests, simple) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Type_Ptr type;
 	Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): BYTE", type };
@@ -29,4 +27,5 @@ TEST(Procedure_Type_Tests, simple) {
 		}
 		EXPECT_EQ(procedure_type->return_type, type::Type::base_byte);
 	}
+	context::clear();
 }

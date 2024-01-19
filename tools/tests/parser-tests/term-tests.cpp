@@ -7,19 +7,16 @@ using Term_Runner = Parser_Value_Runner<
 >;
 
 TEST(Term_Tests, empty) {
-	context::clear();
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "", term, true };
 }
 
 TEST(Term_Tests, single) {
-	context::clear();
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "3", term };
 }
 
 TEST(Term_Tests, simple) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	expr::Expression_Ptr term;
@@ -28,20 +25,20 @@ TEST(Term_Tests, simple) {
 	Term_Runner test3 { "a DIV b", term };
 	Term_Runner test4 { "a MOD b", term };
 	Term_Runner test5 { "a & b", term };
+	context::clear();
 }
 
 TEST(Term_Tests, multiple) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	context::scope->insert("c", std::make_shared<decl::Variable>(nullptr));
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "a * b * c", term };
 	Term_Runner test2 { "a DIV 2 / b", term };
+	context::clear();
 }
 
 TEST(Term_Tests, set) {
-	context::clear();
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "{0..3} * {2..5}", term };
 	expect_set_value(term, 0x000cu);
@@ -50,15 +47,14 @@ TEST(Term_Tests, set) {
 }
 
 TEST(Term_Tests, incomplete) {
-	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "a / 2 DIV", term, true };
 	Term_Runner test2 { "a /", term, true };
+	context::clear();
 }
 
 TEST(Term_Tests, constant_int) {
-	context::clear();
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "3 * 5", term };
 	expect_int_value(term, 15);
@@ -74,7 +70,6 @@ TEST(Term_Tests, constant_int) {
 }
 
 TEST(Term_Tests, constant_real) {
-	context::clear();
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "3 * 5.0", term };
 	expect_real_value(term, 15.0);
@@ -84,7 +79,6 @@ TEST(Term_Tests, constant_real) {
 }
 
 TEST(Term_Tests, constant_bool) {
-	context::clear();
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "FALSE & FALSE", term };
 	expect_bool_value(term, false);

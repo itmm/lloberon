@@ -3,13 +3,11 @@
 #include "type-tests.h"
 
 TEST(Type_Tests, empty) {
-	context::clear();
 	type::Type_Ptr type;
 	Type_Runner test1 { "", type, true };
 }
 
 TEST(Type_Tests, simple) {
-	context::clear();
 	context::scope->register_base_types();
 	context::scope->insert("Entry", std::make_shared<type::Record>());
 	type::Type_Ptr type;
@@ -35,17 +33,17 @@ TEST(Type_Tests, simple) {
 	Type_Runner test8 { "RECORD x, y: INTEGER END", type };
 	Type_Runner test9 { "POINTER TO Entry", type };
 	Type_Runner test10 { "PROCEDURE (a: INTEGER): INTEGER", type };
+	context::clear();
 }
 
 TEST(Type_Tests, cascading) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Type_Ptr type;
 	Type_Runner test1 { "RECORD a: RECORD END END", type };
+	context::clear();
 }
 
 TEST(Type_Tests, invalid) {
-	context::clear();
 	type::Type_Ptr type;
 	Type_Runner test1 { ":", type, true, true };
 }

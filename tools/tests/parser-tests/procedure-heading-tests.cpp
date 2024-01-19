@@ -5,13 +5,11 @@ using Procedure_Heading_Runner = Parser_Value_Runner<
 >;
 
 TEST(Procedure_Heading_Tests, empty) {
-	context::clear();
 	sema::Procedure_Declaration procedure_declaration;
 	Procedure_Heading_Runner test1 { "", procedure_declaration, true };
 }
 
 TEST(Procedure_Heading_Tests, simple) {
-	context::clear();
 	context::scope->register_base_types();
 	sema::Procedure_Declaration procedure_declaration;
 	Procedure_Heading_Runner test1 {
@@ -26,10 +24,10 @@ TEST(Procedure_Heading_Tests, simple) {
 		EXPECT_FALSE(first.reference);
 		EXPECT_EQ(first.type, type::Type::base_integer);
 	}
+	context::clear();
 }
 
 TEST(Procedure_Heading_Tests, incomplete) {
-	context::clear();
 	context::scope->register_base_types();
 	sema::Procedure_Declaration procedure_declaration;
 	Procedure_Heading_Runner test1 {
@@ -39,4 +37,5 @@ TEST(Procedure_Heading_Tests, incomplete) {
 	Procedure_Heading_Runner test2 {
 		"PROCEDURE (): INTEGER", procedure_declaration, true, true
 	};
+	context::clear();
 }

@@ -6,14 +6,12 @@ using Array_Type_Runner = Parser_Value_Runner<
 >;
 
 TEST(Array_Type_Tests, empty) {
-	context::clear();
 	type::Type_Ptr array_type;
 	Array_Type_Runner test1 { "", array_type, true };
 	EXPECT_EQ(array_type, nullptr);
 }
 
 TEST(Array_Type_Tests, simple) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Type_Ptr array_type;
 	Array_Type_Runner test1 { "ARRAY 3 OF BOOLEAN", array_type };
@@ -22,10 +20,10 @@ TEST(Array_Type_Tests, simple) {
 	EXPECT_NE(array->base, nullptr);
 	EXPECT_TRUE(array->base->is_bool());
 	EXPECT_EQ(array->count, 3);
+	context::clear();
 }
 
 TEST(Array_Type_Tests, multiple) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Type_Ptr array_type;
 	Array_Type_Runner test1 { "ARRAY 3, 4 OF BOOLEAN", array_type };
@@ -36,10 +34,10 @@ TEST(Array_Type_Tests, multiple) {
 	EXPECT_NE(inner, nullptr);
 	EXPECT_EQ(inner->count, 4);
 	EXPECT_TRUE(inner->base->is_bool());
+	context::clear();
 }
 
 TEST(Array_Type_Tests, cascading) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Type_Ptr array_type;
 	Array_Type_Runner test1 { "ARRAY 3 OF ARRAY 4 OF BOOLEAN", array_type };
@@ -50,4 +48,5 @@ TEST(Array_Type_Tests, cascading) {
 	EXPECT_NE(inner, nullptr);
 	EXPECT_EQ(inner->count, 4);
 	EXPECT_TRUE(inner->base->is_bool());
+	context::clear();
 }

@@ -3,7 +3,6 @@
 using Set_Runner = Parser_Value_Runner<expr::Const_Ptr, &Parser::parse_set>;
 
 TEST(Set_Tests, empty) {
-	context::clear();
 	expr::Const_Ptr expression;
 	Set_Runner test1 { "", expression, true };
 	Set_Runner test2 { "{}", expression };
@@ -11,7 +10,6 @@ TEST(Set_Tests, empty) {
 }
 
 TEST(Set_Tests, simple) {
-	context::clear();
 	expr::Const_Ptr expression;
 	Set_Runner test1 { "{1}", expression };
 	EXPECT_EQ(expression->set_value(), 0x00002u);
@@ -21,7 +19,6 @@ TEST(Set_Tests, simple) {
 }
 
 TEST(Set_Tests, ranges) {
-	context::clear();
 	expr::Const_Ptr expression;
 	Set_Runner test1 { "{1..2}", expression };
 	EXPECT_EQ(expression->set_value(), 0x0006u);
@@ -31,7 +28,6 @@ TEST(Set_Tests, ranges) {
 }
 
 TEST(Set_Tests, incomplete) {
-	context::clear();
 	expr::Const_Ptr expression;
 	Set_Runner test1 { "{1..3", expression, true };
 	Set_Runner test2 { "{1..}", expression, true, true };

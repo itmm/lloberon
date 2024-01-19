@@ -23,24 +23,24 @@ TEST(Field_List_Tests, simple) {
 }
 
 TEST(Field_List_Tests, exported) {
-	context::clear();
 	context::scope->register_base_types();
 	auto field_list { std::make_shared<type::Record>() };
 	Field_List_Runner test1 { "a*: INTEGER", field_list };
+	context::clear();
 }
 
 TEST(Field_List_Tests, multiple) {
-	context::clear();
 	context::scope->register_base_types();
 	auto field_list { std::make_shared<type::Record>() };
 	Field_List_Runner test1 { "a, b: INTEGER", field_list };
+	context::clear();
 }
 
 TEST(Field_List_Tests, incomplete) {
-	context::clear();
 	context::scope->register_base_types();
 	auto field_list { std::make_shared<type::Record>() };
 	Field_List_Runner test1 { "a:", field_list, true };
 	Field_List_Runner test2 { "a INTEGER", field_list, true, true };
 	Field_List_Runner test3 { "a,:", field_list, true, true };
+	context::clear();
 }

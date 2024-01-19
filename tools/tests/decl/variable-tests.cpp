@@ -7,6 +7,7 @@ protected:
 	decl::Variable decl { nullptr };
 
 	void SetUp() override {
+		decl.~Variable();
 		new(&decl) decl::Variable { nullptr };
 	}
 };

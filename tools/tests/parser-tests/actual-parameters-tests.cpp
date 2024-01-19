@@ -5,18 +5,15 @@ using Actual_Parameters_Runner = Parser_String_Runner<
 >;
 
 TEST(Actual_Parameters_Tests, empty) {
-	context::clear();
 	Actual_Parameters_Runner test1 { "", true };
 	Actual_Parameters_Runner test2 { "()" };
 }
 
 TEST(Actual_Parameters_Tests, simple) {
-	context::clear();
 	Actual_Parameters_Runner test1 { "(3, 4)" };
 }
 
 TEST(Actual_Paramaters_Tests, incomplete) {
-	context::clear();
 	Actual_Parameters_Runner test1 { "3", true, true };
 	Actual_Parameters_Runner test2 { "(3", true };
 	Actual_Parameters_Runner test3 { "(", true };

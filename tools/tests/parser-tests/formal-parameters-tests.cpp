@@ -6,13 +6,11 @@ using Formal_Parameters_Runner = Parser_Value_Runner<
 >;
 
 TEST(Formal_Parameters_Tests, empty) {
-	context::clear();
 	type::Procedure_Ptr procedure_type;
 	Formal_Parameters_Runner("", procedure_type, true);
 }
 
 TEST(Formal_Parameters_Tests, simple) {
-	context::clear();
 	context::scope->register_base_types();
 	type::Procedure_Ptr procedure_type;
 	Formal_Parameters_Runner test1 { "()", procedure_type };
@@ -28,10 +26,10 @@ TEST(Formal_Parameters_Tests, simple) {
 		EXPECT_TRUE(first.reference);
 	}
 	EXPECT_EQ(procedure_type->return_type, nullptr);
+	context::clear();
 }
 
 TEST(Formal_Parameters_Tests, with_return) {
-	context::clear();
 	auto module = std::make_shared<decl::Module>("X");
 	module->insert("Byte", type::Type::base_byte);
 	context::scope->insert("X", module);
@@ -40,10 +38,10 @@ TEST(Formal_Parameters_Tests, with_return) {
 	EXPECT_EQ(procedure_type->parameters.size(), 0);
 	const auto& return_type { procedure_type->return_type };
 	EXPECT_EQ(return_type, type::Type::base_byte);
+	context::clear();
 }
 
 TEST(Formal_Parameters_Tests, incomplete) {
-	context::clear();
 	type::Procedure_Ptr procedure_type;
 	Formal_Parameters_Runner test1 { "(", procedure_type, true };
 	Formal_Parameters_Runner test2 { "():", procedure_type, true };
