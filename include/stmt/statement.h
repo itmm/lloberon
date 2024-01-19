@@ -9,5 +9,7 @@ namespace stmt {
 		virtual ~Statement() = default;
 	};
 
-	using Statement_Sequence = std::vector<std::shared_ptr<Statement>>;
+	using Statement_Ptr = std::shared_ptr<Statement>;
+
+	using Statement_Sequence = std::vector<Statement_Ptr>;
 }

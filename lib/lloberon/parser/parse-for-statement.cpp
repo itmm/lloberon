@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 #include "stmt/for.h"
 
-bool Parser::parse_for_statement(sema::Statement& statement) {
+bool Parser::parse_for_statement(stmt::Statement_Ptr& statement) {
 	auto for_statement { std::make_shared<stmt::For>() };
 
 	if (consume(token::keyword_FOR)) { return true; }
@@ -30,6 +30,6 @@ bool Parser::parse_for_statement(sema::Statement& statement) {
 	if (parse_statement_sequence(statement_sequence)) { return true; }
 	for_statement->statements = std::move(statement_sequence.sequence);
 	if (consume(token::keyword_END)) { return true; }
-	statement.statement = for_statement;
+	statement = for_statement;
 	return false;
 }

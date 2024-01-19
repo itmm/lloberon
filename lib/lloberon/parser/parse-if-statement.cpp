@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 #include "stmt/if.h"
 
-bool Parser::parse_if_statement(sema::Statement& statement) {
+bool Parser::parse_if_statement(stmt::Statement_Ptr& statement) {
 	auto if_statement { std::make_shared<stmt::If>() };
 	if (consume(token::keyword_IF)) { return true; }
 	expr::Expression_Ptr expression;
@@ -32,6 +32,6 @@ bool Parser::parse_if_statement(sema::Statement& statement) {
 		);
 	}
 	if (consume(token::keyword_END)) { return true; }
-	statement.statement = if_statement;
+	statement = if_statement;
 	return false;
 }

@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 #include "stmt/while.h"
 
-bool Parser::parse_while_statement(sema::Statement& statement) {
+bool Parser::parse_while_statement(stmt::Statement_Ptr& statement) {
 	auto while_statement { std::make_shared<stmt::While>() };
 	if (consume(token::keyword_WHILE)) { return true; }
 	expr::Expression_Ptr expression;
@@ -22,6 +22,6 @@ bool Parser::parse_while_statement(sema::Statement& statement) {
 		);
 	}
 	if (consume(token::keyword_END)) { return true; }
-	statement.statement = while_statement;
+	statement = while_statement;
 	return false;
 }

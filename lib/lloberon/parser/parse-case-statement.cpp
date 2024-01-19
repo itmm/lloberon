@@ -3,7 +3,7 @@
 #include "type/pointer.h"
 #include "type/record.h"
 
-bool Parser::parse_case_statement(sema::Statement& statement) {
+bool Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
 	if (consume(token::keyword_CASE)) { return true; }
 	expr::Expression_Ptr expression;
 	if (parse_expression(expression)) { return true; }
@@ -25,7 +25,7 @@ bool Parser::parse_case_statement(sema::Statement& statement) {
 		}
 		if (consume(token::keyword_END)) { return true; }
 
-		statement.statement = case_statement;
+		statement = case_statement;
 	} else {
 		auto case_statement { std::make_shared<stmt::Const_Case>() };
 		case_statement->condition = expression;
@@ -39,7 +39,7 @@ bool Parser::parse_case_statement(sema::Statement& statement) {
 		}
 		if (consume(token::keyword_END)) { return true; }
 
-		statement.statement = case_statement;
+		statement = case_statement;
 	}
 	return false;
 }

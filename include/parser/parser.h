@@ -9,7 +9,6 @@
 #include "sema/label.h"
 #include "sema/procedure-declaration.h"
 #include "sema/scope.h"
-#include "sema/statement.h"
 #include "sema/statement-sequence.h"
 #include "sema/qual-ident.h"
 #include "type/record.h"
@@ -66,7 +65,7 @@ public:
 
 	[[nodiscard]] bool parse_case_list(sema::Type_Case_List& case_list);
 
-	[[nodiscard]] bool parse_case_statement(sema::Statement& statement);
+	[[nodiscard]] bool parse_case_statement(stmt::Statement_Ptr& statement);
 
 	[[nodiscard]] bool parse_const_declaration();
 
@@ -90,7 +89,7 @@ public:
 
 	[[nodiscard]] bool parse_field_list_sequence(type::Record_Ptr& record_type);
 
-	[[nodiscard]] bool parse_for_statement(sema::Statement& for_statement);
+	[[nodiscard]] bool parse_for_statement(stmt::Statement_Ptr& for_statement);
 
 	[[nodiscard]] bool parse_formal_parameter_section(
 		type::Procedure_Ptr& procedure_type
@@ -106,7 +105,7 @@ public:
 
 	[[nodiscard]] bool parse_ident_list(sema::Ident_List& ident_list);
 
-	[[nodiscard]] bool parse_if_statement(sema::Statement& statement);
+	[[nodiscard]] bool parse_if_statement(stmt::Statement_Ptr& statement);
 
 	[[nodiscard]] bool parse_import(Scope& scope);
 
@@ -138,7 +137,7 @@ public:
 
 	[[nodiscard]] bool parse_record_type(type::Type_Ptr& record_type);
 
-	[[nodiscard]] bool parse_repeat_statement(sema::Statement& statement);
+	[[nodiscard]] bool parse_repeat_statement(stmt::Statement_Ptr& statement);
 
 	[[nodiscard]] bool parse_set(expr::Const_Ptr& expression);
 
@@ -146,7 +145,7 @@ public:
 		expr::Expression_Ptr& expression
 	);
 
-	[[nodiscard]] bool parse_statement(sema::Statement& statement);
+	[[nodiscard]] bool parse_statement(stmt::Statement_Ptr& statement);
 
 	[[nodiscard]] bool parse_statement_sequence(
 		sema::Statement_Sequence& statement_sequence
@@ -160,7 +159,7 @@ public:
 
 	[[nodiscard]] bool parse_variable_declaration();
 
-	[[nodiscard]] bool parse_while_statement(sema::Statement& statement);
+	[[nodiscard]] bool parse_while_statement(stmt::Statement_Ptr& statement);
 
 	[[nodiscard]] static bool is_eof() { return token::is(token::eof); }
 };

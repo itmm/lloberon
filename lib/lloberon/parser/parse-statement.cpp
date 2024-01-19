@@ -1,6 +1,6 @@
 #include "parser/parser.h"
 
-bool Parser::parse_statement(sema::Statement& statement) {
+bool Parser::parse_statement(stmt::Statement_Ptr& statement) {
 	if (token::is(token::identifier)) {
 		expr::Expression_Ptr expression;
 		if (parse_assignment_or_procedure_call(expression)) { return true; }

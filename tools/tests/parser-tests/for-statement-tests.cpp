@@ -4,12 +4,12 @@
 #include "const-tests.h"
 
 using For_Statement_Runner = Parser_Value_Runner<
-	sema::Statement, &Parser::parse_for_statement
+	stmt::Statement_Ptr, &Parser::parse_for_statement
 >;
 
 TEST(For_Statement_Tests, empty) {
 	context::clear();
-	sema::Statement statement;
+	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 { "", statement, true };
 }
 
@@ -18,13 +18,11 @@ TEST(For_Statement_Tests, simple) {
 	auto var { std::make_shared<decl::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement;
+	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 {
 		"FOR a := 1 TO 3 DO x := x + a END", statement
 	};
-	auto for_statement { std::dynamic_pointer_cast<stmt::For>(
-		statement.statement
-	)};
+	auto for_statement { std::dynamic_pointer_cast<stmt::For>(statement)};
 	EXPECT_NE(for_statement, nullptr);
 	if (for_statement) {
 		EXPECT_EQ(for_statement->variable, var);
@@ -40,13 +38,11 @@ TEST(For_Statement_Tests, with_step) {
 	auto var { std::make_shared<decl::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement;
+	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 {
 		"FOR a := 1 TO 10 BY 2 DO x := x + a END", statement
 	};
-	auto for_statement { std::dynamic_pointer_cast<stmt::For>(
-		statement.statement
-	)};
+	auto for_statement { std::dynamic_pointer_cast<stmt::For>(statement)};
 	EXPECT_NE(for_statement, nullptr);
 	if (for_statement) {
 		EXPECT_EQ(for_statement->variable, var);
@@ -62,13 +58,11 @@ TEST(For_Statement_Tests, with_stepdown) {
 	auto var { std::make_shared<decl::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement;
+	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 {
 		"FOR a := 10 TO 0 BY -2 DO x := x + a END", statement
 	};
-	auto for_statement { std::dynamic_pointer_cast<stmt::For>(
-		statement.statement
-	)};
+	auto for_statement { std::dynamic_pointer_cast<stmt::For>(statement)};
 	EXPECT_NE(for_statement, nullptr);
 	if (for_statement) {
 		EXPECT_EQ(for_statement->variable, var);
@@ -82,7 +76,7 @@ TEST(For_Statement_Tests, with_stepdown) {
 TEST(For_Statement_Tests, wrong) {
 	context::clear();
 	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	sema::Statement statement;
+	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 { "FOR", statement, true };
 	For_Statement_Runner test2 { "FOR a", statement, true };
 	For_Statement_Runner test3 { "FOR :=", statement, true, true };
