@@ -12,4 +12,6 @@ namespace decl {
 
 		bool exported { false };
 	};
+
+	using Declaration_Ptr = std::shared_ptr<Declaration>;
 }

@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/const.h"
 #include "const-tests.h"
 
 using Declaration_Sequence_Runner = Parser_String_Runner<
@@ -15,7 +14,7 @@ TEST(Declaration_Sequence_Tests, single) {
 	context::scope = std::make_shared<Scope>(base);
 	base->register_base_types();
 	Declaration_Sequence_Runner test1 { "CONST a = 3;" };
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test2 { "TYPE image = ARRAY 10 OF INTEGER;" };
@@ -33,8 +32,8 @@ TEST(Declaration_Sequence_Tests, multiple) {
 	context::scope = std::make_shared<Scope>(base);
 	base->register_base_types();
 	Declaration_Sequence_Runner test1 { "CONST a = 3; b = 4;" };
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
-	expect_int_value(decl::Const::as_const(context::scope->lookup("b")), 4);
+	expect_int_value(context::scope->lookup("a"), 3);
+	expect_int_value(context::scope->lookup("b"), 4);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test2 { "TYPE X = INTEGER; Y = BYTE;" };
@@ -54,7 +53,7 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 	context::scope = std::make_shared<Scope>(base);
 	base->register_base_types();
 	Declaration_Sequence_Runner test1 { "CONST a = 3; TYPE x = BYTE;" };
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test2 { "TYPE x = BYTE; VAR a: BYTE;" };
@@ -66,7 +65,7 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test4 { "CONST a = 3; VAR b: BYTE;" };
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test5 {
@@ -77,13 +76,13 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 	Declaration_Sequence_Runner test6 {
 		"CONST a = 3; PROCEDURE Nop(); BEGIN END Nop;"
 	};
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test7 {
 		"CONST a = 3; TYPE x = BYTE; VAR b: BYTE;"
 	};
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test8 {
@@ -94,20 +93,20 @@ TEST(Declaration_Sequence_Tests, multiple_types) {
 	Declaration_Sequence_Runner test9 {
 		"CONST a = 3; VAR b: BYTE; PROCEDURE Nop(); BEGIN END Nop;"
 	};
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test10 {
 		"CONST a = 3; TYPE x = BYTE; PROCEDURE Nop(); BEGIN END Nop;"
 	};
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::scope->clear();
 
 	Declaration_Sequence_Runner test11 {
 		"CONST a = 3; TYPE x = BYTE; VAR b: BYTE; "
 		"PROCEDURE Nop(); BEGIN END Nop;"
 	};
-	expect_int_value(decl::Const::as_const(context::scope->lookup("a")), 3);
+	expect_int_value(context::scope->lookup("a"), 3);
 	context::clear();
 }
 

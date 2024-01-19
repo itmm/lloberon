@@ -5,7 +5,7 @@
 #include "expr/expression.h"
 
 inline void expect_int_value(
-	const std::shared_ptr<expr::Expression>& expression, int expected
+	const decl::Declaration_Ptr& expression, int expected
 ) {
 	auto const_expr { std::dynamic_pointer_cast<expr::Const>(expression) };
 	EXPECT_NE(const_expr, nullptr);
@@ -18,7 +18,7 @@ inline void expect_int_value(
 }
 
 inline void expect_real_value(
-	const std::shared_ptr<expr::Expression>& expression, double expected
+	const decl::Declaration_Ptr& expression, double expected
 ) {
 	auto const_expr { std::dynamic_pointer_cast<expr::Const>(expression) };
 	EXPECT_NE(const_expr, nullptr);
@@ -31,7 +31,7 @@ inline void expect_real_value(
 }
 
 inline void expect_bool_value(
-	const std::shared_ptr<expr::Expression>& expression, bool expected
+	const decl::Declaration_Ptr& expression, bool expected
 ) {
 	if (expected) {
 		EXPECT_EQ(expression, expr::Const::true_value);
@@ -41,7 +41,7 @@ inline void expect_bool_value(
 }
 
 inline void expect_string_value(
-	const std::shared_ptr<expr::Expression>& expression, const char* expected
+	const decl::Declaration_Ptr& expression, const char* expected
 ) {
 	auto const_expr { std::dynamic_pointer_cast<expr::Const>(expression) };
 	EXPECT_NE(const_expr, nullptr);
@@ -54,7 +54,7 @@ inline void expect_string_value(
 }
 
 inline void expect_set_value(
-	const std::shared_ptr<expr::Expression>& expression, unsigned expected
+	const decl::Declaration_Ptr& expression, unsigned expected
 ) {
 	auto const_expr { std::dynamic_pointer_cast<expr::Const>(expression) };
 	EXPECT_NE(const_expr, nullptr);
