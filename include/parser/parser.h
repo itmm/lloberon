@@ -112,7 +112,7 @@ public:
 
 	[[nodiscard]] bool parse_import_list(Scope& scope);
 
-	[[nodiscard]] bool parse_label(sema::Const_Label& label);
+	[[nodiscard]] bool parse_label(expr::Const_Ptr& label);
 
 	[[nodiscard]] bool parse_label_range(sema::Const_Label_Range& range);
 
