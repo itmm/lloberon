@@ -1,6 +1,5 @@
 #include "parser-tests.h"
 
-#include "decl/variable.h"
 #include "decl/procedure.h"
 
 using Assignment_Runner = Parser_Value_Runner<
@@ -14,21 +13,21 @@ TEST(Assignment_Tests, empty) {
 }
 
 TEST(Assignment_Tests, simple) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	expr::Expression_Ptr assignment;
 	Assignment_Runner test1 { "a := 3", assignment };
 	context::clear();
 }
 
 TEST(Assignment_Tests, incomplete) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	expr::Expression_Ptr assignment;
 	Assignment_Runner test1 { "a :=", assignment, true };
 	context::clear();
 }
 
 TEST(Procedure_Call_Tests, simple) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	context::scope->insert("f", std::make_shared<decl::Procedure>());
 	expr::Expression_Ptr assignment;
 	Procedure_Call_Runner test1 { "f()", assignment };
@@ -45,7 +44,7 @@ TEST(Procedure_Call_Tests, odd) {
 }
 
 TEST(Procedure_Call_Tests, incomplete) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	context::scope->insert("f", std::make_shared<decl::Procedure>());
 	expr::Expression_Ptr assignment;
 	Procedure_Call_Runner test1 { "f(a,", assignment, true };
@@ -56,7 +55,7 @@ TEST(Procedure_Call_Tests, incomplete) {
 
 TEST(Procedure_Call_Tests, cast) {
 	context::scope->register_base_types();
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	expr::Expression_Ptr assignment;
 	Procedure_Call_Runner test1 { "a (INTEGER)", assignment };
 	context::clear();

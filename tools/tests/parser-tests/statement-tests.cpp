@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/variable.h"
 
 using Statement_Runner = Parser_Value_Runner<
 	stmt::Statement_Ptr, &Parser::parse_statement
@@ -11,10 +10,10 @@ TEST(Statement_Tests, empty) {
 }
 
 TEST(Statement_Tests, single) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("i", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("cond", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<expr::Variable>(nullptr));
+	context::scope->insert("i", std::make_shared<expr::Variable>(nullptr));
+	context::scope->insert("cond", std::make_shared<expr::Variable>(nullptr));
 	context::scope->insert("f", std::make_shared<decl::Procedure>());
 	stmt::Statement_Ptr statement;
 	Statement_Runner test1 { "a := 3", statement };

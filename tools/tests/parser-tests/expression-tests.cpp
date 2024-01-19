@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/variable.h"
 #include "expr/expression.h"
 #include "const-tests.h"
 
@@ -14,8 +13,6 @@ TEST(Expression_Tests, empty) {
 
 TEST(Expression_Tests, single) {
 	context::scope->register_base_types();
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
 	expr::Expression_Ptr expression;
 	Expression_Runner test1 { "3 = 4", expression };
 	Expression_Runner test2 { "3 # 4", expression };
@@ -23,6 +20,7 @@ TEST(Expression_Tests, single) {
 	Expression_Runner test4 { "3 <= 4", expression };
 	Expression_Runner test5 { "3 > 4", expression };
 	Expression_Runner test6 { "3 >= 4", expression };
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	Expression_Runner test7 { "3 IN a", expression };
 	Expression_Runner test8 { "a IS INTEGER", expression };
 	Expression_Runner test9 { "NIL", expression };

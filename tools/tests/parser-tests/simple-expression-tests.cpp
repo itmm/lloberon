@@ -1,4 +1,3 @@
-#include "decl/variable.h"
 #include "const-tests.h"
 #include "parser-tests.h"
 
@@ -39,8 +38,8 @@ TEST(Simple_Expression_Tests, simple) {
 	expect_real("2.5 + 5", 7.5);
 	expect_real("3 - 6.5", -3.5);
 
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<expr::Variable>(nullptr));
 	expr::Expression_Ptr simple_expression;
 	Simple_Expression_Runner test3 { "a OR b", simple_expression };
 	context::clear();

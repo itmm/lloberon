@@ -6,9 +6,12 @@ bool Parser::parse_for_statement(stmt::Statement_Ptr& statement) {
 
 	if (consume(token::keyword_FOR)) { return true; }
 	if (expect(token::identifier)) { return true; }
-	for_statement->variable = std::dynamic_pointer_cast<decl::Variable>(
+	for_statement->variable = std::dynamic_pointer_cast<expr::Variable>(
 		context::scope->lookup(token::value)
 	);
+	if (!for_statement->variable) {
+		return report(diag::err_variable_expected);
+	}
 	advance();
 	if (consume(token::assign)) { return true; }
 	expr::Expression_Ptr expression;

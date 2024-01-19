@@ -9,6 +9,7 @@ DIAG(err_bar_in_case_expected, Error, "| (or END) in CASE statement expected")
 DIAG(err_const_experssion_expected, Error, "constant expression expected")
 DIAG(err_const_label_expected, Error, "constant label expected")
 DIAG(err_factor_expected, Error, "Factor expression expected")
+DIAG(err_variable_expected, Error, "Variable expression expected")
 DIAG(err_import_already_used, Error, "MODULE IMPORT {0} is already used")
 DIAG(
 	err_module_names_dont_match, Error, "MODULE names {0} and {1} do not match"

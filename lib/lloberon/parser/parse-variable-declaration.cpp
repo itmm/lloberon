@@ -1,5 +1,4 @@
 #include "parser/parser.h"
-#include "decl/variable.h"
 
 bool Parser::parse_variable_declaration() {
 	sema::Ident_List ident_list;
@@ -10,7 +9,7 @@ bool Parser::parse_variable_declaration() {
 
 	for (const auto& id: ident_list) {
 		if (!context::scope->insert(
-			id, std::make_shared<decl::Variable>(type)
+			id, std::make_shared<expr::Variable>(type)
 		)) {
 			return report(diag::err_already_defined);
 		}

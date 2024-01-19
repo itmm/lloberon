@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/variable.h"
 #include "const-tests.h"
 
 using Term_Runner = Parser_Value_Runner<
@@ -17,8 +16,8 @@ TEST(Term_Tests, single) {
 }
 
 TEST(Term_Tests, simple) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<expr::Variable>(nullptr));
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "a * b", term };
 	Term_Runner test2 { "a / b", term };
@@ -29,9 +28,9 @@ TEST(Term_Tests, simple) {
 }
 
 TEST(Term_Tests, multiple) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("b", std::make_shared<decl::Variable>(nullptr));
-	context::scope->insert("c", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
+	context::scope->insert("b", std::make_shared<expr::Variable>(nullptr));
+	context::scope->insert("c", std::make_shared<expr::Variable>(nullptr));
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "a * b * c", term };
 	Term_Runner test2 { "a DIV 2 / b", term };
@@ -47,7 +46,7 @@ TEST(Term_Tests, set) {
 }
 
 TEST(Term_Tests, incomplete) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	expr::Expression_Ptr term;
 	Term_Runner test1 { "a / 2 DIV", term, true };
 	Term_Runner test2 { "a /", term, true };

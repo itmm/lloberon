@@ -2,7 +2,6 @@
 
 #include "statement.h"
 #include "expr/const.h"
-#include "decl/variable.h"
 
 namespace stmt {
 	class Repeat: public Statement {

@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/variable.h"
 #include "stmt/for.h"
 #include "const-tests.h"
 
@@ -13,9 +12,9 @@ TEST(For_Statement_Tests, empty) {
 }
 
 TEST(For_Statement_Tests, simple) {
-	auto var { std::make_shared<decl::Variable>(nullptr) };
+	auto var { std::make_shared<expr::Variable>(nullptr) };
 	context::scope->insert("a", var);
-	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 {
 		"FOR a := 1 TO 3 DO x := x + a END", statement
@@ -33,9 +32,9 @@ TEST(For_Statement_Tests, simple) {
 }
 
 TEST(For_Statement_Tests, with_step) {
-	auto var { std::make_shared<decl::Variable>(nullptr) };
+	auto var { std::make_shared<expr::Variable>(nullptr) };
 	context::scope->insert("a", var);
-	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 {
 		"FOR a := 1 TO 10 BY 2 DO x := x + a END", statement
@@ -53,9 +52,9 @@ TEST(For_Statement_Tests, with_step) {
 }
 
 TEST(For_Statement_Tests, with_stepdown) {
-	auto var { std::make_shared<decl::Variable>(nullptr) };
+	auto var { std::make_shared<expr::Variable>(nullptr) };
 	context::scope->insert("a", var);
-	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 {
 		"FOR a := 10 TO 0 BY -2 DO x := x + a END", statement
@@ -73,7 +72,7 @@ TEST(For_Statement_Tests, with_stepdown) {
 }
 
 TEST(For_Statement_Tests, wrong) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
 	For_Statement_Runner test1 { "FOR", statement, true };
 	For_Statement_Runner test2 { "FOR a", statement, true };

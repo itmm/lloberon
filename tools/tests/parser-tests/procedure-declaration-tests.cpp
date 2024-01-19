@@ -1,5 +1,5 @@
 #include "parser-tests.h"
-#include "decl/variable.h"
+#include "expr/variable.h"
 
 using Procedure_Declaration_Runner = Parser_String_Runner<
 	&Parser::parse_procedure_declaration
@@ -11,7 +11,7 @@ TEST(Procedure_Declaration_Tests, empty) {
 
 TEST(Procedure_Declaration_Tests, simple) {
 	context::scope->register_base_types();
-	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
 	Procedure_Declaration_Runner test1 {
 		"PROCEDURE Add1(x: INTEGER): INTEGER; RETURN x + 1 END Add1"
 	};
@@ -35,7 +35,7 @@ TEST(Procedure_Declaration_Tests, simple) {
 
 TEST(Procedure_Declaration_Tests, with_declaration) {
 	context::scope->register_base_types();
-	context::scope->insert("x", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
 	Procedure_Declaration_Runner test1 {
 		"PROCEDURE Solution(): INTEGER; CONST a = 42; RETURN a END Solution"
 	};

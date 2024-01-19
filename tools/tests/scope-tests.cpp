@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "sema/scope.h"
 #include "decl/declaration.h"
-#include "decl/variable.h"
+#include "expr/variable.h"
 
 TEST(Scope_Tests, no_parent) {
 	Scope scope;
@@ -21,9 +21,7 @@ TEST(Scope_Tests, not_found) {
 
 TEST(Scope_Tests, insert) {
 	Scope scope;
-	auto var { std::make_shared<decl::Variable>(
-		nullptr
-	) };
+	auto var { std::make_shared<expr::Variable>(nullptr) };
 	EXPECT_TRUE(scope.insert("abc", var));
 	EXPECT_EQ(scope.lookup("abc"), var);
 }
@@ -37,14 +35,14 @@ TEST(Scope_Tests, not_found_with_parent) {
 TEST(Scope_Tests, insert_with_parent) {
 	auto parent { std::make_shared<Scope>() };
 	Scope scope { parent };
-	auto var { std::make_shared<decl::Variable>(nullptr) };
+	auto var { std::make_shared<expr::Variable>(nullptr) };
 	EXPECT_TRUE(parent->insert("abc", var));
 	EXPECT_EQ(scope.lookup("abc"), var);
 }
 
 TEST(Scope_Tests, double_insert) {
-	auto first { std::make_shared<decl::Variable>(nullptr) };
-	auto second { std::make_shared<decl::Variable>(nullptr) };
+	auto first { std::make_shared<expr::Variable>(nullptr) };
+	auto second { std::make_shared<expr::Variable>(nullptr) };
 	Scope scope;
 	EXPECT_TRUE(scope.insert("abc", first));
 	EXPECT_FALSE(scope.insert("abc", second));

@@ -1,7 +1,5 @@
 #include "parser-tests.h"
 
-#include "decl/variable.h"
-
 using Case_Runner = Parser_Value_Runner<sema::Const_Case, &Parser::parse_case>;
 
 TEST(Case_Tests, empty) {
@@ -10,7 +8,7 @@ TEST(Case_Tests, empty) {
 }
 
 TEST(Case_Tests, simple) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(
+	context::scope->insert("a", std::make_shared<expr::Variable>(
 		type::Type::base_integer
 	));
 	sema::Const_Case const_case;
@@ -20,7 +18,7 @@ TEST(Case_Tests, simple) {
 }
 
 TEST(Case_Tests, wrong) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(
+	context::scope->insert("a", std::make_shared<expr::Variable>(
 		type::Type::base_integer
 	));
 	sema::Const_Case const_case;

@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/variable.h"
 #include "stmt/repeat.h"
 
 using Repeat_Statement_Runner = Parser_Value_Runner<
@@ -12,7 +11,7 @@ TEST(Repeat_Statement_Tests, empty) {
 }
 
 TEST(Repeat_Statement_Tests, simple) {
-	context::scope->insert("a", std::make_shared<decl::Variable>(nullptr));
+	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
 	stmt::Statement_Ptr statement;
 	Repeat_Statement_Runner test1 {
 		"REPEAT a := a + 1 UNTIL a > 10", statement

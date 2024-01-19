@@ -1,5 +1,4 @@
 #include "parser-tests.h"
-#include "decl/variable.h"
 
 using Module_Runner = Parser_String_Runner<&Parser::parse_module>;
 
