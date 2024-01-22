@@ -1,21 +1,18 @@
 #include "parser-tests.h"
 #include "type/array.h"
 
-using Array_Type_Runner = Parser_Arg_Void_Runner<
-	type::Type_Ptr, &Parser::parse_array_type
+using Array_Type_Runner = Parser_No_Void_Runner<
+	type::Array_Ptr, &Parser::parse_array_type
 >;
 
 TEST(Array_Type_Tests, empty) {
-	type::Type_Ptr array_type;
-	Array_Type_Runner test1 { "", array_type, true };
-	EXPECT_EQ(array_type, nullptr);
+	Array_Type_Runner test1 { "", true };
 }
 
 TEST(Array_Type_Tests, simple) {
 	context::scope->register_base_types();
-	type::Type_Ptr array_type;
-	Array_Type_Runner test1 { "ARRAY 3 OF BOOLEAN", array_type };
-	auto array { std::dynamic_pointer_cast<type::Array>(array_type) };
+	Array_Type_Runner test1 { "ARRAY 3 OF BOOLEAN" };
+	const auto& array { test1.value };
 	EXPECT_NE(array, nullptr);
 	EXPECT_NE(array->base, nullptr);
 	EXPECT_TRUE(array->base->is_bool());
@@ -25,9 +22,8 @@ TEST(Array_Type_Tests, simple) {
 
 TEST(Array_Type_Tests, multiple) {
 	context::scope->register_base_types();
-	type::Type_Ptr array_type;
-	Array_Type_Runner test1 { "ARRAY 3, 4 OF BOOLEAN", array_type };
-	auto outer { std::dynamic_pointer_cast<type::Array>(array_type) };
+	Array_Type_Runner test1 { "ARRAY 3, 4 OF BOOLEAN" };
+	const auto& outer { test1.value };
 	EXPECT_NE(outer, nullptr);
 	EXPECT_EQ(outer->count, 3);
 	auto inner { std::dynamic_pointer_cast<type::Array>(outer->base) };
@@ -39,9 +35,8 @@ TEST(Array_Type_Tests, multiple) {
 
 TEST(Array_Type_Tests, cascading) {
 	context::scope->register_base_types();
-	type::Type_Ptr array_type;
-	Array_Type_Runner test1 { "ARRAY 3 OF ARRAY 4 OF BOOLEAN", array_type };
-	auto outer { std::dynamic_pointer_cast<type::Array>(array_type) };
+	Array_Type_Runner test1 { "ARRAY 3 OF ARRAY 4 OF BOOLEAN" };
+	const auto& outer { test1.value };
 	EXPECT_NE(outer, nullptr);
 	EXPECT_EQ(outer->count, 3);
 	auto inner { std::dynamic_pointer_cast<type::Array>(outer->base) };

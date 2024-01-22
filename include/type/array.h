@@ -7,10 +7,12 @@
 namespace type {
 	class Array : public Type {
 	public:
-		explicit Array(int count = 0, std::shared_ptr<Type> base = nullptr) :
+		explicit Array(int count = 0, Type_Ptr base = nullptr) :
 			count { count }, base { std::move(base) } { }
 
 		int count;
-		std::shared_ptr<Type> base;
+		Type_Ptr base;
 	};
+
+	using Array_Ptr = std::shared_ptr<Array>;
 }

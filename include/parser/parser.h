@@ -41,7 +41,7 @@ public:
 
 	void parse_actual_parameters();
 
-	void parse_array_type(type::Type_Ptr& type);
+	type::Array_Ptr parse_array_type();
 
 	void parse_assignment_or_procedure_call(expr::Expression_Ptr& expression);
 
@@ -99,7 +99,7 @@ public:
 
 	void parse_label_range(sema::Const_Label_Range& range);
 
-	int parse_length();
+	[[nodiscard]] int parse_length();
 
 	void parse_module();
 
