@@ -4,8 +4,7 @@
 void Parser::parse_if_statement(stmt::Statement_Ptr& statement) {
 	auto if_statement { std::make_shared<stmt::If>() };
 	consume(token::keyword_IF);
-	expr::Expression_Ptr expression;
-	parse_expression(expression);
+	expr::Expression_Ptr expression { parse_expression() };
 	consume(token::keyword_THEN);
 	stmt::Statement_Sequence statement_sequence;
 	parse_statement_sequence(statement_sequence);
@@ -14,8 +13,7 @@ void Parser::parse_if_statement(stmt::Statement_Ptr& statement) {
 	);
 	while (token::is(token::keyword_ELSIF)) {
 		advance();
-		expr::Expression_Ptr sub_expression;
-		parse_expression(sub_expression);
+		expr::Expression_Ptr sub_expression { parse_expression() };
 		consume(token::keyword_THEN);
 		stmt::Statement_Sequence sub_sequence;
 		parse_statement_sequence(sub_sequence);

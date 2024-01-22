@@ -14,12 +14,9 @@ void Parser::parse_for_statement(stmt::Statement_Ptr& statement) {
 	}
 	advance();
 	consume(token::assign);
-	expr::Expression_Ptr expression;
-	parse_expression(expression);
-	for_statement->begin = expression;
+	for_statement->begin = parse_expression();
 	consume(token::keyword_TO);
-	parse_expression(expression);
-	for_statement->end = expression;
+	for_statement->end = parse_expression();
 	if (token::is(token::keyword_BY)) {
 		advance();
 		for_statement->increment = parse_const_expression();

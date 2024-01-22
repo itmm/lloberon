@@ -11,8 +11,7 @@ void Parser::parse_procedure_body(
 	}
 	if (token::is(token::keyword_RETURN)) {
 		advance();
-		expr::Expression_Ptr expression;
-		parse_expression(expression);
+		expr::Expression_Ptr expression { parse_expression() };
 	}
 	consume(token::keyword_END);
 }

@@ -1,10 +1,9 @@
 #include "parser/parser.h"
 #include "expr/binary.h"
 
-void Parser::parse_expression(expr::Expression_Ptr& expression) {
-	expression = nullptr;
-	parse_simple_expression(expression);
-	auto value { expression };
+expr::Expression_Ptr Parser::parse_expression() {
+	expr::Expression_Ptr value;
+	parse_simple_expression(value);
 	auto const_value { expr::Const::as_const(value) };
 	while (token::is_one_of(
 		token::equals, token::not_equals, token::less, token::less_or_equal,
@@ -23,8 +22,8 @@ void Parser::parse_expression(expr::Expression_Ptr& expression) {
 			}
 			continue;
 		}
-		parse_simple_expression(expression);
-		auto right_value { expression };
+		expr::Expression_Ptr right_value;
+		parse_simple_expression(right_value);
 		auto right_const_value { expr::Const::as_const(right_value) };
 
 		if (const_value && right_const_value) {
@@ -104,5 +103,5 @@ void Parser::parse_expression(expr::Expression_Ptr& expression) {
 			const_value = nullptr;
 		}
 	}
-	expression = value;
+	return value;
 }

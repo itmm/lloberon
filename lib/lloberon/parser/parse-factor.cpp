@@ -74,12 +74,12 @@ void Parser::parse_factor(expr::Expression_Ptr& factor) {
 		}
 		case token::left_parenthesis:
 			advance();
-			parse_expression(factor);
+			factor = parse_expression();
 			consume(token::right_parenthesis);
 			break;
 		case token::notop: {
 			advance();
-			parse_expression(factor);
+			factor = parse_expression();
 			auto value { expr::Const::as_const(factor) };
 			if (value) {
 				if (value->is_bool()) {

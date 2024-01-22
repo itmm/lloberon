@@ -6,8 +6,6 @@ void Parser::parse_repeat_statement(stmt::Statement_Ptr& statement) {
 	consume(token::keyword_REPEAT);
 	parse_statement_sequence(repeat_statement->statements);
 	consume(token::keyword_UNTIL);
-	expr::Expression_Ptr expression;
-	parse_expression(expression);
-	repeat_statement->condition = expression;
+	repeat_statement->condition = parse_expression();
 	statement = repeat_statement;
 }

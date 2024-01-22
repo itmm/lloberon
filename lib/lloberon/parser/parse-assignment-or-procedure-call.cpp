@@ -7,8 +7,7 @@ void Parser::parse_assignment_or_procedure_call(
 	parse_designator(designator);
 	if (token::is(token::assign)) {
 		advance();
-		expr::Expression_Ptr rhs;
-		parse_expression(rhs);
+		expr::Expression_Ptr rhs { parse_expression() };
 	} else {
 		if (token::is(token::left_parenthesis)) {
 			parse_actual_parameters();

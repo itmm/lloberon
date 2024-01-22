@@ -5,8 +5,7 @@
 
 void Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
 	consume(token::keyword_CASE);
-	expr::Expression_Ptr expression;
-	parse_expression(expression);
+	expr::Expression_Ptr expression { parse_expression() };
 
 	const auto& type { expression->type };
 	if (

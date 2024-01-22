@@ -67,7 +67,7 @@ public:
 
 	void parse_element(expr::Const_Ptr& expression);
 
-	void parse_expression(expr::Expression_Ptr& expression);
+	expr::Expression_Ptr parse_expression();
 
 	void parse_expression_list(expr::Expression_List& expression_list);
 
