@@ -41,11 +41,11 @@ public:
 
 	void parse_actual_parameters();
 
-	type::Array_Ptr parse_array_type();
+	[[nodiscard]] type::Array_Ptr parse_array_type();
 
 	void parse_assignment_or_procedure_call(expr::Expression_Ptr& expression);
 
-	void parse_base_type(type::Record_Ptr& base_type);
+	[[nodiscard]] type::Record_Ptr parse_base_type();
 
 	void parse_case(sema::Const_Case& const_case);
 
@@ -119,7 +119,7 @@ public:
 
 	void parse_qual_ident(sema::Qual_Ident& qual_ident);
 
-	void parse_record_type(type::Type_Ptr& record_type);
+	type::Record_Ptr parse_record_type();
 
 	void parse_repeat_statement(stmt::Statement_Ptr& statement);
 
