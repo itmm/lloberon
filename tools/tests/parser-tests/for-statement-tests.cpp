@@ -2,7 +2,7 @@
 #include "stmt/for.h"
 #include "const-tests.h"
 
-using For_Statement_Runner = Parser_Value_Runner<
+using For_Statement_Runner = Parser_Arg_Void_Runner<
 	stmt::Statement_Ptr, &Parser::parse_for_statement
 >;
 

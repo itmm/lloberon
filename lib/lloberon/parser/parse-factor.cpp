@@ -15,7 +15,7 @@ static int parse_int(const std::string& source, int base) {
 	return value;
 }
 
-bool Parser::parse_factor(expr::Expression_Ptr& factor) {
+void Parser::parse_factor(expr::Expression_Ptr& factor) {
 	switch (token::kind) {
 		case token::integer_literal: {
 			std::string source { token::value };
@@ -61,31 +61,31 @@ bool Parser::parse_factor(expr::Expression_Ptr& factor) {
 			break;
 		case token::left_brace: {
 			expr::Const_Ptr const_expression;
-			if (parse_set(const_expression)) { return true; }
+			parse_set(const_expression);
 			factor = const_expression;
 			break;
 		}
 		case token::identifier: {
-			if (parse_designator(factor)) { return true; }
+			parse_designator(factor);
 			if (token::is(token::left_parenthesis)) {
-				if (parse_actual_parameters()) { return true; }
+				parse_actual_parameters();
 			}
 			break;
 		}
 		case token::left_parenthesis:
 			advance();
-			if (parse_expression(factor)) { return true; }
-			if (consume(token::right_parenthesis)) { return true; }
+			parse_expression(factor);
+			consume(token::right_parenthesis);
 			break;
 		case token::notop: {
 			advance();
-			if (parse_expression(factor)) { return true; }
+			parse_expression(factor);
 			auto value { expr::Const::as_const(factor) };
 			if (value) {
 				if (value->is_bool()) {
 					factor = expr::Const::create(!value->bool_value());
 				} else {
-					return report(diag::err_wrong_operator_for_const);
+					diag::report(diag::err_wrong_operator_for_const);
 				}
 			} else {
 				factor = expr::Unary::create(token::notop, factor);
@@ -93,7 +93,6 @@ bool Parser::parse_factor(expr::Expression_Ptr& factor) {
 			break;
 		}
 		default:
-			return report(diag::err_factor_expected);
+			diag::report(diag::err_factor_expected);
 	}
-	return false;
 }

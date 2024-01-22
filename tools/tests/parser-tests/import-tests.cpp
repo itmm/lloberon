@@ -3,7 +3,7 @@
 
 #include "decl/declaration.h"
 
-using Import_Runner = Parser_Value_Runner<Scope, &Parser::parse_import>;
+using Import_Runner = Parser_Arg_Void_Runner<Scope, &Parser::parse_import>;
 
 TEST(Import_Tests, empty) {
 	Scope scope;

@@ -2,7 +2,7 @@
 #include "expr/expression.h"
 #include "const-tests.h"
 
-using Expression_Runner = Parser_Value_Runner<
+using Expression_Runner = Parser_Arg_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_expression
 >;
 

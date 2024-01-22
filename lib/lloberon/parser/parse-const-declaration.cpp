@@ -1,14 +1,13 @@
 #include "parser/parser.h"
 
-bool Parser::parse_const_declaration() {
+void Parser::parse_const_declaration() {
 	sema::Ident_Def ident_def;
-	if (parse_ident_def(ident_def)) { return true; }
-	if (consume(token::equals)) { return true; }
+	parse_ident_def(ident_def);
+	consume(token::equals);
 	expr::Const_Ptr expression;
-	if (parse_const_expression(expression)) { return true; }
+	parse_const_expression(expression);
 	expression->exported = ident_def.exported;
 	if (!context::scope->insert(ident_def.ident, expression)) {
-		return report(diag::err_already_defined, ident_def.ident);
+		report(diag::err_already_defined, ident_def.ident);
 	}
-	return false;
 }

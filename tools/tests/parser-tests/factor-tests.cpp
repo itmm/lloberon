@@ -3,7 +3,7 @@
 #include "const-tests.h"
 #include "type-tests.h"
 
-using Factor_Runner = Parser_Value_Runner<
+using Factor_Runner = Parser_Arg_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_factor
 >;
 

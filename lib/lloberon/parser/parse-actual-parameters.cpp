@@ -1,11 +1,10 @@
 #include "parser/parser.h"
 
-bool Parser::parse_actual_parameters() {
-	if (consume(token::left_parenthesis)) { return true; }
+void Parser::parse_actual_parameters() {
+	consume(token::left_parenthesis);
 	if (!token::is(token::right_parenthesis)) {
 		expr::Expression_List expression_list;
-		if (parse_expression_list(expression_list)) { return true; }
+		parse_expression_list(expression_list);
 	}
-	if (consume(token::right_parenthesis)) { return true; }
-	return false;
+	consume(token::right_parenthesis);
 }

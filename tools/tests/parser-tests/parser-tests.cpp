@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Parse_Runner = Parser_String_Runner<&Parser::parse>;
+using Parse_Runner = Parser_No_Arg_Void_Runner<&Parser::parse>;
 
 TEST(Parse_Tests, empty) {
 	Parse_Runner test1 { "", true };

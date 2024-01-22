@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "const-tests.h"
 
-using Declaration_Sequence_Runner = Parser_String_Runner<
+using Declaration_Sequence_Runner = Parser_No_Arg_Void_Runner<
 	&Parser::parse_declaration_sequence
 >;
 

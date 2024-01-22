@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "type/pointer.h"
 
-using Pointer_Type_Runner = Parser_Value_Runner<
+using Pointer_Type_Runner = Parser_Arg_Void_Runner<
 	type::Type_Ptr, &Parser::parse_pointer_type
 >;
 

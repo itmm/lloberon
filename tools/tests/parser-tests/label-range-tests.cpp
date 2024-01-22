@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "const-tests.h"
 
-using Label_Range_Runner = Parser_Value_Runner<
+using Label_Range_Runner = Parser_Arg_Void_Runner<
 	sema::Const_Label_Range, &Parser::parse_label_range
 >;
 

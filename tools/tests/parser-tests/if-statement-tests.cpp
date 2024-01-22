@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "stmt/if.h"
 
-using If_Statement_Runner = Parser_Value_Runner<
+using If_Statement_Runner = Parser_Arg_Void_Runner<
 	stmt::Statement_Ptr, &Parser::parse_if_statement
 >;
 

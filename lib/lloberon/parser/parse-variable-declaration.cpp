@@ -1,18 +1,17 @@
 #include "parser/parser.h"
 
-bool Parser::parse_variable_declaration() {
+void Parser::parse_variable_declaration() {
 	sema::Ident_List ident_list;
-	if (parse_ident_list(ident_list)) { return true; }
-	if (consume(token::colon)) { return true; }
+	parse_ident_list(ident_list);
+	consume(token::colon);
 	type::Type_Ptr type;
-	if (parse_type(type)) { return true; }
+	parse_type(type);
 
 	for (const auto& id: ident_list) {
 		if (!context::scope->insert(
 			id, std::make_shared<expr::Variable>(type)
 		)) {
-			return report(diag::err_already_defined);
+			diag::report(diag::err_already_defined);
 		}
 	}
-	return false;
 }

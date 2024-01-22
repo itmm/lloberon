@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Statement_Runner = Parser_Value_Runner<
+using Statement_Runner = Parser_Arg_Void_Runner<
 	stmt::Statement_Ptr, &Parser::parse_statement
 >;
 

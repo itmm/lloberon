@@ -3,14 +3,14 @@
 #include "expr/unary.h"
 #include "expr/binary.h"
 
-bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
+void Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 	bool is_negative { false };
 	if (token::is_one_of(token::plus, token::minus)) {
 		is_negative = token::is(token::minus);
 		advance();
 	}
 	Scope scope;
-	if (parse_term(simple_expression)) { return true; }
+	parse_term(simple_expression);
 
 	auto value { simple_expression };
 	auto const_value { expr::Const::as_const(value) };
@@ -24,7 +24,7 @@ bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 				const_value = expr::Const::create(-const_value->real_value());
 				value = const_value;
 			} else {
-				return report(diag::err_negate_must_be_numeric);
+				diag::report(diag::err_negate_must_be_numeric);
 			}
 		} else {
 			value = expr::Unary::create(token::minus, value);
@@ -35,7 +35,7 @@ bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 	while (token::is_one_of(token::plus, token::minus, token::keyword_OR)) {
 		auto op { token::kind };
 		advance();
-		if (parse_term(simple_expression)) { return true; }
+		parse_term(simple_expression);
 
 		auto right_value { simple_expression };
 		auto right_const_value { expr::Const::as_const(right_value) };
@@ -49,7 +49,7 @@ bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 					case token::plus: result = lv + rv; break;
 					case token::minus: result = lv - rv; break;
 					default:
-						return report(diag::err_wrong_operator_for_int);
+						diag::report(diag::err_wrong_operator_for_int);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -61,7 +61,7 @@ bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 					case token::plus: result = lv + rv; break;
 					case token::minus: result = lv - rv; break;
 					default:
-						return report(diag::err_wrong_operator_for_real);
+						diag::report(diag::err_wrong_operator_for_real);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -73,7 +73,7 @@ bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 					);
 					value = const_value;
 				} else {
-					return report(diag::err_wrong_operator_for_bool);
+					diag::report(diag::err_wrong_operator_for_bool);
 				}
 			} else if (const_value->is_set() && right_const_value->is_set()) {
 				auto lv { const_value->set_value() };
@@ -83,13 +83,11 @@ bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 					case token::plus: result = lv | rv; break;
 					case token::minus: result = lv - (lv & rv); break;
 					default:
-						return report(diag::err_wrong_operator_for_set);
+						diag::report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
-			} else {
-				return report(diag::err_wrong_operator_for_const);
-			}
+			} else { diag::report(diag::err_wrong_operator_for_const); }
 		} else {
 			value = expr::Binary::create(op, value, right_value);
 			const_value = nullptr;
@@ -97,6 +95,4 @@ bool Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 	}
 
 	simple_expression = value;
-
-	return false;
 }

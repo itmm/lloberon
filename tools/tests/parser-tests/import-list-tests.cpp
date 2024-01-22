@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "import-tests.h"
 
-using Import_List_Runner = Parser_Value_Runner<
+using Import_List_Runner = Parser_Arg_Void_Runner<
 	Scope, &Parser::parse_import_list
 >;
 

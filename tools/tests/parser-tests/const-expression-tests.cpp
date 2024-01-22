@@ -2,7 +2,7 @@
 #include "parser-tests.h"
 #include "const-tests.h"
 
-using Const_Expression_Runner = Parser_Value_Runner<
+using Const_Expression_Runner = Parser_Arg_Void_Runner<
 	expr::Const_Ptr, &Parser::parse_const_expression
 >;
 

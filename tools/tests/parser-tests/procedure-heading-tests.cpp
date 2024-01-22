@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Procedure_Heading_Runner = Parser_Value_Runner<
+using Procedure_Heading_Runner = Parser_Arg_Void_Runner<
 	sema::Procedure_Declaration, &Parser::parse_procedure_heading
 >;
 

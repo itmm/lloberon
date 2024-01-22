@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Element_Runner = Parser_Value_Runner<
+using Element_Runner = Parser_Arg_Void_Runner<
 	expr::Const_Ptr, &Parser::parse_element
 >;
 

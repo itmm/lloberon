@@ -1,10 +1,10 @@
 #include "parser-tests.h"
 
-using Const_Case_List_Runner = Parser_Value_Runner<
+using Const_Case_List_Runner = Parser_Arg_Void_Runner<
 	sema::Const_Case_List, &Parser::parse_case_list
 >;
 
-using Type_Case_List_Runner = Parser_Value_Runner<
+using Type_Case_List_Runner = Parser_Arg_Void_Runner<
 	sema::Type_Case_List, &Parser::parse_case_list
 >;
 

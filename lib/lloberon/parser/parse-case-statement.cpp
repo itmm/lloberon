@@ -3,10 +3,10 @@
 #include "type/pointer.h"
 #include "type/record.h"
 
-bool Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
-	if (consume(token::keyword_CASE)) { return true; }
+void Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
+	consume(token::keyword_CASE);
 	expr::Expression_Ptr expression;
-	if (parse_expression(expression)) { return true; }
+	parse_expression(expression);
 
 	const auto& type { expression->type };
 	if (
@@ -16,30 +16,29 @@ bool Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
 		auto case_statement { std::make_shared<stmt::Type_Case>() };
 		case_statement->condition = expression;
 
-		if (consume(token::keyword_OF)) { return true; }
+		consume(token::keyword_OF);
 		sema::Type_Case type_case;
-		if (parse_case(type_case)) { return true; }
+		parse_case(type_case);
 		while (token::is(token::bar)) {
 			advance();
-			if (parse_case(type_case)) { return true; }
+			parse_case(type_case);
 		}
-		if (consume(token::keyword_END)) { return true; }
+		consume(token::keyword_END);
 
 		statement = case_statement;
 	} else {
 		auto case_statement { std::make_shared<stmt::Const_Case>() };
 		case_statement->condition = expression;
 
-		if (consume(token::keyword_OF)) { return true; }
+		consume(token::keyword_OF);
 		sema::Const_Case const_case;
-		if (parse_case(const_case)) { return true; }
+		parse_case(const_case);
 		while (token::is(token::bar)) {
 			advance();
-			if (parse_case(const_case)) { return true; }
+			parse_case(const_case);
 		}
-		if (consume(token::keyword_END)) { return true; }
+		consume(token::keyword_END);
 
 		statement = case_statement;
 	}
-	return false;
 }

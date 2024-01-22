@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Record_Type_Runner = Parser_Value_Runner<
+using Record_Type_Runner = Parser_Arg_Void_Runner<
 	type::Type_Ptr, &Parser::parse_record_type
 >;
 

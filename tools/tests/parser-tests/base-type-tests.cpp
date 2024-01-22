@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "type/record.h"
 
-using Base_Type_Runner = Parser_Value_Runner<
+using Base_Type_Runner = Parser_Arg_Void_Runner<
 	type::Record_Ptr, &Parser::parse_base_type
 >;
 

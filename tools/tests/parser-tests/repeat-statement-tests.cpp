@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "stmt/repeat.h"
 
-using Repeat_Statement_Runner = Parser_Value_Runner<
+using Repeat_Statement_Runner = Parser_Arg_Void_Runner<
 	stmt::Statement_Ptr, &Parser::parse_repeat_statement
 >;
 

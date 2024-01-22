@@ -1,17 +1,16 @@
 #include "parser/parser.h"
 
-bool Parser::parse_record_type(type::Type_Ptr& type) {
+void Parser::parse_record_type(type::Type_Ptr& type) {
 	auto record_type { std::make_shared<type::Record>() };
-	if (consume(token::keyword_RECORD)) { return true; }
+	consume(token::keyword_RECORD);
 	if (token::is(token::left_parenthesis)) {
 		advance();
-		if (parse_base_type(record_type)) { return true; }
-		if (consume(token::right_parenthesis)) { return true; }
+		parse_base_type(record_type);
+		consume(token::right_parenthesis);
 	}
 	if (!token::is(token::keyword_END)) {
-		if (parse_field_list_sequence(record_type)) { return true; }
+		parse_field_list_sequence(record_type);
 	}
-	if (consume(token::keyword_END)) { return true; }
+	consume(token::keyword_END);
 	type = record_type;
-	return false;
 }

@@ -1,7 +1,8 @@
 #include "parser-tests.h"
 #include "type/array.h"
 
-using Formal_Parameter_Section_Runner = Parser_Value_Runner<
+using Formal_Parameter_Section_Runner =
+	Parser_Arg_Void_Runner<
 	type::Procedure_Ptr, &Parser::parse_formal_parameter_section
 >;
 

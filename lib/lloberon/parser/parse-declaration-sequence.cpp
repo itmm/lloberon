@@ -1,31 +1,30 @@
 #include "parser/parser.h"
 
-bool Parser::parse_declaration_sequence() {
+void Parser::parse_declaration_sequence() {
 	if (token::is(token::keyword_CONST)) {
 		advance();
 		while (token::is(token::identifier)) {
-			if (parse_const_declaration()) { return true; }
-			if (consume(token::semicolon)) { return true; }
+			parse_const_declaration();
+			consume(token::semicolon);
 		}
 	}
 	if (token::is(token::keyword_TYPE)) {
 		advance();
 		while (token::is(token::identifier)) {
-			if (parse_type_declaration()) { return true; }
-			if (consume(token::semicolon)) { return true; }
+			parse_type_declaration();
+			consume(token::semicolon);
 		}
 	}
 	if (token::is(token::keyword_VAR)) {
 		advance();
 		while (token::is(token::identifier)) {
-			if (parse_variable_declaration()) { return true; }
-			if (consume(token::semicolon)) { return true; }
+			parse_variable_declaration();
+			consume(token::semicolon);
 		}
 	}
 
 	while (token::is(token::keyword_PROCEDURE)) {
-		if (parse_procedure_declaration()) { return true; }
-		if (consume(token::semicolon)) { return true; }
+		parse_procedure_declaration();
+		consume(token::semicolon);
 	}
-	return false;
 }

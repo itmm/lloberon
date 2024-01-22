@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "type/type.h"
 
-using Qual_Ident_Runner = Parser_Value_Runner<
+using Qual_Ident_Runner = Parser_Arg_Void_Runner<
 	sema::Qual_Ident, &Parser::parse_qual_ident
 >;
 

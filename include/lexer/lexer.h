@@ -9,9 +9,7 @@
 
 class Lexer {
 public:
-	explicit Lexer(llvm::SourceMgr& source_mgr, Base_Diagnostic_Engine& diag) :
-		diag_ { diag }
-	{
+	explicit Lexer(llvm::SourceMgr& source_mgr) {
 		str_ = source_mgr.getMemoryBuffer(
 			source_mgr.getMainFileID()
 		)->getBuffer();
@@ -21,14 +19,7 @@ public:
 
 	void next();
 
-	template<typename... Args>
-	[[nodiscard]] bool report(unsigned diagnostic_id, Args&& ... arguments) {
-		diag::report(diagnostic_id, arguments...);
-		return true;
-	}
-
 private:
-	Base_Diagnostic_Engine& diag_;
 	llvm::StringRef str_;
 	const char* ptr_;
 

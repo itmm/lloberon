@@ -1,13 +1,12 @@
 #include "parser/parser.h"
 #include "expr/binary.h"
 
-bool Parser::check_0_int(const expr::Const& value) {
-	if (value.int_value() == 0) { return report(diag::err_divide_by_0); }
-	return false;
+void Parser::check_0_int(const expr::Const& value) {
+	if (value.int_value() == 0) { diag::report(diag::err_divide_by_0); }
 }
 
-bool Parser::parse_term(expr::Expression_Ptr& term) {
-	if (parse_factor(term)) { return true; }
+void Parser::parse_term(expr::Expression_Ptr& term) {
+	parse_factor(term);
 	auto value { term };
 	auto const_value { expr::Const::as_const(value) };
 
@@ -17,7 +16,7 @@ bool Parser::parse_term(expr::Expression_Ptr& term) {
 	)) {
 		auto op { token::kind };
 		advance();
-		if (parse_factor(term)) { return true; }
+		parse_factor(term);
 		auto right_value { term };
 		auto right_const_value { expr::Const::as_const(right_value) };
 		if (const_value && right_const_value) {
@@ -34,15 +33,15 @@ bool Parser::parse_term(expr::Expression_Ptr& term) {
 						);
 						break;
 					case token::keyword_DIV:
-						if (check_0_int(*right_const_value)) { return true; }
+						check_0_int(*right_const_value);
 						const_value = expr::Const::create(lv / rv);
 						break;
 					case token::keyword_MOD:
-						if (check_0_int(*right_const_value)) { return true; }
+						check_0_int(*right_const_value);
 						const_value = expr::Const::create(lv % rv);
 						break;
 					default:
-						return report(diag::err_wrong_operator_for_int);
+						diag::report(diag::err_wrong_operator_for_int);
 				}
 				value = const_value;
 			} else if (const_value->is_real() && right_const_value->is_real()) {
@@ -53,7 +52,7 @@ bool Parser::parse_term(expr::Expression_Ptr& term) {
 					case token::star: result = lv * rv; break;
 					case token::slash: result = lv / rv; break;
 					default:
-						return report(diag::err_wrong_operator_for_real);
+						diag::report(diag::err_wrong_operator_for_real);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -67,7 +66,7 @@ bool Parser::parse_term(expr::Expression_Ptr& term) {
 						value = const_value;
 						break;
 					default:
-						return report(diag::err_wrong_operator_for_bool);
+						diag::report(diag::err_wrong_operator_for_bool);
 				}
 			} else if (const_value->is_set() && right_const_value->is_set()) {
 				auto lv { const_value->set_value() };
@@ -77,18 +76,15 @@ bool Parser::parse_term(expr::Expression_Ptr& term) {
 					case token::star: result = lv & rv; break;
 					case token::slash: result = lv ^ rv; break;
 					default:
-						return report(diag::err_wrong_operator_for_set);
+						diag::report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
-			} else {
-				return report(diag::err_wrong_operator_for_const);
-			}
+			} else { diag::report(diag::err_wrong_operator_for_const); }
 		} else {
 			value = expr::Binary::create(op, value, right_value);
 			const_value = nullptr;
 		}
 	}
 	term = value;
-	return false;
 }

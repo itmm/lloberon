@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "decl/procedure.h"
 
-using Expression_List_Runner = Parser_Value_Runner<
+using Expression_List_Runner = Parser_Arg_Void_Runner<
 	expr::Expression_List, &Parser::parse_expression_list
 >;
 

@@ -1,14 +1,13 @@
 #include "parser/parser.h"
 
-bool Parser::parse_type_declaration() {
+void Parser::parse_type_declaration() {
 	sema::Ident_Def ident_def;
-	if (parse_ident_def(ident_def)) { return true; }
-	if (consume(token::equals)) { return true; }
+	parse_ident_def(ident_def);
+	consume(token::equals);
 	type::Type_Ptr type;
-	if (parse_type(type)) { return true; }
+	parse_type(type);
 	type->exported = ident_def.exported;
 	if (!context::scope->insert(ident_def.ident, type)) {
-		return report(diag::err_already_defined);
+		diag::report(diag::err_already_defined);
 	}
-	return false;
 }

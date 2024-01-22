@@ -1,9 +1,9 @@
 #include "parser/parser.h"
 #include "expr/binary.h"
 
-bool Parser::parse_expression(expr::Expression_Ptr& expression) {
+void Parser::parse_expression(expr::Expression_Ptr& expression) {
 	expression = nullptr;
-	if (parse_simple_expression(expression)) { return true; }
+	parse_simple_expression(expression);
 	auto value { expression };
 	auto const_value { expr::Const::as_const(value) };
 	while (token::is_one_of(
@@ -16,14 +16,14 @@ bool Parser::parse_expression(expr::Expression_Ptr& expression) {
 
 		if (op == token::keyword_IS) {
 			sema::Qual_Ident qual_ident;
-			if (parse_qual_ident(qual_ident)) { return true; }
+			parse_qual_ident(qual_ident);
 			auto type { qual_ident.as_type() };
 			if (!type) {
-				return report(diag::err_type_expected);
+				diag::report(diag::err_type_expected);
 			}
 			continue;
 		}
-		if (parse_simple_expression(expression)) { return true; }
+		parse_simple_expression(expression);
 		auto right_value { expression };
 		auto right_const_value { expr::Const::as_const(right_value) };
 
@@ -40,7 +40,7 @@ bool Parser::parse_expression(expr::Expression_Ptr& expression) {
 					case token::greater: result = (lv > rv); break;
 					case token::greater_or_equal: result = (lv >= rv); break;
 					default:
-						return report(diag::err_wrong_operator_for_int);
+						diag::report(diag::err_wrong_operator_for_int);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -56,7 +56,7 @@ bool Parser::parse_expression(expr::Expression_Ptr& expression) {
 					case token::greater: result = (lv > rv); break;
 					case token::greater_or_equal: result = (lv >= rv); break;
 					default:
-						return report(diag::err_wrong_operator_for_real);
+						diag::report(diag::err_wrong_operator_for_real);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -68,7 +68,7 @@ bool Parser::parse_expression(expr::Expression_Ptr& expression) {
 					case token::equals: result = (lv == rv); break;
 					case token::not_equals: result = (lv != rv); break;
 					default:
-						return report(diag::err_wrong_operator_for_bool);
+						diag::report(diag::err_wrong_operator_for_bool);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -80,7 +80,7 @@ bool Parser::parse_expression(expr::Expression_Ptr& expression) {
 					case token::equals: result = (lv == rv); break;
 					case token::not_equals: result = (lv != rv); break;
 					default:
-						return report(diag::err_wrong_operator_for_set);
+						diag::report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
@@ -92,12 +92,12 @@ bool Parser::parse_expression(expr::Expression_Ptr& expression) {
 					case token::keyword_IN:
 						result = (((1 << lv) & rv) != 0); break;
 					default:
-						return report(diag::err_wrong_operator_for_set);
+						diag::report(diag::err_wrong_operator_for_set);
 				}
 				const_value = expr::Const::create(result);
 				value = const_value;
 			} else {
-				return report(diag::err_wrong_operator_for_const);
+				diag::report(diag::err_wrong_operator_for_const);
 			}
 		} else {
 			value = expr::Binary::create(op, value, right_value);
@@ -105,5 +105,4 @@ bool Parser::parse_expression(expr::Expression_Ptr& expression) {
 		}
 	}
 	expression = value;
-	return false;
 }

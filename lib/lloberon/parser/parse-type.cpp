@@ -1,22 +1,21 @@
 #include "parser/parser.h"
 
-bool Parser::parse_type(type::Type_Ptr& type) {
+void Parser::parse_type(type::Type_Ptr& type) {
 	if (token::is(token::identifier)) {
 		sema::Qual_Ident qual_ident;
-		if (parse_qual_ident(qual_ident)) { return true; }
+		parse_qual_ident(qual_ident);
 		auto got { qual_ident.as_type() };
-		if (!got) { return report(diag::err_identifier_must_be_type); }
+		if (!got) { diag::report(diag::err_identifier_must_be_type); }
 		type = got;
 	} else if (token::is(token::keyword_ARRAY)) {
-		if (parse_array_type(type)) { return true; }
+		parse_array_type(type);
 	} else if (token::is(token::keyword_RECORD)) {
-		if (parse_record_type(type)) { return true; }
+		parse_record_type(type);
 	} else if (token::is(token::keyword_POINTER)) {
-		if (parse_pointer_type(type)) { return true; }
+		parse_pointer_type(type);
 	} else if (token::is(token::keyword_PROCEDURE)) {
-		if (parse_procedure_type(type)) { return true; }
+		parse_procedure_type(type);
 	} else {
-		return report(diag::err_type_expected);
+		diag::report(diag::err_type_expected);
 	}
-	return false;
 }

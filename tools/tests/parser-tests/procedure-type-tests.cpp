@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Procedure_Type_Runner = Parser_Value_Runner<
+using Procedure_Type_Runner = Parser_Arg_Void_Runner<
 	type::Type_Ptr, &Parser::parse_procedure_type
 >;
 

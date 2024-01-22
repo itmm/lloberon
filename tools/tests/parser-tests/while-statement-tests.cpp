@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "stmt/while.h"
 
-using While_Statement_Runner = Parser_Value_Runner<
+using While_Statement_Runner = Parser_Arg_Void_Runner<
 	stmt::Statement_Ptr, &Parser::parse_while_statement
 >;
 

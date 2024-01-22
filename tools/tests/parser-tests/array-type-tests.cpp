@@ -1,7 +1,7 @@
 #include "parser-tests.h"
 #include "type/array.h"
 
-using Array_Type_Runner = Parser_Value_Runner<
+using Array_Type_Runner = Parser_Arg_Void_Runner<
 	type::Type_Ptr, &Parser::parse_array_type
 >;
 

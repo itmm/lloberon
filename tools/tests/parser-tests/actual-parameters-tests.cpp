@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Actual_Parameters_Runner = Parser_String_Runner<
+using Actual_Parameters_Runner = Parser_No_Arg_Void_Runner<
 	&Parser::parse_actual_parameters
 >;
 

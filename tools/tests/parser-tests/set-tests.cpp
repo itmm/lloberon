@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Set_Runner = Parser_Value_Runner<expr::Const_Ptr, &Parser::parse_set>;
+using Set_Runner = Parser_Arg_Void_Runner<expr::Const_Ptr, &Parser::parse_set>;
 
 TEST(Set_Tests, empty) {
 	expr::Const_Ptr expression;

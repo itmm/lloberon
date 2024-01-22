@@ -2,7 +2,7 @@
 #include "type/type.h"
 #include "const-tests.h"
 
-using Const_Label_Runner = Parser_Value_Runner<
+using Const_Label_Runner = Parser_Arg_Void_Runner<
 	expr::Const_Ptr, &Parser::parse_label
 >;
 

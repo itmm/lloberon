@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Field_List_Runner = Parser_Value_Runner<
+using Field_List_Runner = Parser_Arg_Void_Runner<
 	type::Record_Ptr, &Parser::parse_field_list
 >;
 

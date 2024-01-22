@@ -1,30 +1,29 @@
 #include "parser/parser.h"
 #include "sema/scope.h"
 
-bool Parser::parse_module() {
-	if (consume(token::keyword_MODULE)) { return true; }
-	if (expect(token::identifier)) { return true; }
+void Parser::parse_module() {
+	consume(token::keyword_MODULE);
+	expect(token::identifier);
 	auto module_name { token::value };
 	advance();
-	if (consume(token::semicolon)) { return true; }
+	consume(token::semicolon);
 	if (token::is(token::keyword_IMPORT)) {
-		if (parse_import_list(*context::scope)) { return true; }
+		parse_import_list(*context::scope);
 	}
-	if (parse_declaration_sequence()) { return true; }
+	parse_declaration_sequence();
 	if (token::is(token::keyword_BEGIN)) {
 		advance();
 		stmt::Statement_Sequence statement_sequence;
-		if (parse_statement_sequence(statement_sequence)) { return true; }
+		parse_statement_sequence(statement_sequence);
 	}
-	if (consume(token::keyword_END)) { return true; }
-	if (expect(token::identifier)) { return true; }
+	consume(token::keyword_END);
+	expect(token::identifier);
 	if (module_name != token::value) {
-		return report(
+		diag::report(
 			diag::err_module_names_dont_match, module_name, token::value
 		);
 	}
 	advance();
-	if (consume(token::period)) { return true; }
-	if (expect(token::eof)) { return true; }
-	return false;
+	consume(token::period);
+	expect(token::eof);
 }

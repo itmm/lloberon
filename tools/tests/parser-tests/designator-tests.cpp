@@ -2,7 +2,7 @@
 #include "type/pointer.h"
 #include "type-tests.h"
 
-using Designator_Runner = Parser_Value_Runner<
+using Designator_Runner = Parser_Arg_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_designator
 >;
 

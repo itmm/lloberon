@@ -1,12 +1,11 @@
 #include "parser/parser.h"
 
-bool Parser::parse_import_list(Scope& scope) {
-	if (consume(token::keyword_IMPORT)) { return true; }
-	if (parse_import(scope)) { return true; }
+void Parser::parse_import_list(Scope& scope) {
+	consume(token::keyword_IMPORT);
+	parse_import(scope);
 	while (token::is(token::comma)) {
 		advance();
-		if (parse_import(scope)) { return true; }
+		parse_import(scope);
 	}
-	if (consume(token::semicolon)) { return true; }
-	return false;
+	consume(token::semicolon);
 }

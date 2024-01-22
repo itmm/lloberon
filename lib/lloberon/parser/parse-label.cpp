@@ -2,13 +2,12 @@
 
 #include "expr/label.h"
 
-bool Parser::parse_label(expr::Const_Ptr& label) {
+void Parser::parse_label(expr::Const_Ptr& label) {
 	if (token::is_one_of(token::integer_literal, token::string_literal)) {
 		expr::Expression_Ptr expression;
-		if (parse_factor(expression)) { return true; }
+		parse_factor(expression);
 		label = expr::Const::as_const(expression);
 	} else {
-		return report(diag::err_const_label_expected);
+		diag::report(diag::err_const_label_expected);
 	}
-	return false;
 }

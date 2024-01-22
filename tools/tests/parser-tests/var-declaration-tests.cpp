@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Var_Declaration_Runner = Parser_String_Runner<
+using Var_Declaration_Runner = Parser_No_Arg_Void_Runner<
 	&Parser::parse_variable_declaration
 >;
 

@@ -1,6 +1,6 @@
 #include "parser-tests.h"
 
-using Case_Runner = Parser_Value_Runner<sema::Const_Case, &Parser::parse_case>;
+using Case_Runner = Parser_Arg_Void_Runner<sema::Const_Case, &Parser::parse_case>;
 
 TEST(Case_Tests, empty) {
 	sema::Const_Case const_case;

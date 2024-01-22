@@ -2,7 +2,7 @@
 
 #include "decl/procedure.h"
 
-using Assignment_Runner = Parser_Value_Runner<
+using Assignment_Runner = Parser_Arg_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_assignment_or_procedure_call
 >;
 using Procedure_Call_Runner = Assignment_Runner;

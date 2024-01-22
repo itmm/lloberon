@@ -2,7 +2,7 @@
 
 #include "ident-list-tests.h"
 
-using Ident_List_Runner = Parser_Value_Runner<
+using Ident_List_Runner = Parser_Arg_Void_Runner<
 	sema::Ident_List, &Parser::parse_ident_list
 >;
 

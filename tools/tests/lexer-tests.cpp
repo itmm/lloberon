@@ -4,8 +4,8 @@
 class Lexer_String_Runner {
 public:
 	explicit Lexer_String_Runner(const char* source) :
-		source_mgr_ { }, diag_ { source_mgr_ },
-		lexer { initialize(source_mgr_, source), diag_ } { lexer.next(); }
+		source_mgr_ { }, lexer { initialize(source_mgr_, source) }
+	{ lexer.next(); }
 
 	virtual ~Lexer_String_Runner() = default;
 
@@ -22,7 +22,6 @@ private:
 	}
 
 	llvm::SourceMgr source_mgr_;
-	Diagnostics_Engine diag_;
 protected:
 	Lexer lexer;
 

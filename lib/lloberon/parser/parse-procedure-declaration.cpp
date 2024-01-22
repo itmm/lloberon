@@ -1,6 +1,6 @@
 #include "parser/parser.h"
 
-bool Parser::parse_procedure_declaration() {
+void Parser::parse_procedure_declaration() {
 	sema::Procedure_Declaration declaration;
 
 	{
@@ -8,12 +8,11 @@ bool Parser::parse_procedure_declaration() {
 			std::make_shared<Scope>(context::scope)
 		};
 
-		if (parse_procedure_heading(declaration)) { return true; }
-		if (consume(token::semicolon)) { return true; }
-		if (parse_procedure_body(declaration)) { return true; }
-		if (expect(token::identifier)) { return true; }
+		parse_procedure_heading(declaration);
+		consume(token::semicolon);
+		parse_procedure_body(declaration);
+		expect(token::identifier);
 		advance();
 	}
 	context::scope->insert(declaration.name, declaration.procedure);
-	return false;
 }
