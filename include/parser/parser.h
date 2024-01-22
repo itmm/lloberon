@@ -59,7 +59,7 @@ public:
 
 	void parse_const_declaration();
 
-	void parse_const_expression(expr::Const_Ptr& expression);
+	expr::Const_Ptr parse_const_expression();
 
 	void parse_declaration_sequence();
 

@@ -22,9 +22,7 @@ void Parser::parse_for_statement(stmt::Statement_Ptr& statement) {
 	for_statement->end = expression;
 	if (token::is(token::keyword_BY)) {
 		advance();
-		expr::Const_Ptr const_expression;
-		parse_const_expression(const_expression);
-		for_statement->increment = const_expression;
+		for_statement->increment = parse_const_expression();
 	} else {
 		for_statement->increment = expr::Const::create(1);
 	}
