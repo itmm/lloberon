@@ -59,7 +59,7 @@ public:
 
 	void parse_const_declaration();
 
-	expr::Const_Ptr parse_const_expression();
+	[[nodiscard]] expr::Const_Ptr parse_const_expression();
 
 	void parse_declaration_sequence();
 
@@ -67,11 +67,11 @@ public:
 
 	void parse_element(expr::Const_Ptr& expression);
 
-	expr::Expression_Ptr parse_expression();
+	[[nodiscard]] expr::Expression_Ptr parse_expression();
 
 	void parse_expression_list(expr::Expression_List& expression_list);
 
-	expr::Expression_Ptr parse_factor();
+	[[nodiscard]] expr::Expression_Ptr parse_factor();
 
 	void parse_field_list(type::Record_Ptr& record_type);
 
@@ -131,7 +131,7 @@ public:
 
 	void parse_statement_sequence(stmt::Statement_Sequence& statement_sequence);
 
-	void parse_term(expr::Expression_Ptr& term);
+	[[nodiscard]] expr::Expression_Ptr parse_term();
 
 	void parse_type(type::Type_Ptr& type);
 

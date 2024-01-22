@@ -10,9 +10,8 @@ void Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 		advance();
 	}
 	Scope scope;
-	parse_term(simple_expression);
 
-	auto value { simple_expression };
+	auto value { parse_term() };
 	auto const_value { expr::Const::as_const(value) };
 
 	if (is_negative) {
@@ -35,9 +34,7 @@ void Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 	while (token::is_one_of(token::plus, token::minus, token::keyword_OR)) {
 		auto op { token::kind };
 		advance();
-		parse_term(simple_expression);
-
-		auto right_value { simple_expression };
+		auto right_value { parse_term() };
 		auto right_const_value { expr::Const::as_const(right_value) };
 
 		if (const_value && right_const_value) {

@@ -5,7 +5,7 @@ void Parser::check_0_int(const expr::Const& value) {
 	if (value.int_value() == 0) { diag::report(diag::err_divide_by_0); }
 }
 
-void Parser::parse_term(expr::Expression_Ptr& term) {
+expr::Expression_Ptr Parser::parse_term() {
 	auto value { parse_factor() };
 	auto const_value { expr::Const::as_const(value) };
 
@@ -84,5 +84,5 @@ void Parser::parse_term(expr::Expression_Ptr& term) {
 			const_value = nullptr;
 		}
 	}
-	term = value;
+	return value;
 }
