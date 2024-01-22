@@ -3,7 +3,7 @@
 #include "expr/unary.h"
 #include "expr/binary.h"
 
-void Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
+expr::Expression_Ptr Parser::parse_simple_expression() {
 	bool is_negative { false };
 	if (token::is_one_of(token::plus, token::minus)) {
 		is_negative = token::is(token::minus);
@@ -91,5 +91,5 @@ void Parser::parse_simple_expression(expr::Expression_Ptr& simple_expression) {
 		}
 	}
 
-	simple_expression = value;
+	return value;
 }

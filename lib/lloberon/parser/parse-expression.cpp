@@ -2,8 +2,7 @@
 #include "expr/binary.h"
 
 expr::Expression_Ptr Parser::parse_expression() {
-	expr::Expression_Ptr value;
-	parse_simple_expression(value);
+	expr::Expression_Ptr value { parse_simple_expression() };
 	auto const_value { expr::Const::as_const(value) };
 	while (token::is_one_of(
 		token::equals, token::not_equals, token::less, token::less_or_equal,
@@ -22,8 +21,7 @@ expr::Expression_Ptr Parser::parse_expression() {
 			}
 			continue;
 		}
-		expr::Expression_Ptr right_value;
-		parse_simple_expression(right_value);
+		expr::Expression_Ptr right_value { parse_simple_expression() };
 		auto right_const_value { expr::Const::as_const(right_value) };
 
 		if (const_value && right_const_value) {

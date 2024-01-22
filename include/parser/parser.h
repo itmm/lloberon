@@ -125,7 +125,7 @@ public:
 
 	void parse_set(expr::Const_Ptr& expression);
 
-	void parse_simple_expression(expr::Expression_Ptr& expression);
+	[[nodiscard]] expr::Expression_Ptr parse_simple_expression();
 
 	void parse_statement(stmt::Statement_Ptr& statement);
 
