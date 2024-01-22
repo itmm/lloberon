@@ -73,9 +73,9 @@ public:
 
 	[[nodiscard]] expr::Expression_Ptr parse_factor();
 
-	void parse_field_list(type::Record_Ptr& record_type);
+	void parse_field_list(type::Record& record_type);
 
-	void parse_field_list_sequence(type::Record_Ptr& record_type);
+	void parse_field_list_sequence(type::Record& record_type);
 
 	void parse_for_statement(stmt::Statement_Ptr& for_statement);
 

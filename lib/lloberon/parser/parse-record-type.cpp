@@ -9,7 +9,7 @@ type::Record_Ptr Parser::parse_record_type() {
 		consume(token::right_parenthesis);
 	}
 	if (!token::is(token::keyword_END)) {
-		parse_field_list_sequence(record_type);
+		parse_field_list_sequence(*record_type);
 	}
 	consume(token::keyword_END);
 	return record_type;
