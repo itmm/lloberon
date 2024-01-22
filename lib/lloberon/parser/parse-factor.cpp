@@ -15,82 +15,71 @@ static int parse_int(const std::string& source, int base) {
 	return value;
 }
 
-void Parser::parse_factor(expr::Expression_Ptr& factor) {
+expr::Expression_Ptr Parser::parse_factor() {
 	switch (token::kind) {
 		case token::integer_literal: {
 			std::string source { token::value };
 			int base { source[source.length() - 1] == 'H' ? 16 : 10 };
 			int value { parse_int(source, base) };
 			advance();
-			factor = expr::Const::create(value);
-			break;
+			return expr::Const::create(value);
 		}
 		case token::float_literal: {
 			double value = std::stod(token::value);
 			advance();
-			factor = expr::Const::create(value);
-			break;
+			return expr::Const::create(value);
 		}
 		case token::string_literal: {
 			std::string value { token::value };
 			value = value.substr(1, value.size() - 2);
-			factor = expr::Const::create(value);
 			advance();
-			break;
+			return expr::Const::create(value);
 		}
 		case token::char_literal: {
 			std::string value { "_" };
 			std::string source { token::value };
 			int ch_value { parse_int(source, 16) };
 			value[0] = static_cast<char>(ch_value);
-			factor = expr::Const::create(value);
 			advance();
-			break;
+			return expr::Const::create(value);
 		}
 		case token::keyword_NIL:
-			factor = expr::Expression::nil;
 			advance();
-			break;
+			return expr::Expression::nil;
 		case token::keyword_TRUE:
-			factor = expr::Const::create(true);
 			advance();
-			break;
+			return expr::Const::create(true);
 		case token::keyword_FALSE:
-			factor = expr::Const::create(false);
 			advance();
-			break;
+			return expr::Const::create(false);
 		case token::left_brace: {
 			expr::Const_Ptr const_expression;
 			parse_set(const_expression);
-			factor = const_expression;
-			break;
+			return const_expression;
 		}
 		case token::identifier: {
+			expr::Expression_Ptr factor;
 			parse_designator(factor);
 			if (token::is(token::left_parenthesis)) {
 				parse_actual_parameters();
 			}
-			break;
+			return factor;
 		}
-		case token::left_parenthesis:
+		case token::left_parenthesis: {
 			advance();
-			factor = parse_expression();
+			auto inner { parse_expression() };
 			consume(token::right_parenthesis);
-			break;
+			return inner;
+		}
 		case token::notop: {
 			advance();
-			factor = parse_expression();
+			auto factor { parse_expression() };
 			auto value { expr::Const::as_const(factor) };
 			if (value) {
 				if (value->is_bool()) {
-					factor = expr::Const::create(!value->bool_value());
-				} else {
-					diag::report(diag::err_wrong_operator_for_const);
-				}
-			} else {
-				factor = expr::Unary::create(token::notop, factor);
-			}
-			break;
+					return expr::Const::create(!value->bool_value());
+				} else { diag::report(diag::err_wrong_operator_for_const); }
+			} else { return expr::Unary::create(token::notop, factor); }
 		}
 		default:
 			diag::report(diag::err_factor_expected);

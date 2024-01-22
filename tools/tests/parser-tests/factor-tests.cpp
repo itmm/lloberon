@@ -3,51 +3,47 @@
 #include "const-tests.h"
 #include "type-tests.h"
 
-using Factor_Runner = Parser_Arg_Void_Runner<
+using Factor_Runner = Parser_No_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_factor
 >;
 
 TEST(Factor_Tests, empty) {
-	expr::Expression_Ptr factor;
-	Factor_Runner("", factor, true);
+	Factor_Runner("", true);
 }
 
 TEST(Factor_Tests, literals) {
-	expr::Expression_Ptr factor;
-	Factor_Runner test1 { "3", factor };
-	expect_int_value(factor, 3);
+	Factor_Runner test1 { "3" };
+	expect_int_value(test1.value, 3);
 
-	Factor_Runner test2 { "3.241", factor };
-	expect_real_value(factor, 3.241);
+	Factor_Runner test2 { "3.241" };
+	expect_real_value(test2.value, 3.241);
 
-	Factor_Runner test3 { "\"abc\"", factor };
-	expect_string_value(factor, "abc");
+	Factor_Runner test3 { "\"abc\"" };
+	expect_string_value(test3.value, "abc");
 
-	Factor_Runner test4 { "020H", factor };
-	expect_int_value(factor, 32);
+	Factor_Runner test4 { "020H" };
+	expect_int_value(test4.value, 32);
 
-	Factor_Runner test5 { "40X", factor };
-	expect_string_value(factor, "@");
+	Factor_Runner test5 { "40X" };
+	expect_string_value(test5.value, "@");
 
-	Factor_Runner test6 { "NIL", factor };
-	EXPECT_EQ(factor, expr::Expression::nil);
+	Factor_Runner test6 { "NIL" };
+	EXPECT_EQ(test6.value, expr::Expression::nil);
 
-	Factor_Runner test7 { "TRUE", factor };
-	expect_bool_value(factor, true);
+	Factor_Runner test7 { "TRUE" };
+	expect_bool_value(test7.value, true);
 
-	Factor_Runner test8 { "FALSE", factor };
-	expect_bool_value(factor, false);
+	Factor_Runner test8 { "FALSE" };
+	expect_bool_value(test8.value, false);
 }
 
 TEST(Factor_Tests, set) {
-	expr::Expression_Ptr factor;
-	Factor_Runner test1 { "{3..5}", factor };
+	Factor_Runner test1 { "{3..5}" };
 }
 
 TEST(Factor_Tests, grouped) {
-	expr::Expression_Ptr factor;
-	Factor_Runner test1 { "(3 + 4)", factor };
-	expect_int_value(factor, 7);
+	Factor_Runner test1 { "(3 + 4)" };
+	expect_int_value(test1.value, 7);
 }
 
 TEST(Factor_Tests, ident) {
@@ -58,29 +54,22 @@ TEST(Factor_Tests, ident) {
 	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };
 	context::scope->insert("a", std::make_shared<expr::Variable>(type));
 	context::scope->insert("f", std::make_shared<decl::Procedure>());
-	expr::Expression_Ptr factor;
-	Factor_Runner test1 { "a", factor };
-	Factor_Runner test2 { "f(3, TRUE)", factor };
-	Factor_Runner test3 { "a[3](TRUE)", factor };
+	Factor_Runner test1 { "a" };
+	Factor_Runner test2 { "f(3, TRUE)" };
+	Factor_Runner test3 { "a[3](TRUE)" };
 	context::clear();
 }
 
 TEST(Factor_Tests, not) {
-	expr::Expression_Ptr factor;
-	Factor_Runner test1 { "~FALSE", factor };
-	auto value { expr::Const::as_const(factor) };
-	EXPECT_NE(value, nullptr);
-	if (value) {
-		EXPECT_TRUE(value->is_bool() && value->bool_value());
-	}
+	Factor_Runner test1 { "~FALSE" };
+	expect_bool_value(test1.value, true);
 }
 
 TEST(Factor_Tests, incomplete) {
 	context::scope->insert("a", std::make_shared<decl::Procedure>());
-	expr::Expression_Ptr factor;
-	Factor_Runner test1 { "a(3,TRUE", factor, true };
-	Factor_Runner test2 { "a(3,", factor, true };
-	Factor_Runner test3 { "a(3", factor, true };
-	Factor_Runner test4 { "a(", factor, true };
+	Factor_Runner test1 { "a(3,TRUE", true };
+	Factor_Runner test2 { "a(3,", true };
+	Factor_Runner test3 { "a(3", true };
+	Factor_Runner test4 { "a(", true };
 	context::clear();
 }

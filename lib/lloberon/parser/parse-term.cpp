@@ -6,8 +6,7 @@ void Parser::check_0_int(const expr::Const& value) {
 }
 
 void Parser::parse_term(expr::Expression_Ptr& term) {
-	parse_factor(term);
-	auto value { term };
+	auto value { parse_factor() };
 	auto const_value { expr::Const::as_const(value) };
 
 	while (token::is_one_of(
@@ -16,8 +15,7 @@ void Parser::parse_term(expr::Expression_Ptr& term) {
 	)) {
 		auto op { token::kind };
 		advance();
-		parse_factor(term);
-		auto right_value { term };
+		auto right_value { parse_factor() };
 		auto right_const_value { expr::Const::as_const(right_value) };
 		if (const_value && right_const_value) {
 			if (const_value->is_int() && right_const_value->is_int()) {

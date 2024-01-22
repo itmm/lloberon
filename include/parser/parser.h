@@ -71,7 +71,7 @@ public:
 
 	void parse_expression_list(expr::Expression_List& expression_list);
 
-	void parse_factor(expr::Expression_Ptr& factor);
+	expr::Expression_Ptr parse_factor();
 
 	void parse_field_list(type::Record_Ptr& record_type);
 

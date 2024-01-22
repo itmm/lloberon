@@ -4,8 +4,7 @@
 
 void Parser::parse_label(expr::Const_Ptr& label) {
 	if (token::is_one_of(token::integer_literal, token::string_literal)) {
-		expr::Expression_Ptr expression;
-		parse_factor(expression);
+		auto expression { parse_factor() };
 		label = expr::Const::as_const(expression);
 	} else {
 		diag::report(diag::err_const_label_expected);
