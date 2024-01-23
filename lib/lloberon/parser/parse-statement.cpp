@@ -13,6 +13,6 @@ void Parser::parse_statement(stmt::Statement_Ptr& statement) {
 	} else if (token::is(token::keyword_REPEAT)) {
 		parse_repeat_statement(statement);
 	} else if (token::is(token::keyword_FOR)) {
-		parse_for_statement(statement);
+		statement = parse_for_statement();
 	}
 }

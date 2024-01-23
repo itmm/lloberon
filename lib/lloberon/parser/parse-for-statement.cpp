@@ -1,12 +1,12 @@
 #include "parser/parser.h"
 #include "stmt/for.h"
 
-void Parser::parse_for_statement(stmt::Statement_Ptr& statement) {
+stmt::For_Ptr Parser::parse_for_statement() {
 	auto for_statement { std::make_shared<stmt::For>() };
 
 	consume(token::keyword_FOR);
 	expect(token::identifier);
-	for_statement->variable = std::dynamic_pointer_cast<expr::Variable>(
+	for_statement->variable = expr::Variable::as_variable(
 		context::scope->lookup(token::value)
 	);
 	if (!for_statement->variable) {
@@ -26,5 +26,5 @@ void Parser::parse_for_statement(stmt::Statement_Ptr& statement) {
 	consume(token::keyword_DO);
 	parse_statement_sequence(for_statement->statements);
 	consume(token::keyword_END);
-	statement = for_statement;
+	return for_statement;
 }

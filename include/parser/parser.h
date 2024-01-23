@@ -1,15 +1,16 @@
 #pragma once
 
 #include "lexer/lexer.h"
-#include "llvm/Support/raw_ostream.h"
-#include "sema/case.h"
 #include "sema/case-list.h"
+#include "sema/case.h"
 #include "sema/context.h"
 #include "sema/ident-def.h"
 #include "sema/label.h"
 #include "sema/procedure-declaration.h"
 #include "sema/scope.h"
+#include "stmt/for.h"
 #include "type/record.h"
+#include "llvm/Support/raw_ostream.h"
 
 class Parser {
 	Lexer& lexer_;
@@ -76,7 +77,7 @@ public:
 
 	void parse_field_list_sequence(type::Record& record_type);
 
-	void parse_for_statement(stmt::Statement_Ptr& for_statement);
+	stmt::For_Ptr parse_for_statement();
 
 	void parse_formal_parameter_section(type::Procedure_Ptr& procedure_type);
 

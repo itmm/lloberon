@@ -2,24 +2,20 @@
 #include "stmt/for.h"
 #include "const-tests.h"
 
-using For_Statement_Runner = Parser_Arg_Void_Runner<
-	stmt::Statement_Ptr, &Parser::parse_for_statement
+using For_Statement_Runner = Parser_No_Void_Runner<
+	stmt::For_Ptr, &Parser::parse_for_statement
 >;
 
 TEST(For_Statement_Tests, empty) {
-	stmt::Statement_Ptr statement;
-	For_Statement_Runner test1 { "", statement, true };
+	For_Statement_Runner test1 { "", true };
 }
 
 TEST(For_Statement_Tests, simple) {
 	auto var { std::make_shared<expr::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
-	stmt::Statement_Ptr statement;
-	For_Statement_Runner test1 {
-		"FOR a := 1 TO 3 DO x := x + a END", statement
-	};
-	auto for_statement { std::dynamic_pointer_cast<stmt::For>(statement)};
+	For_Statement_Runner test1 { "FOR a := 1 TO 3 DO x := x + a END" };
+	auto for_statement { test1.value };
 	EXPECT_NE(for_statement, nullptr);
 	if (for_statement) {
 		EXPECT_EQ(for_statement->variable, var);
@@ -35,11 +31,8 @@ TEST(For_Statement_Tests, with_step) {
 	auto var { std::make_shared<expr::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
-	stmt::Statement_Ptr statement;
-	For_Statement_Runner test1 {
-		"FOR a := 1 TO 10 BY 2 DO x := x + a END", statement
-	};
-	auto for_statement { std::dynamic_pointer_cast<stmt::For>(statement)};
+	For_Statement_Runner test1 { "FOR a := 1 TO 10 BY 2 DO x := x + a END" };
+	auto for_statement { test1.value };
 	EXPECT_NE(for_statement, nullptr);
 	if (for_statement) {
 		EXPECT_EQ(for_statement->variable, var);
@@ -55,11 +48,8 @@ TEST(For_Statement_Tests, with_stepdown) {
 	auto var { std::make_shared<expr::Variable>(nullptr) };
 	context::scope->insert("a", var);
 	context::scope->insert("x", std::make_shared<expr::Variable>(nullptr));
-	stmt::Statement_Ptr statement;
-	For_Statement_Runner test1 {
-		"FOR a := 10 TO 0 BY -2 DO x := x + a END", statement
-	};
-	auto for_statement { std::dynamic_pointer_cast<stmt::For>(statement)};
+	For_Statement_Runner test1 { "FOR a := 10 TO 0 BY -2 DO x := x + a END" };
+	auto for_statement { test1.value };
 	EXPECT_NE(for_statement, nullptr);
 	if (for_statement) {
 		EXPECT_EQ(for_statement->variable, var);
@@ -73,22 +63,17 @@ TEST(For_Statement_Tests, with_stepdown) {
 
 TEST(For_Statement_Tests, wrong) {
 	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
-	stmt::Statement_Ptr statement;
-	For_Statement_Runner test1 { "FOR", statement, true };
-	For_Statement_Runner test2 { "FOR a", statement, true };
-	For_Statement_Runner test3 { "FOR :=", statement, true, true };
-	For_Statement_Runner test4 { "FOR a :=", statement, true };
-	For_Statement_Runner test5 { "FOR a 1", statement, true, true };
-	For_Statement_Runner test6 { "FOR a := 1", statement, true };
-	For_Statement_Runner test7 { "FOR a := 1 TO", statement, true };
-	For_Statement_Runner test8 { "FOR a := 1 TO 10", statement, true };
-	For_Statement_Runner test9 { "FOR a := 1 10", statement, true, true };
-	For_Statement_Runner test10 { "FOR a := 1 TO 10 DO", statement, true };
-	For_Statement_Runner test11 {
-		"FOR a := 1 TO 10 END", statement, true, true
-	};
-	For_Statement_Runner test12 {
-		"FOR a := 1 TO 10 BY DO", statement, true, true
-	};
+	For_Statement_Runner test1 { "FOR", true };
+	For_Statement_Runner test2 { "FOR a", true };
+	For_Statement_Runner test3 { "FOR :=", true, true };
+	For_Statement_Runner test4 { "FOR a :=", true };
+	For_Statement_Runner test5 { "FOR a 1", true, true };
+	For_Statement_Runner test6 { "FOR a := 1", true };
+	For_Statement_Runner test7 { "FOR a := 1 TO", true };
+	For_Statement_Runner test8 { "FOR a := 1 TO 10", true };
+	For_Statement_Runner test9 { "FOR a := 1 10", true, true };
+	For_Statement_Runner test10 { "FOR a := 1 TO 10 DO", true };
+	For_Statement_Runner test11 { "FOR a := 1 TO 10 END", true, true };
+	For_Statement_Runner test12 { "FOR a := 1 TO 10 BY DO", true, true };
 	context::clear();
 }

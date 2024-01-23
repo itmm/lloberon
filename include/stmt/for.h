@@ -9,10 +9,12 @@ namespace stmt {
 	public:
 		For() = default;
 
-		std::shared_ptr<expr::Variable> variable;
-		std::shared_ptr<expr::Expression> begin;
-		std::shared_ptr<expr::Expression> end;
-		std::shared_ptr<expr::Const> increment;
+		expr::Variable_Ptr variable;
+		expr::Expression_Ptr begin;
+		expr::Expression_Ptr end;
+		expr::Const_Ptr increment;
 		Statement_Sequence statements;
 	};
+
+	using For_Ptr = std::shared_ptr<For>;
 }
