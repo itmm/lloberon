@@ -64,7 +64,7 @@ public:
 
 	[[nodiscard]] expr::Expression_Ptr parse_designator();
 
-	void parse_element(expr::Const_Ptr& expression);
+	void parse_element(unsigned& set_value);
 
 	[[nodiscard]] expr::Expression_Ptr parse_expression();
 

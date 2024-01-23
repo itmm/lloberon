@@ -1,6 +1,6 @@
 #include "parser/parser.h"
 
-void Parser::parse_element(expr::Const_Ptr& expression) {
+void Parser::parse_element(unsigned& set_value) {
 	auto element { parse_expression() };
 	auto const_element { expr::Const::as_const(element)};
 	if (!const_element || !const_element->is_int()) {
@@ -17,9 +17,7 @@ void Parser::parse_element(expr::Const_Ptr& expression) {
 		}
 		end = const_element->int_value();
 	}
-	unsigned set { expression->set_value() };
 	for (int i { begin }; i <= end; ++i) {
-		set |= (1 << i);
+		set_value |= (1 << i);
 	}
-	expression = expr::Const::create(set);
 }
