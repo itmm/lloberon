@@ -2,7 +2,7 @@
 #include "type/array.h"
 #include "type/pointer.h"
 
-void Parser::parse_designator(expr::Expression_Ptr& designator) {
+expr::Expression_Ptr Parser::parse_designator() {
 	sema::Qual_Ident qual_ident;
 	parse_qual_ident(qual_ident);
 
@@ -63,5 +63,5 @@ void Parser::parse_designator(expr::Expression_Ptr& designator) {
 	}
 
 	if (! expression) { expression = qual_ident.as_procedure(); }
-	designator = expression;
+	return expression;
 }

@@ -63,7 +63,7 @@ public:
 
 	void parse_declaration_sequence();
 
-	void parse_designator(expr::Expression_Ptr& designator);
+	[[nodiscard]] expr::Expression_Ptr parse_designator();
 
 	void parse_element(expr::Const_Ptr& expression);
 
