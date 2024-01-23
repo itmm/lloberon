@@ -1,33 +1,33 @@
 #include "parser-tests.h"
 #include "type/type.h"
+#include "decl/module.h"
 
-using Qual_Ident_Runner = Parser_Arg_Void_Runner<
-	sema::Qual_Ident, &Parser::parse_qual_ident
+using Qual_Ident_Runner = Parser_No_Void_Runner<
+	decl::Declaration_Ptr, &Parser::parse_qual_ident
 >;
 
 TEST(Qual_Ident_Tests, empty) {
-	sema::Qual_Ident qual_ident;
-	Qual_Ident_Runner test1 { "", qual_ident, true };
+	Qual_Ident_Runner test1 { "", true };
 }
 
 TEST(Qual_Ident_Tests, simple) {
 	context::scope->register_base_types();
-	sema::Qual_Ident qual_ident;
-	Qual_Ident_Runner test1 { "BYTE", qual_ident };
+	Qual_Ident_Runner test1 { "INTEGER" };
+	EXPECT_EQ(test1.value, type::Type::base_integer);
 	context::scope->clear();
 
 	auto module = std::make_shared<decl::Module>("X");
 	context::scope->insert("X", module);
 	module->insert("Byte", type::Type::base_byte);
-	Qual_Ident_Runner test2 { "X.Byte", qual_ident };
+	Qual_Ident_Runner test2 { "X.Byte" };
+	EXPECT_EQ(test2.value, type::Type::base_byte);
 	context::clear();
 }
 
 TEST(Qual_Ident_Tests, incomplete) {
-	sema::Qual_Ident qual_ident;
 	auto module = std::make_shared<decl::Module>("X");
 	context::scope->insert("X", module);
-	Qual_Ident_Runner test1 { "X.", qual_ident, true };
-	Qual_Ident_Runner test2 { ".", qual_ident, true, true };
+	Qual_Ident_Runner test1 { "X.", true };
+	Qual_Ident_Runner test2 { ".", true, true };
 	context::clear();
 }

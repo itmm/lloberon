@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "type/type.h"
+#include "decl/module.h"
 
 using Formal_Parameters_Runner = Parser_Arg_Void_Runner<
 	type::Procedure_Ptr, &Parser::parse_formal_parameters

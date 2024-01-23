@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "stmt/repeat.h"
+#include "expr/variable.h"
 
 using Repeat_Statement_Runner = Parser_Arg_Void_Runner<
 	stmt::Statement_Ptr, &Parser::parse_repeat_statement

@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "const-tests.h"
+#include "expr/variable.h"
 
 using Term_Runner = Parser_No_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_term

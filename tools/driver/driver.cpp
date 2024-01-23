@@ -22,12 +22,11 @@ int main(int argc_, const char** argv_) {
 		}
 
 		llvm::SourceMgr source_mgr;
-		Diagnostics_Engine diag { source_mgr };
 		source_mgr.AddNewSourceBuffer(std::move(*file_or_error), llvm::SMLoc());
-		Lexer lexer { source_mgr, diag };
+		Lexer lexer { source_mgr };
 		Parser parser { lexer };
 		try {
-			if (parser.parse()) { return 10; }
+			parser.parse();
 		} catch (const diag::Error& error) {
 			source_mgr.PrintMessage(
 				llvm::SMLoc::getFromPointer(token::source),

@@ -1,6 +1,7 @@
 #include "parser-tests.h"
 
 #include "decl/procedure.h"
+#include "expr/variable.h"
 
 using Assignment_Runner = Parser_Arg_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_assignment_or_procedure_call

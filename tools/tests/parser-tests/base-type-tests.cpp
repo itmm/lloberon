@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "type/record.h"
+#include "decl/module.h"
 
 using Base_Type_Runner = Parser_No_Void_Runner<
 	type::Record_Ptr, &Parser::parse_base_type

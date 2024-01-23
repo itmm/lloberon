@@ -1,5 +1,6 @@
 #include "const-tests.h"
 #include "parser-tests.h"
+#include "expr/variable.h"
 
 using Simple_Expression_Runner = Parser_No_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_simple_expression

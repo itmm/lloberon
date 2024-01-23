@@ -2,6 +2,7 @@
 
 #include "statement.h"
 #include "expr/const.h"
+#include "expr/variable.h"
 
 namespace stmt {
 	class For: public Statement {

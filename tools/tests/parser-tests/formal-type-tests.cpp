@@ -1,5 +1,6 @@
 #include "parser-tests.h"
 #include "type/array.h"
+#include "decl/module.h"
 
 using Formal_Type_Runner = Parser_Arg_Void_Runner<
 	type::Type_Ptr, &Parser::parse_formal_type

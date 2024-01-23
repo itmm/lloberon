@@ -13,9 +13,7 @@ expr::Expression_Ptr Parser::parse_expression() {
 		advance();
 
 		if (op == token::keyword_IS) {
-			sema::Qual_Ident qual_ident;
-			parse_qual_ident(qual_ident);
-			auto type { qual_ident.as_type() };
+			auto type { type::Type::as_type(parse_qual_ident()) };
 			if (!type) {
 				diag::report(diag::err_type_expected);
 			}

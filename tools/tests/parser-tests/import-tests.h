@@ -5,6 +5,7 @@
 #include "llvm/Support/Casting.h"
 
 #include "decl/declaration.h"
+#include "decl/module.h"
 #include "sema/scope.h"
 
 inline void expect_no_modules(Scope& scope) {

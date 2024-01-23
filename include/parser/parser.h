@@ -9,7 +9,6 @@
 #include "sema/label.h"
 #include "sema/procedure-declaration.h"
 #include "sema/scope.h"
-#include "sema/qual-ident.h"
 #include "type/record.h"
 
 class Parser {
@@ -117,9 +116,9 @@ public:
 
 	void parse_procedure_type(type::Type_Ptr& type);
 
-	void parse_qual_ident(sema::Qual_Ident& qual_ident);
+	[[nodiscard]] decl::Declaration_Ptr parse_qual_ident();
 
-	type::Record_Ptr parse_record_type();
+	[[nodiscard]] type::Record_Ptr parse_record_type();
 
 	void parse_repeat_statement(stmt::Statement_Ptr& statement);
 

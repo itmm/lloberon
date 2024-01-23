@@ -1,5 +1,6 @@
 #include "parser/parser.h"
 #include "sema/scope.h"
+#include "decl/module.h"
 
 void Parser::parse_import(Scope& scope) {
 	expect(token::identifier);

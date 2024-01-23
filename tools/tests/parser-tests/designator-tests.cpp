@@ -1,6 +1,7 @@
 #include "parser-tests.h"
 #include "type/pointer.h"
 #include "type-tests.h"
+#include "expr/variable.h"
 
 using Designator_Runner = Parser_No_Void_Runner<
 	expr::Expression_Ptr, &Parser::parse_designator

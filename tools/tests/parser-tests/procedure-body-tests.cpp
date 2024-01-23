@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "expr/variable.h"
 
 using Procedure_Body_Runner = Parser_Arg_Void_Runner<
 	sema::Procedure_Declaration, &Parser::parse_procedure_body

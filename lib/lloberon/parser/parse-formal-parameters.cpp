@@ -13,9 +13,7 @@ void Parser::parse_formal_parameters(type::Procedure_Ptr& procedure_type) {
 	consume(token::right_parenthesis);
 	if (token::is(token::colon)) {
 		advance();
-		sema::Qual_Ident qual_ident;
-		parse_qual_ident(qual_ident);
-		auto return_type { qual_ident.as_type() };
+		auto return_type { type::Type::as_type(parse_qual_ident()) };
 
 		if (! return_type) { diag::report(diag::err_type_expected); }
 		procedure_type->return_type = return_type;

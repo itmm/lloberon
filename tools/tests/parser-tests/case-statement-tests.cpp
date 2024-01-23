@@ -1,4 +1,5 @@
 #include "parser-tests.h"
+#include "expr/variable.h"
 
 using Case_Statement_Runner = Parser_Arg_Void_Runner<
 	stmt::Statement_Ptr, &Parser::parse_case_statement

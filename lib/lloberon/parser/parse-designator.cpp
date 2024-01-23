@@ -1,13 +1,14 @@
 #include "parser/parser.h"
 #include "type/array.h"
 #include "type/pointer.h"
+#include "expr/variable.h"
+#include "expr/procedure.h"
 
 expr::Expression_Ptr Parser::parse_designator() {
-	sema::Qual_Ident qual_ident;
-	parse_qual_ident(qual_ident);
+	auto qual_ident { parse_qual_ident() };
 
 	std::shared_ptr<expr::Expression> expression;
-	expression = qual_ident.as_variable();
+	expression = expr::Variable::as_variable(qual_ident);
 
 	while (
 		expression && !std::dynamic_pointer_cast<type::Procedure>(
@@ -54,14 +55,16 @@ expr::Expression_Ptr Parser::parse_designator() {
 			advance();
         } else if (token::is(token::left_parenthesis)) {
             advance();
-            parse_qual_ident(qual_ident);
-            consume(token::right_parenthesis);
-			auto type { qual_ident.as_type() };
+            auto type { type::Type::as_type(parse_qual_ident()) };
 			if (!type) { diag::report(diag::err_type_expected); }
+            consume(token::right_parenthesis);
 			expression = std::make_shared<expr::Expression>(type);
 		} else { break; }
 	}
 
-	if (! expression) { expression = qual_ident.as_procedure(); }
+	if (! expression) {
+		auto procedure { expr::Procedure::as_procedure(qual_ident) };
+		expression = procedure ? std::make_shared<expr::Expression>(procedure->type) : nullptr;
+	}
 	return expression;
 }

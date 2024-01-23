@@ -31,5 +31,8 @@ namespace type {
 
 		static Type_Ptr base_set;
 
+		static Type_Ptr as_type(const decl::Declaration_Ptr& declaration) {
+			return std::dynamic_pointer_cast<Type>(declaration);
+		}
 	};
 }
