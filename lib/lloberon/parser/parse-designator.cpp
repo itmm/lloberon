@@ -34,8 +34,7 @@ expr::Expression_Ptr Parser::parse_designator() {
 			advance();
 		} else if (token::is(token::left_bracket)) {
 			advance();
-			expr::Expression_List expression_list;
-			parse_expression_list(expression_list);
+			expr::Expression_List expression_list { parse_expression_list() };
 			consume(token::right_bracket);
 			for (auto count { expression_list.size() }; count; --count) {
 				auto array_type { std::dynamic_pointer_cast<type::Array>(

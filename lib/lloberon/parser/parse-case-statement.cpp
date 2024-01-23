@@ -3,7 +3,7 @@
 #include "type/pointer.h"
 #include "type/record.h"
 
-void Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
+stmt::Statement_Ptr Parser::parse_case_statement() {
 	consume(token::keyword_CASE);
 	expr::Expression_Ptr expression { parse_expression() };
 
@@ -24,7 +24,7 @@ void Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
 		}
 		consume(token::keyword_END);
 
-		statement = case_statement;
+		return case_statement;
 	} else {
 		auto case_statement { std::make_shared<stmt::Const_Case>() };
 		case_statement->condition = expression;
@@ -38,6 +38,6 @@ void Parser::parse_case_statement(stmt::Statement_Ptr& statement) {
 		}
 		consume(token::keyword_END);
 
-		statement = case_statement;
+		return case_statement;
 	}
 }

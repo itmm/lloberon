@@ -54,7 +54,7 @@ public:
 
 	void parse_case_list(sema::Type_Case_List& case_list);
 
-	void parse_case_statement(stmt::Statement_Ptr& statement);
+	[[nodiscard]] stmt::Statement_Ptr parse_case_statement();
 
 	void parse_const_declaration();
 
@@ -68,7 +68,7 @@ public:
 
 	[[nodiscard]] expr::Expression_Ptr parse_expression();
 
-	void parse_expression_list(expr::Expression_List& expression_list);
+	[[nodiscard]] expr::Expression_List parse_expression_list();
 
 	[[nodiscard]] expr::Expression_Ptr parse_factor();
 
