@@ -1,56 +1,54 @@
-set(LLVM_LINK_COMPONENTS Support)
-
-add_lloberon_tool(Tests
-    lexer-tests.cpp
-    parser-tests/actual-parameters-tests.cpp
-    parser-tests/array-type-tests.cpp
-    parser-tests/assignment-or-procedure-call-tests.cpp
-    parser-tests/base-type-tests.cpp
-    parser-tests/case-list-tests.cpp
-    parser-tests/case-statement-tests.cpp
-    parser-tests/case-tests.cpp
-    parser-tests/const-declaration-tests.cpp
-    parser-tests/const-expression-tests.cpp
-    parser-tests/declaration-sequence-tests.cpp
-    parser-tests/designator-tests.cpp
-    parser-tests/element-tests.cpp
-    parser-tests/expression-list-tests.cpp
-    parser-tests/expression-tests.cpp
-    parser-tests/factor-tests.cpp
-    parser-tests/field-list-sequence-tests.cpp
-    parser-tests/field-list-tests.cpp
-    parser-tests/for-statement-tests.cpp
-    parser-tests/formal-parameter-section-tests.cpp
-    parser-tests/formal-parameters-tests.cpp
-    parser-tests/formal-type-tests.cpp
-    parser-tests/ident-def-tests.cpp
-    parser-tests/ident-list-tests.cpp
-    parser-tests/if-statement-tests.cpp
-    parser-tests/import-list-tests.cpp
-    parser-tests/import-tests.cpp
-    parser-tests/label-range-tests.cpp
-    parser-tests/label-tests.cpp
-    parser-tests/length-tests.cpp
-    parser-tests/module-tests.cpp
-    parser-tests/parser-tests.cpp
-    parser-tests/pointer-type-tests.cpp
-    parser-tests/procedure-body-tests.cpp
-    parser-tests/procedure-declaration-tests.cpp
-    parser-tests/procedure-heading-tests.cpp
-    parser-tests/procedure-type-tests.cpp
-    parser-tests/qual-ident-tests.cpp
-    parser-tests/record-type-tests.cpp
-    parser-tests/repeat-statement-tests.cpp
-    parser-tests/set-tests.cpp
-    parser-tests/simple-expression-tests.cpp
-    parser-tests/statement-sequence-tests.cpp
-    parser-tests/statement-tests.cpp
-    parser-tests/term-tests.cpp
-    parser-tests/type-declaration-tests.cpp
-    parser-tests/type-tests.cpp
-    parser-tests/var-declaration-tests.cpp
-    parser-tests/while-statement-tests.cpp
-    scope-tests.cpp
+add_executable(Tests
+        lexer-tests.cpp
+        parser-tests/actual-parameters-tests.cpp
+        parser-tests/array-type-tests.cpp
+        parser-tests/assignment-or-procedure-call-tests.cpp
+        parser-tests/base-type-tests.cpp
+        parser-tests/case-list-tests.cpp
+        parser-tests/case-statement-tests.cpp
+        parser-tests/case-tests.cpp
+        parser-tests/const-declaration-tests.cpp
+        parser-tests/const-expression-tests.cpp
+        parser-tests/declaration-sequence-tests.cpp
+        parser-tests/designator-tests.cpp
+        parser-tests/element-tests.cpp
+        parser-tests/expression-list-tests.cpp
+        parser-tests/expression-tests.cpp
+        parser-tests/factor-tests.cpp
+        parser-tests/field-list-sequence-tests.cpp
+        parser-tests/field-list-tests.cpp
+        parser-tests/for-statement-tests.cpp
+        parser-tests/formal-parameter-section-tests.cpp
+        parser-tests/formal-parameters-tests.cpp
+        parser-tests/formal-type-tests.cpp
+        parser-tests/ident-def-tests.cpp
+        parser-tests/ident-list-tests.cpp
+        parser-tests/if-statement-tests.cpp
+        parser-tests/import-list-tests.cpp
+        parser-tests/import-tests.cpp
+        parser-tests/label-range-tests.cpp
+        parser-tests/label-tests.cpp
+        parser-tests/length-tests.cpp
+        parser-tests/module-tests.cpp
+        parser-tests/parser-tests.cpp
+        parser-tests/pointer-type-tests.cpp
+        parser-tests/procedure-body-tests.cpp
+        parser-tests/procedure-declaration-tests.cpp
+        parser-tests/procedure-heading-tests.cpp
+        parser-tests/procedure-type-tests.cpp
+        parser-tests/qual-ident-tests.cpp
+        parser-tests/record-type-tests.cpp
+        parser-tests/repeat-statement-tests.cpp
+        parser-tests/set-tests.cpp
+        parser-tests/simple-expression-tests.cpp
+        parser-tests/statement-sequence-tests.cpp
+        parser-tests/statement-tests.cpp
+        parser-tests/term-tests.cpp
+        parser-tests/type-declaration-tests.cpp
+        parser-tests/type-tests.cpp
+        parser-tests/var-declaration-tests.cpp
+        parser-tests/while-statement-tests.cpp
+        scope-tests.cpp
         decl/module-tests.cpp
         decl/type-tests.cpp
         decl/variable-tests.cpp)
@@ -58,4 +56,4 @@ add_lloberon_tool(Tests
 add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-target_link_libraries(Tests PRIVATE gtest_main liboberon)
+target_link_libraries(Tests PRIVATE gtest_main liboberon LLVM)

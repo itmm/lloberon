@@ -5,6 +5,8 @@
 #include "llvm/Support/SMLoc.h"
 #include "llvm/Support/SourceMgr.h"
 #include "llvm/Support/raw_ostream.h"
+
+#include <iostream>
 #include <utility>
 
 namespace diag {
@@ -30,7 +32,7 @@ namespace diag {
 
 	template<typename... Args>
 	inline void report(unsigned diagnostic_id, Args&& ... arguments) {
-		std::string message = llvm::formatv(
+		std::string message =  llvm::formatv(
 			diag::diagnostic_text(diagnostic_id),
 			std::forward<Args>(arguments)...
 		).str();

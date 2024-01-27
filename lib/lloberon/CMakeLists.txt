@@ -1,4 +1,4 @@
-add_lloberon_library(liboberon
+add_library(liboberon
 	basic/diagnostic.cpp
 	basic/token-kinds.cpp
 	decl/procedure.cpp
