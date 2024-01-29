@@ -87,7 +87,7 @@ public:
 
 	[[nodiscard]] sema::Ident_Def parse_ident_def();
 
-	void parse_ident_list(sema::Ident_List& ident_list);
+	[[nodiscard]] sema::Ident_List parse_ident_list();
 
 	void parse_if_statement(stmt::Statement_Ptr& statement);
 

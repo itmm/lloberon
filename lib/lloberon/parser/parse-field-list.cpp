@@ -1,8 +1,7 @@
 #include "parser/parser.h"
 
 void Parser::parse_field_list(type::Record& record_type) {
-	sema::Ident_List ident_list;
-	parse_ident_list(ident_list);
+	auto ident_list { parse_ident_list() };
 	consume(token::colon);
 	type::Type_Ptr type;
 	parse_type(type);
