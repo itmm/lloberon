@@ -77,7 +77,7 @@ public:
 
 	void parse_field_list_sequence(type::Record& record_type);
 
-	stmt::For_Ptr parse_for_statement();
+	[[nodiscard]] stmt::For_Ptr parse_for_statement();
 
 	void parse_formal_parameter_section(type::Procedure_Ptr& procedure_type);
 
