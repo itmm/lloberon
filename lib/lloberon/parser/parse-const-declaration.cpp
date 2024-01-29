@@ -1,8 +1,7 @@
 #include "parser/parser.h"
 
 void Parser::parse_const_declaration() {
-	sema::Ident_Def ident_def;
-	parse_ident_def(ident_def);
+	auto ident_def { parse_ident_def() };
 	consume(token::equals);
 	auto expression { parse_const_expression() };
 	expression->exported = ident_def.exported;

@@ -85,7 +85,7 @@ public:
 
 	[[nodiscard]] type::Type_Ptr parse_formal_type();
 
-	void parse_ident_def(sema::Ident_Def& ident_def);
+	[[nodiscard]] sema::Ident_Def parse_ident_def();
 
 	void parse_ident_list(sema::Ident_List& ident_list);
 

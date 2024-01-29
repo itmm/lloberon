@@ -11,7 +11,7 @@ namespace sema {
 			ident { std::move(ident) }, exported { exported } { }
 
 		std::string ident;
-		bool exported;
+		bool exported { false };
 	};
 
 	using Ident_List = std::vector<Ident_Def>;
