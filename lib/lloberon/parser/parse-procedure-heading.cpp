@@ -5,7 +5,7 @@ void Parser::parse_procedure_heading(
 ) {
 	consume(token::keyword_PROCEDURE);
 	parse_ident_def(procedure_declaration.name);
-	parse_formal_parameters(procedure_declaration.procedure_type);
+	parse_formal_parameters(*procedure_declaration.procedure_type);
 	procedure_declaration.procedure->type =
 		procedure_declaration.procedure_type;
 }

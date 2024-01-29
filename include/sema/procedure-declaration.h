@@ -12,10 +12,8 @@ namespace sema {
 
 		Ident_Def name;
 
-		type::Procedure_Ptr procedure_type;
+		type::Procedure_Ptr procedure_type = std::make_shared<type::Procedure>();
 
-		std::shared_ptr<decl::Procedure> procedure {
-			std::make_shared<decl::Procedure>()
-		};
+		decl::Procedure_Ptr procedure = std::make_shared<decl::Procedure>();
 	};
 }

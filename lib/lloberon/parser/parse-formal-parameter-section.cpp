@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 
 void Parser::parse_formal_parameter_section(
-	type::Procedure_Ptr& procedure_type
+	type::Procedure& procedure_type
 ) {
 	bool reference { false };
 	if (token::is(token::keyword_VAR)) { reference = true; advance(); }
@@ -21,7 +21,7 @@ void Parser::parse_formal_parameter_section(
 	parse_formal_type(formal_type);
 
 	for (const auto& name : names) {
-		procedure_type->parameters.emplace_back(
+		procedure_type.parameters.emplace_back(
 			name, formal_type, reference
 		);
 	}

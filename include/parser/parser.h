@@ -79,9 +79,9 @@ public:
 
 	[[nodiscard]] stmt::For_Ptr parse_for_statement();
 
-	void parse_formal_parameter_section(type::Procedure_Ptr& procedure_type);
+	void parse_formal_parameter_section(type::Procedure& procedure_type);
 
-	void parse_formal_parameters(type::Procedure_Ptr& procedure_type);
+	void parse_formal_parameters(type::Procedure& procedure_type);
 
 	void parse_formal_type(type::Type_Ptr& type);
 
