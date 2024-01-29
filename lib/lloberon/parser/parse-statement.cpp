@@ -5,7 +5,7 @@ void Parser::parse_statement(stmt::Statement_Ptr& statement) {
 		expr::Expression_Ptr expression;
 		parse_assignment_or_procedure_call(expression);
 	} else if (token::is(token::keyword_IF)) {
-		parse_if_statement(statement);
+		statement = parse_if_statement();
 	} else if (token::is(token::keyword_CASE)) {
 		statement = parse_case_statement();
 	} else if (token::is(token::keyword_WHILE)) {

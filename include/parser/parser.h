@@ -9,6 +9,7 @@
 #include "sema/procedure-declaration.h"
 #include "sema/scope.h"
 #include "stmt/for.h"
+#include "stmt/if.h"
 #include "type/record.h"
 #include "llvm/Support/raw_ostream.h"
 
@@ -89,7 +90,7 @@ public:
 
 	[[nodiscard]] sema::Ident_List parse_ident_list();
 
-	void parse_if_statement(stmt::Statement_Ptr& statement);
+	[[nodiscard]] stmt::If_Ptr parse_if_statement();
 
 	void parse_import(Scope& scope);
 

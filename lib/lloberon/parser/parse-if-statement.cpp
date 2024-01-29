@@ -1,7 +1,7 @@
 #include "parser/parser.h"
 #include "stmt/if.h"
 
-void Parser::parse_if_statement(stmt::Statement_Ptr& statement) {
+stmt::If_Ptr Parser::parse_if_statement() {
 	auto if_statement { std::make_shared<stmt::If>() };
 	consume(token::keyword_IF);
 	expr::Expression_Ptr expression { parse_expression() };
@@ -28,5 +28,5 @@ void Parser::parse_if_statement(stmt::Statement_Ptr& statement) {
 		if_statement->entries.emplace_back(nullptr, std::move(else_sequence));
 	}
 	consume(token::keyword_END);
-	statement = if_statement;
+	return if_statement;
 }

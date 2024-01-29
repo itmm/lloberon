@@ -22,4 +22,6 @@ namespace stmt {
 
 		std::vector<Entry> entries;
 	};
+
+	using If_Ptr = std::shared_ptr<If>;
 }
