@@ -83,7 +83,7 @@ public:
 
 	void parse_formal_parameters(type::Procedure& procedure_type);
 
-	void parse_formal_type(type::Type_Ptr& type);
+	[[nodiscard]] type::Type_Ptr parse_formal_type();
 
 	void parse_ident_def(sema::Ident_Def& ident_def);
 

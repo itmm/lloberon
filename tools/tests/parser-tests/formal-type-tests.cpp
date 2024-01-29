@@ -2,20 +2,18 @@
 #include "type/array.h"
 #include "decl/module.h"
 
-using Formal_Type_Runner = Parser_Arg_Void_Runner<
+using Formal_Type_Runner = Parser_No_Void_Runner<
 	type::Type_Ptr, &Parser::parse_formal_type
 >;
 
 TEST(Formal_Type_Tests, empty) {
-	type::Type_Ptr formal_type;
-	Formal_Type_Runner test1 { "", formal_type, true };
+	Formal_Type_Runner test1 { "", true };
 }
 
 TEST(Formal_Type_Tests, simple) {
 	context::scope->register_base_types();
-	type::Type_Ptr formal_type;
-	Formal_Type_Runner test1 { "INTEGER", formal_type };
-	EXPECT_EQ(formal_type, type::Type::base_integer);
+	Formal_Type_Runner test1 { "INTEGER" };
+	EXPECT_EQ(test1.value, type::Type::base_integer);
 	context::clear();
 }
 
@@ -23,17 +21,15 @@ TEST(Formal_Type_Tests, qualified) {
 	auto module { std::make_shared<decl::Module>("X") };
 	module->insert("Byte", type::Type::base_byte);
 	context::scope->insert("X", module);
-	type::Type_Ptr formal_type;
-	Formal_Type_Runner test1 { "X.Byte", formal_type };
-	EXPECT_EQ(formal_type, type::Type::base_byte);
+	Formal_Type_Runner test1 { "X.Byte" };
+	EXPECT_EQ(test1.value, type::Type::base_byte);
 	context::clear();
 }
 
 TEST(Formal_Type_Tests, array) {
 	context::scope->register_base_types();
-	type::Type_Ptr formal_type;
-	Formal_Type_Runner test1 { "ARRAY OF BYTE", formal_type };
-	auto array { std::dynamic_pointer_cast<type::Array>(formal_type) };
+	Formal_Type_Runner test1 { "ARRAY OF BYTE" };
+	auto array { std::dynamic_pointer_cast<type::Array>(test1.value) };
 	EXPECT_NE(array, nullptr);
 	if (array) {
 		EXPECT_EQ(array->count, -1);
@@ -44,9 +40,8 @@ TEST(Formal_Type_Tests, array) {
 
 TEST(Formal_Type_Tests, multiple_arrays) {
 	context::scope->register_base_types();
-	type::Type_Ptr formal_type;
-	Formal_Type_Runner test1 { "ARRAY OF ARRAY OF BYTE", formal_type };
-	auto outer { std::dynamic_pointer_cast<type::Array>(formal_type) };
+	Formal_Type_Runner test1 { "ARRAY OF ARRAY OF BYTE" };
+	auto outer { std::dynamic_pointer_cast<type::Array>(test1.value) };
 	EXPECT_NE(outer, nullptr);
 	if (outer) {
 		EXPECT_EQ(outer->count, -1);

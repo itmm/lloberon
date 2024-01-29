@@ -17,8 +17,7 @@ void Parser::parse_formal_parameter_section(
 	}
 
 	consume(token::colon);
-	type::Type_Ptr formal_type;
-	parse_formal_type(formal_type);
+	type::Type_Ptr formal_type { parse_formal_type() };
 
 	for (const auto& name : names) {
 		procedure_type.parameters.emplace_back(
