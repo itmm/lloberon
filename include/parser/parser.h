@@ -130,7 +130,7 @@ public:
 
 	[[nodiscard]] expr::Expression_Ptr parse_simple_expression();
 
-	void parse_statement(stmt::Statement_Ptr& statement);
+	[[nodiscard]] stmt::Statement_Ptr parse_statement();
 
 	void parse_statement_sequence(stmt::Statement_Sequence& statement_sequence);
 

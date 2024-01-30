@@ -1,18 +1,22 @@
 #include "parser/parser.h"
 
-void Parser::parse_statement(stmt::Statement_Ptr& statement) {
+stmt::Statement_Ptr Parser::parse_statement() {
 	if (token::is(token::identifier)) {
 		expr::Expression_Ptr expression;
 		parse_assignment_or_procedure_call(expression);
+		return std::make_shared<stmt::Statement>();
 	} else if (token::is(token::keyword_IF)) {
-		statement = parse_if_statement();
+		return parse_if_statement();
 	} else if (token::is(token::keyword_CASE)) {
-		statement = parse_case_statement();
+		return parse_case_statement();
 	} else if (token::is(token::keyword_WHILE)) {
+		stmt::Statement_Ptr statement;
 		parse_while_statement(statement);
+		return statement;
 	} else if (token::is(token::keyword_REPEAT)) {
-		statement = parse_repeat_statement();
+		return parse_repeat_statement();
 	} else if (token::is(token::keyword_FOR)) {
-		statement = parse_for_statement();
+		return parse_for_statement();
 	}
+	return nullptr;
 }
