@@ -126,7 +126,7 @@ public:
 
 	[[nodiscard]] stmt::Repeat_Ptr parse_repeat_statement();
 
-	void parse_set(expr::Const_Ptr& expression);
+	[[nodiscard]] expr::Const_Ptr parse_set();
 
 	[[nodiscard]] expr::Expression_Ptr parse_simple_expression();
 

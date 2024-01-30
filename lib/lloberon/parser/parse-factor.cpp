@@ -52,11 +52,8 @@ expr::Expression_Ptr Parser::parse_factor() {
 		case token::keyword_FALSE:
 			advance();
 			return expr::Const::create(false);
-		case token::left_brace: {
-			expr::Const_Ptr const_expression;
-			parse_set(const_expression);
-			return const_expression;
-		}
+		case token::left_brace:
+			return parse_set();
 		case token::identifier: {
 			expr::Expression_Ptr factor { parse_designator() };
 			if (token::is(token::left_parenthesis)) {

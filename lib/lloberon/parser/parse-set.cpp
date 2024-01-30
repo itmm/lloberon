@@ -1,7 +1,6 @@
 #include "parser/parser.h"
 
-void Parser::parse_set(expr::Const_Ptr& expression) {
-	expression = expr::Const::create(0U);
+expr::Const_Ptr Parser::parse_set() {
 	consume(token::left_brace);
 	unsigned set_value { 0 };
 	if (!token::is_one_of(token::right_brace, token::eof)) {
@@ -12,5 +11,5 @@ void Parser::parse_set(expr::Const_Ptr& expression) {
 		}
 	}
 	consume(token::right_brace);
-	expression = expr::Const::create(set_value);
+	return expr::Const::create(set_value);
 }
