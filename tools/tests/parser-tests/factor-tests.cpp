@@ -50,9 +50,10 @@ TEST(Factor_Tests, ident) {
 	auto base { std::make_shared<Scope>() };
 	base->register_base_types();
 	context::scope = std::make_shared<Scope>(base);
-	type::Type_Ptr type;
-	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)", type };
-	context::scope->insert("a", std::make_shared<expr::Variable>(type));
+	Type_Runner type_runner { "ARRAY 10 OF PROCEDURE(x: BOOLEAN)" };
+	context::scope->insert(
+		"a", std::make_shared<expr::Variable>(type_runner.value)
+	);
 	context::scope->insert("f", std::make_shared<decl::Procedure>());
 	Factor_Runner test1 { "a" };
 	Factor_Runner test2 { "f(3, TRUE)" };

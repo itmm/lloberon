@@ -15,7 +15,6 @@ TEST(Designator_Tests, simple) {
 	auto base { std::make_shared<Scope>() };
 	base->register_base_types();
 	context::scope = std::make_shared<Scope>(base);
-	type::Type_Ptr type;
 	Type_Runner create_type(
 		"RECORD "
 			"b: RECORD "
@@ -23,11 +22,12 @@ TEST(Designator_Tests, simple) {
 			"END; "
 			"d: ARRAY 10, 5 OF BYTE; "
 			"e: POINTER TO RECORD END "
-		"END",
-		type
+		"END"
 	);
 
-	context::scope->insert("a", std::make_shared<expr::Variable>(type));
+	context::scope->insert(
+		"a", std::make_shared<expr::Variable>(create_type.value)
+	);
 	Designator_Runner test1 { "a" };
 	EXPECT_NE(
 		std::dynamic_pointer_cast<type::Record>(test1.value->type), nullptr
@@ -52,16 +52,16 @@ TEST(Designator_Tests, simple) {
 }
 
 TEST(Designator_Tests, combined) {
-	type::Type_Ptr type;
 	Type_Runner create_type(
 		"RECORD "
 			"b: ARRAY 10 OF RECORD "
 				"c: POINTER TO RECORD END "
 			"END "
-		"END",
-		type
+		"END"
 	);
-	context::scope->insert("a", std::make_shared<expr::Variable>(type));
+	context::scope->insert(
+		"a", std::make_shared<expr::Variable>(create_type.value)
+	);
 	Designator_Runner test1 { "a.b[3].c^" };
 	EXPECT_NE(
 		std::dynamic_pointer_cast<type::Record>(test1.value->type), nullptr
@@ -70,17 +70,20 @@ TEST(Designator_Tests, combined) {
 }
 
 TEST(Designator_Tests, incomplete) {
-	type::Type_Ptr type;
-	Type_Runner create_array("ARRAY 10 OF RECORD END", type);
-	context::scope->insert("a", std::make_shared<expr::Variable>(type));
+	Type_Runner create_array("ARRAY 10 OF RECORD END");
+	context::scope->insert(
+		"a", std::make_shared<expr::Variable>(create_array.value)
+	);
 
 	Designator_Runner test1 { "a[3,", true };
 	Designator_Runner test2 { "a[3", true };
 	Designator_Runner test3 { "a[3,]", true, true };
 	Designator_Runner test4 { "a[]", true, true };
 
-	Type_Runner create_record("RECORD b: RECORD END END", type);
-	context::scope->insert("b", std::make_shared<expr::Variable>(type));
+	Type_Runner create_record("RECORD b: RECORD END END");
+	context::scope->insert(
+		"b", std::make_shared<expr::Variable>(create_record.value)
+	);
 	Designator_Runner test5 { "b.b.", true };
 	Designator_Runner test6 { "b.b.[", true, true };
 	Designator_Runner test7 { "b.b.^", true, true };

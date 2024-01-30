@@ -14,8 +14,7 @@ type::Array_Ptr Parser::parse_array_type() {
 		counts.push_back(length);
 	}
 	consume(token::keyword_OF);
-	type::Type_Ptr base;
-	parse_type(base);
+	auto base { parse_type() };
 	type::Array_Ptr current {
 		std::make_shared<type::Array>(counts.back(), base)
 	};

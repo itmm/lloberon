@@ -4,8 +4,7 @@
 void Parser::parse_variable_declaration() {
 	sema::Ident_List ident_list { parse_ident_list() };
 	consume(token::colon);
-	type::Type_Ptr type;
-	parse_type(type);
+	auto type { parse_type() };
 
 	for (const auto& id: ident_list) {
 		if (!context::scope->insert(

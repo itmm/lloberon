@@ -11,12 +11,9 @@ void Parser::parse_case_list(sema::Const_Case_List& case_list) {
 }
 
 void Parser::parse_case_list(sema::Type_Case_List& case_list) {
-	type::Type_Ptr type;
-	parse_type(type);
-	case_list.push_back(type);
+	case_list.push_back(parse_type());
 	while (token::is(token::comma)) {
 		advance();
-		parse_type(type);
-		case_list.push_back(type);
+		case_list.push_back(parse_type());
 	}
 }

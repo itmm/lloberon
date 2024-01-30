@@ -136,7 +136,7 @@ public:
 
 	[[nodiscard]] expr::Expression_Ptr parse_term();
 
-	void parse_type(type::Type_Ptr& type);
+	[[nodiscard]] type::Type_Ptr parse_type();
 
 	void parse_type_declaration();
 
