@@ -3,7 +3,6 @@
 * Implement SYSTEM Module
 * reorganize targets (remove tools directory)
 * change all parse functions to return an object:
-  * parse_statement_sequence
   * parse_type
   * parse_while_statement
 * fix Mac runtime problem

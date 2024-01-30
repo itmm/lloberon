@@ -24,7 +24,7 @@ stmt::For_Ptr Parser::parse_for_statement() {
 		for_statement->increment = expr::Const::create(1);
 	}
 	consume(token::keyword_DO);
-	parse_statement_sequence(for_statement->statements);
+	for_statement->statements = parse_statement_sequence();
 	consume(token::keyword_END);
 	return for_statement;
 }

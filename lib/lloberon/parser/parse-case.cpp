@@ -8,7 +8,7 @@ void Parser::parse_case(sema::Const_Case& const_case) {
 	parse_case_list(case_list);
 
 	consume(token::colon);
-	parse_statement_sequence(const_case.sequence);
+	const_case.sequence = parse_statement_sequence();
 }
 
 void Parser::parse_case(sema::Type_Case& type_case) {
@@ -18,5 +18,5 @@ void Parser::parse_case(sema::Type_Case& type_case) {
 	parse_case_list(type_case.types);
 
 	consume(token::colon);
-	parse_statement_sequence(type_case.sequence);
+	type_case.sequence = parse_statement_sequence();
 }

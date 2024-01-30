@@ -132,7 +132,7 @@ public:
 
 	[[nodiscard]] stmt::Statement_Ptr parse_statement();
 
-	void parse_statement_sequence(stmt::Statement_Sequence& statement_sequence);
+	[[nodiscard]] stmt::Statement_Sequence parse_statement_sequence();
 
 	[[nodiscard]] expr::Expression_Ptr parse_term();
 

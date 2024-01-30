@@ -6,8 +6,9 @@ void Parser::parse_procedure_body(
 	parse_declaration_sequence();
 	if (token::is(token::keyword_BEGIN)) {
 		advance();
-		stmt::Statement_Sequence statement_sequence;
-		parse_statement_sequence(statement_sequence);
+		stmt::Statement_Sequence statement_sequence {
+			parse_statement_sequence()
+		};
 	}
 	if (token::is(token::keyword_RETURN)) {
 		advance();

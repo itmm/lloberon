@@ -13,8 +13,9 @@ void Parser::parse_module() {
 	parse_declaration_sequence();
 	if (token::is(token::keyword_BEGIN)) {
 		advance();
-		stmt::Statement_Sequence statement_sequence;
-		parse_statement_sequence(statement_sequence);
+		stmt::Statement_Sequence statement_sequence {
+			parse_statement_sequence()
+		};
 	}
 	consume(token::keyword_END);
 	expect(token::identifier);
