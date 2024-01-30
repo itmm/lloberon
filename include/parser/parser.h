@@ -117,7 +117,7 @@ public:
 		sema::Procedure_Declaration& procedure_declaration
 	);
 
-	void parse_procedure_type(type::Type_Ptr& type);
+	[[nodiscard]] type::Procedure_Ptr parse_procedure_type();
 
 	[[nodiscard]] decl::Declaration_Ptr parse_qual_ident();
 

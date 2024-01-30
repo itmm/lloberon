@@ -3,8 +3,6 @@
 * Implement SYSTEM Module
 * reorganize targets (remove tools directory)
 * change all parse functions to return an object:
-  * parse_pointer_type
-  * parse_procedure_type
   * parse_repeat_statement
   * parse_set
   * parse_statement

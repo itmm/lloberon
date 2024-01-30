@@ -1,21 +1,17 @@
 #include "parser-tests.h"
 
-using Procedure_Type_Runner = Parser_Arg_Void_Runner<
-	type::Type_Ptr, &Parser::parse_procedure_type
+using Procedure_Type_Runner = Parser_No_Void_Runner<
+	type::Procedure_Ptr, &Parser::parse_procedure_type
 >;
 
 TEST(Procedure_Type_Tests, empty) {
-	type::Type_Ptr type;
-	Procedure_Type_Runner test1 { "", type, true };
+	Procedure_Type_Runner test1 { "", true };
 }
 
 TEST(Procedure_Type_Tests, simple) {
 	context::scope->register_base_types();
-	type::Type_Ptr type;
-	Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): BYTE", type };
-	auto procedure_type {
-		std::dynamic_pointer_cast<type::Procedure>(type)
-	};
+	Procedure_Type_Runner test1 { "PROCEDURE (a: INTEGER): BYTE" };
+	auto procedure_type { test1.value };
 	EXPECT_NE(procedure_type, nullptr);
 	if (procedure_type) {
 		EXPECT_EQ(procedure_type->parameters.size(), 1);

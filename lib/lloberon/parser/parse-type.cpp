@@ -12,7 +12,7 @@ void Parser::parse_type(type::Type_Ptr& type) {
 	} else if (token::is(token::keyword_POINTER)) {
 		type = parse_pointer_type();
 	} else if (token::is(token::keyword_PROCEDURE)) {
-		parse_procedure_type(type);
+		type = parse_procedure_type();
 	} else {
 		diag::report(diag::err_type_expected);
 	}
