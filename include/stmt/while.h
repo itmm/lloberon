@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "statement.h"
 #include "expr/expression.h"
 
@@ -10,16 +12,18 @@ namespace stmt {
 
 		struct Entry {
 			Entry(
-				const std::shared_ptr<expr::Expression>& condition,
-				Statement_Sequence&& statements
+				expr::Expression_Ptr  condition, Statement_Sequence&& statements
 			):
- 				condition { condition }, statements { std::move(statements) }
+ 				condition { std::move(condition) },
+				statements { std::move(statements) }
 			{ }
 
-			std::shared_ptr<expr::Expression> condition;
+			expr::Expression_Ptr condition;
 			Statement_Sequence statements;
 		};
 
 		std::vector<Entry> entries;
 	};
+
+	using While_Ptr = std::shared_ptr<While>;
 }

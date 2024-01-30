@@ -10,9 +10,7 @@ stmt::Statement_Ptr Parser::parse_statement() {
 	} else if (token::is(token::keyword_CASE)) {
 		return parse_case_statement();
 	} else if (token::is(token::keyword_WHILE)) {
-		stmt::Statement_Ptr statement;
-		parse_while_statement(statement);
-		return statement;
+		return parse_while_statement();
 	} else if (token::is(token::keyword_REPEAT)) {
 		return parse_repeat_statement();
 	} else if (token::is(token::keyword_FOR)) {

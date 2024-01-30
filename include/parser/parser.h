@@ -11,6 +11,7 @@
 #include "stmt/for.h"
 #include "stmt/if.h"
 #include "stmt/repeat.h"
+#include "stmt/while.h"
 #include "type/pointer.h"
 #include "type/record.h"
 #include "llvm/Support/raw_ostream.h"
@@ -142,7 +143,7 @@ public:
 
 	void parse_variable_declaration();
 
-	void parse_while_statement(stmt::Statement_Ptr& statement);
+	[[nodiscard]] stmt::While_Ptr parse_while_statement();
 
 	[[nodiscard]] static bool is_eof() { return token::is(token::eof); }
 };
