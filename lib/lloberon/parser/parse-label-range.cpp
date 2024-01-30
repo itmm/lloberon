@@ -1,15 +1,17 @@
 #include "parser/parser.h"
 
-void Parser::parse_label_range(sema::Const_Label_Range& range) {
-	expr::Const_Ptr label;
-	parse_label(label);
+sema::Const_Label_Range Parser::parse_label_range() {
+	sema::Const_Label_Range range;
+	expr::Const_Ptr label { parse_label() };
 	range.begin = label;
 
 	if (token::is(token::range)) {
 		advance();
-		parse_label(label);
+		label = parse_label();
 		range.end = label;
 	} else {
 		range.end = range.begin;
 	}
+
+	return range;
 }

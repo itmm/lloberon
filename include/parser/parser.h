@@ -96,9 +96,9 @@ public:
 
 	void parse_import_list(Scope& scope);
 
-	void parse_label(expr::Const_Ptr& label);
+	[[nodiscard]] expr::Const_Ptr parse_label();
 
-	void parse_label_range(sema::Const_Label_Range& range);
+	[[nodiscard]] sema::Const_Label_Range parse_label_range();
 
 	[[nodiscard]] int parse_length();
 

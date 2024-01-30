@@ -2,20 +2,18 @@
 #include "type/type.h"
 #include "const-tests.h"
 
-using Const_Label_Runner = Parser_Arg_Void_Runner<
+using Const_Label_Runner = Parser_No_Void_Runner<
 	expr::Const_Ptr, &Parser::parse_label
 >;
 
 TEST(Label_Tests, empty) {
-	expr::Const_Ptr const_label;
-	Const_Label_Runner test1 { "", const_label, true };
+	Const_Label_Runner test1 { "", true };
 }
 
 TEST(Label_Tests, simple) {
-	expr::Const_Ptr label;
-	Const_Label_Runner test1 { "3", label };
-	expect_int_value(label, 3);
+	Const_Label_Runner test1 { "3" };
+	expect_int_value(test1.value, 3);
 
-	Const_Label_Runner test2 { "\"abc\"", label };
-	expect_string_value(label, "abc");
+	Const_Label_Runner test2 { "\"abc\"" };
+	expect_string_value(test2.value, "abc");
 }
