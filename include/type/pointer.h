@@ -5,15 +5,17 @@
 #include <memory>
 
 namespace type {
-	class Pointer : public Type {
-	public:
-		explicit Pointer(std::shared_ptr<Record> points_to) :
-			points_to { std::move(points_to) } { }
-
-		std::shared_ptr<Record> points_to;
-
-		static std::shared_ptr<Pointer> pointer_to_nil;
-	};
+	class Pointer;
 
 	using Pointer_Ptr = std::shared_ptr<Pointer>;
+
+	class Pointer : public Type {
+	public:
+		explicit Pointer(Record_Ptr points_to) :
+			points_to { std::move(points_to) } { }
+
+		Record_Ptr points_to;
+
+		static Pointer_Ptr pointer_to_nil;
+	};
 }

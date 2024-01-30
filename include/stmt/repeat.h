@@ -8,7 +8,9 @@ namespace stmt {
 	public:
 		Repeat() = default;
 
-		std::shared_ptr<expr::Expression> condition;
+		expr::Expression_Ptr condition;
 		Statement_Sequence statements;
 	};
+
+	using Repeat_Ptr = std::shared_ptr<Repeat>;
 }

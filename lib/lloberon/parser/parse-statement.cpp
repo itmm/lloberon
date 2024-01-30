@@ -11,7 +11,7 @@ void Parser::parse_statement(stmt::Statement_Ptr& statement) {
 	} else if (token::is(token::keyword_WHILE)) {
 		parse_while_statement(statement);
 	} else if (token::is(token::keyword_REPEAT)) {
-		parse_repeat_statement(statement);
+		statement = parse_repeat_statement();
 	} else if (token::is(token::keyword_FOR)) {
 		statement = parse_for_statement();
 	}
