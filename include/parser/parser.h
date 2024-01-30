@@ -10,6 +10,7 @@
 #include "sema/scope.h"
 #include "stmt/for.h"
 #include "stmt/if.h"
+#include "type/pointer.h"
 #include "type/record.h"
 #include "llvm/Support/raw_ostream.h"
 
@@ -104,7 +105,7 @@ public:
 
 	void parse_module();
 
-	void parse_pointer_type(type::Type_Ptr& type);
+	[[nodiscard]] type::Pointer_Ptr parse_pointer_type();
 
 	void parse_procedure_body(
 		sema::Procedure_Declaration& procedure_declaration

@@ -2,7 +2,7 @@
 
 #include "type/pointer.h"
 
-void Parser::parse_pointer_type(type::Type_Ptr& type) {
+type::Pointer_Ptr Parser::parse_pointer_type() {
 	consume(token::keyword_POINTER);
 	consume(token::keyword_TO);
 	type::Type_Ptr points_to;
@@ -11,5 +11,5 @@ void Parser::parse_pointer_type(type::Type_Ptr& type) {
 	if (!pointed) {
 		diag::report(diag::err_must_point_to_record);
 	}
-	type = std::make_shared<type::Pointer>(pointed);
+	return std::make_shared<type::Pointer>(pointed);
 }

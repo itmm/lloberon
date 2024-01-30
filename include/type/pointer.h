@@ -14,4 +14,6 @@ namespace type {
 
 		static std::shared_ptr<Pointer> pointer_to_nil;
 	};
+
+	using Pointer_Ptr = std::shared_ptr<Pointer>;
 }
