@@ -3,6 +3,6 @@ MODULE Hello;
     IMPORT Out;
 
 BEGIN
-    Out.WriteString("Hello World!");
+    Out.WriteInt(42);
     Out.WriteLn
 END Hello.
