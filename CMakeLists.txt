@@ -8,7 +8,7 @@ set(CMAKE_CXX)
 
 find_package(LLVM REQUIRED HINTS "${LLVM_CMAKE_PATH}")
 
-include_directories("${LLVM_BINARY_DIR}/include" "${LLVM_INCLUDE_DIR}")
+include_directories("${LLVM_INCLUDE_DIR}")
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 add_subdirectory(liboberon)

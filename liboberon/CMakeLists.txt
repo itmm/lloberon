@@ -60,4 +60,3 @@ add_library(liboberon
         type/pointer.cpp
         type/type.cpp
 )
-
