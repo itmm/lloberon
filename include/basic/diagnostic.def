@@ -38,4 +38,5 @@ DIAG(err_record_expected, "RECORD type expected")
 DIAG(err_unknown_record_entry, "unknown RECORD entry")
 DIAG(err_already_defined, "identifier {0} is already defined")
 DIAG(err_divide_by_0, "divide by zero")
+DIAG(err_module_not_found, "module `{0}' not found")
 #undef DIAG

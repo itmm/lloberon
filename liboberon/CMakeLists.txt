@@ -2,6 +2,7 @@ add_library(liboberon
         basic/diagnostic.cpp
         basic/token-kinds.cpp
         decl/procedure.cpp
+        decl/module.cpp
         expr/const.cpp
         expr/expression.cpp
         lexer/lexer.cpp

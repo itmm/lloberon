@@ -12,7 +12,7 @@ namespace decl {
 	public:
 		Procedure() = default;
 
-		std::shared_ptr<type::Procedure> type;
+		type::Procedure_Ptr type;
 
 		static Procedure_Ptr procedure_odd;
 
