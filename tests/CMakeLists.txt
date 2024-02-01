@@ -56,4 +56,4 @@ add_executable(Tests
 
 find_package(GTest REQUIRED)
 
-target_link_libraries(Tests PRIVATE gtest gtest_main liboberon libOut LLVM)
+target_link_libraries(Tests PRIVATE GTest::gtest GTest::gtest_main liboberon libOut LLVM)
