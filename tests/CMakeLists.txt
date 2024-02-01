@@ -51,9 +51,10 @@ add_executable(Tests
         scope-tests.cpp
         decl/module-tests.cpp
         decl/type-tests.cpp
-        decl/variable-tests.cpp)
+        decl/variable-tests.cpp
+        modules/out-tests.cpp)
 
 add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-target_link_libraries(Tests PRIVATE gtest_main liboberon LLVM)
+target_link_libraries(Tests PRIVATE gtest_main liboberon libOut LLVM)
