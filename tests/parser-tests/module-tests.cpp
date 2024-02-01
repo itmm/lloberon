@@ -11,7 +11,7 @@ TEST(Module_Tests, simple) {
 }
 
 TEST(Module_Tests, with_imports) {
-	Module_Runner test1 { "MODULE A; IMPORT x := y; END A." };
+	Module_Runner test1 { "MODULE A; IMPORT x := Out; END A." };
 	context::clear();
 }
 
@@ -31,14 +31,14 @@ TEST(Module_Tests, with_multiple) {
 	context::scope = std::make_shared<Scope>(base);
 	base->insert("EXIT", std::make_shared<decl::Procedure>());
 	Module_Runner test1 {
-		"MODULE A; IMPORT x; CONST B = 3; BEGIN EXIT(B) END A."
+		"MODULE A; IMPORT Out; CONST B = 3; BEGIN EXIT(B) END A."
 	};
 	context::scope->clear();
 
-	Module_Runner test2 { "MODULE A; IMPORT x; CONST B = 3; END A." };
+	Module_Runner test2 { "MODULE A; IMPORT Out; CONST B = 3; END A." };
 	context::scope->clear();
 
-	Module_Runner test3 { "MODULE A; IMPORT x; BEGIN EXIT(10) END A." };
+	Module_Runner test3 { "MODULE A; IMPORT Out; BEGIN EXIT(10) END A." };
 	context::scope->clear();
 
 	Module_Runner test4 { "MODULE A; CONST B = 3; BEGIN EXIT(B) END A." };

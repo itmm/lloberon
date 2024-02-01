@@ -13,7 +13,10 @@ void Parser::parse_import(Scope& scope) {
 		full_name = token::value;
 		advance();
 	}
-	auto module = std::make_shared<decl::Module>(full_name);
+	auto module = decl::Module::get_module(full_name);
+	if (!module) {
+		diag::report(diag::err_module_not_found, name);
+	}
 	if (!scope.insert(name, module)) {
 		diag::report(diag::err_import_already_used, name);
 	}

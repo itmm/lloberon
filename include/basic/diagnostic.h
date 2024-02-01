@@ -31,7 +31,7 @@ namespace diag {
 	};
 
 	template<typename... Args>
-	inline void report(unsigned diagnostic_id, Args&& ... arguments) {
+	[[noreturn]] inline void report(unsigned diagnostic_id, Args&& ... arguments) {
 		std::string message =  llvm::formatv(
 			diag::diagnostic_text(diagnostic_id),
 			std::forward<Args>(arguments)...

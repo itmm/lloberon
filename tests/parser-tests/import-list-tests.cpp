@@ -13,28 +13,28 @@ TEST(Import_List_Tests, empty) {
 
 TEST(Import_List_Tests, simple) {
 	Scope scope;
-	Import_List_Runner test1 { "IMPORT a;", scope };
-	expect_module(scope, "a", "a");
+	Import_List_Runner test1 { "IMPORT SYSTEM;", scope };
+	expect_module(scope, "SYSTEM", "SYSTEM");
 	scope.clear();
 
-	Import_List_Runner test2 { "IMPORT a, b;", scope };
-	expect_module(scope, "a", "a");
-	expect_module(scope, "b", "b");
+	Import_List_Runner test2 { "IMPORT Out, SYSTEM;", scope };
+	expect_module(scope, "Out", "Out");
+	expect_module(scope, "SYSTEM", "SYSTEM");
 	scope.clear();
 
-	Import_List_Runner test3 { "IMPORT a := b, c;", scope };
-	expect_module(scope, "a", "b");
-	expect_module(scope, "c", "c");
+	Import_List_Runner test3 { "IMPORT a := Out, SYSTEM;", scope };
+	expect_module(scope, "a", "Out");
+	expect_module(scope, "SYSTEM", "SYSTEM");
 	scope.clear();
 
-	Import_List_Runner test4 { "IMPORT a, b := c;", scope };
-	expect_module(scope, "a", "a");
-	expect_module(scope, "b", "c");
+	Import_List_Runner test4 { "IMPORT Out, b := SYSTEM;", scope };
+	expect_module(scope, "Out", "Out");
+	expect_module(scope, "b", "SYSTEM");
 	scope.clear();
 
-	Import_List_Runner test5 { "IMPORT a := b, c := d;", scope };
-	expect_module(scope, "a", "b");
-	expect_module(scope, "c", "d");
+	Import_List_Runner test5 { "IMPORT a := Out, c := SYSTEM;", scope };
+	expect_module(scope, "a", "Out");
+	expect_module(scope, "c", "SYSTEM");
 }
 
 TEST(Import_List_Tests, missing) {
@@ -42,17 +42,17 @@ TEST(Import_List_Tests, missing) {
 	Import_List_Runner test1 { "IMPORT", scope, true };
 	scope.clear();
 
-	Import_List_Runner test2 { "IMPORT a", scope, true };
+	Import_List_Runner test2 { "IMPORT Out", scope, true };
 	scope.clear();
 
-	Import_List_Runner test3 { "IMPORT a,", scope, true };
+	Import_List_Runner test3 { "IMPORT Out,", scope, true };
 	scope.clear();
 
-	Import_List_Runner test4 { "IMPORT a, b", scope, true };
+	Import_List_Runner test4 { "IMPORT Out, SYSTEM", scope, true };
 	scope.clear();
 
 	Import_List_Runner test5 { "IMPORT a :=", scope, true };
 	scope.clear();
 
-	Import_List_Runner test6 { "IMPORT a := b", scope, true };
+	Import_List_Runner test6 { "IMPORT a := Out", scope, true };
 }

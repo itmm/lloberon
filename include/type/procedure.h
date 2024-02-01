@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace type {
@@ -27,4 +28,13 @@ namespace type {
 	};
 
 	using Procedure_Ptr = std::shared_ptr<Procedure>;
+
+	class External_Procedure: public Procedure {
+	public:
+		explicit External_Procedure(std::string external_name):
+			external_name { std::move(external_name) }
+		{ }
+
+		const std::string external_name;
+	};
 }

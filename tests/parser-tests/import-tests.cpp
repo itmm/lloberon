@@ -13,18 +13,18 @@ TEST(Import_Tests, empty) {
 
 TEST(Import_Tests, simple) {
 	Scope scope;
-	Import_Runner test1 { "a", scope };
-	expect_module(scope, "a", "a");
+	Import_Runner test1 { "Out", scope };
+	expect_module(scope, "Out", "Out");
 	scope.clear();
 
-	Import_Runner test2 { "a := b", scope };
-	expect_module(scope, "a", "b");
+	Import_Runner test2 { "a := Out", scope };
+	expect_module(scope, "a", "Out");
 }
 
 TEST(Import_Tests, missing) {
 	Scope scope;
-	Import_Runner test1 { "a b", scope, false, true };
-	expect_module(scope, "a", "a");
+	Import_Runner test1 { "Out SYSTEM", scope, false, true };
+	expect_module(scope, "Out", "Out");
 	scope.clear();
 
 	Import_Runner test2 { "a :=", scope, true };
