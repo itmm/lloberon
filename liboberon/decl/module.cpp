@@ -1,4 +1,5 @@
 #include "decl/module.h"
+#include "decl/procedure.h"
 #include "sema/scope.h"
 #include "basic/diagnostic.h"
 
@@ -11,6 +12,11 @@ void decl::Module::init_internal_modules() {
 	}
 	if (! out_module) {
 		out_module = std::make_shared<decl::Module>("Out");
+		auto write_proc { std::make_shared<decl::Procedure>() };
+		out_module->insert("Write", write_proc);
+		auto write_int_proc { std::make_shared<decl::Procedure>() };
+		out_module->insert("WriteInt", write_int_proc);
+		out_module->insert("WriteLn", std::make_shared<decl::Procedure>());
 	}
 }
 
