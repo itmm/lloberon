@@ -1,10 +1,20 @@
-#pragma once
+#if !defined(lloberon_module_out_h)
+#define lloberon_module_out_h
 
-#include <ostream>
+	#if defined(__cplusplus)
+		extern "C" {
+	#endif
 
-extern "C" void WriteCh(char ch);
-extern "C" void WriteInt(int x, int n);
-extern "C" void WriteLn();
+	void WriteCh(char ch);
+	void WriteInt(int x, int n);
+	void WriteLn();
+	void Init_Module();
 
-void set_output(std::ostream& output);
-void reset_output();
+	void set_output(void (*write)(char ch));
+	void reset_output();
+
+	#if defined(__cplusplus)
+		}
+	#endif
+
+#endif

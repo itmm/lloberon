@@ -1,1 +1,1 @@
-add_library(libOut out.cxx)
+add_library(libOut out.c)

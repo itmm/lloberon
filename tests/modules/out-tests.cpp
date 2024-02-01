@@ -2,21 +2,27 @@
 #include "modules/out.h"
 
 class Out_Module_Test : public testing::Test {
+public:
+	Out_Module_Test() { Init_Module(); }
 protected:
-	std::ostringstream out;
+	static std::ostringstream out;
 
-	void SetUp() override { out = {}; set_output(out); }
+	static void add_ch(char ch) { out << ch; }
+
+	void SetUp() override { out = {}; set_output(&add_ch); }
 
 	void TearDown() override { reset_output(); }
 
-	void expect_str(const char* expected) {
+	static void expect_str(const char* expected) {
 		EXPECT_STREQ(out.str().c_str(), expected);
 	}
 
-	void expect_int(int x, int n, const char* expected) {
+	static void expect_int(int x, int n, const char* expected) {
 		WriteInt(x, n); expect_str(expected);
 	}
 };
+
+std::ostringstream Out_Module_Test::out;
 
 TEST_F(Out_Module_Test, zero) { expect_int(0, 0, "0"); }
 TEST_F(Out_Module_Test, positive) { expect_int(123, 2, "123"); }
