@@ -25,6 +25,8 @@ protected:
 std::ostringstream Out_Module_Test::out;
 
 TEST_F(Out_Module_Test, zero) { expect_int(0, 0, "0"); }
+TEST_F(Out_Module_Test, single_positive) { expect_int(7, 1, "7"); }
+TEST_F(Out_Module_Test, single_negative) { expect_int(-7, 1, "-7"); }
 TEST_F(Out_Module_Test, positive) { expect_int(123, 2, "123"); }
 TEST_F(Out_Module_Test, negative) { expect_int(-123, 0, "-123"); }
 TEST_F(Out_Module_Test, padded_positive) { expect_int(123, 6, "   123"); }
