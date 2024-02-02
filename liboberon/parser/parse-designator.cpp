@@ -41,12 +41,15 @@ expr::Expression_Ptr Parser::parse_designator() {
 			advance();
 			expr::Expression_List expression_list { parse_expression_list() };
 			consume(token::right_bracket);
-			for (auto count { expression_list.size() }; count; --count) {
+			for (const auto& index : expression_list) {
 				auto array_type { std::dynamic_pointer_cast<type::Array>(
 					expression->type
 				) };
 				if (!array_type) { diag::report(diag::err_array_expected); }
-				expression = std::make_shared<expr::Expression>(array_type->base);
+				expression = expr::Binary::create(
+					array_type->base, token::left_brace,
+					expression, index
+				);
 			}
 		} else if (token::is(token::ptr)) {
 			auto pointer_type { std::dynamic_pointer_cast<type::Pointer>(
