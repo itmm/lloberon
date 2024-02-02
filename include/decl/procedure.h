@@ -8,11 +8,9 @@ namespace decl {
 
 	using Procedure_Ptr = std::shared_ptr<Procedure>;
 
-	class Procedure : public Declaration_With_Scope {
+	class Procedure : public type::Procedure {
 	public:
 		Procedure() = default;
-
-		type::Procedure_Ptr type;
 
 		static Procedure_Ptr procedure_odd;
 

@@ -20,11 +20,10 @@ TEST(Procedure_Declaration_Tests, simple) {
 	) };
 	EXPECT_NE(declaration, nullptr);
 	if (declaration) {
-		const auto& type { declaration->type };
-		EXPECT_EQ(type->return_type, type::Type::base_integer);
-		EXPECT_EQ(type->parameters.size(), 1);
-		if (!type->parameters.empty()) {
-			const auto& first { type->parameters[0] };
+		EXPECT_EQ(declaration->return_type, type::Type::base_integer);
+		EXPECT_EQ(declaration->parameters.size(), 1);
+		if (!declaration->parameters.empty()) {
+			const auto& first { declaration->parameters[0] };
 			EXPECT_STREQ(first.name.c_str(), "x");
 			EXPECT_FALSE(first.reference);
 			EXPECT_EQ(first.type, type::Type::base_integer);

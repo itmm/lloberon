@@ -15,7 +15,7 @@ TEST(Procedure_Heading_Tests, simple) {
 	Procedure_Heading_Runner test1 {
 		"PROCEDURE f(x: INTEGER): INTEGER", procedure_declaration
 	};
-	const auto& type { procedure_declaration.procedure->type };
+	const auto& type { procedure_declaration.procedure };
 	EXPECT_EQ(type->return_type, type::Type::base_integer);
 	EXPECT_EQ(type->parameters.size(), 1);
 	if (!type->parameters.empty()) {
