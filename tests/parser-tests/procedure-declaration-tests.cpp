@@ -53,3 +53,7 @@ TEST(Procedure_Declaration_Tests, incomplete) {
 	};
 	context::clear();
 }
+
+TEST(Procedure_Declaration_Tests, two_names) {
+	Procedure_Declaration_Runner test1 { "PROCEDURE x; END y", true, true };
+}
