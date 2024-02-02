@@ -54,7 +54,7 @@ TEST(Factor_Tests, ident) {
 	context::scope->insert(
 		"a", std::make_shared<expr::Variable>(type_runner.value)
 	);
-	context::scope->insert("f", std::make_shared<decl::Procedure>());
+	context::scope->insert("f", std::make_shared<type::Procedure>());
 	Factor_Runner test1 { "a" };
 	Factor_Runner test2 { "f(3, TRUE)" };
 	Factor_Runner test3 { "a[3](TRUE)" };
@@ -68,7 +68,7 @@ TEST(Factor_Tests, not) {
 
 TEST(Factor_Tests, incomplete) {
 	context::scope->insert("a", std::make_shared<decl::Procedure>());
-	Factor_Runner test1 { "a(3,TRUE", true };
+	Factor_Runner test1 { "a(3, TRUE", true };
 	Factor_Runner test2 { "a(3,", true };
 	Factor_Runner test3 { "a(3", true };
 	Factor_Runner test4 { "a(", true };

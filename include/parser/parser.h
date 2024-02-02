@@ -15,6 +15,7 @@
 #include "type/pointer.h"
 #include "type/record.h"
 #include "llvm/Support/raw_ostream.h"
+#include "expr/call.h"
 
 class Parser {
 	Lexer& lexer_;
@@ -43,7 +44,7 @@ public:
 
 	void parse();
 
-	void parse_actual_parameters();
+	void parse_actual_parameters(expr::Call& call);
 
 	[[nodiscard]] type::Array_Ptr parse_array_type();
 

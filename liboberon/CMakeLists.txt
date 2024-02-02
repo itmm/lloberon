@@ -1,7 +1,7 @@
 add_library(liboberon
         basic/diagnostic.cpp
         basic/token-kinds.cpp
-        decl/procedure.cpp
+        decl/call.cpp
         decl/module.cpp
         expr/const.cpp
         expr/expression.cpp

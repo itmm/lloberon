@@ -1,7 +1,8 @@
+#include "expr/call.h"
+#include "expr/variable.h"
 #include "parser-tests.h"
 #include "stmt/while.h"
-#include "expr/variable.h"
-#include "expr/procedure.h"
+#include "decl/procedure.h"
 
 using While_Statement_Runner = Parser_No_Void_Runner<
 	stmt::While_Ptr, &Parser::parse_while_statement
@@ -41,7 +42,7 @@ TEST(While_Statement_Tests, with_elsif) {
 
 TEST(While_Statement_Tests, wrong) {
 	context::scope->insert("a", std::make_shared<expr::Variable>(nullptr));
-	context::scope->insert("INC", std::make_shared<expr::Procedure>(nullptr));
+	context::scope->insert("INC", std::make_shared<decl::Procedure>());
 	While_Statement_Runner test1 { "WHILE DO", true, true };
 	While_Statement_Runner test2 { "WHILE a < 3 DO INC(a)", true };
 	While_Statement_Runner test3 { "WHILE a ELSIF", true, true };

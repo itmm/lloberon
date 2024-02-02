@@ -57,7 +57,10 @@ expr::Expression_Ptr Parser::parse_factor() {
 		case token::identifier: {
 			expr::Expression_Ptr factor { parse_designator() };
 			if (token::is(token::left_parenthesis)) {
-				parse_actual_parameters();
+				auto call { expr::Call::as_call(factor) };
+				if (!call) { diag::report(diag::err_procedure_expected); }
+				parse_actual_parameters(*call);
+				return call;
 			}
 			return factor;
 		}

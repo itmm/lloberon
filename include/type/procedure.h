@@ -1,6 +1,7 @@
 #pragma once
 
 #include "type.h"
+#include "decl/declaration-with-scope.h"
 
 #include <memory>
 #include <string>
@@ -8,6 +9,10 @@
 #include <vector>
 
 namespace type {
+	class Procedure;
+
+	using Procedure_Ptr = std::shared_ptr<Procedure>;
+
 	class Procedure : public Type {
 	public:
 		Procedure() = default;
@@ -25,9 +30,11 @@ namespace type {
 		};
 
 		std::vector<Parameter> parameters;
-	};
 
-	using Procedure_Ptr = std::shared_ptr<Procedure>;
+		static Procedure_Ptr as_procedure(const decl::Declaration_Ptr& decl) {
+			return std::dynamic_pointer_cast<Procedure>(decl);
+		}
+	};
 
 	class External_Procedure: public Procedure, public decl::Scope_Mixin {
 	public:

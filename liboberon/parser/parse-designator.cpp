@@ -1,10 +1,11 @@
+#include "expr/binary.h"
+#include "expr/call.h"
+#include "expr/unary.h"
+#include "expr/variable.h"
 #include "parser/parser.h"
 #include "type/array.h"
 #include "type/pointer.h"
-#include "expr/binary.h"
-#include "expr/variable.h"
-#include "expr/procedure.h"
-#include "expr/unary.h"
+#include "type/procedure.h"
 
 expr::Expression_Ptr Parser::parse_designator() {
 	auto qual_ident { parse_qual_ident() };
@@ -71,9 +72,19 @@ expr::Expression_Ptr Parser::parse_designator() {
 		} else { break; }
 	}
 
-	if (! expression) {
-		auto procedure { expr::Procedure::as_procedure(qual_ident) };
-		expression = procedure ? std::make_shared<expr::Expression>(procedure->type) : nullptr;
+	if (expression && type::Procedure::as_procedure(expression->type)) {
+		auto proc_type { type::Procedure::as_procedure(expression->type) };
+		auto call { std::make_shared<expr::Call>(proc_type->return_type) };
+		call->procedure = expression;
+		expression = call;
+	} else if (! expression) {
+		auto proc { type::Procedure::as_procedure(qual_ident) };
+		if (proc) {
+			auto call { std::make_shared<expr::Call>(proc->return_type) };
+			call->procedure = proc;
+			expression = call;
+		}
 	}
+
 	return expression;
 }
