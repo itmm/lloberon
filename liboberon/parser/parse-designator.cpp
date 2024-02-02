@@ -1,8 +1,10 @@
 #include "parser/parser.h"
 #include "type/array.h"
 #include "type/pointer.h"
+#include "expr/binary.h"
 #include "expr/variable.h"
 #include "expr/procedure.h"
+#include "expr/unary.h"
 
 expr::Expression_Ptr Parser::parse_designator() {
 	auto qual_ident { parse_qual_ident() };
@@ -25,7 +27,10 @@ expr::Expression_Ptr Parser::parse_designator() {
 			bool found { false };
 			for (const auto& entry : record_type->entries) {
 				if (entry.name == token::value) {
-					expression = std::make_shared<expr::Expression>(entry.type);
+					expression = expr::Binary::create(
+						entry.type, token::period, expression,
+						expr::Const::create(entry.name)
+					);
 					found = true;
 					break;
 				}
@@ -48,8 +53,8 @@ expr::Expression_Ptr Parser::parse_designator() {
 				expression->type)
 			};
 			if (!pointer_type) { diag::report(diag::err_pointer_expected); }
-			expression = std::make_shared<expr::Expression>(
-				pointer_type->points_to
+			expression = expr::Unary::create(
+				pointer_type->points_to, token::ptr, expression
 			);
 			advance();
         } else if (token::is(token::left_parenthesis)) {
