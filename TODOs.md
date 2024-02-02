@@ -1,11 +1,8 @@
 # TODOs
 
-* Specify type of Binary operation
-* Specify type of Unary operation
 * Generate expressions for designators
-* Generate expressions for record lookup
-* Generate expressions for function call
+    * Generate expressions for function call
+    * Generate expressions for Casting
 * Implement SYSTEM Module
 * generate code for function call
 * generate executable
-* calculate function call
