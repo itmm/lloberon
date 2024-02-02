@@ -7,10 +7,10 @@ namespace decl {
 
 	using Module_Ptr = std::shared_ptr<Module>;
 
-	class Module : public Declaration_With_Scope {
+	class Module : public Declaration, public Scope_Mixin {
 	public:
 		explicit Module(std::string name) :
-			Declaration_With_Scope { }, name_ { std::move(name) } { }
+			Declaration { }, name_ { std::move(name) } { }
 
 		[[nodiscard]] const std::string& name() const { return name_; }
 

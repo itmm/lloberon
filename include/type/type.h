@@ -2,14 +2,14 @@
 
 #include <memory>
 
-#include "decl/declaration-with-scope.h"
+#include "decl/declaration.h"
 
 namespace type {
 	class Type;
 
 	using Type_Ptr = std::shared_ptr<Type>;
 
-	class Type: public decl::Declaration_With_Scope {
+	class Type: public decl::Declaration {
 	public:
 		Type() = default;
 

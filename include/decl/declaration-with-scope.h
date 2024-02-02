@@ -6,10 +6,8 @@
 #include "decl/declaration.h"
 
 namespace decl {
-	class Declaration_With_Scope : public Declaration {
+	class Scope_Mixin {
 	public:
-		explicit Declaration_With_Scope() = default;
-
 		std::shared_ptr<decl::Declaration> lookup(const std::string& name) {
 			return scope_.lookup(name);
 		}

@@ -29,7 +29,7 @@ namespace type {
 
 	using Procedure_Ptr = std::shared_ptr<Procedure>;
 
-	class External_Procedure: public Procedure {
+	class External_Procedure: public Procedure, public decl::Scope_Mixin {
 	public:
 		explicit External_Procedure(std::string external_name):
 			external_name { std::move(external_name) }
