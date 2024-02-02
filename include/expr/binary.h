@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "expression.h"
 #include "basic/token-kinds.h"
 
@@ -7,21 +9,22 @@ namespace expr {
 	class Binary : public Expression {
 	public:
 		Binary(
-			token::Kind kind, const std::shared_ptr<Expression>& first,
-			const std::shared_ptr<Expression>& second
+			token::Kind kind, Expression_Ptr first,
+			Expression_Ptr second
 		):
  			Expression { first->type }, kind { kind },
-			first { first }, second { second } { }
+			first { std::move(first) }, second { std::move(second) }
+		{ }
 
 		token::Kind kind;
-		std::shared_ptr<Expression> first;
-		std::shared_ptr<Expression> second;
+		Expression_Ptr first;
+		Expression_Ptr second;
 
 		static std::shared_ptr<Binary> create(
-			token::Kind kind, const std::shared_ptr<Expression>& first,
-			const std::shared_ptr<Expression>& second
+			token::Kind kind, Expression_Ptr first,
+			Expression_Ptr second
 		) {
-			return std::make_shared<Binary>(kind, first, second);
+			return std::make_shared<Binary>(kind, std::move(first), std::move(second));
 		}
 	};
 }
