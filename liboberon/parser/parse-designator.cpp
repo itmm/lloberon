@@ -65,7 +65,9 @@ expr::Expression_Ptr Parser::parse_designator() {
             auto type { type::Type::as_type(parse_qual_ident()) };
 			if (!type) { diag::report(diag::err_type_expected); }
             consume(token::right_parenthesis);
-			expression = std::make_shared<expr::Expression>(type);
+			expression = expr::Unary::create(
+				type, token::left_parenthesis, expression
+			);
 		} else { break; }
 	}
 
