@@ -34,7 +34,6 @@ add_executable(Tests
         parser-tests/pointer-type-tests.cpp
         parser-tests/procedure-body-tests.cpp
         parser-tests/procedure-declaration-tests.cpp
-        parser-tests/procedure-heading-tests.cpp
         parser-tests/procedure-type-tests.cpp
         parser-tests/qual-ident-tests.cpp
         parser-tests/record-type-tests.cpp

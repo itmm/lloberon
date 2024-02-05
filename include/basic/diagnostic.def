@@ -14,6 +14,9 @@ DIAG(err_import_already_used, "MODULE IMPORT {0} is already used")
 DIAG(
 	err_module_names_dont_match, "MODULE names {0} and {1} do not match"
 )
+DIAG(
+	err_procedure_names_dont_match, "PROCEDURE names {0} and {1} do not match"
+)
 DIAG(err_length_must_be_nonnegative, "length must be non-negative")
 DIAG(err_must_point_to_record, "can only point to RECORD types")
 DIAG(err_identfier_expected, "identifier expected")

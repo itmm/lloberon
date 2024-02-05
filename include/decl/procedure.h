@@ -8,7 +8,7 @@ namespace decl {
 
 	using Procedure_Ptr = std::shared_ptr<Procedure>;
 
-	class Procedure : public type::Procedure {
+	class Procedure : public type::Procedure, public Scope_Mixin {
 	public:
 		Procedure() = default;
 

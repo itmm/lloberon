@@ -3,34 +3,25 @@
 #include "type/type.h"
 
 bool Scope::insert(
-	const std::string& name,
-	const std::shared_ptr<decl::Declaration>& declaration
+	const std::string& name, const decl::Declaration_Ptr& declaration
 ) {
 	return symbols_.insert(
-		std::pair<std::string, std::shared_ptr<decl::Declaration>>(
-			name, declaration
-		)
+		std::pair<std::string, decl::Declaration_Ptr>(name, declaration)
 	).second;
 }
 
 bool Scope::insert(
-	const sema::Ident_Def& id,
-	const std::shared_ptr<decl::Declaration>& declaration
+	const sema::Ident_Def& id, const decl::Declaration_Ptr& declaration
 ) {
 	declaration->exported = id.exported;
 	return insert(id.ident, declaration);
 }
 
-std::shared_ptr<decl::Declaration> Scope::lookup(
-	const std::string& name
-) const {
-	Scope const* current = this;
-	while (current) {
-		auto i = current->symbols_.find(name);
-		if (i != current->symbols_.end()) { return i->second; }
-		current = current->parent().get();
-	}
-	return nullptr;
+decl::Declaration_Ptr Scope::lookup(const std::string& name) const {
+	auto got { symbols_.find(name) };
+	if (got != symbols_.end()) { return got->second; }
+	else if (parent_) { return parent_->lookup(name); }
+	else { return nullptr; }
 }
 
 void Scope::register_base_types() {

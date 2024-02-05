@@ -118,11 +118,11 @@ TEST(Declaration_Sequence_Tests, shadowing) {
 	Declaration_Sequence_Runner test1 {
 		"CONST a = 42; PROCEDURE f(a: INTEGER): INTEGER; RETURN a END f;"
 	};
-
 	context::scope->clear();
 	Declaration_Sequence_Runner test2 {
 		"CONST a = 3; PROCEDURE f(): INTEGER; CONST a = 42; RETURN a END f;"
 	};
+	context::clear();
 }
 
 TEST(Declaration_Sequence_Tests, wrong_order) {

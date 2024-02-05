@@ -7,10 +7,12 @@ template<void (Parser::*METHOD)()>
 class Parser_No_Arg_Void_Runner {
 public:
 	explicit Parser_No_Arg_Void_Runner(
-		const char* source, bool expected = false, bool has_more = false
+		const char* source, bool expected = false, bool has_more = false,
+		bool verbose = false
 	):
 		source_mgr_ { }, lexer_ { initialize(source_mgr_, source) },
-		expected_ { expected }, has_more_ { has_more }, parser_ { lexer_ }
+		expected_ { expected }, has_more_ { has_more }, parser_ { lexer_ },
+		verbose_ { verbose }
 	{ run(); }
 
 	void run() {
@@ -19,7 +21,10 @@ public:
 			(parser_.*METHOD)();
 			failed = false;
 		}
-		catch (const diag::Error&) { failed = true; }
+		catch (const diag::Error& err) {
+			if (verbose_) { std::cerr << err.what() << "\n"; }
+			failed = true;
+		}
 
 		if (expected_) {
 			EXPECT_TRUE(failed);
@@ -47,16 +52,19 @@ private:
 	bool expected_;
 	bool has_more_;
 	Parser parser_;
+	bool verbose_;
 };
 
 template<typename VALUE, VALUE (Parser::*METHOD)()>
 class Parser_No_Void_Runner {
 	public:
 	explicit Parser_No_Void_Runner(
-		const char* source, bool expected = false, bool has_more = false
+		const char* source, bool expected = false, bool has_more = false,
+		bool verbose = false
 	):
 		source_mgr_ { }, lexer_ { initialize(source_mgr_, source) },
-		expected_ { expected }, has_more_ { has_more }, parser_ { lexer_ }
+		expected_ { expected }, has_more_ { has_more }, parser_ { lexer_ },
+		verbose_ { verbose }
 	{ run(); }
 
 	void run() {
@@ -65,7 +73,10 @@ class Parser_No_Void_Runner {
 			value = (parser_.*METHOD)();
 			failed = false;
 		}
-		catch (const diag::Error&) { failed = true; }
+		catch (const diag::Error& err) {
+			if (verbose_) { std::cerr << err.what() << "\n"; }
+			failed = true;
+		}
 		if (expected_) {
 			EXPECT_TRUE(failed);
 		} else {
@@ -94,16 +105,18 @@ private:
 	bool expected_;
 	bool has_more_;
 	Parser parser_;
+	bool verbose_;
 };
 template<typename VALUE, void (Parser::*METHOD)(VALUE&)>
 class Parser_Arg_Void_Runner {
 public:
 	explicit Parser_Arg_Void_Runner(
-		const char* source, VALUE& value, bool expected = false, bool has_more = false
+		const char* source, VALUE& value, bool expected = false,
+		bool has_more = false, bool verbose = false
 	):
 		source_mgr_ { }, lexer_ { initialize(source_mgr_, source) },
 		expected_ { expected }, has_more_ { has_more },
-		parser_ { lexer_ }, value_ { value }
+		parser_ { lexer_ }, value_ { value }, verbose_ { verbose }
 	{ run(); }
 
 	void run() {
@@ -112,7 +125,10 @@ public:
 			(parser_.*METHOD)(value_);
 			failed = false;
 		}
-		catch (const diag::Error&) { failed = true; }
+		catch (const diag::Error& err) {
+			if (verbose_) { std::cerr << err.what() << "\n"; }
+			failed = true;
+		}
 		if (expected_) {
 			EXPECT_TRUE(failed);
 		} else {
@@ -140,4 +156,5 @@ private:
 	bool has_more_;
 	Parser parser_;
 	VALUE& value_;
+	bool verbose_;
 };

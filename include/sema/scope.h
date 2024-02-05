@@ -3,33 +3,35 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "ident-def.h"
 
 namespace decl {
 	class Declaration;
+	using Declaration_Ptr = std::shared_ptr<Declaration>;
 }
+
+class Scope;
+
+using Scope_Ptr = std::shared_ptr<Scope>;
 
 class Scope {
 public:
-	explicit Scope(const std::shared_ptr<Scope>& parent = nullptr) :
-		parent_ { parent } { }
+	explicit Scope(Scope_Ptr parent = nullptr) :
+		parent_ { std::move(parent) } { }
 
 	bool insert(
-		const std::string& name,
-		const std::shared_ptr<decl::Declaration>& declaration
+		const std::string& name, const decl::Declaration_Ptr& declaration
 	);
 
 	bool insert(
-		const sema::Ident_Def& id,
-		const std::shared_ptr<decl::Declaration>& declaration
+		const sema::Ident_Def& id, const decl::Declaration_Ptr& declaration
 	);
 
-	[[nodiscard]] std::shared_ptr<decl::Declaration> lookup(
-		const std::string& name
-	) const;
+	[[nodiscard]] decl::Declaration_Ptr lookup(const std::string& name) const;
 
-	[[nodiscard]] std::shared_ptr<Scope> parent() const { return parent_; }
+	[[nodiscard]] Scope_Ptr parent() const { return parent_; }
 
 	[[nodiscard]] bool empty() const { return symbols_.empty(); }
 
@@ -38,6 +40,6 @@ public:
 	void register_base_types();
 
 private:
-	std::shared_ptr<Scope> parent_;
-	std::map<std::string, std::shared_ptr<decl::Declaration>> symbols_;
+	Scope_Ptr parent_;
+	std::map<std::string, decl::Declaration_Ptr> symbols_;
 };

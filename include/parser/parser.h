@@ -1,12 +1,12 @@
 #pragma once
 
 #include "lexer/lexer.h"
+#include "decl/procedure.h"
 #include "sema/case-list.h"
 #include "sema/case.h"
 #include "sema/context.h"
 #include "sema/ident-def.h"
 #include "sema/label.h"
-#include "sema/procedure-declaration.h"
 #include "sema/scope.h"
 #include "stmt/for.h"
 #include "stmt/if.h"
@@ -110,15 +110,9 @@ public:
 
 	[[nodiscard]] type::Pointer_Ptr parse_pointer_type();
 
-	void parse_procedure_body(
-		sema::Procedure_Declaration& procedure_declaration
-	);
+	void parse_procedure_body(decl::Procedure& procedure_declaration);
 
 	void parse_procedure_declaration();
-
-	void parse_procedure_heading(
-		sema::Procedure_Declaration& procedure_declaration
-	);
 
 	[[nodiscard]] type::Procedure_Ptr parse_procedure_type();
 

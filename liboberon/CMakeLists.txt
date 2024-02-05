@@ -40,7 +40,6 @@ add_library(liboberon
         parser/parse-pointer-type.cpp
         parser/parse-procedure-body.cpp
         parser/parse-procedure-declaration.cpp
-        parser/parse-procedure-heading.cpp
         parser/parse-procedure-type.cpp
         parser/parse-qual-ident.cpp
         parser/parse-record-type.cpp

@@ -2,24 +2,24 @@
 
 #include "llvm/Support/SMLoc.h"
 
+#include "sema/context.h"
 #include "sema/scope.h"
 #include "decl/declaration.h"
 
 namespace decl {
 	class Scope_Mixin {
 	public:
-		std::shared_ptr<decl::Declaration> lookup(const std::string& name) {
-			return scope_.lookup(name);
+		[[nodiscard]] decl::Declaration_Ptr lookup(const std::string& name) const {
+			return scope->lookup(name);
 		}
 
 		bool insert(
-			const std::string& name,
-			const std::shared_ptr<decl::Declaration>& declaration
+			const std::string& name, const decl::Declaration_Ptr& declaration
 		) {
-			return scope_.insert(name, declaration);
+			return scope->insert(name, declaration);
 		}
 
-	private:
-		Scope scope_;
+		const Scope_Ptr scope { std::make_shared<Scope>(context::scope) };
+		//const Scope_Ptr scope { std::make_shared<Scope>() };
 	};
 }

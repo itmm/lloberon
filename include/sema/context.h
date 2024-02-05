@@ -8,17 +8,14 @@
 
 namespace context {
 	extern llvm::LLVMContext context;
-	extern std::shared_ptr<Scope> scope;
+	extern Scope_Ptr scope;
 
-	inline void clear() {
-		scope = std::make_shared<Scope>();
-	}
+	inline void clear() { scope = std::make_shared<Scope>(); }
 
 	class Push_Scope {
-		std::shared_ptr<Scope> old_;
+		Scope_Ptr old_;
 	public:
-		explicit Push_Scope(const std::shared_ptr<Scope>& new_scope):
-			old_ { scope }
+		explicit Push_Scope(const Scope_Ptr& new_scope): old_ { scope }
 		{
 			scope = new_scope;
 		}
