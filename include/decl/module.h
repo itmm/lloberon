@@ -1,5 +1,7 @@
 #pragma once
 
+#include "llvm/IR/Module.h"
+
 #include "decl/declaration-with-scope.h"
 
 namespace decl {
@@ -9,8 +11,13 @@ namespace decl {
 
 	class Module : public Declaration, public Scope_Mixin {
 	public:
-		explicit Module(std::string name) :
-			Declaration { }, name_ { std::move(name) } { }
+		explicit Module(std::string name) : Declaration { },
+			llvm_module { std::make_unique<llvm::Module>(
+				name, context::llvm_context
+			) }, name_ { std::move(name) }
+		{ }
+
+		std::unique_ptr<llvm::Module> llvm_module;
 
 		[[nodiscard]] const std::string& name() const { return name_; }
 
