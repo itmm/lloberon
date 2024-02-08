@@ -15,7 +15,7 @@ namespace type {
 
 	class Procedure : public Type {
 	public:
-		Procedure() = default;
+		Procedure(): Type { nullptr } { }
 
 		Type_Ptr return_type;
 

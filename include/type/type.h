@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "llvm/IR/Type.h"
 #include "decl/declaration.h"
 
 namespace type {
@@ -11,7 +12,9 @@ namespace type {
 
 	class Type: public decl::Declaration {
 	public:
-		Type() = default;
+		explicit Type(llvm::Type* llvm_type): llvm_type { llvm_type } { }
+
+		llvm::Type* llvm_type;
 
 		bool is_bool();
 

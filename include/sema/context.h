@@ -10,6 +10,8 @@ namespace context {
 	extern llvm::LLVMContext context;
 	extern Scope_Ptr scope;
 
+	llvm::LLVMContext& get_context();
+
 	inline void clear() { scope = std::make_shared<Scope>(); }
 
 	class Push_Scope {

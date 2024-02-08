@@ -13,7 +13,7 @@ namespace type {
 
 	class Record : public Type {
 	public:
-		Record() = default;
+		Record(): Type { nullptr } { }
 
 		Record_Ptr base;
 
