@@ -3,14 +3,16 @@
 #include <memory>
 
 #include "llvm/IR/LLVMContext.h"
+#include "llvm/MC/TargetRegistry.h"
 
 #include "scope.h"
 
 namespace context {
-	extern llvm::LLVMContext context;
+	extern llvm::LLVMContext llvm_context;
+	extern llvm::TargetMachine *llvm_target_machine;
 	extern Scope_Ptr scope;
 
-	llvm::LLVMContext& get_context();
+	llvm::LLVMContext& get_llvm_context();
 
 	inline void clear() { scope = std::make_shared<Scope>(); }
 
