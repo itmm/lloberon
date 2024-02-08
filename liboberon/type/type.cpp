@@ -26,6 +26,10 @@ type::Type_Ptr type::Type::base_set {
 	std::make_shared<Type>(llvm::Type::getInt32Ty(context::get_llvm_context()))
 };
 
+type::Type_Ptr type::Type::ty_void {
+	std::make_shared<Type>(llvm::Type::getVoidTy(context::get_llvm_context()))
+};
+
 bool type::Type::is_bool() {
 	return this == &*type::Type::base_boolean;
 }

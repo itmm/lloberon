@@ -14,12 +14,17 @@ void decl::Module::init_internal_modules() {
 		out_module = std::make_shared<decl::Module>("Out");
 		auto write_proc { std::make_shared<type::External_Procedure>("WriteCh") };
 		write_proc->parameters.emplace_back("ch", type::Type::base_char, false);
+		write_proc->update_llvm_type();
 		out_module->insert("WriteCh", write_proc);
 		auto write_int_proc { std::make_shared<type::External_Procedure>("WriteInt") };
-		write_proc->parameters.emplace_back("x", type::Type::base_integer, false);
-		write_proc->parameters.emplace_back("n", type::Type::base_integer, false);
+		write_int_proc->parameters.emplace_back("x", type::Type::base_integer, false);
+		write_int_proc->parameters.emplace_back("n", type::Type::base_integer, false);
+		write_int_proc->update_llvm_type();
 		out_module->insert("WriteInt", write_int_proc);
-		out_module->insert("WriteLn", std::make_shared<type::External_Procedure>("WriteLn"));
+		auto write_ln_proc { std::make_shared<type::External_Procedure>("WriteLn") };
+		write_ln_proc->update_llvm_type();
+		out_module->insert("WriteLn", write_ln_proc);
+
 	}
 }
 

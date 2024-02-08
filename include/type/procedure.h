@@ -31,6 +31,12 @@ namespace type {
 
 		std::vector<Parameter> parameters;
 
+		void update_llvm_type();
+
+		static Procedure_Ptr procedure_odd;
+
+		static void register_base_procedures(Scope& scope);
+
 		static Procedure_Ptr as_procedure(const decl::Declaration_Ptr& decl) {
 			return std::dynamic_pointer_cast<Procedure>(decl);
 		}

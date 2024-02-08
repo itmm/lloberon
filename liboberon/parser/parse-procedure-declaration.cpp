@@ -11,6 +11,8 @@ void Parser::parse_procedure_declaration() {
 		context::Push_Scope pushed_scope { procedure->scope };
 
 		parse_formal_parameters(*procedure);
+		procedure->update_llvm_type();
+
 		consume(token::semicolon);
 		for (const auto& param : procedure->parameters) {
 			auto type {

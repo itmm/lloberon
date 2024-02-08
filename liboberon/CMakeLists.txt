@@ -1,7 +1,6 @@
 add_library(liboberon
         basic/diagnostic.cpp
         basic/token-kinds.cpp
-        decl/call.cpp
         decl/module.cpp
         expr/const.cpp
         expr/expression.cpp
@@ -57,5 +56,6 @@ add_library(liboberon
         sema/context.cpp
         sema/scope.cpp
         type/pointer.cpp
+        type/procedure.cpp
         type/type.cpp
 )
