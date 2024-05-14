@@ -21,7 +21,7 @@ static llvm::codegen::RegisterCodeGenFlags CGF;
 int main(int argc, const char** argv) {
 	llvm::InitLLVM X(argc, argv);
 
-	enum Generate { gen_ir, gen_asm, gen_obj, gen_exe } generate { gen_exe };
+	enum Generate { gen_ir, gen_asm, gen_obj, gen_exe } generate { gen_ir };
 	std::string target { };
 
 	auto i { argv + 1 }, e { argv + argc };
@@ -81,7 +81,13 @@ int main(int argc, const char** argv) {
 		Parser parser { lexer };
 		try {
 			parser.parse();
-			context::llvm_current_module->print(llvm::outs(), nullptr);
+			if (generate == gen_ir) {
+				if (context::llvm_current_module) {
+					context::llvm_current_module->print(llvm::outs(), nullptr);
+				} else {
+					llvm::errs() << "NO MODULE DEFINED\n";
+				}
+			}
 		} catch (const diag::Error& error) {
 			source_mgr.PrintMessage(
 				llvm::SMLoc::getFromPointer(token::source),
