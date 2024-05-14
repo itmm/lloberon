@@ -8,8 +8,8 @@ void Parser::parse_module() {
 	consume(token::keyword_MODULE);
 	expect(token::identifier);
 	auto module_name { token::value };
-	llvm::Module llvm_module { module_name, context::llvm_context };
-	context::llvm_current_module = &llvm_module;
+	auto llvm_module { new llvm::Module { module_name, context::llvm_context } };
+	context::llvm_current_module = llvm_module;
 
 	advance();
 	consume(token::semicolon);
@@ -19,7 +19,7 @@ void Parser::parse_module() {
 	parse_declaration_sequence();
 	context::llvm_current_function = llvm::Function::Create(
 		llvm::FunctionType::get(llvm::Type::getVoidTy(context::llvm_context), false),
-		llvm::GlobalValue::ExternalLinkage, module_name + "_Init_Module", llvm_module
+		llvm::GlobalValue::ExternalLinkage, module_name + "_Init_Module", *llvm_module
 	);
 	if (token::is(token::keyword_BEGIN)) {
 		advance();
@@ -39,5 +39,4 @@ void Parser::parse_module() {
 	expect(token::eof);
 
 	context::llvm_current_function = nullptr;
-	context::llvm_current_module = nullptr;
 }

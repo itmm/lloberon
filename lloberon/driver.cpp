@@ -3,6 +3,7 @@
 #include "parser/parser.h"
 
 #include "llvm/ADT/Optional.h"
+#include "llvm/IR/Module.h"
 #include "llvm/Support/SourceMgr.h"
 #include "llvm/Support/InitLLVM.h"
 #include "llvm/Support/raw_ostream.h"
@@ -34,7 +35,7 @@ int main(int argc, const char** argv) {
 		else if (**i == '-') {
 			std::cerr << "unknown option `" << *i << "'\n";
 			return 10;
-		}
+		} else { break; }
 	}
 
 	llvm::InitializeAllTargets();
@@ -54,10 +55,15 @@ int main(int argc, const char** argv) {
 		return 10;
 	}
 
+	auto triple { llvm_triple.getTriple() };
+	auto cpu_str { llvm::codegen::getCPUStr() };
+	auto feature_str { llvm::codegen::getFeaturesStr() };
+	/*
 	context::llvm_target_machine = Target->createTargetMachine(
-		llvm_triple.getTriple(), llvm::codegen::getCPUStr(), llvm::codegen::getFeaturesStr(), llvm_target_options,
+		triple, cpu_str, feature_str, llvm_target_options,
 		llvm::Optional<llvm::Reloc::Model>(llvm::codegen::getRelocModel()));
 	if (! context::llvm_target_machine) { return 10; }
+	*/
 
 	for (; i < e; ++i) {
 		llvm::outs() << "parsing " << *i << "\n";
@@ -75,6 +81,7 @@ int main(int argc, const char** argv) {
 		Parser parser { lexer };
 		try {
 			parser.parse();
+			context::llvm_current_module->print(llvm::outs(), nullptr);
 		} catch (const diag::Error& error) {
 			source_mgr.PrintMessage(
 				llvm::SMLoc::getFromPointer(token::source),
