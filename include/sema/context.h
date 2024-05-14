@@ -10,6 +10,9 @@
 namespace context {
 	extern llvm::LLVMContext llvm_context;
 	extern llvm::TargetMachine *llvm_target_machine;
+	extern llvm::Module* llvm_current_module;
+	extern llvm::Function* llvm_current_function;
+
 	extern Scope_Ptr scope;
 
 	llvm::LLVMContext& get_llvm_context();

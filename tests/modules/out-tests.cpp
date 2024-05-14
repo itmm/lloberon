@@ -3,22 +3,22 @@
 
 class Out_Module_Test : public testing::Test {
 public:
-	Out_Module_Test() { Init_Module(); }
+	Out_Module_Test() { Out_Init_Module(); }
 protected:
 	static std::ostringstream out;
 
 	static void add_ch(char ch) { out << ch; }
 
-	void SetUp() override { out = {}; set_output(&add_ch); }
+	void SetUp() override { out = {}; Out_set_output(&add_ch); }
 
-	void TearDown() override { reset_output(); }
+	void TearDown() override { Out_reset_output(); }
 
 	static void expect_str(const char* expected) {
 		EXPECT_STREQ(out.str().c_str(), expected);
 	}
 
 	static void expect_int(int x, int n, const char* expected) {
-		WriteInt(x, n); expect_str(expected);
+		Out_WriteInt(x, n); expect_str(expected);
 	}
 };
 
@@ -35,4 +35,4 @@ TEST_F(Out_Module_Test, max_negative) {
 	expect_int(-2147483648, 0, "-2147483648");
 }
 
-TEST_F(Out_Module_Test, newline) { WriteLn(); expect_str("\n"); }
+TEST_F(Out_Module_Test, newline) { Out_WriteLn(); expect_str("\n"); }

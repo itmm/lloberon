@@ -5,13 +5,13 @@
 		extern "C" {
 	#endif
 
-	void WriteCh(char ch);
-	void WriteInt(int x, int n);
-	void WriteLn();
-	void Init_Module();
+	void Out_WriteCh(char ch);
+	void Out_WriteInt(int x, int n);
+	void Out_WriteLn();
+	void Out_Init_Module();
 
-	void set_output(void (*write)(char ch));
-	void reset_output();
+	void Out_set_output(void (*write)(char ch));
+	void Out_reset_output();
 
 	#if defined(__cplusplus)
 		}
